@@ -19,7 +19,6 @@ We are:
 
 - [Intrstng](https://github.com/intrstng).
 
-
 ### Key pages in the application include:
 
 - Login and Registration pages 🖥️

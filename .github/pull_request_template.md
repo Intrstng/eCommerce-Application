@@ -18,7 +18,7 @@
 - [ ] Documentation update
 - [ ] Other
 
-#### ✏️ Description 
+#### ✏️ Description
 
 _Please include a summary of the changes made and the reason for the pull request._
 
