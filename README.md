@@ -6,7 +6,7 @@ This is a Single Page Application built on **CommerceTools**, the most adaptable
 
 This is the final assignment for [RS School's JS-FE-2024-Q4 course](https://rs.school/courses/javascript).
 
-Developed by team **LEAN_CODE**:
+Developed by team **LEAN_CODE** 👩‍💻 👨‍💻 👨‍💻:
 
 *   [l-liubou](https://github.com/l-liubou) - Liubou Levitskaya
 *   [jakshazbi](https://github.com/jakshazbi) - Egor Romenski
