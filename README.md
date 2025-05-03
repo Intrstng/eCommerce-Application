@@ -1,66 +1,174 @@
-## eCommerce Application
+# eCommerce Application
 
 **Welcome to our eCommerce application!**
 
-This is a Single Page Application built on **CommerceTools**, the most adaptable commerce platform for enterprise businesses.
-This platform replicates real-world shopping experiences in a digital environment 🏪.
-It's a comprehensive online shopping portal that provides an interactive and seamless experience to users.
-Users can explore various products, read detailed descriptions, save their favorite items to a basket, and complete purchases at checkout.
+This is a Single Page Application built on **CommerceTools**, the most adaptable commerce platform for enterprise businesses. This platform replicates real-world shopping experiences in a digital environment 🏪. It's a comprehensive online shopping portal that provides an interactive and seamless experience to users. Users can explore various products, read detailed descriptions, save their favorite items to a basket, and complete purchases at checkout.
 
 This is the final assignment for [RS School's JS-FE-2024-Q4 course](https://rs.school/courses/javascript).
 
-The application was developed by a team **LEAN_CODE**.
+Developed by team **LEAN_CODE**:
 
-We are:
+*   [l-liubou](https://github.com/l-liubou) - Liubou Levitskaya
+*   [jakshazbi](https://github.com/jakshazbi) - Egor Romenski
+*   [Intrstng](https://github.com/intrstng) - Andrei Babich
 
-- [l-liubou](https://github.com/l-liubou),
+### Key Pages:
 
-- [jakshazbi](https://github.com/jakshazbi),
-
-- [Intrstng](https://github.com/intrstng).
-
-### Key pages in the application include:
-
-- Login and Registration pages 🖥️
-- Main page 🏠
-- Catalog Product page 📋
-- Detailed Product page 🔎
-- User Profile page 👤
-- Basket page 🛒
-- About Us page 🙋‍♂️🙋‍♀️
+*   Login and Registration 🖥️
+*   Main Page 🏠
+*   Catalog Product Page 📋
+*   Detailed Product Page 🔎
+*   User Profile Page 👤
+*   Basket Page 🛒
+*   About Us Page 🙋‍♂️🙋‍♀️
 
 ## Technology Stack 💻📚
 
-- TypeScript
-- React
-- ...
+*   TypeScript
+*   React
+*   ... (Add other technologies here)
 
-## How to start the app:
+## Deploy 🌐
 
-1. Clone the repo - run command in CLI: `git clone https://github.com/Intrstng/eCommerce-Application.git`
+*   [Deploy link](https://www.netlify.com/)
 
-2. Move to the root folder of the app - run command in CLI: `cd eCommerce-Application`
+## Getting Started 🚀
 
-3. Switch to the branch develop - run in CLI: `git checkout develop`
+Follow these steps to run the application locally:
 
-4. Install dependencies - run command in CLI: `npm install`
+1.  **Clone the repository:**
 
-5. Create `.env` file in the root folder of the app based on `.env.example` file using your credentials
+    ```bash
+    git clone https://github.com/Intrstng/eCommerce-Application.git
+    ```
 
-6. Start the application - run command in CLI `npm run dev`
+2.  **Navigate to the project directory:**
 
-7. Start the application in browser by provided link in CLI
+    ```bash
+    cd eCommerce-Application
+    ```
 
-## Script commands:
+3.  **Switch to the `develop` branch:**
 
-1. Start ESLint to run code analysis and verification for compliance with established rules - run command in CLI: `npm run lint`
+    ```bash
+    git checkout develop
+    ```
 
-2. Start Prettier to automatically format code - run command in CLI: `npm run format:fix`
+4.  **Install dependencies:**
 
-3. Husky is configured to automatically start ESLint and Prettier during pre-commit Git-operations
+    ```bash
+    npm install
+    ```
 
-4. Husky is configured to automatically run tests on the pre-push hook, ensuring that tests are automatically executed before any code is pushed
+5.  **Configure environment variables:**
 
-5. To start testing - run command in CLI: `npm run test`
+    *   Create a `.env` file in the root directory based on the `.env.example` file.
+    *   Fill in the required credentials in the `.env` file.
 
-6. To start testing with coverage report - run command in CLI: `npm run test:coverage`
+6.  **Start the development server:**
+
+    ```bash
+    npm run dev
+    ```
+
+7.  **Access the application:**
+
+    *   Open your browser and navigate to the link provided in the CLI.
+
+## Available Scripts ⚙️
+
+*   **`build`:** 📦 Builds the application for production.
+
+    ```bash
+    npm run build
+    ```
+
+*   **`dev`:** 💻 Starts the Vite development server.
+
+    ```bash
+    npm run dev
+    ```
+
+*   **`start`:** 🚀 Starts the Vite development server (same as `dev`).
+
+    ```bash
+    npm run start
+    ```
+
+*   **`type:check`:** ⌨️Performs a TypeScript type check without emitting any output files.
+
+    ```bash
+    npm run type-check
+    ```
+
+*   **`stylelint:check`:** 🎨 Checks SCSS files for stylelint errors.
+
+    ```bash
+    npm run stylelint:check
+    ```
+
+*   **`stylelint:fix`:** 🔧 Automatically fixes SCSS stylelint errors.
+
+    ```bash
+    npm run stylelint-fix
+    ```
+
+*   **`format:check`:** ✅ Checks code formatting with Prettier.
+
+    ```bash
+    npm run format:check
+    ```
+
+*   **`format:fix`:** ✨ Automatically formats code with Prettier.
+
+    ```bash
+    npm run format
+    ```
+
+*   **`lint:check`:** 🔍 Runs ESLint to check for code quality issues.
+
+    ```bash
+    npm run lint
+    ```
+
+*   **`lint:fix`:** 🐛 Automatically fixes ESLint errors.
+
+    ```bash
+    npm run lint:fix
+    ```
+
+*   **`preview`:** 👀 Starts a local server to preview the production build.
+
+    ```bash
+    npm run preview
+    ```
+
+*   **`test`:** 🧪 Runs tests with Vitest in "watch" mode
+
+    ```bash
+    npm run test
+    ```
+
+*   **`test:check`:** 🚦 Runs tests with Vitest in "run" mode (non-watch mode).
+
+    ```bash
+    npm run test:check
+    ```
+
+*   **`coverage`:** 📊 Runs tests with Vitest and generates a coverage report.
+
+    ```bash
+    npm run coverage
+    ```
+
+*   **`prepare`:** ⚙️A lifecycle script that Husky uses to set up Git hooks. This is automatically run after `npm install`.
+
+    ```bash
+    npm run prepare
+    ```
+
+*   **Commit-msg Hooks (Husky):** 📝 Commitlint is triggered by Git after a *user* has entered a *commit message* but before the commit is actually created.
+
+*   **Pre-commit Hooks (Husky):** 🔒 ESLint, Prettier and Stylelint are automatically run during `git commit` operations.
+
+*   **Pre-push Hooks (Husky):** 🛡️ Tests are automatically executed before any code is pushed.

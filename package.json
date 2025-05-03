@@ -6,15 +6,15 @@
   "scripts": {
     "build": "tsc -b && vite build",
     "dev": "vite",
-    "stylelint:check": "npx stylelint \"**/*.scss\"",
-    "stylelint-fix": "npx stylelint --fix \"**/*.scss\"",
-    "format:check": "prettier --check .",
-    "format": "prettier --write .",
-    "lint:fix": "eslint --fix .",
-    "lint": "eslint .",
-    "preview": "vite preview",
     "start": "vite",
-    "type-check": "tsc -b --noEmit",
+    "type:check": "tsc -b --noEmit",
+    "stylelint:check": "npx stylelint \"**/*.scss\"",
+    "stylelint:fix": "npx stylelint --fix \"**/*.scss\"",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "lint:check": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "preview": "vite preview",
     "test": "vitest",
     "test:check": "vitest --run",
     "coverage": "vitest run --coverage",
@@ -79,7 +79,7 @@
       "prettier --write --ignore-unknown"
     ],
     "**/*.{css,scss}": [
-      "stylelint",
+      "stylelint --fix",
       "prettier --write --ignore-unknown"
     ],
     "**/*.{json,html}": [
