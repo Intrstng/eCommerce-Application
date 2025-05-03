@@ -3,7 +3,6 @@ import * as path from "node:path";
 import { defineConfig } from "vitest/config";
 import packageJson from './package.json' assert { type: 'json' };
 import tsconfigPaths from 'vite-tsconfig-paths';
-import addScriptPlugin from './src/plugins/vite-plugin-add-script';
 import addRootDivPlugin from './src/plugins/vite-root-plugin';
 
 // https://vitejs.dev/config/
@@ -14,7 +13,7 @@ export default defineConfig({
     }
   },
 
-  plugins: [react(), tsconfigPaths(), addRootDivPlugin(), addScriptPlugin()],
+  plugins: [react(), tsconfigPaths(), addRootDivPlugin()],
 
   server: {
     open: true,
