@@ -98,7 +98,7 @@ Follow these steps to run the application locally:
 *   **`type:check`:** ⌨️Performs a TypeScript type check without emitting any output files.
 
     ```bash
-    npm run type-check
+    npm run type:check
     ```
 
 *   **`stylelint:check`:** 🎨 Checks SCSS files for stylelint errors.
@@ -110,7 +110,7 @@ Follow these steps to run the application locally:
 *   **`stylelint:fix`:** 🔧 Automatically fixes SCSS stylelint errors.
 
     ```bash
-    npm run stylelint-fix
+    npm run stylelint:fix
     ```
 
 *   **`format:check`:** ✅ Checks code formatting with Prettier.
@@ -122,13 +122,13 @@ Follow these steps to run the application locally:
 *   **`format:fix`:** ✨ Automatically formats code with Prettier.
 
     ```bash
-    npm run format
+    npm run format:fix
     ```
 
 *   **`lint:check`:** 🔍 Runs ESLint to check for code quality issues.
 
     ```bash
-    npm run lint
+    npm run lint:check
     ```
 
 *   **`lint:fix`:** 🐛 Automatically fixes ESLint errors.
