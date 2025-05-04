@@ -28,8 +28,10 @@ jobs:
       - name: unit test
         run: npm run test:check
         continue-on-error: false
+
   lint-format:
     runs-on: ubuntu-latest
+    needs: test
     strategy:
       matrix:
         node-version: [ 20.x ]
@@ -56,9 +58,13 @@ jobs:
         run: npm run stylelint:fix
   deploy:
     runs-on: ubuntu-latest
+    needs: lint-format
     steps:
       - name: Get code
         uses: actions/checkout@v3
+
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
 
       - name: deploy to netlify
         id: deploy
@@ -67,7 +73,6 @@ jobs:
           auth_token: ${{ secrets.NETLIFY_TEAM_API_KEY }}
           site_name: ecommerce-lean-code
           build_directory: dist
-          deployToProduction: true
 
       - name: Output URL
         run: echo "${{steps.deploy.outputs.live-url}}"
