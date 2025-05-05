@@ -1,8 +1,9 @@
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { App } from 'app/ui/App';
+import { RouterProvider } from 'react-router-dom';
 import { store } from 'app/store';
 import './index.scss';
+import { router } from './common/routes/Route';
 
 const container = document.querySelector('#root');
 
@@ -11,7 +12,12 @@ if (container) {
 
     root.render(
         <Provider store={store}>
-            <App />
+            <RouterProvider
+                future={{
+                    v7_startTransition: true,
+                }}
+                router={router}
+            />
         </Provider>
     );
 } else {
