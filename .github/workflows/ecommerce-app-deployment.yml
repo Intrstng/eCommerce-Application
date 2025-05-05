@@ -26,7 +26,7 @@ jobs:
       - name: install modules
         run: npm install
       - name: unit test
-        run: npm run test:check
+        run: npm run coverage
         continue-on-error: false
 
       - name: Upload coverage reports to artifact storage
