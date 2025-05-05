@@ -14,7 +14,7 @@ Developed by team **LEAN_CODE** 👩‍💻 👨‍💻 👨‍💻:
 
 ### Key Pages:
 
-*   Login and Registration 🖥️
+*   Registration and Registration 🖥️
 *   Main Page 🏠
 *   Catalog Product Page 📋
 *   Detailed Product Page 🔎

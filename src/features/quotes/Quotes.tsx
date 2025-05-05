@@ -3,6 +3,10 @@ import { useState } from 'react';
 import styles from './Quotes.module.scss';
 import { useGetQuotesQuery } from './quotesApiSlice';
 
+/*
+ToDO: remove Quotes (it is a template from Vite)
+ */
+
 const options = [5, 10, 20, 30];
 
 export const Quotes = (): JSX.Element | null => {

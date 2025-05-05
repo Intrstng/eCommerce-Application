@@ -1,6 +1,5 @@
 import type { JSX } from 'react';
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import styles from './Counter.module.scss';
 import {
     decrement,
@@ -11,6 +10,11 @@ import {
     selectCount,
     selectStatus,
 } from './counterSlice';
+import { useAppDispatch, useAppSelector } from '../../common/hooks';
+
+/*
+ToDO: remove Counter (it is a template from Vite)
+ */
 
 export const Counter = (): JSX.Element => {
     const dispatch = useAppDispatch();
