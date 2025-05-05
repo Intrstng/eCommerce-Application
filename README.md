@@ -24,8 +24,24 @@ Developed by team **LEAN_CODE** 👩‍💻 👨‍💻 👨‍💻:
 
 ## Technology Stack 💻📚
 
+*   CommerceTools
 *   TypeScript
 *   React
+*   Redux Toolkit
+*   React Router Dom
+*   React Hook Form
+*   Yup
+*   Vite
+*   Vitest
+*   ESLint
+*   Prettier
+*   Commitlint
+*   Stylelint
+*   Husky
+*   Material UI
+*   SCSS
+*   Toastify
+*   i18next
 *   ... (Add other technologies here)
 
 ## Deploy 🌐

@@ -58,7 +58,7 @@ jobs:
         run: npm run stylelint:fix
   deploy:
     runs-on: ubuntu-latest
-    needs: lint-format
+    needs: [ test, lint-format ]
     steps:
       - name: Get code
         uses: actions/checkout@v3
@@ -75,4 +75,4 @@ jobs:
           build_directory: dist
 
       - name: Output URL
-        run: echo "${{steps.deploy.outputs.live-url}}"
+        run: echo "${{ steps.deploy.outputs.live-url }}"
