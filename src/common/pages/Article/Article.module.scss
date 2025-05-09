@@ -1,0 +1,15 @@
+.articlesContent {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    max-width: 40rem;
+    margin: 0 auto;
+
+    & img {
+        height: 22.5rem;
+        object-fit: contain;
+    }
+}

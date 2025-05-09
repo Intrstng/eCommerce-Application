@@ -1,0 +1,22 @@
+.errorContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 70vh;
+
+    color: white;
+    text-align: center;
+}
+
+.errorLottie {
+    width: 100%;
+    max-width: 60rem;
+}
+
+@media (width <= 768px) {
+    .errorLottie {
+        max-width: 90%;
+    }
+}

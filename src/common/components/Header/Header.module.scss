@@ -1,0 +1,30 @@
+.header {
+    display: flex;
+    flex: 0 0 auto;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 10vh;
+    padding: 0 3rem;
+    border: 1px solid #000;
+
+    background-color: #a9a22d;
+}
+
+.logo {
+    display: block;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 60%;
+    height: 10vh;
+    margin: 0 0 0 auto;
+    padding: 0 1rem;
+
+    background-color: #4caf50;
+}

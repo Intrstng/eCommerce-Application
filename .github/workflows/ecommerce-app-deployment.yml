@@ -1,9 +1,9 @@
 name: eCommerce app deployment
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, develop, release/login-registration-main ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, develop, release/login-registration-main ]
 jobs:
   test:
     runs-on: ubuntu-latest
