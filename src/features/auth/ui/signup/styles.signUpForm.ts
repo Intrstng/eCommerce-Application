@@ -1,4 +1,4 @@
-import { genStyles } from '../../utils/generate-styles';
+import { genStyles } from '../../../../common/utils/generate-styles';
 
 export const STYLES = genStyles({
     content: {

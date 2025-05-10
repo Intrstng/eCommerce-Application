@@ -1,7 +1,7 @@
 import { PATH } from '../../enums';
 import { NavLink } from 'react-router-dom';
 import S from './SignupPage.module.scss';
-import { SignUpForm } from '../../components/SignUpForm/SignUpForm';
+import { SignUpForm } from '../../../features/auth/ui/signup/SignUpForm';
 
 export const SignupPage = () => {
     return (

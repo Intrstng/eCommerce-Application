@@ -7,14 +7,14 @@
  */
 
 export const authAPI = {
-    // login(data: LoginParametersType) {
-    //   return instance.post<BaseResponse<{ userId?: number }>>("auth/login", data)
+    // signin(data: LoginParametersType) {
+    //   return instance.post<BaseResponse<{ userId?: number }>>("auth/signin", data)
     // },
     // logout() {
-    //   return instance.delete<BaseResponse<{ userId?: number }>>("auth/login")
+    //   return instance.delete<BaseResponse<{ userId?: number }>>("auth/signin")
     // },
     // me() {
-    //   return instance.get<BaseResponse<{ id: number; email: string; login: string }>>("auth/me")
+    //   return instance.get<BaseResponse<{ id: number; email: string; signin: string }>>("auth/me")
     // },
 };
 

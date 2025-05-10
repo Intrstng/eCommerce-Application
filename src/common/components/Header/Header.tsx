@@ -1,15 +1,19 @@
 import { PATH } from '../../enums';
 import { NavLink } from 'react-router-dom';
 import S from './Header.module.scss';
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { authIsLoggedInSelector } from '../../../features/auth/model/selectors/authSelector';
+import { authActions } from '../../../features/auth/model/slices/authSlice';
 
 export const Header = () => {
     // or we can use useSearchParams() here;
-    const [isLogged, setIsLogged] = useState(false); // ToDo: Temporary solution
+
+    const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
+    const dispatch = useAppDispatch();
 
     const handleLogout = () => {
         // ToDo: Add Api request to logout logic
-        setIsLogged(false);
+        dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
     };
 
     return (
@@ -18,10 +22,10 @@ export const Header = () => {
                 Logo
             </NavLink>
             <div className={S.nav}>
-                <NavLink to={`${PATH.CATALOG}?page=1&type=Barrete`}>Barrete</NavLink>
+                <NavLink to={`${PATH.CATALOG}?page=1&type=Earrings`}>Earrings</NavLink>
                 <NavLink to={`${PATH.CATALOG}?page=1&type=Ring`}>Rings</NavLink>
                 <NavLink to={`${PATH.CATALOG}?page=1&type=Brooch`}>Brooch</NavLink>
-                {isLogged ? (
+                {isLoggedIn ? (
                     <NavLink to={PATH.SIGNIN} onClick={handleLogout}>
                         Logout
                     </NavLink>

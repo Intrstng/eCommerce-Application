@@ -15,15 +15,17 @@ import { FavoritesPage } from '../pages/FavoritesPage/FavoritesPage';
 import { CatalogPage } from '../pages/CatalogPage/CatalogPage';
 import type React from 'react';
 import { SigninPage } from '../pages/SigninPage/SigninPage';
-
-const isAuth = false; // Temporary solution
+import { useAppSelector } from '../hooks';
+import { authIsLoggedInSelector } from '../../features/auth/model/selectors/authSelector';
 
 const PrivateRoutes = () => {
-    return isAuth ? <Outlet /> : <Navigate to={PATH.SIGNIN} />;
+    const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
+    return isLoggedIn ? <Outlet /> : <Navigate to={PATH.SIGNIN} />;
 };
 
 const PublicRouteRedirect = ({ children }: { children: React.ReactNode }) => {
-    return isAuth ? <Navigate to={PATH.MAIN} /> : <>{children}</>;
+    const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
+    return isLoggedIn ? <Navigate to={PATH.MAIN} /> : <>{children}</>;
 };
 
 const publicRoutes: RouteObject[] = [

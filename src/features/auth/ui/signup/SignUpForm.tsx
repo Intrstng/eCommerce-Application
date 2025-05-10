@@ -21,12 +21,12 @@ import Link from '@mui/material/Link';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import type { SignUpFormData } from '../../validations/signUpValidation.shema';
-import { validateSignUpSchema } from '../../validations/signUpValidation.shema';
-import { PATH } from '../../enums';
-import { errorNotifyMessage } from '../../utils/notify-message';
 import { STYLES } from './styles.signUpForm';
-import { COUNTRIES } from '../../validations/validation-data/validation-data';
+import { COUNTRIES } from '../../../../common/validations/validation-data/validation-data';
+import { PATH } from '../../../../common/enums';
+import { errorNotifyMessage } from '../../../../common/utils/notify-message';
+import type { SignUpFormData } from '../../../../common/validations/signUpValidation.shema';
+import { validateSignUpSchema } from '../../../../common/validations/signUpValidation.shema';
 
 const onMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -406,7 +406,6 @@ export const SignUpForm = () => {
                                             size="small"
                                             id="defaultShippingAddress"
                                             {...register('isDefaultShippingAddress')}
-                                            //checked={getValues('isDefaultShippingAddress')}
                                         />
                                     }
                                     label="Set address as default for shipping"
@@ -418,7 +417,6 @@ export const SignUpForm = () => {
                                             size="small"
                                             id="billingSameAsShipping"
                                             {...register('isBillingSameAsShipping')}
-                                            //checked={getValues('isBillingSameAsShipping')}
                                         />
                                     }
                                     label="Set shipping address as billing"
@@ -545,7 +543,6 @@ export const SignUpForm = () => {
                                                     size="small"
                                                     id="defaultBillingAddress"
                                                     {...register('isDefaultBillingAddress')}
-                                                    //checked={getValues('isDefaultBillingAddress')}
                                                 />
                                             }
                                             label="Set address as default for billing"

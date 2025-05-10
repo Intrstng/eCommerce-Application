@@ -19,11 +19,13 @@ import Link from '@mui/material/Link';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import type { SignInFormData } from '../../validations/signInValidation.schema';
-import { validateSignInSchema } from '../../validations/signInValidation.schema';
 import { STYLES } from './styles.signInForm';
-import { PATH } from '../../enums';
-import { errorNotifyMessage } from '../../utils/notify-message';
+import { useAppDispatch } from '../../../../common/hooks';
+import type { SignInFormData } from '../../../../common/validations/signInValidation.schema';
+import { validateSignInSchema } from '../../../../common/validations/signInValidation.schema';
+import { authActions } from '../../model/slices/authSlice';
+import { PATH } from '../../../../common/enums';
+import { errorNotifyMessage } from '../../../../common/utils/notify-message';
 
 const onMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -31,6 +33,7 @@ const onMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
 
 export const SignInForm = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const dispatch = useAppDispatch();
 
     const onClickShowPassword = () => {
         setShowPassword(show => !show);
@@ -50,6 +53,7 @@ export const SignInForm = () => {
         try {
             // await signInUser(data.email, data.password); // ToDo: add logic to signInUser
             console.log(data.email, data.password);
+            dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
             reset();
         } catch (error) {
             if (error instanceof Error) {
