@@ -9,17 +9,22 @@ export type SignUpFormData = {
     lastName: string;
     birthDate: string;
 
-    street: string;
-    city: string;
-    postal: string;
-    country: string;
+    streetShipping: string;
+    cityShipping: string;
+    postalShipping: string;
+    countryShipping: string;
 
-    streetBilling: string;
-    cityBilling: string;
-    postalBilling: string;
-    countryBilling: string;
+    streetBilling?: string;
+    cityBilling?: string;
+    postalBilling?: string;
+    countryBilling?: string;
 
     confirmPassword: string;
+
+    isDefaultShippingAddress?: boolean;
+    isDefaultBillingAddress?: boolean;
+
+    isBillingSameAsShipping: boolean;
 };
 
 export const validateSignUpSchema = () => {
@@ -82,73 +87,34 @@ export const validateSignUpSchema = () => {
                 }
                 return age >= 13;
             }),
-        street: yup.string().trim().required('Street is required'),
-        city: yup
+        streetShipping: yup.string().trim().required('Street is required'),
+        cityShipping: yup
             .string()
             .trim()
             .required('City is required')
             .matches(/^[A-Za-z]+$/, {
                 message: 'City must contain at least one character and not contain special characters or digits',
             }),
-        postal: yup
-            .string()
-            .trim()
-            .required('Postal code is required')
-            .test('postal-code', 'Invalid postal code format', function (value) {
-                if (!value) return false;
-
-                const country: string | undefined = this.resolve(yup.ref('country'));
-
-                if (!country || !ZIP_CODE_PATTERNS[country]) {
-                    return true;
-                }
-
-                const pattern: RegExp | undefined = ZIP_CODE_PATTERNS[country].pattern;
-                const example: string | undefined = ZIP_CODE_PATTERNS[country].example;
-
-                if (!pattern) {
-                    return true;
-                }
-
-                const isValid = pattern.test(value);
-
-                if (!isValid) {
-                    return this.createError({
-                        message: `Postal code must be in format: ${example}`,
-                    });
-                }
-
-                return isValid;
-            }),
-        country: yup
+        countryShipping: yup
             .string()
             .trim()
             .required('Country is required')
             .oneOf([...COUNTRIES.map(country => country.code), ''], 'Invalid country'),
-
-        streetBilling: yup.string().trim().required('Street is required'),
-        cityBilling: yup
-            .string()
-            .trim()
-            .required('City is required')
-            .matches(/^[A-Za-z]+$/, {
-                message: 'City must contain at least one character and not contain special characters or digits',
-            }),
-        postalBilling: yup
+        postalShipping: yup
             .string()
             .trim()
             .required('Postal code is required')
             .test('postal-code', 'Invalid postal code format', function (value) {
                 if (!value) return false;
 
-                const countryBilling: string | undefined = this.resolve(yup.ref('countryBilling'));
+                const countryShipping: string | undefined = this.resolve(yup.ref('countryShipping'));
 
-                if (!countryBilling || !ZIP_CODE_PATTERNS[countryBilling]) {
+                if (!countryShipping || !ZIP_CODE_PATTERNS[countryShipping]) {
                     return true;
                 }
 
-                const pattern: RegExp | undefined = ZIP_CODE_PATTERNS[countryBilling].pattern;
-                const example: string | undefined = ZIP_CODE_PATTERNS[countryBilling].example;
+                const pattern: RegExp | undefined = ZIP_CODE_PATTERNS[countryShipping].pattern;
+                const example: string | undefined = ZIP_CODE_PATTERNS[countryShipping].example;
 
                 if (!pattern) {
                     return true;
@@ -163,11 +129,77 @@ export const validateSignUpSchema = () => {
                 }
 
                 return isValid;
+            }),
+
+        streetBilling: yup
+            .string()
+            .trim()
+            .when('isBillingSameAsShipping', {
+                is: true,
+                then: schema => schema.notRequired(),
+                otherwise: schema => schema.required('Street is required'),
+            }),
+        cityBilling: yup
+            .string()
+            .trim()
+            .when('isBillingSameAsShipping', {
+                is: true,
+                then: schema => schema.notRequired(),
+                otherwise: schema =>
+                    schema.required('City is required').matches(/^[A-Za-z]+$/, {
+                        message:
+                            'City must contain at least one character and not contain special characters or digits',
+                    }),
             }),
         countryBilling: yup
             .string()
             .trim()
-            .required('Country is required')
-            .oneOf([...COUNTRIES.map(country => country.code), ''], 'Invalid country'),
+            .when('isBillingSameAsShipping', {
+                is: true,
+                then: schema => schema.notRequired(),
+                otherwise: schema =>
+                    schema
+                        .required('Country is required')
+                        .oneOf([...COUNTRIES.map(country => country.code), ''], 'Invalid country'),
+            }),
+        postalBilling: yup
+            .string()
+            .trim()
+            .when('isBillingSameAsShipping', {
+                is: true,
+                then: schema => schema.notRequired(),
+                otherwise: schema =>
+                    schema
+                        .required('Postal code is required')
+                        .test('postal-code', 'Invalid postal code format', function (value) {
+                            if (!value) return false;
+
+                            const countryBilling: string | undefined = this.resolve(yup.ref('countryBilling'));
+
+                            if (!countryBilling || !ZIP_CODE_PATTERNS[countryBilling]) {
+                                return true;
+                            }
+
+                            const pattern: RegExp | undefined = ZIP_CODE_PATTERNS[countryBilling].pattern;
+                            const example: string | undefined = ZIP_CODE_PATTERNS[countryBilling].example;
+
+                            if (!pattern) {
+                                return true;
+                            }
+
+                            const isValid = pattern.test(value);
+
+                            if (!isValid) {
+                                return this.createError({
+                                    message: `Postal code must be in format: ${example}`,
+                                });
+                            }
+
+                            return isValid;
+                        }),
+            }),
+        isDefaultShippingAddress: yup.boolean().optional(),
+        isBillingSameAsShipping: yup.boolean().required(),
+        isDefaultBillingAddress: yup.boolean().optional(),
     });
 };

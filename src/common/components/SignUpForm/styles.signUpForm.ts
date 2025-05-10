@@ -38,17 +38,21 @@ export const STYLES = genStyles({
             flexDirection: 'column',
         },
     },
-    formDelivery: {
+    formShipping: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
         gap: '0.5rem',
         mt: 1,
-        mb: 4,
+        mb: 2,
         '@media (max-width: 900px)': {
             flexDirection: 'column',
+            mb: 0,
         },
+    },
+    containerBilling: {
+        mt: 3,
     },
     formBilling: {
         display: 'flex',
@@ -57,9 +61,10 @@ export const STYLES = genStyles({
         flexDirection: 'row',
         gap: '0.5rem',
         mt: 1,
-        mb: 4,
+        mb: 2,
         '@media (max-width: 900px)': {
             flexDirection: 'column',
+            mb: 0,
         },
     },
     nameInput: {
@@ -125,7 +130,24 @@ export const STYLES = genStyles({
     errorConfirmPass: {
         top: '2.8rem',
     },
-    linkSignIn: {
-        m: '0 auto',
+    defaultShippingAddressCheckbox: {
+        mt: 0,
+        mb: 0,
+    },
+    defaultBillingAddressCheckbox: {
+        mb: 2,
+    },
+    shippingAsBillingCheckbox: {
+        mt: -1,
+        mb: 0,
+    },
+    shippingAsBillingMessage: {
+        color: '#4DAF50',
+        fontWeight: 'bold',
+        mt: -0.5,
+        mb: 2,
+    },
+    linkSignUp: {
+        m: '0 auto 2rem',
     },
 });

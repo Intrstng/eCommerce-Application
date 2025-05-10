@@ -1,7 +1,7 @@
 import type { MouseEvent } from 'react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -12,6 +12,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -25,7 +27,6 @@ import { PATH } from '../../enums';
 import { errorNotifyMessage } from '../../utils/notify-message';
 import { STYLES } from './styles.signUpForm';
 import { COUNTRIES } from '../../validations/validation-data/validation-data';
-import { useWatch } from 'react-hook-form';
 
 const onMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -54,21 +55,47 @@ export const SignUpForm = () => {
         reset,
         control,
         formState: { errors, isValid },
-    } = useForm<SignUpFormData>({
-        // useForm({
+        setValue,
+        getValues,
+    } = useForm({
+        // useForm<SignUpFormData>({
         mode: 'all',
         resolver: yupResolver(validateSignUpSchema()),
         defaultValues: {
-            country: '',
+            countryShipping: '',
             countryBilling: '',
+            isDefaultShippingAddress: false,
+            isBillingSameAsShipping: false,
+            isDefaultBillingAddress: false,
         },
     });
 
     const onSubmit: SubmitHandler<SignUpFormData> = data => {
         try {
-            // await signUpUser(data.email, data.firstName, data.password...);
+            // await signUpUser(data.email, data.firstName, data.password...); ToDo: complete logic
             console.log(data);
-            console.log(data.birthDate);
+            console.log('birthDate', data.birthDate);
+            console.log('cityBilling', data.cityBilling);
+            console.log('cityShipping', data.cityShipping);
+            console.log('confirmPassword', data.confirmPassword);
+            console.log('countryBilling', data.countryBilling);
+            console.log('countryShipping', data.countryShipping);
+            console.log('isBillingSameAsShipping', data.isBillingSameAsShipping);
+            console.log('isDefaultShippingAddress', data.isDefaultShippingAddress);
+            console.log('isDefaultBillingAddress', data.isDefaultBillingAddress);
+            console.log('email', data.email);
+            console.log('firstName', data.firstName);
+            console.log('lastName', data.lastName);
+            console.log('password', data.password);
+            console.log('postalBilling', data.postalBilling);
+            console.log('postalShipping', data.postalShipping);
+            console.log('streetBilling', data.streetBilling);
+            console.log('streetShipping', data.streetShipping);
+
+            setValue('isDefaultShippingAddress', false);
+            setValue('isBillingSameAsShipping', false);
+            setValue('isDefaultBillingAddress', false);
+
             reset();
         } catch (error) {
             if (error instanceof Error) {
@@ -77,15 +104,29 @@ export const SignUpForm = () => {
         }
     };
 
-    const selectedCountry = useWatch({
+    const selectedCountryShipping = useWatch({
         control,
-        name: 'country',
+        name: 'countryShipping',
     });
 
     const selectedCountryBilling = useWatch({
         control,
         name: 'countryBilling',
     });
+
+    const isSameBillingAddress = useWatch({
+        control,
+        name: 'isBillingSameAsShipping',
+    });
+
+    useEffect(() => {
+        if (isSameBillingAddress) {
+            setValue('streetBilling', getValues('streetShipping'));
+            setValue('cityBilling', getValues('cityShipping'));
+            setValue('countryBilling', getValues('countryShipping'));
+            setValue('postalBilling', getValues('postalShipping'));
+        }
+    }, [isSameBillingAddress, getValues, setValue]);
 
     return (
         <Container component="main" maxWidth="xl">
@@ -254,28 +295,28 @@ export const SignUpForm = () => {
 
                         <Box>
                             <Typography variant="subtitle1" component="h6">
-                                Delivery address
+                                Shipping address
                             </Typography>
-                            <Box sx={STYLES.formDelivery}>
+                            <Box sx={STYLES.formShipping}>
                                 <FormControl fullWidth>
                                     <TextField
                                         label="Street"
                                         type="text"
                                         fullWidth
-                                        id="street"
+                                        id="streetShipping"
                                         sx={{
                                             ...STYLES.addressInput,
                                             ...STYLES.addressInputMedia,
                                         }}
-                                        error={!!errors.street}
+                                        error={!!errors.streetShipping}
                                         variant="outlined"
-                                        {...register('street')}
+                                        {...register('streetShipping')}
                                         autoComplete="street-address"
                                         size="small"
                                     />
-                                    {errors.street && (
+                                    {errors.streetShipping && (
                                         <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
-                                            {errors.street.message}
+                                            {errors.streetShipping.message}
                                         </Typography>
                                     )}
                                 </FormControl>
@@ -285,20 +326,20 @@ export const SignUpForm = () => {
                                         label="City"
                                         type="text"
                                         fullWidth
-                                        id="city"
+                                        id="cityShipping"
                                         sx={{
                                             ...STYLES.addressInput,
                                             ...STYLES.addressInputMedia,
                                         }}
-                                        error={!!errors.city}
+                                        error={!!errors.cityShipping}
                                         variant="outlined"
-                                        {...register('city')}
+                                        {...register('cityShipping')}
                                         autoComplete="address-level2"
                                         size="small"
                                     />
-                                    {errors.city && (
+                                    {errors.cityShipping && (
                                         <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
-                                            {errors.city.message}
+                                            {errors.cityShipping.message}
                                         </Typography>
                                     )}
                                 </FormControl>
@@ -309,17 +350,17 @@ export const SignUpForm = () => {
                                     </InputLabel>
                                     <Select
                                         labelId="country-label"
-                                        id="country"
+                                        id="countryShipping"
                                         label="Country"
                                         sx={{
                                             ...STYLES.addressInput,
                                             ...STYLES.countryInput,
                                             ...STYLES.addressInputMedia,
                                         }}
-                                        error={!!errors.country}
-                                        {...register('country')}
+                                        error={!!errors.countryShipping}
+                                        {...register('countryShipping')}
                                         size="small"
-                                        value={selectedCountry || ''}
+                                        value={selectedCountryShipping ?? ''}
                                     >
                                         {COUNTRIES.map(country => (
                                             <MenuItem key={country.code} value={country.code}>
@@ -327,142 +368,192 @@ export const SignUpForm = () => {
                                             </MenuItem>
                                         ))}
                                     </Select>
-                                    {errors.country && (
+                                    {errors.countryShipping && (
                                         <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
-                                            {errors.country.message}
+                                            {errors.countryShipping.message}
                                         </Typography>
                                     )}
                                 </FormControl>
 
                                 <FormControl fullWidth>
                                     <TextField
-                                        label={selectedCountry ? 'Postal code' : 'Select a country first'}
+                                        label={selectedCountryShipping ? 'Postal code' : 'Select a country first'}
                                         type="text"
                                         fullWidth
-                                        id="postal"
+                                        id="postalShipping"
                                         sx={{
                                             ...STYLES.addressInput,
                                             ...STYLES.addressInputMedia,
                                         }}
-                                        error={!!errors.postal}
+                                        error={!!errors.postalShipping}
                                         variant="outlined"
-                                        {...register('postal')}
+                                        {...register('postalShipping')}
                                         autoComplete="postal-code"
                                         size="small"
-                                        disabled={!selectedCountry}
+                                        disabled={!selectedCountryShipping}
                                     />
-                                    {errors.postal && (
+                                    {errors.postalShipping && (
                                         <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
-                                            {errors.postal.message}
+                                            {errors.postalShipping.message}
                                         </Typography>
                                     )}
                                 </FormControl>
                             </Box>
+                            <FormGroup>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            size="small"
+                                            id="defaultShippingAddress"
+                                            {...register('isDefaultShippingAddress')}
+                                            //checked={getValues('isDefaultShippingAddress')}
+                                        />
+                                    }
+                                    label="Set address as default for shipping"
+                                    sx={STYLES.defaultShippingAddressCheckbox}
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            size="small"
+                                            id="billingSameAsShipping"
+                                            {...register('isBillingSameAsShipping')}
+                                            //checked={getValues('isBillingSameAsShipping')}
+                                        />
+                                    }
+                                    label="Set shipping address as billing"
+                                    sx={STYLES.shippingAsBillingCheckbox}
+                                />
+                            </FormGroup>
                         </Box>
 
                         <Box>
-                            <Typography variant="subtitle1" component="h6">
-                                Billing address
-                            </Typography>
-                            <Box sx={STYLES.formBilling}>
-                                <FormControl fullWidth>
-                                    <TextField
-                                        label="Street"
-                                        type="text"
-                                        fullWidth
-                                        id="streetBilling"
-                                        sx={{
-                                            ...STYLES.addressInput,
-                                            ...STYLES.addressInputMedia,
-                                        }}
-                                        error={!!errors.streetBilling}
-                                        variant="outlined"
-                                        {...register('streetBilling')}
-                                        autoComplete="street-address"
-                                        size="small"
-                                    />
-                                    {errors.streetBilling && (
-                                        <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
-                                            {errors.streetBilling.message}
-                                        </Typography>
-                                    )}
-                                </FormControl>
+                            {isSameBillingAddress ? (
+                                <Typography variant="body2" sx={STYLES.shippingAsBillingMessage}>
+                                    Using shipping address as billing address
+                                </Typography>
+                            ) : (
+                                <Box sx={STYLES.containerBilling}>
+                                    <Typography variant="subtitle1" component="h6">
+                                        Billing address
+                                    </Typography>
+                                    <Box sx={STYLES.formBilling}>
+                                        <FormControl fullWidth>
+                                            <TextField
+                                                label="Street"
+                                                type="text"
+                                                fullWidth
+                                                id="streetBilling"
+                                                sx={{
+                                                    ...STYLES.addressInput,
+                                                    ...STYLES.addressInputMedia,
+                                                }}
+                                                error={!!errors.streetBilling}
+                                                variant="outlined"
+                                                {...register('streetBilling')}
+                                                autoComplete="street-address"
+                                                size="small"
+                                            />
+                                            {errors.streetBilling && (
+                                                <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
+                                                    {errors.streetBilling.message}
+                                                </Typography>
+                                            )}
+                                        </FormControl>
 
-                                <FormControl fullWidth>
-                                    <TextField
-                                        label="City"
-                                        type="text"
-                                        fullWidth
-                                        id="cityBilling"
-                                        sx={{
-                                            ...STYLES.addressInput,
-                                            ...STYLES.addressInputMedia,
-                                        }}
-                                        error={!!errors.cityBilling}
-                                        variant="outlined"
-                                        {...register('cityBilling')}
-                                        autoComplete="address-level2"
-                                        size="small"
-                                    />
-                                    {errors.cityBilling && (
-                                        <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
-                                            {errors.cityBilling.message}
-                                        </Typography>
-                                    )}
-                                </FormControl>
+                                        <FormControl fullWidth>
+                                            <TextField
+                                                label="City"
+                                                type="text"
+                                                fullWidth
+                                                id="cityBilling"
+                                                sx={{
+                                                    ...STYLES.addressInput,
+                                                    ...STYLES.addressInputMedia,
+                                                }}
+                                                error={!!errors.cityBilling}
+                                                variant="outlined"
+                                                {...register('cityBilling')}
+                                                autoComplete="address-level2"
+                                                size="small"
+                                            />
+                                            {errors.cityBilling && (
+                                                <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
+                                                    {errors.cityBilling.message}
+                                                </Typography>
+                                            )}
+                                        </FormControl>
 
-                                <FormControl fullWidth>
-                                    <InputLabel id="country-label" sx={STYLES.countryLabel}>
-                                        Country
-                                    </InputLabel>
-                                    <Select
-                                        labelId="country-label"
-                                        id="countryBilling"
-                                        label="Country"
-                                        sx={{
-                                            ...STYLES.addressInput,
-                                            ...STYLES.countryInput,
-                                            ...STYLES.addressInputMedia,
-                                        }}
-                                        error={!!errors.countryBilling}
-                                        {...register('countryBilling')}
-                                        size="small"
-                                        value={selectedCountryBilling || ''}
-                                    >
-                                        {COUNTRIES.map(country => (
-                                            <MenuItem key={country.code} value={country.code}>
-                                                {country.name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                    {errors.countryBilling && (
-                                        <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
-                                            {errors.countryBilling.message}
-                                        </Typography>
-                                    )}
-                                </FormControl>
+                                        <FormControl fullWidth>
+                                            <InputLabel id="country-label" sx={STYLES.countryLabel}>
+                                                Country
+                                            </InputLabel>
+                                            <Select
+                                                labelId="country-label"
+                                                id="countryBilling"
+                                                label="Country"
+                                                sx={{
+                                                    ...STYLES.addressInput,
+                                                    ...STYLES.countryInput,
+                                                    ...STYLES.addressInputMedia,
+                                                }}
+                                                error={!!errors.countryBilling}
+                                                {...register('countryBilling')}
+                                                size="small"
+                                                value={selectedCountryBilling ?? ''}
+                                            >
+                                                {COUNTRIES.map(country => (
+                                                    <MenuItem key={country.code} value={country.code}>
+                                                        {country.name}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                            {errors.countryBilling && (
+                                                <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
+                                                    {errors.countryBilling.message}
+                                                </Typography>
+                                            )}
+                                        </FormControl>
 
-                                <FormControl fullWidth>
-                                    <TextField
-                                        label={selectedCountryBilling ? 'Postal code' : 'Select a country first'}
-                                        type="text"
-                                        fullWidth
-                                        id="postalBilling"
-                                        sx={{ ...STYLES.addressInput, ...STYLES.addressInputMedia }}
-                                        error={!!errors.postalBilling}
-                                        variant="outlined"
-                                        {...register('postalBilling')}
-                                        autoComplete="postal-code"
-                                        size="small"
-                                        disabled={!selectedCountryBilling}
-                                    />
-                                    {errors.postalBilling && (
-                                        <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
-                                            {errors.postalBilling.message}
-                                        </Typography>
-                                    )}
-                                </FormControl>
-                            </Box>
+                                        <FormControl fullWidth>
+                                            <TextField
+                                                label={
+                                                    selectedCountryBilling ? 'Postal code' : 'Select a country first'
+                                                }
+                                                type="text"
+                                                fullWidth
+                                                id="postalBilling"
+                                                sx={{ ...STYLES.addressInput, ...STYLES.addressInputMedia }}
+                                                error={!!errors.postalBilling}
+                                                variant="outlined"
+                                                {...register('postalBilling')}
+                                                autoComplete="postal-code"
+                                                size="small"
+                                                disabled={!selectedCountryBilling}
+                                            />
+                                            {errors.postalBilling && (
+                                                <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
+                                                    {errors.postalBilling.message}
+                                                </Typography>
+                                            )}
+                                        </FormControl>
+                                    </Box>
+                                    <FormGroup>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    size="small"
+                                                    id="defaultBillingAddress"
+                                                    {...register('isDefaultBillingAddress')}
+                                                    //checked={getValues('isDefaultBillingAddress')}
+                                                />
+                                            }
+                                            label="Set address as default for billing"
+                                            sx={STYLES.defaultBillingAddressCheckbox}
+                                        />
+                                    </FormGroup>
+                                </Box>
+                            )}
                         </Box>
 
                         <Button
@@ -482,7 +573,7 @@ export const SignUpForm = () => {
                             variant="subtitle2"
                             underline="hover"
                             color="info.main"
-                            sx={STYLES.linkSignIn}
+                            sx={STYLES.linkSignUp}
                         >
                             If you already have an account, please sign in
                         </Link>
@@ -492,6 +583,3 @@ export const SignUpForm = () => {
         </Container>
     );
 };
-
-// defaultShippingAddress
-// defaultBillingAddress

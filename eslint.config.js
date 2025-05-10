@@ -146,6 +146,7 @@ const eslintConfig = config(
 
       "@typescript-eslint/no-misused-promises": "off",
       "@typescript-eslint/no-unnecessary-condition": "off",
+      "unicorn/no-thenable": "off",
     },
   },
 
