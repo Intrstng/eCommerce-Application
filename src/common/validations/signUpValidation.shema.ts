@@ -76,7 +76,7 @@ export const validateSignUpSchema = () => {
         birthDate: yup
             .string() //.date()
             .required('Birth date is required')
-            .test('age', 'You must be at least 13 years old', value => {
+            .test('age', 'You must be at least 13 and no more than 100 years old', value => {
                 const today = new Date();
                 const birthDate = value ? new Date(value) : null;
                 if (!birthDate) return false;
@@ -85,7 +85,7 @@ export const validateSignUpSchema = () => {
                 if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
                     age--;
                 }
-                return age >= 13;
+                return !(age < 13 || age > 100);
             }),
         streetShipping: yup.string().trim().required('Street is required'),
         cityShipping: yup

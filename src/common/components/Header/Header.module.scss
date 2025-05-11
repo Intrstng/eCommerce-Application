@@ -1,5 +1,6 @@
 .header {
     display: flex;
+    grid-row: 1;
     flex: 0 0 auto;
     flex-wrap: nowrap;
     align-items: center;
@@ -12,10 +13,6 @@
     background-color: #a9a22d;
 }
 
-.logo {
-    display: block;
-}
-
 .nav {
     display: flex;
     align-items: center;
@@ -25,6 +22,67 @@
     height: 10vh;
     margin: 0 0 0 auto;
     padding: 0 1rem;
+    border: 1px solid #000;
 
     background-color: #4caf50;
+
+    & .navLink {
+        position: relative;
+
+        font-family: Jost, sans-serif;
+        font-size: 0.8rem;
+        font-weight: 400;
+        line-height: 1.55rem;
+        color: rgb(22 20 18);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+
+        transition:
+            color 0.3s ease,
+            text-decoration-color 0.3s ease;
+
+        &::after {
+            content: '';
+
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+
+            width: 0;
+            height: 1px;
+
+            background-color: #65635f;
+
+            transition:
+                width 0.3s ease,
+                left 0.3s ease;
+        }
+
+        &:hover {
+            color: #65635f;
+
+            &::after {
+                left: 0;
+                width: 100%;
+            }
+        }
+
+        &:active {
+            color: #2e5077;
+
+            &::after {
+                background-color: #2e5077;
+            }
+        }
+    }
+}
+
+.authButtons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 4rem;
 }

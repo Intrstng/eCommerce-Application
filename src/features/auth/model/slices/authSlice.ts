@@ -15,7 +15,6 @@ export const authSlice = createSlice({
     },
 });
 
-// TYPES
 export type LoginInitialState = {
     isLoggedIn: boolean;
 };

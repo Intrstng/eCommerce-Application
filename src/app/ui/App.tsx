@@ -12,10 +12,10 @@ export const App = () => {
     };
 
     return (
-        <div className="App">
+        <div className="app">
             <Header />
 
-            <div className="body">
+            <div className="main">
                 <div className="content">
                     <div className="horizontalNavigation">
                         <NavLink className="linkLikeButton" to={PATH.PAGE_ROOT}>

@@ -4,7 +4,7 @@ import { PATH } from '../enums';
 import { App } from 'app/ui/App';
 import { Error404 } from '../pages/Error404/Error404';
 import { MainPage } from '../pages/MainPage/MainPage';
-import { SignupPage } from '../pages/SignupPage/SignupPage';
+import { SignUpPage } from '../pages/SignUpPage/SignUpPage';
 import { ProfilePage } from '../pages/Protected/ProfilePage/ProfilePage';
 import { AddressesPage } from '../pages/Protected/AddressesPage/AddressesPage';
 import { ArticlesPage } from '../pages/ArticlesPage/ArticlesPage';
@@ -14,9 +14,9 @@ import { CartPage } from '../pages/CartPage/CartPage';
 import { FavoritesPage } from '../pages/FavoritesPage/FavoritesPage';
 import { CatalogPage } from '../pages/CatalogPage/CatalogPage';
 import type React from 'react';
-import { SigninPage } from '../pages/SigninPage/SigninPage';
 import { useAppSelector } from '../hooks';
 import { authIsLoggedInSelector } from '../../features/auth/model/selectors/authSelector';
+import { SignInPage } from '../pages/SignInPage/SignInPage';
 
 const PrivateRoutes = () => {
     const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
@@ -69,7 +69,7 @@ const publicRoutes: RouteObject[] = [
         path: PATH.SIGNIN,
         element: (
             <PublicRouteRedirect>
-                <SigninPage />
+                <SignInPage />
             </PublicRouteRedirect>
         ),
     },
@@ -77,7 +77,7 @@ const publicRoutes: RouteObject[] = [
         path: PATH.SIGNUP,
         element: (
             <PublicRouteRedirect>
-                <SignupPage />
+                <SignUpPage />
             </PublicRouteRedirect>
         ),
     },

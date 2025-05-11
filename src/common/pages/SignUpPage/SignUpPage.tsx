@@ -1,17 +1,17 @@
 import { PATH } from '../../enums';
 import { NavLink } from 'react-router-dom';
-import S from './SignupPage.module.scss';
+import S from './SignUpPage.module.scss';
 import { SignUpForm } from '../../../features/auth/ui/signup/SignUpForm';
 
-export const SignupPage = () => {
+export const SignUpPage = () => {
     return (
         <div>
             <div className={S.linksHeader}>
-                <NavLink className={S.signinRegisterLink} to={PATH.SIGNIN}>
+                <NavLink className={S.signInRegisterLink} to={PATH.SIGNIN}>
                     Login
                 </NavLink>
                 <div className={S.linksBorder}></div>
-                <span className={S.signupRegisterLink}>Register</span>
+                <span className={S.signUpRegisterLink}>Register</span>
             </div>
             <SignUpForm />
         </div>

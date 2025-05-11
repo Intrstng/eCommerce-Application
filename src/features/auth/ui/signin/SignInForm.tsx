@@ -1,4 +1,3 @@
-import type { MouseEvent } from 'react';
 import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -15,7 +14,6 @@ import FormGroup from '@mui/material/FormGroup';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import Link from '@mui/material/Link';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -26,10 +24,8 @@ import { validateSignInSchema } from '../../../../common/validations/signInValid
 import { authActions } from '../../model/slices/authSlice';
 import { PATH } from '../../../../common/enums';
 import { errorNotifyMessage } from '../../../../common/utils/notify-message';
-
-const onMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-};
+import { AuthFormLink } from '../../../../common/components/AuthFormLink/AuthFormLink';
+import { onMouseDownPassword } from '../../utils/auth-handlers';
 
 export const SignInForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -140,15 +136,11 @@ export const SignInForm = () => {
                         </Button>
                     </FormGroup>
                     <Grid container>
-                        <Link
-                            href={PATH.SIGNUP}
-                            variant="subtitle2"
-                            underline="hover"
-                            color="info.main"
-                            sx={STYLES.linkSignUp}
-                        >
-                            If you don't have an account yet, please register
-                        </Link>
+                        <AuthFormLink
+                            message={"If you don't have an account yet, please "}
+                            path={PATH.SIGNUP}
+                            title={'register'}
+                        />
                     </Grid>
                 </Box>
             </Box>

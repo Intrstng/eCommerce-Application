@@ -4,15 +4,20 @@
 
 .mainNav {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 1rem;
     align-items: flex-start;
     justify-content: center;
 
     width: 100%;
-    max-width: 8rem;
+    max-width: 45rem;
     padding: 2rem;
     border: 1px solid #000;
+
+    .mainNavBlock {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .mainArticles {

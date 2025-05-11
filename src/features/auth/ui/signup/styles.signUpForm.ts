@@ -45,7 +45,7 @@ export const STYLES = genStyles({
         flexDirection: 'row',
         gap: '0.5rem',
         mt: 1,
-        mb: 2,
+        mb: 3,
         '@media (max-width: 900px)': {
             flexDirection: 'column',
             mb: 0,
@@ -61,7 +61,7 @@ export const STYLES = genStyles({
         flexDirection: 'row',
         gap: '0.5rem',
         mt: 1,
-        mb: 2,
+        mb: 3,
         '@media (max-width: 900px)': {
             flexDirection: 'column',
             mb: 0,
@@ -133,13 +133,16 @@ export const STYLES = genStyles({
     defaultShippingAddressCheckbox: {
         mt: 0,
         mb: 0,
-    },
-    defaultBillingAddressCheckbox: {
-        mb: 2,
+        color: '#295F98',
     },
     shippingAsBillingCheckbox: {
         mt: -1,
         mb: 0,
+        color: '#12243d',
+    },
+    defaultBillingAddressCheckbox: {
+        mb: 2,
+        color: '#295F98',
     },
     shippingAsBillingMessage: {
         color: '#4DAF50',

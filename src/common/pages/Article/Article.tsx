@@ -1,8 +1,9 @@
 import type { ArticleItem } from '../../components/ArticleCard/types';
 import { ArticleCard } from '../../components/ArticleCard/ArticleCard';
 import { articlesContent } from '../../../assets/articles-data/articles-data';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import S from './Article.module.scss';
+import { PATH } from '../../enums';
 
 // type ArticleParamsType = {
 //   id: string
@@ -23,7 +24,7 @@ export const Article = () => {
     }
 
     return (
-        <section>
+        <section className={S.articleWrapper}>
             <ArticleCard
                 className={S.articlesContent}
                 text={article.text}
@@ -31,6 +32,9 @@ export const Article = () => {
                 picture={article.picture}
                 summary={article.summary}
             />
+            <NavLink to={PATH.ARTICLES} className={S.backToArticlesLink}>
+                Back to articles
+            </NavLink>
         </section>
     );
 };

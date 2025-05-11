@@ -1,4 +1,3 @@
-import type { MouseEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm, useWatch } from 'react-hook-form';
@@ -17,7 +16,6 @@ import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import Link from '@mui/material/Link';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -27,13 +25,8 @@ import { PATH } from '../../../../common/enums';
 import { errorNotifyMessage } from '../../../../common/utils/notify-message';
 import type { SignUpFormData } from '../../../../common/validations/signUpValidation.shema';
 import { validateSignUpSchema } from '../../../../common/validations/signUpValidation.shema';
-
-const onMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-};
-const onMouseDownConfirmPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-};
+import { onMouseDownConfirmPassword, onMouseDownPassword } from '../../utils/auth-handlers';
+import { AuthFormLink } from '../../../../common/components/AuthFormLink/AuthFormLink';
 
 export const SignUpForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -565,15 +558,11 @@ export const SignUpForm = () => {
                         </Button>
                     </FormGroup>
                     <Grid container>
-                        <Link
-                            href={PATH.SIGNIN}
-                            variant="subtitle2"
-                            underline="hover"
-                            color="info.main"
-                            sx={STYLES.linkSignUp}
-                        >
-                            If you already have an account, please sign in
-                        </Link>
+                        <AuthFormLink
+                            message={'If you already have an account, please '}
+                            path={PATH.SIGNIN}
+                            title={'login'}
+                        />
                     </Grid>
                 </Box>
             </Box>
