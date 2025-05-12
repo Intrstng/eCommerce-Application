@@ -57,12 +57,16 @@ jobs:
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.node-version }}-
-      - name: install modules
+
+      - name: Install dependencies
         run: npm install
+
       - name: lint code
         run: npm run lint:fix
+
       - name: format code
         run: npm run format:fix
+
       - name: format stylelint code
         run: npm run stylelint:fix
   deploy:
@@ -87,22 +91,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.node-version }}-
 
-      - name: install modules
+      - name: Install dependencies
         run: npm install
 
       - name: Build project
         run: npm run build
 
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli
+      - name: Verify build output
+        run: ls -la dist
 
-      - name: deploy to netlify
-        id: deploy
-        uses: nahianku1/netlify-deploy@v1
+      - name: Deploy to Netlify
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TEAM_API_KEY }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         with:
-          auth_token: ${{ secrets.NETLIFY_TEAM_API_KEY }}
-          site_name: ecommerce-lean-code
-          build_directory: dist
+          args: deploy --dir=dist --prod
+        timeout-minutes: 1
 
       - name: Output URL
         run: echo "${{ steps.deploy.outputs.live-url }}"
