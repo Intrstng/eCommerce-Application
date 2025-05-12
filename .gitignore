@@ -140,3 +140,6 @@ dist
 .idea/
 
 tsconfig.tsbuildinfo
+
+# Local Netlify folder
+.netlify
