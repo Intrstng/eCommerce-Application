@@ -15,6 +15,39 @@ export default defineConfig({
 
   plugins: [react(), tsconfigPaths(), addRootDivPlugin()],
 
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+
+          if (id.includes('src/app')) {
+            return 'app';
+          }
+
+          if (id.includes('src/assets')) {
+            return 'assets';
+          }
+
+          if (id.includes('src/common')) {
+            return 'common';
+          }
+
+          if (id.includes('src/features')) {
+            return 'features';
+          }
+
+          return 'index';
+        },
+        chunkFileNames: 'js/[name]-[hash].js',
+        entryFileNames: 'js/[name]-[hash].js',
+        assetFileNames: '[ext]/[name]-[hash].[ext]',
+      },
+    },
+  },
+
   server: {
     open: true,
   },
