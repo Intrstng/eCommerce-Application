@@ -82,6 +82,7 @@ jobs:
           auth_token: ${{ secrets.NETLIFY_TEAM_API_KEY }}
           site_name: ecommerce-lean-code
           build_directory: dist
+          production: true
 
       - name: Output URL
         run: echo "${{ steps.deploy.outputs.live-url }}"
