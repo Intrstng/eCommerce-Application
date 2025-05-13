@@ -5,12 +5,20 @@ export type Address = {
     city: string;
 };
 
+export type LoginParametersType = {
+    email: string;
+    password: string;
+};
+
 export type User = {
     email: string;
     password: string;
     firstName: string;
     lastName: string;
+    dateOfBirth: string;
     addresses: Address[];
-    defaultShippingAddress: 0 | 1;
-    defaultBillingAddress: 0 | 1;
+    defaultShippingAddress?: number;
+    defaultBillingAddress?: number;
+    shippingAddresses?: number[];
+    billingAddresses?: number[];
 };
