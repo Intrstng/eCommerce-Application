@@ -1,0 +1,16 @@
+.signUpIcon {
+    width: auto;
+    height: 1.3rem;
+}
+
+.authLinkDisabled {
+    opacity: 0.3;
+}
+
+.authButton {
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}

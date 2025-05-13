@@ -14,13 +14,23 @@ export enum Http_Methods {
 export enum PATH {
     PAGE_ROOT = '/',
     MAIN = '/main',
+    ABOUT = '/about',
+    CART = '/cart',
+    FAVORITES = '/favorites',
+
     CATALOG = '/catalog',
-    COLLECTIONS = '/collections',
+
+    PRODUCT = '/:product/:id', // MODEL
+
     ARTICLES = '/articles',
-    PRODUCT = '/:product/:id',
-    ARTICLE = '/:article/:id',
-    PROTECTED = '/protected',
-    LOGIN = '/login',
-    REGISTER = '/register',
+    // ARTICLE = `/articles/:id`,
+
+    SIGNIN = '/signin',
+    SIGNUP = '/signup',
     ERROR = '/error',
+    CATCH_ALL = '*',
+
+    // Protected
+    PROFILE = '/profile',
+    ADDRESSES = '/addresses',
 }

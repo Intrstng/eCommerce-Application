@@ -3,8 +3,8 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { PropsWithChildren, ReactElement } from 'react';
 import { Provider } from 'react-redux';
-import type { AppStore, RootState } from 'app/store';
-import { makeStore } from 'app/store';
+import type { AppRootState, AppStore } from 'app/store';
+import { makeStore } from 'app/store'; // Import configureStore
 
 /**
  * This type extends the default options for
@@ -19,7 +19,7 @@ type ExtendedRenderOptions = Omit<RenderOptions, 'queries'> & {
      * controlled manner during testing, allowing components to be rendered
      * with predetermined state conditions.
      */
-    preloadedState?: Partial<RootState>;
+    preloadedState?: Partial<AppRootState>;
 
     /**
      * Allows the use of a specific Redux store instance instead of a

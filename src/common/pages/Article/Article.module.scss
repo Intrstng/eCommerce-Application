@@ -1,0 +1,39 @@
+.articleWrapper {
+    margin: 0 auto;
+
+    .articlesContent {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+        max-width: 40rem;
+        margin: 0 auto;
+
+        & img {
+            height: 22.5rem;
+            object-fit: contain;
+        }
+    }
+
+    .backToArticlesLink {
+        position: relative;
+
+        width: 2.5rem; // Must be the same on signin/signup pages
+
+        font-weight: bold;
+        color: #295f98;
+        text-decoration: none;
+
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: #009fbd;
+        }
+
+        &:active {
+            color: #10375c;
+        }
+    }
+}

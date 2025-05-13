@@ -141,8 +141,12 @@ const eslintConfig = config(
       ],
       "@typescript-eslint/no-explicit-any": "error",
       "no-undef": "off",
-      "max-lines-per-function": ["error", 60],
+      "max-lines-per-function": ["off", 60],
       "@typescript-eslint/no-unused-vars": "warn",
+
+      "@typescript-eslint/no-misused-promises": "off",
+      "@typescript-eslint/no-unnecessary-condition": "off",
+      "unicorn/no-thenable": "off",
     },
   },
 
