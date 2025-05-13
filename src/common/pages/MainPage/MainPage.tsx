@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import S from './MainPage.module.scss';
 import { PATH } from '../../enums';
 import { NavLink } from 'react-router-dom';
@@ -22,6 +23,7 @@ const notifyError = () => {
 };
 
 export const MainPage = () => {
+    const { t } = useTranslation();
     const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
 
     return (
@@ -35,39 +37,38 @@ export const MainPage = () => {
                     <Typography component="h2" variant="h5">
                         Public routes:
                     </Typography>
-                    <NavLink to={PATH.CATALOG}>Catalog</NavLink>
-                    <NavLink to={PATH.ARTICLES}>Blog Articles</NavLink>
-                    <NavLink to={PATH.ABOUT}>About us</NavLink>
-
-                    <NavLink to={PATH.CART}>Cart for unauthorized user</NavLink>
-                    <NavLink to={PATH.FAVORITES}>Favorites page for unauthorized user</NavLink>
+                    <NavLink to={PATH.CATALOG}>{t('mainPage.catalog')}</NavLink>
+                    <NavLink to={PATH.ARTICLES}>{t('mainPage.articles')}</NavLink>
+                    <NavLink to={PATH.ABOUT}>{t('mainPage.about')}</NavLink>
+                    <NavLink to={PATH.CART}>{t('mainPage.cart')}</NavLink>
+                    <NavLink to={PATH.FAVORITES}>{t('mainPage.favorites')}</NavLink>
                 </div>
 
                 <div className={S.mainNavBlock}>
                     <Typography component="h2" variant="h5">
-                        Authorization links:
+                        {t('mainPage.authLinks')}
                     </Typography>
                     <NavLink to={PATH.SIGNIN} className={isLoggedIn ? SignUpStyles.authLinkDisabled : ''}>
-                        Login page
+                        {t('mainPage.login')}
                     </NavLink>
                     <NavLink to={PATH.SIGNUP} className={isLoggedIn ? SignUpStyles.authLinkDisabled : ''}>
-                        Registration page
+                        {t('mainPage.register')}
                     </NavLink>
                 </div>
 
                 <div className={S.mainNavBlock}>
                     <Typography component="h2" variant="h5">
-                        Protected routes:
+                        {t('mainPage.protectedRoutes')}
                     </Typography>
-                    <NavLink to={PATH.PROFILE}>Authorized user profile page</NavLink>
-                    <NavLink to={PATH.ADDRESSES}>Authorized user addresses page</NavLink>
+                    <NavLink to={PATH.PROFILE}>{t('mainPage.profile')}</NavLink>
+                    <NavLink to={PATH.ADDRESSES}>{t('mainPage.addresses')}</NavLink>
                 </div>
             </div>
             <div className={S.mainControls}>
                 <p>Examples of messages:</p>
-                <Button onClick={notifySuccess}>Show Success Message</Button>
-                <Button onClick={notifyWarning}>Show Warning Message</Button>
-                <Button onClick={notifyError}>Show Error Message</Button>
+                <Button onClick={notifySuccess}>{t('mainPage.successMessage')}</Button>
+                <Button onClick={notifyWarning}>{t('mainPage.warningMessage')}</Button>
+                <Button onClick={notifyError}>{t('mainPage.errorMessage')}</Button>
             </div>
         </div>
     );

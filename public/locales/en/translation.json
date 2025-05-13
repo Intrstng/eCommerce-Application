@@ -1,0 +1,21 @@
+{
+    "mainPage": {
+        "title": "Main Page",
+        "publicRoutes": "Public routes:",
+        "authLinks": "Authorization links:",
+        "protectedRoutes": "Protected routes:",
+        "examples": "Examples of messages:",
+        "catalog": "Catalog",
+        "articles": "Blog Articles",
+        "about": "About us",
+        "cart": "Cart for unauthorized user",
+        "favorites": "Favorites page for unauthorized user",
+        "login": "Login page",
+        "register": "Registration page",
+        "profile": "Authorized user profile page",
+        "addresses": "Authorized user addresses page",
+        "successMessage": "Show Success Message",
+        "warningMessage": "Show Warning Message",
+        "errorMessage": "Show Error Message"
+    }
+}
