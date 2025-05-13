@@ -1,7 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
 
 export const CatalogPage = () => {
+    const { t } = useTranslation();
     const [searchParameters, setSearchParameters] = useSearchParams();
 
     const currentPage = searchParameters.get('page');
@@ -25,12 +27,12 @@ export const CatalogPage = () => {
                 </Button>
             </div>
         ) : (
-            <h3>This catalog presents all types of products at the moment</h3>
+            <h3>{t('catalogPage.description')}</h3>
         );
 
     return (
         <div>
-            <h2>Catalog</h2>
+            <h2>{t('catalogPage.title')}</h2>
             {catalogContent}
         </div>
     );

@@ -2,6 +2,7 @@
     "mainPage": {
         "title": "Main Page",
         "publicRoutes": "Public routes:",
+        "publicRoutesDescription": "Here will be rendered all articles of the main page",
         "authLinks": "Authorization links:",
         "protectedRoutes": "Protected routes:",
         "examples": "Examples of messages:",
@@ -17,5 +18,31 @@
         "successMessage": "Show Success Message",
         "warningMessage": "Show Warning Message",
         "errorMessage": "Show Error Message"
+    },
+    "aboutPage": {
+        "title": "About us",
+        "description": "Learn more about us"
+    },
+    "catalogPage": {
+        "title": "Catalog",
+        "description": "Browse our collection of products."
+    },
+    "articlesPage": {
+        "title": "Blog Articles",
+        "description": "Read our latest articles and news."
+    },
+    "cartPage": {
+        "title": "Cart",
+        "emptyMessage": "Your cart is empty."
+    },
+    "header": {
+        "title": "Header",
+        "earrings": "Earrings",
+        "rings": "Rings",
+        "brooch": "Brooch"
+    },
+    "footer": {
+        "title": "Footer",
+        "description": "This is the footer of the page eCommerce Store 2025."
     }
 }

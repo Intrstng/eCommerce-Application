@@ -1,5 +1,7 @@
+import { useTranslation } from 'react-i18next';
 import S from './AboutPage.module.scss';
 
 export const AboutPage = () => {
-    return <section className={S.aboutContent}>Here will be information about us</section>;
+    const { t } = useTranslation();
+    return <section className={S.aboutContent}>{t('aboutPage.description')}</section>;
 };

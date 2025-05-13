@@ -28,14 +28,14 @@ export const MainPage = () => {
 
     return (
         <div className={S.mainContent}>
-            <h2>Main Page</h2>
+            <h2>{t('mainPage.title')}</h2>
             <div className={S.mainArticles}>
-                <p>Here will be rendered all articles of the main page</p>
+                <p>{t('mainPage.publicRoutesDescription')}</p>
             </div>
             <div className={S.mainNav}>
                 <div className={S.mainNavBlock}>
                     <Typography component="h2" variant="h5">
-                        Public routes:
+                        {t('mainPage.publicRoutes')}
                     </Typography>
                     <NavLink to={PATH.CATALOG}>{t('mainPage.catalog')}</NavLink>
                     <NavLink to={PATH.ARTICLES}>{t('mainPage.articles')}</NavLink>
@@ -65,7 +65,7 @@ export const MainPage = () => {
                 </div>
             </div>
             <div className={S.mainControls}>
-                <p>Examples of messages:</p>
+                <p>{t('mainPage.examples')}</p>
                 <Button onClick={notifySuccess}>{t('mainPage.successMessage')}</Button>
                 <Button onClick={notifyWarning}>{t('mainPage.warningMessage')}</Button>
                 <Button onClick={notifyError}>{t('mainPage.errorMessage')}</Button>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { PATH } from '../../enums';
 import { NavLink } from 'react-router-dom';
 import S from './Header.module.scss';
@@ -7,6 +8,7 @@ import { SignInButton } from '../SignInButton/SignInButton';
 import { SignUpButton } from '../SignUpButton/SignUpButton';
 
 export const Header = () => {
+    const { t } = useTranslation();
     // or we can use useSearchParams() here;
     // const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
 
@@ -15,13 +17,13 @@ export const Header = () => {
             <Logo />
             <div className={S.nav}>
                 <NavLink to={`${PATH.CATALOG}?page=1&type=Earrings`} className={S.navLink}>
-                    Earrings
+                    {t('header.earrings')}
                 </NavLink>
                 <NavLink to={`${PATH.CATALOG}?page=1&type=Ring`} className={S.navLink}>
-                    Rings
+                    {t('header.rings')}
                 </NavLink>
                 <NavLink to={`${PATH.CATALOG}?page=1&type=Brooch`} className={S.navLink}>
-                    Brooch
+                    {t('header.brooch')}
                 </NavLink>
                 {/*{isLoggedIn ? (*/}
                 {/*    <NavLink to={PATH.SIGNIN} onClick={handleLogout}>*/}

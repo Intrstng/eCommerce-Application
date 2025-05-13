@@ -2,6 +2,7 @@
     "mainPage": {
         "title": "Главная страница",
         "publicRoutes": "Публичные маршруты:",
+        "publicRoutesDescription": "Здесь будут отображены все статьи главной страницы.",
         "authLinks": "Ссылки для авторизации:",
         "protectedRoutes": "Защищенные маршруты:",
         "examples": "Примеры сообщений:",
@@ -17,5 +18,31 @@
         "successMessage": "Показать сообщение об успехе",
         "warningMessage": "Показать предупреждающее сообщение",
         "errorMessage": "Показать сообщение об ошибке"
+    },
+    "aboutPage": {
+        "title": "О нас",
+        "description": "Узнайте больше о нас"
+    },
+    "catalogPage": {
+        "title": "Каталог",
+        "description": "Просмотрите нашу коллекцию продуктов."
+    },
+    "articlesPage": {
+        "title": "Статьи блога",
+        "description": "Читайте наши последние статьи и новости."
+    },
+    "cartPage": {
+        "title": "Корзина",
+        "emptyMessage": "Ваша корзина пуста."
+    },
+    "footer": {
+        "title": "Футер",
+        "description": "Это футер страницы eCommerce Store 2025."
+    },
+    "header": {
+        "title": "Хедер",
+        "earrings": "Серьги",
+        "rings": "Кольца",
+        "brooch": "Брошь"
     }
 }
