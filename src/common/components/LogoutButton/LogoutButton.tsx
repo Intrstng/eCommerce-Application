@@ -14,8 +14,7 @@ export const LogoutButton = () => {
     const dispatch = useAppDispatch();
 
     const handleLogout = () => {
-        // ToDo: Add Api request to logout logic
-        dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
+        dispatch(authActions.logout());
     };
 
     return (
