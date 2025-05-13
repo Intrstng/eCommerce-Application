@@ -15,7 +15,7 @@ const defaultScope = `manage_project:${projectKey}`;
 const scopes = import.meta.env.VITE_CTP_SCOPES
     ? import.meta.env.VITE_CTP_SCOPES.split(' ')
           .filter(Boolean)
-          .map(scope => `${scope}:${projectKey}`)
+          .map((scope: string) => `${scope}:${projectKey}`)
     : [defaultScope];
 
 const authMiddlewareOptions: AuthMiddlewareOptions = {
