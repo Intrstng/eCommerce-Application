@@ -1,3 +1,5 @@
+import type { CustomerSignInResult } from '@commercetools/platform-sdk';
+
 export type Address = {
     country: string;
     streetName: string;
@@ -21,4 +23,11 @@ export type User = {
     defaultBillingAddress?: number;
     shippingAddresses?: number[];
     billingAddresses?: number[];
+};
+
+export type AuthState = {
+    user: CustomerSignInResult | null;
+    isLoggedIn: boolean;
+    loading: boolean;
+    error: string | null;
 };
