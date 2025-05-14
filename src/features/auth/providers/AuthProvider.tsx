@@ -1,28 +1,26 @@
 import { useEffect, type PropsWithChildren } from 'react';
 import { useAppDispatch } from '../../../common/hooks';
 import { loginSuccess } from '../model/slices/authSlice';
-import type { CustomerSignInResult } from '@commercetools/platform-sdk';
+import type { CustomerSignInResult, Customer } from '@commercetools/platform-sdk';
 
-function isCustomerSignInResult(data: unknown): boolean {
-    if (!data || typeof data !== 'object') return false;
+function isCustomer(value: unknown): value is Customer {
+    return value !== null && typeof value === 'object' && 'id' in value && typeof value.id === 'string';
+}
 
-    return 'customer' in data &&
-           typeof data.customer === 'object' &&
-           data.customer !== null &&
-           'id' in data.customer;
+function isCustomerSignInResult(data: unknown): data is CustomerSignInResult {
+    return data !== null && typeof data === 'object' && 'customer' in data && isCustomer(data.customer);
 }
 
 export function AuthProvider({ children }: PropsWithChildren) {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        const userStr = localStorage.getItem('user');
-        if (userStr) {
+        const userString = localStorage.getItem('user');
+        if (userString) {
             try {
-                const parsedData = JSON.parse(userStr);
+                const parsedData: unknown = JSON.parse(userString);
                 if (isCustomerSignInResult(parsedData)) {
-                    const userData = parsedData as CustomerSignInResult;
-                    dispatch(loginSuccess(userData));
+                    dispatch(loginSuccess(parsedData));
                 } else {
                     console.error('Invalid user data format in localStorage');
                     localStorage.removeItem('user');
