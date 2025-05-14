@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useEffect, useRef, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm, useWatch } from 'react-hook-form';
@@ -29,6 +30,7 @@ import { onMouseDownConfirmPassword, onMouseDownPassword } from '../../utils/aut
 import { AuthFormLink } from '../../../../common/components/AuthFormLink/AuthFormLink';
 
 export const SignUpForm = () => {
+    const { t } = useTranslation();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -128,18 +130,18 @@ export const SignUpForm = () => {
                     <HowToRegIcon />
                 </Avatar>
                 <Typography sx={STYLES.pageTitle} component="h2" variant="h5">
-                    Sign up
+                    {t('signUpPage.title')}
                 </Typography>
                 <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
                     <FormGroup>
                         <Box>
                             <Typography variant="subtitle1" component="h6">
-                                Email and Password
+                                {t('signUpPage.emailAndPassword')}
                             </Typography>
                             <Box sx={STYLES.formPass}>
                                 <FormControl fullWidth>
                                     <TextField
-                                        label="Email"
+                                        label={t('signUpPage.email')}
                                         type="email"
                                         fullWidth
                                         id="emailSignUp"
@@ -157,7 +159,7 @@ export const SignUpForm = () => {
                                 </FormControl>
 
                                 <FormControl variant="outlined" size="small" error={!!errors.password} fullWidth>
-                                    <InputLabel htmlFor="passwordSignUp">Password</InputLabel>
+                                    <InputLabel htmlFor="passwordSignUp">{t('signUpPage.password')}</InputLabel>
                                     <OutlinedInput
                                         id="passwordSignUp"
                                         type={showPassword ? 'text' : 'password'}
@@ -176,7 +178,7 @@ export const SignUpForm = () => {
                                                 </IconButton>
                                             </InputAdornment>
                                         }
-                                        label="Password"
+                                        label={t('signUpPage.password')}
                                     />
                                     {errors.password && (
                                         <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
@@ -186,7 +188,7 @@ export const SignUpForm = () => {
                                 </FormControl>
 
                                 <FormControl variant="outlined" size="small" error={!!errors.confirmPassword} fullWidth>
-                                    <InputLabel htmlFor="confirmPassword">Confirm password</InputLabel>
+                                    <InputLabel htmlFor="confirmPassword">{t('signUpPage.confirmPassword')}</InputLabel>
                                     <OutlinedInput
                                         id="confirmPassword"
                                         type={showConfirmPassword ? 'text' : 'password'}
@@ -204,7 +206,7 @@ export const SignUpForm = () => {
                                                 </IconButton>
                                             </InputAdornment>
                                         }
-                                        label="Confirm password"
+                                        label={t('signUpPage.confirmPassword')}
                                     />
                                     {errors.confirmPassword && (
                                         <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
@@ -217,13 +219,13 @@ export const SignUpForm = () => {
 
                         <Box>
                             <Typography variant="subtitle1" component="h6">
-                                Personal information
+                                {t('signUpPage.personalInf')}
                             </Typography>
 
                             <Box sx={STYLES.formName}>
                                 <FormControl fullWidth>
                                     <TextField
-                                        label="First name"
+                                        label={t('signUpPage.firstName')}
                                         type="text"
                                         fullWidth
                                         id="firstName"
@@ -247,7 +249,7 @@ export const SignUpForm = () => {
 
                                 <FormControl fullWidth>
                                     <TextField
-                                        label="Last Name"
+                                        label={t('signUpPage.lastName')}
                                         type="text"
                                         fullWidth
                                         id="lastName"
@@ -288,12 +290,12 @@ export const SignUpForm = () => {
 
                         <Box>
                             <Typography variant="subtitle1" component="h6">
-                                Shipping address
+                                {t('signUpPage.shippingAddress')}
                             </Typography>
                             <Box sx={STYLES.formShipping}>
                                 <FormControl fullWidth>
                                     <TextField
-                                        label="Street"
+                                        label={t('signUpPage.street')}
                                         type="text"
                                         fullWidth
                                         id="streetShipping"
@@ -316,7 +318,7 @@ export const SignUpForm = () => {
 
                                 <FormControl fullWidth>
                                     <TextField
-                                        label="City"
+                                        label={t('signUpPage.city')}
                                         type="text"
                                         fullWidth
                                         id="cityShipping"
@@ -339,7 +341,7 @@ export const SignUpForm = () => {
 
                                 <FormControl fullWidth>
                                     <InputLabel id="country-label" sx={STYLES.countryLabel}>
-                                        Country
+                                        {t('signUpPage.country')}
                                     </InputLabel>
                                     <Select
                                         labelId="country-label"
@@ -401,7 +403,7 @@ export const SignUpForm = () => {
                                             {...register('isDefaultShippingAddress')}
                                         />
                                     }
-                                    label="Set address as default for shipping"
+                                    label={t('signUpPage.setDefaultShippingAddress')}
                                     sx={STYLES.defaultShippingAddressCheckbox}
                                 />
                                 <FormControlLabel
@@ -412,7 +414,7 @@ export const SignUpForm = () => {
                                             {...register('isBillingSameAsShipping')}
                                         />
                                     }
-                                    label="Set shipping address as billing"
+                                    label={t('signUpPage.setDefaultBillingAddress')}
                                     sx={STYLES.shippingAsBillingCheckbox}
                                 />
                             </FormGroup>
@@ -421,17 +423,17 @@ export const SignUpForm = () => {
                         <Box>
                             {isSameBillingAddress ? (
                                 <Typography variant="body2" sx={STYLES.shippingAsBillingMessage}>
-                                    Using shipping address as billing address
+                                    {t('signUpPage.useShippingAddressAsBilling')} 
                                 </Typography>
                             ) : (
                                 <Box sx={STYLES.containerBilling}>
                                     <Typography variant="subtitle1" component="h6">
-                                        Billing address
+                                        {t('signUpPage.billingAddress')}
                                     </Typography>
                                     <Box sx={STYLES.formBilling}>
                                         <FormControl fullWidth>
                                             <TextField
-                                                label="Street"
+                                                label={t('signUpPage.street')}
                                                 type="text"
                                                 fullWidth
                                                 id="streetBilling"
@@ -454,7 +456,7 @@ export const SignUpForm = () => {
 
                                         <FormControl fullWidth>
                                             <TextField
-                                                label="City"
+                                                label={t('signUpPage.city')}
                                                 type="text"
                                                 fullWidth
                                                 id="cityBilling"
@@ -477,12 +479,12 @@ export const SignUpForm = () => {
 
                                         <FormControl fullWidth>
                                             <InputLabel id="country-label" sx={STYLES.countryLabel}>
-                                                Country
+                                                {t('signUpPage.country')}
                                             </InputLabel>
                                             <Select
                                                 labelId="country-label"
                                                 id="countryBilling"
-                                                label="Country"
+                                                label={t('signUpPage.country')}
                                                 sx={{
                                                     ...STYLES.addressInput,
                                                     ...STYLES.countryInput,
@@ -538,7 +540,7 @@ export const SignUpForm = () => {
                                                     {...register('isDefaultBillingAddress')}
                                                 />
                                             }
-                                            label="Set address as default for billing"
+                                            label={t('signUpPage.setDefaultBillingAddress')}
                                             sx={STYLES.defaultBillingAddressCheckbox}
                                         />
                                     </FormGroup>
@@ -554,14 +556,14 @@ export const SignUpForm = () => {
                             disabled={!isValid}
                             color="info"
                         >
-                            Sign up
+                            {t('signUpPage.title')}
                         </Button>
                     </FormGroup>
                     <Grid container>
                         <AuthFormLink
-                            message={'If you already have an account, please '}
+                            message= {t('signUpPage.noAccount')}
                             path={PATH.SIGNIN}
-                            title={'login'}
+                            title={t('signUpPage.login')}
                         />
                     </Grid>
                 </Box>

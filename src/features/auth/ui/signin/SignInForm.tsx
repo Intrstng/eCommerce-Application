@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -28,6 +29,7 @@ import { AuthFormLink } from '../../../../common/components/AuthFormLink/AuthFor
 import { onMouseDownPassword } from '../../utils/auth-handlers';
 
 export const SignInForm = () => {
+    const { t } = useTranslation();
     const [showPassword, setShowPassword] = useState(false);
     const dispatch = useAppDispatch();
 
@@ -65,13 +67,13 @@ export const SignInForm = () => {
                     <LockOpenIcon />
                 </Avatar>
                 <Typography component="h2" variant="h5">
-                    Login to account
+                    {t('signInPage.titleForm')}
                 </Typography>
                 <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
                     <FormGroup>
                         <FormControl fullWidth>
                             <TextField
-                                label="Email"
+                                label={t('signInPage.email')}
                                 type="email"
                                 margin="normal"
                                 fullWidth
@@ -94,7 +96,7 @@ export const SignInForm = () => {
                             )}
                         </FormControl>
                         <FormControl variant="outlined" size="small" error={!!errors.password}>
-                            <InputLabel htmlFor="password">Password</InputLabel>
+                            <InputLabel htmlFor="password">{t('signInPage.password')}</InputLabel>
                             <OutlinedInput
                                 id="password"
                                 type={showPassword ? 'text' : 'password'}
@@ -132,14 +134,14 @@ export const SignInForm = () => {
                             disabled={!isValid}
                             color="info"
                         >
-                            Sign in
+                            {t('signInPage.title')}
                         </Button>
                     </FormGroup>
                     <Grid container>
                         <AuthFormLink
-                            message={"If you don't have an account yet, please "}
+                            message={t('signInPage.noAccount')}
                             path={PATH.SIGNUP}
-                            title={'register'}
+                            title={t('signInPage.register')}
                         />
                     </Grid>
                 </Box>

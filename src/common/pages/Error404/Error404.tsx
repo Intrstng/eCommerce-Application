@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { PATH } from '../../enums';
 import { useNavigate } from 'react-router-dom';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
@@ -6,6 +7,7 @@ import S from './Error404.module.scss';
 import Button from '@mui/material/Button';
 
 export const Error404 = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const handleGoHome = () => {
@@ -16,7 +18,7 @@ export const Error404 = () => {
         <div className={S.errorContent}>
             <DotLottieReact className={S.errorLottie} src={errorAnimation} loop autoplay />
             <Button variant="contained" onClick={handleGoHome} className={S.toHomeLink}>
-                Go to home page
+                {t('error404.goBack')}
             </Button>
         </div>
     );

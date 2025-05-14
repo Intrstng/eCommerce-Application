@@ -8,9 +8,13 @@ import { SignInButton } from '../SignInButton/SignInButton';
 import { SignUpButton } from '../SignUpButton/SignUpButton';
 
 export const Header = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     // or we can use useSearchParams() here;
     // const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
+
+    const handleLanguageChange = (lng: string) => {
+        i18n.changeLanguage(lng);
+    };
 
     return (
         <div className={S.header}>
@@ -41,6 +45,10 @@ export const Header = () => {
                 </div>
             </div>
             <LogoutButton />
+            <div className={S.languageButtons}>
+                <button onClick={() => handleLanguageChange('en')}>EN</button>
+                <button onClick={() => handleLanguageChange('ru')}>RU</button>
+            </div>
         </div>
     );
 };

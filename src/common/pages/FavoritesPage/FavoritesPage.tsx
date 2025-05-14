@@ -1,5 +1,7 @@
+import { useTranslation } from 'react-i18next';
 import S from './FavoritesPage.module.scss';
 
 export const FavoritesPage = () => {
-    return <section className={S.favoritesContent}>Here will be favorites items stored</section>;
+    const { t } = useTranslation();
+    return <section className={S.favoritesContent}>{t('favoritesPage.emptyMessage')}</section>;
 };
