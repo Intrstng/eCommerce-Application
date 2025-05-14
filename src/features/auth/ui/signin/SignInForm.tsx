@@ -54,7 +54,7 @@ export const SignInForm = () => {
         },
     });
 
-    const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
+    const onSubmit: SubmitHandler<SignInFormData> = async data => {
         try {
             setLoading(true);
             dispatch(loginStart());
@@ -153,11 +153,7 @@ export const SignInForm = () => {
                             disabled={!isValid || loading}
                             color="info"
                         >
-                            {loading ? (
-                                <CircularProgress size={24} color="inherit" />
-                            ) : (
-                                'Sign in'
-                            )}
+                            {loading ? <CircularProgress size={24} color="inherit" /> : 'Sign in'}
                         </Button>
                     </FormGroup>
                     <Grid container>
