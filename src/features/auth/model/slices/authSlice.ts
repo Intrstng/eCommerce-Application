@@ -14,6 +14,9 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
+        setIsLoggedIn(state, action: PayloadAction<{ isLoggedIn: boolean }>) {
+            state.isLoggedIn = action.payload.isLoggedIn;
+        },
         loginStart: state => {
             state.loading = true;
             state.error = null;
@@ -54,8 +57,16 @@ export const authSlice = createSlice({
     },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout, registerStart, registerSuccess, registerFailure } =
-    authSlice.actions;
+export const {
+    setIsLoggedIn,
+    loginStart,
+    loginSuccess,
+    loginFailure,
+    logout,
+    registerStart,
+    registerSuccess,
+    registerFailure,
+} = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
 export const authActions = authSlice.actions;
