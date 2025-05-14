@@ -12,8 +12,12 @@ export const Header = () => {
     // or we can use useSearchParams() here;
     // const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
 
-    const handleLanguageChange = (lng: string) => {
-        i18n.changeLanguage(lng);
+    const handleLanguageChange = async (lng: string) => {
+        try {
+            await i18n.changeLanguage(lng);
+        } catch (error) {
+            console.error('Error changing language:', error);
+        }
     };
 
     return (
