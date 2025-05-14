@@ -3,23 +3,27 @@ import { initReactI18next } from 'react-i18next';
 import HttpBackend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-await i18n
+async function initializeI18n() {
+  await i18n
     .use(HttpBackend)
     .use(LanguageDetector)
     .use(initReactI18next)
     .init({
-        fallbackLng: 'en',
-        debug: true,
-        interpolation: {
-            escapeValue: false,
-        },
-        backend: {
-            loadPath: '/locales/{{lng}}/{{ns}}.json',
-        },
-        detection: {
-            order: ['querystring', 'cookie', 'localStorage', 'navigator', 'htmlTag'],
-            caches: ['cookie'],
-        },
+      fallbackLng: 'en',
+      debug: true,
+      interpolation: {
+        escapeValue: false,
+      },
+      backend: {
+        loadPath: '/locales/{{lng}}/{{ns}}.json',
+      },
+      detection: {
+        order: ['querystring', 'cookie', 'localStorage', 'navigator', 'htmlTag'],
+        caches: ['cookie'],
+      },
     });
+}
 
-export { default } from 'i18next';
+initializeI18n().catch(console.error);
+
+export default i18n;
