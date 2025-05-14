@@ -32,7 +32,7 @@ import { registerStart, registerSuccess, registerFailure } from '../../model/sli
 import { authAPI } from '../../api/authApi';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../../common/hooks';
-import { Resolver } from 'react-hook-form';
+import type { Address } from '../../../../common/types';
 
 export const SignUpForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -59,9 +59,10 @@ export const SignUpForm = () => {
         formState: { errors, isValid },
         setValue,
         getValues,
-    } = useForm<SignUpFormData>({
+    } = useForm({
+        // useForm<SignUpFormData>({
         mode: 'all',
-        resolver: yupResolver(validateSignUpSchema()) as Resolver<SignUpFormData>,
+        resolver: yupResolver(validateSignUpSchema()),
         defaultValues: {
             email: '',
             password: '',
@@ -83,49 +84,41 @@ export const SignUpForm = () => {
         },
     });
 
-    const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
+    const onSubmit: SubmitHandler<SignUpFormData> = async data => {
         try {
             setLoading(true);
             dispatch(registerStart());
 
-            if (!data.streetShipping || !data.cityShipping || !data.countryShipping || !data.postalShipping) {
-                throw new Error('All shipping address fields are required');
-            }
-
-            const shippingAddress = {
+            const shippingAddress: Address = {
                 streetName: data.streetShipping,
                 city: data.cityShipping,
                 country: data.countryShipping,
                 postalCode: data.postalShipping,
             };
 
-            const addresses = [shippingAddress];
-            let defaultShippingAddress: number | undefined;
+            const addresses: Address[] = [shippingAddress];
+            const defaultShippingAddress = data.isDefaultShippingAddress ? 0 : undefined;
             let defaultBillingAddress: number | undefined;
-            const shippingAddresses = [0];
-            let billingAddresses = [0];
+            const shippingAddresses: number[] = [0];
+            let billingAddresses: number[] = [];
 
-            if (!data.isBillingSameAsShipping) {
-                if (!data.streetBilling || !data.cityBilling || !data.countryBilling || !data.postalBilling) {
-                    throw new Error('All billing address fields are required');
+            if (data.isBillingSameAsShipping) {
+                billingAddresses = [0];
+                if (data.isDefaultBillingAddress) {
+                    defaultBillingAddress = 0;
                 }
-
-                const billingAddress = {
+            } else if (data.streetBilling && data.cityBilling && data.countryBilling && data.postalBilling) {
+                const billingAddressData: Address = {
                     streetName: data.streetBilling,
                     city: data.cityBilling,
                     country: data.countryBilling,
                     postalCode: data.postalBilling,
                 };
-                addresses.push(billingAddress);
+                addresses.push(billingAddressData);
                 billingAddresses = [1];
-            }
-
-            if (data.isDefaultShippingAddress) {
-                defaultShippingAddress = 0;
-            }
-
-            if (data.isDefaultBillingAddress) {
-                defaultBillingAddress = data.isBillingSameAsShipping ? 0 : 1;
+                if (data.isDefaultBillingAddress) {
+                    defaultBillingAddress = 1;
+                }
             }
 
             const response = await authAPI.register({
@@ -148,7 +141,7 @@ export const SignUpForm = () => {
                 setValue('isBillingSameAsShipping', false);
                 setValue('isDefaultBillingAddress', false);
                 reset();
-                navigate('/');
+                navigate(PATH.MAIN);
             }
         } catch (error) {
             if (error instanceof Error) {
@@ -620,11 +613,7 @@ export const SignUpForm = () => {
                             disabled={!isValid || loading}
                             color="info"
                         >
-                            {loading ? (
-                                <CircularProgress size={24} color="inherit" />
-                            ) : (
-                                'Sign up'
-                            )}
+                            {loading ? <CircularProgress size={24} color="inherit" /> : 'Sign up'}
                         </Button>
                     </FormGroup>
                     <Grid container>
