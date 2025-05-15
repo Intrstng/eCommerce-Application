@@ -29,6 +29,7 @@ import { AuthFormLink } from '../../../../common/components/AuthFormLink/AuthFor
 import { onMouseDownPassword } from '../../utils/auth-handlers';
 import { authAPI } from '../../api/authApi';
 import { useNavigate } from 'react-router-dom';
+import { userStorage } from '../../../../common/services/local-storage.service';
 
 export const SignInForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -62,7 +63,7 @@ export const SignInForm = () => {
 
             if (response.body) {
                 dispatch(loginSuccess(response.body));
-                localStorage.setItem('user', JSON.stringify(response.body));
+                userStorage.saveUser(response.body);
                 reset();
                 navigate(PATH.MAIN);
             }

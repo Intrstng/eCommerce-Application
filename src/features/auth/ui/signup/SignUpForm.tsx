@@ -33,6 +33,7 @@ import { authAPI } from '../../api/authApi';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../../common/hooks';
 import type { Address } from '../../../../common/types';
+import { userStorage } from '../../../../common/services/local-storage.service';
 
 export const SignUpForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -136,7 +137,7 @@ export const SignUpForm = () => {
 
             if (response.body) {
                 dispatch(registerSuccess(response.body));
-                localStorage.setItem('user', JSON.stringify(response.body));
+                userStorage.saveUser(response.body);
                 setValue('isDefaultShippingAddress', false);
                 setValue('isBillingSameAsShipping', false);
                 setValue('isDefaultBillingAddress', false);

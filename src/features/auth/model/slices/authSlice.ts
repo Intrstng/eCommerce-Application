@@ -2,6 +2,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import type { CustomerSignInResult } from '@commercetools/platform-sdk';
 import type { AuthState } from '../../../../common/types';
+import { userStorage } from '../../../../common/services/local-storage.service';
 
 const initialState: AuthState = {
     user: null,
@@ -38,7 +39,7 @@ export const authSlice = createSlice({
             state.isLoggedIn = false;
             state.loading = false;
             state.error = null;
-            localStorage.removeItem('user');
+            userStorage.removeUser();
         },
         registerStart: state => {
             state.loading = true;

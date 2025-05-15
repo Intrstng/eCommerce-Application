@@ -2,6 +2,7 @@ import { apiRoot } from '../../../shared/api/commercetools';
 import type { ClientResponse, CustomerSignInResult, Customer } from '@commercetools/platform-sdk';
 import type { User } from '../../../common/types';
 import { getEnvironmentVariable } from '../../../shared/api/commercetools';
+import { userStorage } from '../../../common/services/local-storage.service';
 
 export const authAPI = {
     async login(email: string, password: string): Promise<ClientResponse<CustomerSignInResult>> {
@@ -77,6 +78,6 @@ export const authAPI = {
     },
 
     logout(): void {
-        localStorage.removeItem('user');
+        userStorage.removeUser();
     },
 };
