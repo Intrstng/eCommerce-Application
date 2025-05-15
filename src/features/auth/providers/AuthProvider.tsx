@@ -1,15 +1,7 @@
 import { useEffect, type PropsWithChildren } from 'react';
 import { useAppDispatch } from '../../../common/hooks';
 import { loginSuccess } from '../model/slices/authSlice';
-import type { CustomerSignInResult, Customer } from '@commercetools/platform-sdk';
-
-function isCustomer(value: unknown): value is Customer {
-    return value !== null && typeof value === 'object' && 'id' in value && typeof value.id === 'string';
-}
-
-function isCustomerSignInResult(data: unknown): data is CustomerSignInResult {
-    return data !== null && typeof data === 'object' && 'customer' in data && isCustomer(data.customer);
-}
+import { isCustomerSignInResult } from '../../../common/type-guards/customer.guards';
 
 export function AuthProvider({ children }: PropsWithChildren) {
     const dispatch = useAppDispatch();
