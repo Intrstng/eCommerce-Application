@@ -64,7 +64,7 @@ export const SignInForm = () => {
                 dispatch(loginSuccess(response.body));
                 localStorage.setItem('user', JSON.stringify(response.body));
                 reset();
-                navigate('/');
+                navigate(PATH.MAIN);
             }
         } catch (error) {
             if (error instanceof Error) {
