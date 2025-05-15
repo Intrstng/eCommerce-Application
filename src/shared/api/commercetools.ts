@@ -1,5 +1,7 @@
 import { ClientBuilder, type AuthMiddlewareOptions, type HttpMiddlewareOptions } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { assertString } from '../../common/utils/type-assertions';
+import { getScopesArray } from './commercetools/utils/scope-utilities.ts';
 
 export function getEnvironmentVariable(name: keyof ImportMetaEnvironment): string {
     let value: unknown;
@@ -34,19 +36,6 @@ export function getEnvironmentVariable(name: keyof ImportMetaEnvironment): strin
     }
     assertString(value, name);
     return value;
-}
-
-function assertString(value: unknown, name: string): asserts value is string {
-    if (typeof value !== 'string') {
-        throw new TypeError(`${name} must be a string, got ${typeof value}`);
-    }
-}
-
-function getScopesArray(scopesString: string): string[] {
-    return scopesString
-        .split(' ')
-        .filter((scope): scope is string => typeof scope === 'string' && scope.length > 0)
-        .map(scope => `${scope}:${projectKey}`);
 }
 
 if (!import.meta.env.VITE_CTP_PROJECT_KEY) {
