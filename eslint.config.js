@@ -83,7 +83,7 @@ const eslintConfig = config(
     rules: {
       ...eslintPluginUnicorn.configs.recommended.rules,
       "no-unused-expressions": "error",
-      "@typescript-eslint/consistent-type-definitions": [2, "type"],
+      "@typescript-eslint/consistent-type-definitions": "off",
       "@typescript-eslint/consistent-type-imports": [
         2,
         {

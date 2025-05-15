@@ -1,18 +1,18 @@
 import type { CustomerSignInResult } from '@commercetools/platform-sdk';
 
-export type Address = {
+export interface Address {
     country: string;
     streetName: string;
     postalCode: string;
     city: string;
-};
+}
 
-export type LoginParametersType = {
+export interface LoginParameters {
     email: string;
     password: string;
-};
+}
 
-export type User = {
+export interface User {
     email: string;
     password: string;
     firstName: string;
@@ -23,11 +23,11 @@ export type User = {
     defaultBillingAddress?: number;
     shippingAddresses?: number[];
     billingAddresses?: number[];
-};
+}
 
-export type AuthState = {
+export interface AuthState {
     user: CustomerSignInResult | null;
     isLoggedIn: boolean;
     loading: boolean;
     error: string | null;
-};
+}
