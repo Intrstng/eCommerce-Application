@@ -1,13 +1,13 @@
 import { apiRoot } from '../../../shared/api/commercetools';
 import type { ClientResponse, CustomerSignInResult, Customer } from '@commercetools/platform-sdk';
 import type { User } from '../../../common/types';
+import { getEnvironmentVariable } from '../../../shared/api/commercetools';
 
 export const authAPI = {
     async login(email: string, password: string): Promise<ClientResponse<CustomerSignInResult>> {
         try {
             return await apiRoot
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                .withProjectKey({ projectKey: import.meta.env.VITE_CTP_PROJECT_KEY })
+                .withProjectKey({ projectKey: getEnvironmentVariable('VITE_CTP_PROJECT_KEY') })
                 .me()
                 .login()
                 .post({
@@ -37,8 +37,7 @@ export const authAPI = {
     }: User): Promise<ClientResponse<CustomerSignInResult>> {
         try {
             await apiRoot
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                .withProjectKey({ projectKey: import.meta.env.VITE_CTP_PROJECT_KEY })
+                .withProjectKey({ projectKey: getEnvironmentVariable('VITE_CTP_PROJECT_KEY') })
                 .customers()
                 .post({
                     body: {
@@ -65,8 +64,7 @@ export const authAPI = {
     async getCurrentUser(): Promise<Customer | null> {
         try {
             const response = await apiRoot
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                .withProjectKey({ projectKey: import.meta.env.VITE_CTP_PROJECT_KEY })
+                .withProjectKey({ projectKey: getEnvironmentVariable('VITE_CTP_PROJECT_KEY') })
                 .me()
                 .get()
                 .execute();
