@@ -7,7 +7,7 @@ import { authIsLoggedInSelector } from '../../../features/auth/model/selectors/a
 import SignUpStyles from '../../../common/components/SignUpButton/SignUpButton.module.scss';
 import { errorNotifyMessage, successNotifyMessage, warningNotifyMessage } from '../../utils/notify-message';
 import Button from '@mui/material/Button';
-import { getEnvironmentVariable } from '../../api/commercetools';
+// import { getEnvironmentVariable } from '../../api/commercetools';
 
 const notifySuccess = () => {
     // Will be removed later
