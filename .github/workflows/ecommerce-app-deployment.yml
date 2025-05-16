@@ -100,10 +100,12 @@ jobs:
       - name: Verify build output
         run: ls -la dist
 
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
       - name: Deploy to Netlify
         id: deploy
         uses: nahianku1/netlify-deploy@v1
-
 
         with:
           auth_token: ${{ secrets.NETLIFY_TEAM_API_KEY }}
