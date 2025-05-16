@@ -101,11 +101,14 @@ jobs:
         run: ls -la dist
 
       - name: Deploy to Netlify
-        id: netlify-deploy
-        uses: netlify/actions/cli@master
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TEAM_API_KEY }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        id: deploy
+        uses: nahianku1/netlify-deploy@v1
+
+
         with:
-          args: deploy --dir=dist --prod
-        timeout-minutes: 1
+          auth_token: ${{ secrets.NETLIFY_TEAM_API_KEY }}
+          site_name: ecommerce-lean-code
+          build_directory: dist
+
+      - name: Output URL
+        run: echo "${{ steps.deploy.outputs.live-url }}"
