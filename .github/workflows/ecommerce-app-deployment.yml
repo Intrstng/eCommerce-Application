@@ -104,6 +104,6 @@ jobs:
         run: npm install -g netlify-cli
 
       - name: Deploy to Netlify
-        run: netlify deploy --build --dir dist --prod
+        run: netlify deploy --dir=dist --prod --site=18b0a0ab-bc84-4f11-989e-732154eb1b30
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TEAM_API_KEY }}
