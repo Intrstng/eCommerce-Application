@@ -116,8 +116,3 @@ jobs:
         with:
           args: deploy --dir=dist --prod
         timeout-minutes: 1
-
-      - name: Output URL
-        run: |
-          echo "DEPLOYMENT_URL=${{ steps.netlify-deploy.outputs.NETLIFY_URL }}" >> $GITHUB_ENV
-          echo "LIVE_URL=${{ steps.netlify-deploy.outputs.NETLIFY_LIVE_URL }}" >> $GITHUB_ENV
