@@ -7,7 +7,7 @@ import { authIsLoggedInSelector } from '../../../features/auth/model/selectors/a
 import SignUpStyles from '../../../common/components/SignUpButton/SignUpButton.module.scss';
 import { errorNotifyMessage, successNotifyMessage, warningNotifyMessage } from '../../utils/notify-message';
 import Button from '@mui/material/Button';
-// import { getEnvironmentVariable } from '../../api/commercetools';
+import { getEnvironmentVariable } from '../../api/commercetools';
 
 const notifySuccess = () => {
     // Will be removed later
@@ -23,19 +23,19 @@ const notifyError = () => {
 };
 
 const notifyEnvironments = () => {
-    // const projectKey = getEnvironmentVariable('VITE_CTP_PROJECT_KEY');
-    // const clientId = getEnvironmentVariable('VITE_CTP_CLIENT_ID');
-    // const clientSecret = getEnvironmentVariable('VITE_CTP_CLIENT_SECRET');
-    // const authUrl = getEnvironmentVariable('VITE_CTP_AUTH_URL');
-    // const apiUrl = getEnvironmentVariable('VITE_CTP_API_URL');
+    const projectKey = getEnvironmentVariable('VITE_CTP_PROJECT_KEY');
+    const clientId = getEnvironmentVariable('VITE_CTP_CLIENT_ID');
+    const clientSecret = getEnvironmentVariable('VITE_CTP_CLIENT_SECRET');
+    const authUrl = getEnvironmentVariable('VITE_CTP_AUTH_URL');
+    const apiUrl = getEnvironmentVariable('VITE_CTP_API_URL');
 
-    // successNotifyMessage(`Envs:\n
-    // ${projectKey}\n
-    // ${clientId}\n
-    // ${clientSecret}\n
-    // ${authUrl}\n
-    // ${apiUrl}`);
-    successNotifyMessage('Some test message');
+    successNotifyMessage(`Envs:\n
+    ${projectKey}\n
+    ${clientId}\n
+    ${clientSecret}\n
+    ${authUrl}\n
+    ${apiUrl}`);
+    // successNotifyMessage('Some test message');
 };
 
 export const MainPage = () => {
@@ -86,7 +86,7 @@ export const MainPage = () => {
                 <Button onClick={notifyWarning}>Show Warning Message</Button>
                 <Button onClick={notifyError}>Show Error Message</Button>
                 <p>Temporary check:</p>
-                <Button onClick={notifyEnvironments}>Show environment variables</Button>
+                <Button onClick={notifyEnvironments}>Show environment variables:</Button>
             </div>
         </div>
     );
