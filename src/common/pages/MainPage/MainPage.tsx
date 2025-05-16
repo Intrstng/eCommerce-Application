@@ -84,6 +84,7 @@ export const MainPage = () => {
                 <Button onClick={notifySuccess}>Show Success Message</Button>
                 <Button onClick={notifyWarning}>Show Warning Message</Button>
                 <Button onClick={notifyError}>Show Error Message</Button>
+                <p>Temporary check:</p>
                 <Button onClick={notifyEnvironments}>Environment variables</Button>
             </div>
         </div>
