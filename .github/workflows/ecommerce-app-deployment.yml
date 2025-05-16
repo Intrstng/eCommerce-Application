@@ -1,7 +1,7 @@
 name: eCommerce app deployment
 on:
   push:
-    branches: [ main, develop, release/login-registration-main ]
+    branches: [ main, develop, release/login-registration-main, feat/routing-forms-validation ]
   pull_request:
     branches: [ main, develop, release/login-registration-main ]
 env:

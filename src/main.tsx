@@ -26,6 +26,7 @@ if (container) {
     );
 }
 
+
 console.log(import.meta.env.VITE_CTP_PROJECT_KEY);
 console.log(import.meta.env.VITE_CTP_CLIENT_ID);
 console.log(import.meta.env.VITE_CTP_CLIENT_SECRET);
