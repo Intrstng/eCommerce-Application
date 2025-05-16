@@ -119,5 +119,5 @@ jobs:
 
       - name: Output URL
         run: |
-          echo "Deployment URL: ${{ steps.netlify-deploy.outputs.NETLIFY_URL }}"
-          echo "Live URL: ${{ steps.netlify-deploy.outputs.NETLIFY_LIVE_URL }}"
+          echo "DEPLOYMENT_URL=${{ steps.netlify-deploy.outputs.NETLIFY_URL }}" >> $GITHUB_ENV
+          echo "LIVE_URL=${{ steps.netlify-deploy.outputs.NETLIFY_LIVE_URL }}" >> $GITHUB_ENV
