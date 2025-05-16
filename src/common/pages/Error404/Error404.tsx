@@ -14,10 +14,12 @@ export const Error404 = () => {
 
     return (
         <div className={S.errorContent}>
-            <DotLottieReact className={S.errorLottie} src={errorAnimation} loop autoplay />
-            <Button variant="contained" onClick={handleGoHome} className={S.toHomeLink}>
-                Go to home page
-            </Button>
+            <div className={S.errorLottie} data-testid="error-lottie">
+                <DotLottieReact src={errorAnimation} loop autoplay />
+                <Button variant="contained" onClick={handleGoHome} className={S.toHomeLink}>
+                    Go to home page
+                </Button>
+            </div>
         </div>
     );
 };

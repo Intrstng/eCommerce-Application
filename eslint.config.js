@@ -25,6 +25,7 @@ const eslintConfig = config(
       "**/eslint.config.js",
       "*.js",
       "*.jsx",
+      "src/**/*.test.{ts,tsx}",
       "**/.vscode",
       "**/.idea",
       "**/.gitignore",

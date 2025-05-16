@@ -25,3 +25,10 @@ if (container) {
         "Root element with ID 'root' was not found in the document. Ensure there is a corresponding HTML element with the ID 'root' in your HTML file."
     );
 }
+
+console.log(import.meta.env.VITE_CTP_PROJECT_KEY);
+console.log(import.meta.env.VITE_CTP_CLIENT_ID);
+console.log(import.meta.env.VITE_CTP_CLIENT_SECRET);
+console.log(import.meta.env.VITE_CTP_AUTH_URL);
+console.log(import.meta.env.VITE_CTP_API_URL);
+console.log(import.meta.env.VITE_CTP_SCOPES);

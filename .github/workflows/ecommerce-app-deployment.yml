@@ -4,6 +4,13 @@ on:
     branches: [ main, develop, release/login-registration-main ]
   pull_request:
     branches: [ main, develop, release/login-registration-main ]
+env:
+  VITE_CTP_PROJECT_KEY: ${{ secrets.ECOMMERCE_CTP_PROJECT_KEY }}
+  VITE_CTP_CLIENT_ID: ${{ secrets.ECOMMERCE_CTP_CLIENT_ID }}
+  VITE_CTP_CLIENT_SECRET: ${{ secrets.ECOMMERCE_CTP_CLIENT_SECRET }}
+  VITE_CTP_API_URL: ${{ secrets.ECOMMERCE_CTP_API_URL }}
+  VITE_CTP_AUTH_URL: ${{ secrets.ECOMMERCE_CTP_AUTH_URL }}
+  VITE_CTP_SCOPES: ${{ secrets.ECOMMERCE_CTP_SCOPES }}
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -101,6 +108,7 @@ jobs:
         run: ls -la dist
 
       - name: Deploy to Netlify
+        id: netlify-deploy
         uses: netlify/actions/cli@master
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TEAM_API_KEY }}
@@ -110,4 +118,6 @@ jobs:
         timeout-minutes: 1
 
       - name: Output URL
-        run: echo "${{ steps.deploy.outputs.live-url }}"
+        run: |
+          echo "Deployment URL: ${{ steps.netlify-deploy.outputs.NETLIFY_URL }}"
+          echo "Live URL: ${{ steps.netlify-deploy.outputs.NETLIFY_LIVE_URL }}"
