@@ -23,18 +23,19 @@ const notifyError = () => {
 };
 
 const notifyEnvironments = () => {
-    const projectKey = getEnvironmentVariable('VITE_CTP_PROJECT_KEY');
-    const clientId = getEnvironmentVariable('VITE_CTP_CLIENT_ID');
-    const clientSecret = getEnvironmentVariable('VITE_CTP_CLIENT_SECRET');
-    const authUrl = getEnvironmentVariable('VITE_CTP_AUTH_URL');
-    const apiUrl = getEnvironmentVariable('VITE_CTP_API_URL');
+    // const projectKey = getEnvironmentVariable('VITE_CTP_PROJECT_KEY');
+    // const clientId = getEnvironmentVariable('VITE_CTP_CLIENT_ID');
+    // const clientSecret = getEnvironmentVariable('VITE_CTP_CLIENT_SECRET');
+    // const authUrl = getEnvironmentVariable('VITE_CTP_AUTH_URL');
+    // const apiUrl = getEnvironmentVariable('VITE_CTP_API_URL');
 
-    successNotifyMessage(`Envs:\n
-    ${projectKey}\n
-    ${clientId}\n
-    ${clientSecret}\n
-    ${authUrl}\n
-    ${apiUrl}`);
+    // successNotifyMessage(`Envs:\n
+    // ${projectKey}\n
+    // ${clientId}\n
+    // ${clientSecret}\n
+    // ${authUrl}\n
+    // ${apiUrl}`);
+    successNotifyMessage('Some test message');
 };
 
 export const MainPage = () => {
