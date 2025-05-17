@@ -1,5 +1,5 @@
 import type { CustomerSignInResult } from '@commercetools/platform-sdk';
-import { isCustomerSignInResult } from '../type-guards/customer.guards';
+import { isCustomerSignInResult } from '../utils/type-guards';
 
 export const STORAGE_KEYS = {
     USER: 'user',
