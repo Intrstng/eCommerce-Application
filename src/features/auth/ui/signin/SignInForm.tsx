@@ -17,25 +17,21 @@ import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import CircularProgress from '@mui/material/CircularProgress';
 import { STYLES } from './styles.signInForm';
-import { useAppDispatch } from '../../../../common/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../common/hooks';
 import type { SignInFormData } from '../../../../common/validations/signInValidation.schema';
 import { validateSignInSchema } from '../../../../common/validations/signInValidation.schema';
-import { loginStart, loginSuccess, loginFailure } from '../../model/slices/authSlice';
+import { loginTC } from '../../model/slices/authSlice';
 import { PATH } from '../../../../common/enums';
-import { errorNotifyMessage } from '../../../../common/utils/notify-message';
 import { AuthFormLink } from '../../../../common/components/AuthFormLink/AuthFormLink';
 import { onMouseDownPassword } from '../../utils/auth-handlers';
-import { authAPI } from '../../api/authApi';
-import { useNavigate } from 'react-router-dom';
-import { userStorage } from '../../../../common/services/local-storage.service';
+import type { Status } from 'app/model/types';
+import { statusSelector } from 'app/model/selectors/appSelectors';
 
 export const SignInForm = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const appStatus = useAppSelector<Status>(statusSelector);
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
 
     const onClickShowPassword = () => {
         setShowPassword(show => !show);
@@ -49,35 +45,11 @@ export const SignInForm = () => {
     } = useForm<SignInFormData>({
         mode: 'all',
         resolver: yupResolver(validateSignInSchema()),
-        defaultValues: {
-            email: '',
-            password: '',
-        },
     });
 
-    const onSubmit: SubmitHandler<SignInFormData> = async data => {
-        try {
-            setLoading(true);
-            dispatch(loginStart());
-            const response = await authAPI.login(data.email, data.password);
-
-            if (response.body) {
-                dispatch(loginSuccess(response.body));
-                userStorage.saveUser(response.body);
-                reset();
-                navigate(PATH.MAIN);
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                dispatch(loginFailure(error.message));
-                errorNotifyMessage(error.message);
-            } else {
-                dispatch(loginFailure('Invalid email or password'));
-                errorNotifyMessage('Invalid email or password');
-            }
-        } finally {
-            setLoading(false);
-        }
+    const onSubmit: SubmitHandler<SignInFormData> = data => {
+        dispatch(loginTC(data));
+        reset();
     };
 
     return (
@@ -151,10 +123,10 @@ export const SignInForm = () => {
                             type="submit"
                             variant="contained"
                             fullWidth
-                            disabled={!isValid || loading}
+                            disabled={!isValid || appStatus === 'loading'}
                             color="info"
                         >
-                            {loading ? <CircularProgress size={24} color="inherit" /> : 'Sign in'}
+                            Sign in
                         </Button>
                     </FormGroup>
                     <Grid container>
