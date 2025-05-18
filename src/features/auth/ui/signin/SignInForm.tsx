@@ -18,17 +18,19 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { STYLES } from './styles.signInForm';
-import { useAppDispatch } from '../../../../common/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../common/hooks';
 import type { SignInFormData } from '../../../../common/validations/signInValidation.schema';
 import { validateSignInSchema } from '../../../../common/validations/signInValidation.schema';
-import { authActions } from '../../model/slices/authSlice';
+import { loginTC } from '../../model/slices/authSlice';
 import { PATH } from '../../../../common/enums';
-import { errorNotifyMessage } from '../../../../common/utils/notify-message';
 import { AuthFormLink } from '../../../../common/components/AuthFormLink/AuthFormLink';
 import { onMouseDownPassword } from '../../utils/auth-handlers';
+import type { Status } from 'app/model/types';
+import { statusSelector } from 'app/model/selectors/appSelectors';
 
 export const SignInForm = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const appStatus = useAppSelector<Status>(statusSelector);
     const dispatch = useAppDispatch();
 
     const onClickShowPassword = () => {
@@ -46,16 +48,8 @@ export const SignInForm = () => {
     });
 
     const onSubmit: SubmitHandler<SignInFormData> = data => {
-        try {
-            // await signInUser(data.email, data.password); // ToDo: add logic to signInUser
-            console.log(data.email, data.password);
-            dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-            reset();
-        } catch (error) {
-            if (error instanceof Error) {
-                errorNotifyMessage(error.message);
-            }
-        }
+        dispatch(loginTC(data));
+        reset();
     };
 
     return (
@@ -129,7 +123,7 @@ export const SignInForm = () => {
                             type="submit"
                             variant="contained"
                             fullWidth
-                            disabled={!isValid}
+                            disabled={!isValid || appStatus === 'loading'}
                             color="info"
                         >
                             Sign in

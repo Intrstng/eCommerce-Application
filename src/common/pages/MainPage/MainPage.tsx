@@ -5,9 +5,8 @@ import Typography from '@mui/material/Typography';
 import { useAppSelector } from '../../hooks';
 import { authIsLoggedInSelector } from '../../../features/auth/model/selectors/authSelector';
 import SignUpStyles from '../../../common/components/SignUpButton/SignUpButton.module.scss';
-import { errorNotifyMessage, successNotifyMessage, warningNotifyMessage } from '../../utils/notify-message';
+import { successNotifyMessage, warningNotifyMessage } from '../../utils/notify-message';
 import Button from '@mui/material/Button';
-import { getEnvironmentVariable } from '../../api/commercetools';
 
 const notifySuccess = () => {
     // Will be removed later
@@ -16,26 +15,6 @@ const notifySuccess = () => {
 const notifyWarning = () => {
     // Will be removed later
     warningNotifyMessage('Some warning toastify message');
-};
-const notifyError = () => {
-    // Will be removed later
-    errorNotifyMessage('Some error toastify message');
-};
-
-const notifyEnvironments = () => {
-    const projectKey = getEnvironmentVariable('VITE_CTP_PROJECT_KEY');
-    const clientId = getEnvironmentVariable('VITE_CTP_CLIENT_ID');
-    const clientSecret = getEnvironmentVariable('VITE_CTP_CLIENT_SECRET');
-    const authUrl = getEnvironmentVariable('VITE_CTP_AUTH_URL');
-    const apiUrl = getEnvironmentVariable('VITE_CTP_API_URL');
-
-    successNotifyMessage(`Envs:\n
-    ${projectKey}\n
-    ${clientId}\n
-    ${clientSecret}\n
-    ${authUrl}\n
-    ${apiUrl}`);
-    // successNotifyMessage('Some test message');
 };
 
 export const MainPage = () => {
@@ -84,9 +63,6 @@ export const MainPage = () => {
                 <p>Examples of messages:</p>
                 <Button onClick={notifySuccess}>Show Success Message</Button>
                 <Button onClick={notifyWarning}>Show Warning Message</Button>
-                <Button onClick={notifyError}>Show Error Message</Button>
-                <p>Temporary check:</p>
-                <Button onClick={notifyEnvironments}>Show environment variables:</Button>
             </div>
         </div>
     );

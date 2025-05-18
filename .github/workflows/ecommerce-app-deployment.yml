@@ -5,12 +5,12 @@ on:
   pull_request:
     branches: [ main, develop, release/login-registration-main ]
 env:
-  VITE_CTP_PROJECT_KEY: ${{ secrets.ECOMMERCE_CTP_PROJECT_KEY }}
-  VITE_CTP_CLIENT_ID: ${{ secrets.ECOMMERCE_CTP_CLIENT_ID }}
-  VITE_CTP_CLIENT_SECRET: ${{ secrets.ECOMMERCE_CTP_CLIENT_SECRET }}
-  VITE_CTP_API_URL: ${{ secrets.ECOMMERCE_CTP_API_URL }}
-  VITE_CTP_AUTH_URL: ${{ secrets.ECOMMERCE_CTP_AUTH_URL }}
-  VITE_CTP_SCOPES: ${{ secrets.ECOMMERCE_CTP_SCOPES }}
+  VITE_CTP_PROJECT_KEY: ecom-lean-code
+  VITE_CTP_CLIENT_ID: YUBMS5LM21qAKJNYMc_Pfe-w
+  VITE_CTP_CLIENT_SECRET: 9GT8T-wVBgKfhRlgyUvnFcyvhvxWEWfW
+  VITE_CTP_API_URL: https://api.europe-west1.gcp.commercetools.com/
+  VITE_CTP_AUTH_URL: https://auth.europe-west1.gcp.commercetools.com/
+  VITE_CTP_SCOPES: [manage_my_profile, view_published_products, manage_my_orders, manage_customers]
 jobs:
   test:
     runs-on: ubuntu-latest
