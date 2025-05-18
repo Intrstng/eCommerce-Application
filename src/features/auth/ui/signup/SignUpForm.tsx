@@ -19,27 +19,23 @@ import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import CircularProgress from '@mui/material/CircularProgress';
 import { STYLES } from './styles.signUpForm';
 import { COUNTRIES } from '../../../../common/validations/validation-data/validation-data';
 import { PATH } from '../../../../common/enums';
-import { errorNotifyMessage } from '../../../../common/utils/notify-message';
 import type { SignUpFormData } from '../../../../common/validations/signUpValidation.shema';
 import { validateSignUpSchema } from '../../../../common/validations/signUpValidation.shema';
 import { onMouseDownConfirmPassword, onMouseDownPassword } from '../../utils/auth-handlers';
 import { AuthFormLink } from '../../../../common/components/AuthFormLink/AuthFormLink';
-import { registerStart, registerSuccess, registerFailure } from '../../model/slices/authSlice';
-import { authAPI } from '../../api/authApi';
-import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../../../common/hooks';
-import type { Address } from '../../../../common/types';
-import { userStorage } from '../../../../common/services/local-storage.service';
+import { useAppDispatch, useAppSelector } from '../../../../common/hooks';
+import type { Status } from 'app/model/types';
+import { statusSelector } from 'app/model/selectors/appSelectors';
+import type { Address, User } from '../../../../common/types';
+import { signUpTC } from '../../model/slices/authSlice';
 
 export const SignUpForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    const appStatus = useAppSelector<Status>(statusSelector);
     const dispatch = useAppDispatch();
 
     const passwordInputReference = useRef<HTMLInputElement | null>(null);
@@ -65,96 +61,66 @@ export const SignUpForm = () => {
         mode: 'all',
         resolver: yupResolver(validateSignUpSchema()),
         defaultValues: {
-            email: '',
-            password: '',
-            confirmPassword: '',
-            firstName: '',
-            lastName: '',
-            birthDate: '',
-            streetShipping: '',
-            cityShipping: '',
             countryShipping: '',
-            postalShipping: '',
-            streetBilling: '',
-            cityBilling: '',
             countryBilling: '',
-            postalBilling: '',
             isDefaultShippingAddress: false,
-            isDefaultBillingAddress: false,
             isBillingSameAsShipping: false,
+            isDefaultBillingAddress: false,
         },
     });
 
-    const onSubmit: SubmitHandler<SignUpFormData> = async data => {
-        try {
-            setLoading(true);
-            dispatch(registerStart());
+    const onSubmit: SubmitHandler<SignUpFormData> = data => {
+        const shippingAddress: Address = {
+            streetName: data.streetShipping,
+            city: data.cityShipping,
+            country: data.countryShipping,
+            postalCode: data.postalShipping,
+        };
 
-            const shippingAddress: Address = {
-                streetName: data.streetShipping,
-                city: data.cityShipping,
-                country: data.countryShipping,
-                postalCode: data.postalShipping,
+        const addresses: Address[] = [shippingAddress];
+        const defaultShippingAddress = data.isDefaultShippingAddress ? 0 : undefined;
+        let defaultBillingAddress: number | undefined;
+        const shippingAddresses: number[] = [0];
+        let billingAddresses: number[] = [];
+
+        if (data.isBillingSameAsShipping) {
+            billingAddresses = [0];
+            if (data.isDefaultBillingAddress) {
+                defaultBillingAddress = 0;
+            }
+        } else if (data.streetBilling && data.cityBilling && data.countryBilling && data.postalBilling) {
+            const billingAddressData: Address = {
+                streetName: data.streetBilling,
+                city: data.cityBilling,
+                country: data.countryBilling,
+                postalCode: data.postalBilling,
             };
-
-            const addresses: Address[] = [shippingAddress];
-            const defaultShippingAddress = data.isDefaultShippingAddress ? 0 : undefined;
-            let defaultBillingAddress: number | undefined;
-            const shippingAddresses: number[] = [0];
-            let billingAddresses: number[] = [];
-
-            if (data.isBillingSameAsShipping) {
-                billingAddresses = [0];
-                if (data.isDefaultBillingAddress) {
-                    defaultBillingAddress = 0;
-                }
-            } else if (data.streetBilling && data.cityBilling && data.countryBilling && data.postalBilling) {
-                const billingAddressData: Address = {
-                    streetName: data.streetBilling,
-                    city: data.cityBilling,
-                    country: data.countryBilling,
-                    postalCode: data.postalBilling,
-                };
-                addresses.push(billingAddressData);
-                billingAddresses = [1];
-                if (data.isDefaultBillingAddress) {
-                    defaultBillingAddress = 1;
-                }
+            addresses.push(billingAddressData);
+            billingAddresses = [1];
+            if (data.isDefaultBillingAddress) {
+                defaultBillingAddress = 1;
             }
-
-            const response = await authAPI.register({
-                email: data.email,
-                password: data.password,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                dateOfBirth: data.birthDate,
-                addresses,
-                defaultShippingAddress,
-                defaultBillingAddress,
-                shippingAddresses,
-                billingAddresses,
-            });
-
-            if (response.body) {
-                dispatch(registerSuccess(response.body));
-                userStorage.saveUser(response.body);
-                setValue('isDefaultShippingAddress', false);
-                setValue('isBillingSameAsShipping', false);
-                setValue('isDefaultBillingAddress', false);
-                reset();
-                navigate(PATH.MAIN);
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                dispatch(registerFailure(error.message));
-                errorNotifyMessage(error.message);
-            } else {
-                dispatch(registerFailure('Registration failed'));
-                errorNotifyMessage('Registration failed');
-            }
-        } finally {
-            setLoading(false);
         }
+
+        const newUser: User = {
+            email: data.email,
+            password: data.password,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            dateOfBirth: data.birthDate,
+            addresses,
+            defaultShippingAddress,
+            defaultBillingAddress,
+            shippingAddresses,
+            billingAddresses,
+        };
+
+        dispatch(signUpTC(newUser));
+
+        setValue('isDefaultShippingAddress', false);
+        setValue('isBillingSameAsShipping', false);
+        setValue('isDefaultBillingAddress', false);
+        reset();
     };
 
     const selectedCountryShipping = useWatch({
@@ -611,10 +577,10 @@ export const SignUpForm = () => {
                             type="submit"
                             variant="contained"
                             fullWidth
-                            disabled={!isValid || loading}
+                            disabled={!isValid || appStatus === 'loading'}
                             color="info"
                         >
-                            {loading ? <CircularProgress size={24} color="inherit" /> : 'Sign up'}
+                            Sign up
                         </Button>
                     </FormGroup>
                     <Grid container>
