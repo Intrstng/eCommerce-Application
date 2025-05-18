@@ -1,6 +1,6 @@
-import type { AuthState } from '../../../../../common/types';
 import { authActions, authReducer } from '../authSlice';
 import { beforeEach, expect, test } from 'vitest';
+import { AuthState } from '../../types';
 
 let isLoggedIn: boolean;
 let newIsLoggedIn: boolean;
@@ -11,10 +11,8 @@ beforeEach(() => {
     isLoggedIn = false;
     newIsLoggedIn = true;
     loginState = {
-        user: null,
+        user: null, // fix
         isLoggedIn: isLoggedIn,
-        loading: false,
-        error: null,
     };
 });
 
