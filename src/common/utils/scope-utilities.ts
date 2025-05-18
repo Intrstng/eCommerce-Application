@@ -1,11 +1,10 @@
-import { getEnvironmentVariable } from '../../commercetools';
-
 /**
  * Converts a space-separated scopes string into an array of properly formatted scopes
  * with project key appended.
  * @param scopesString - Space-separated string of scopes
  * @returns Array of formatted scopes with project key
  */
+import { getEnvironmentVariable } from './get-environment-variable';
 
 export function getScopesArray(scopesString: string): string[] {
     const projectKey = getEnvironmentVariable('VITE_CTP_PROJECT_KEY');

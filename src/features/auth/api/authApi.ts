@@ -1,7 +1,7 @@
-import { apiRoot } from '../../../shared/api/commercetools';
 import type { ClientResponse, CustomerSignInResult, Customer } from '@commercetools/platform-sdk';
 import type { User } from '../../../common/types';
-import { getEnvironmentVariable } from '../../../shared/api/commercetools';
+import { apiRoot } from '../../../common/api/commercetools';
+import { getEnvironmentVariable } from '../../../common/utils/get-environment-variable';
 import { userStorage } from '../../../common/services/local-storage.service';
 
 export const authAPI = {
