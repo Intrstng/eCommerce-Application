@@ -1,16 +1,17 @@
-import type { LoginInitialState } from '../authSlice';
 import { authActions, authReducer } from '../authSlice';
 import { beforeEach, expect, test } from 'vitest';
+import { AuthState } from '../../types';
 
 let isLoggedIn: boolean;
 let newIsLoggedIn: boolean;
-let loginState: LoginInitialState;
+let loginState: AuthState;
 
 // We can use tests without beforeEach() because we work with PURE functions
 beforeEach(() => {
     isLoggedIn = false;
     newIsLoggedIn = true;
     loginState = {
+        user: null, // fix
         isLoggedIn: isLoggedIn,
     };
 });

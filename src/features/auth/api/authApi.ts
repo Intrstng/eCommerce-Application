@@ -1,27 +1,83 @@
-/**
- * ToDo: create BaseResponse generic,
- * add types to data,
- * complete body of the method,
- * add correct URL of endpoint
- * ...
- */
+import type { ClientResponse, CustomerSignInResult, Customer } from '@commercetools/platform-sdk';
+import type { User } from '../../../common/types';
+import { apiRoot } from '../../../common/api/commercetools';
+import { getEnvironmentVariable } from '../../../common/utils/get-environment-variable';
+import { userStorage } from '../../../common/services/local-storage.service';
 
 export const authAPI = {
-    // signin(data: LoginParametersType) {
-    //   return instance.post<BaseResponse<{ userId?: number }>>("auth/signin", data)
-    // },
-    // logout() {
-    //   return instance.delete<BaseResponse<{ userId?: number }>>("auth/signin")
-    // },
-    // me() {
-    //   return instance.get<BaseResponse<{ id: number; email: string; signin: string }>>("auth/me")
-    // },
-};
+    async login(email: string, password: string): Promise<ClientResponse<CustomerSignInResult>> {
+        try {
+            return await apiRoot
+                .withProjectKey({ projectKey: getEnvironmentVariable('VITE_CTP_PROJECT_KEY') })
+                .me()
+                .login()
+                .post({
+                    body: {
+                        email,
+                        password,
+                    },
+                })
+                .execute();
+        } catch (error) {
+            console.error('Login error:', error);
+            throw error;
+        }
+    },
 
-/**
- * ToDo: add needed properties with types to LoginParamsType
- */
-export type LoginParametersType = {
-    email: string;
-    password: string;
+    async register({
+        email,
+        password,
+        firstName,
+        lastName,
+        dateOfBirth,
+        addresses,
+        defaultShippingAddress,
+        defaultBillingAddress,
+        shippingAddresses,
+        billingAddresses,
+    }: User): Promise<ClientResponse<CustomerSignInResult>> {
+        try {
+            await apiRoot
+                .withProjectKey({ projectKey: getEnvironmentVariable('VITE_CTP_PROJECT_KEY') })
+                .customers()
+                .post({
+                    body: {
+                        email,
+                        password,
+                        firstName,
+                        lastName,
+                        dateOfBirth,
+                        addresses,
+                        defaultShippingAddress,
+                        defaultBillingAddress,
+                        shippingAddresses,
+                        billingAddresses,
+                    },
+                })
+                .execute();
+            return await this.login(email, password);
+        } catch (error) {
+            console.error('Registration error:', error);
+            throw error;
+        }
+    },
+
+    async getCurrentUser(): Promise<Customer | null> {
+        try {
+            const response = await apiRoot
+                .withProjectKey({ projectKey: getEnvironmentVariable('VITE_CTP_PROJECT_KEY') })
+                .me()
+                .get()
+                .execute();
+
+            return response.body;
+        } catch (error) {
+            console.error('Get current user error:', error);
+            return null;
+        }
+    },
+
+    logout(): void {
+        userStorage.removeUser();
+    },
 };

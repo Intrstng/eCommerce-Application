@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { useAppSelector } from '../../hooks';
 import { authIsLoggedInSelector } from '../../../features/auth/model/selectors/authSelector';
 import SignUpStyles from '../../../common/components/SignUpButton/SignUpButton.module.scss';
-import { errorNotifyMessage, successNotifyMessage, warningNotifyMessage } from '../../utils/notify-message';
+import { successNotifyMessage, warningNotifyMessage } from '../../utils/notify-message';
 import Button from '@mui/material/Button';
 
 const notifySuccess = () => {
@@ -15,10 +15,6 @@ const notifySuccess = () => {
 const notifyWarning = () => {
     // Will be removed later
     warningNotifyMessage('Some warning toastify message');
-};
-const notifyError = () => {
-    // Will be removed later
-    errorNotifyMessage('Some error toastify message');
 };
 
 export const MainPage = () => {
@@ -67,7 +63,6 @@ export const MainPage = () => {
                 <p>Examples of messages:</p>
                 <Button onClick={notifySuccess}>Show Success Message</Button>
                 <Button onClick={notifyWarning}>Show Warning Message</Button>
-                <Button onClick={notifyError}>Show Error Message</Button>
             </div>
         </div>
     );

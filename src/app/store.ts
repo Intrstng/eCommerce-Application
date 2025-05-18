@@ -4,8 +4,9 @@ import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
 import { authSlice } from '../features/auth/model/slices/authSlice';
+import { appSlice } from 'app/model/slices/appSlice';
 
-const rootReducer = combineSlices(authSlice); // Added
+const rootReducer = combineSlices(appSlice, authSlice); // Added
 export type AppRootState = ReturnType<typeof rootReducer>; // Added
 
 // export const store = configureStore({

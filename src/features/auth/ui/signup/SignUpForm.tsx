@@ -22,15 +22,21 @@ import Typography from '@mui/material/Typography';
 import { STYLES } from './styles.signUpForm';
 import { COUNTRIES } from '../../../../common/validations/validation-data/validation-data';
 import { PATH } from '../../../../common/enums';
-import { errorNotifyMessage } from '../../../../common/utils/notify-message';
 import type { SignUpFormData } from '../../../../common/validations/signUpValidation.shema';
 import { validateSignUpSchema } from '../../../../common/validations/signUpValidation.shema';
 import { onMouseDownConfirmPassword, onMouseDownPassword } from '../../utils/auth-handlers';
 import { AuthFormLink } from '../../../../common/components/AuthFormLink/AuthFormLink';
+import { useAppDispatch, useAppSelector } from '../../../../common/hooks';
+import type { Status } from 'app/model/types';
+import { statusSelector } from 'app/model/selectors/appSelectors';
+import type { Address, User } from '../../../../common/types';
+import { signUpTC } from '../../model/slices/authSlice';
 
 export const SignUpForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const appStatus = useAppSelector<Status>(statusSelector);
+    const dispatch = useAppDispatch();
 
     const passwordInputReference = useRef<HTMLInputElement | null>(null);
 
@@ -64,37 +70,57 @@ export const SignUpForm = () => {
     });
 
     const onSubmit: SubmitHandler<SignUpFormData> = data => {
-        try {
-            // await signUpUser(data.email, data.firstName, data.password...); ToDo: complete logic
-            console.log(data);
-            console.log('birthDate', data.birthDate);
-            console.log('cityBilling', data.cityBilling);
-            console.log('cityShipping', data.cityShipping);
-            console.log('confirmPassword', data.confirmPassword);
-            console.log('countryBilling', data.countryBilling);
-            console.log('countryShipping', data.countryShipping);
-            console.log('isBillingSameAsShipping', data.isBillingSameAsShipping);
-            console.log('isDefaultShippingAddress', data.isDefaultShippingAddress);
-            console.log('isDefaultBillingAddress', data.isDefaultBillingAddress);
-            console.log('email', data.email);
-            console.log('firstName', data.firstName);
-            console.log('lastName', data.lastName);
-            console.log('password', data.password);
-            console.log('postalBilling', data.postalBilling);
-            console.log('postalShipping', data.postalShipping);
-            console.log('streetBilling', data.streetBilling);
-            console.log('streetShipping', data.streetShipping);
+        const shippingAddress: Address = {
+            streetName: data.streetShipping,
+            city: data.cityShipping,
+            country: data.countryShipping,
+            postalCode: data.postalShipping,
+        };
 
-            setValue('isDefaultShippingAddress', false);
-            setValue('isBillingSameAsShipping', false);
-            setValue('isDefaultBillingAddress', false);
+        const addresses: Address[] = [shippingAddress];
+        const defaultShippingAddress = data.isDefaultShippingAddress ? 0 : undefined;
+        let defaultBillingAddress: number | undefined;
+        const shippingAddresses: number[] = [0];
+        let billingAddresses: number[] = [];
 
-            reset();
-        } catch (error) {
-            if (error instanceof Error) {
-                errorNotifyMessage(error.message);
+        if (data.isBillingSameAsShipping) {
+            billingAddresses = [0];
+            if (data.isDefaultBillingAddress) {
+                defaultBillingAddress = 0;
+            }
+        } else if (data.streetBilling && data.cityBilling && data.countryBilling && data.postalBilling) {
+            const billingAddressData: Address = {
+                streetName: data.streetBilling,
+                city: data.cityBilling,
+                country: data.countryBilling,
+                postalCode: data.postalBilling,
+            };
+            addresses.push(billingAddressData);
+            billingAddresses = [1];
+            if (data.isDefaultBillingAddress) {
+                defaultBillingAddress = 1;
             }
         }
+
+        const newUser: User = {
+            email: data.email,
+            password: data.password,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            dateOfBirth: data.birthDate,
+            addresses,
+            defaultShippingAddress,
+            defaultBillingAddress,
+            shippingAddresses,
+            billingAddresses,
+        };
+
+        dispatch(signUpTC(newUser));
+
+        setValue('isDefaultShippingAddress', false);
+        setValue('isBillingSameAsShipping', false);
+        setValue('isDefaultBillingAddress', false);
+        reset();
     };
 
     const selectedCountryShipping = useWatch({
@@ -551,7 +577,7 @@ export const SignUpForm = () => {
                             type="submit"
                             variant="contained"
                             fullWidth
-                            disabled={!isValid}
+                            disabled={!isValid || appStatus === 'loading'}
                             color="info"
                         >
                             Sign up
