@@ -25,6 +25,7 @@ const eslintConfig = config(
       "**/eslint.config.js",
       "*.js",
       "*.jsx",
+      "src/**/*.test.{ts,tsx}",
       "**/.vscode",
       "**/.idea",
       "**/.gitignore",
@@ -83,6 +84,7 @@ const eslintConfig = config(
     rules: {
       ...eslintPluginUnicorn.configs.recommended.rules,
       "no-unused-expressions": "error",
+      // "@typescript-eslint/consistent-type-definitions": [2, "type"],
       "@typescript-eslint/consistent-type-definitions": "off",
       "@typescript-eslint/consistent-type-imports": [
         2,
@@ -147,6 +149,7 @@ const eslintConfig = config(
       "@typescript-eslint/no-misused-promises": "off",
       "@typescript-eslint/no-unnecessary-condition": "off",
       "unicorn/no-thenable": "off",
+      "unicorn/consistent-function-scoping": "off",
     },
   },
 
