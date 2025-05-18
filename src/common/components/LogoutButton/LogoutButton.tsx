@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { PATH } from '../../enums';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { authActions } from '../../../features/auth/model/slices/authSlice';
+import { logOutTC } from '../../../features/auth/model/slices/authSlice';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -14,7 +14,7 @@ export const LogoutButton = () => {
     const dispatch = useAppDispatch();
 
     const handleLogout = () => {
-        dispatch(authActions.logout());
+        dispatch(logOutTC());
     };
 
     return (
