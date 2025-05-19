@@ -17,10 +17,10 @@ export interface User {
     lastName: string;
     dateOfBirth: string;
     addresses: Address[];
-    defaultShippingAddress: number | undefined; // ?:
-    defaultBillingAddress: number | undefined; // ?:
-    shippingAddresses: number[]; // ?:
-    billingAddresses: number[]; // ?:
+    defaultShippingAddress: number | undefined;
+    defaultBillingAddress: number | undefined;
+    shippingAddresses: number[];
+    billingAddresses: number[];
 }
 
 export interface TokenResponse {

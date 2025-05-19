@@ -1,9 +1,3 @@
-// /* eslint-disable no-restricted-imports */
-// import { useDispatch } from 'react-redux';
-// import type { AppDispatch } from 'app/store';
-//
-// export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
-
 /* eslint-disable no-restricted-imports */
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from 'app/store';

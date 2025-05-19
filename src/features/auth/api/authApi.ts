@@ -2,6 +2,7 @@ import type { ClientResponse, CustomerSignInResult, Customer } from '@commerceto
 import type { User } from '../../../common/types';
 import { apiRoot } from '../../../common/api/commercetools';
 import { getEnvironmentVariable } from '../../../common/utils/get-environment-variable';
+import { EnvironmentKeys } from '../../../common/enums';
 import { authTokenService } from '../../../common/services/auth-token.service';
 import { isDuplicateEmailError } from '../../../common/utils/type-guards';
 
@@ -11,7 +12,7 @@ export const authAPI = {
             await authTokenService.getCustomerToken(email, password);
 
             return await apiRoot
-                .withProjectKey({ projectKey: getEnvironmentVariable('VITE_CTP_PROJECT_KEY') })
+                .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
                 .me()
                 .login()
                 .post({
@@ -22,7 +23,7 @@ export const authAPI = {
             authTokenService.clearTokens();
 
             const response = await apiRoot
-                .withProjectKey({ projectKey: getEnvironmentVariable('VITE_CTP_PROJECT_KEY') })
+                .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
                 .customers()
                 .get({
                     queryArgs: {
@@ -55,7 +56,7 @@ export const authAPI = {
     }: User): Promise<ClientResponse<CustomerSignInResult>> {
         try {
             await apiRoot
-                .withProjectKey({ projectKey: getEnvironmentVariable('VITE_CTP_PROJECT_KEY') })
+                .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
                 .customers()
                 .post({
                     body: {
@@ -91,7 +92,7 @@ export const authAPI = {
                 return null;
             }
             const response = await apiRoot
-                .withProjectKey({ projectKey: getEnvironmentVariable('VITE_CTP_PROJECT_KEY') })
+                .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
                 .me()
                 .get()
                 .execute();
