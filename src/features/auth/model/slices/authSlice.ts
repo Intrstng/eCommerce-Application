@@ -12,6 +12,7 @@ import type { User } from '../../../../common/types';
 import { successNotifyMessage } from '../../../../common/utils/notify-message';
 import { StatusCode } from '../../../../common/enums';
 import { Status } from 'app/model/types';
+import { authTokenService } from '../../../../common/services/auth-token.service';
 
 export const initialState: AuthState = {
     user: null,
@@ -43,6 +44,7 @@ export const authSuccessTC = (): AppThunk => dispatch => {
             dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
         } else {
             dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
+            authTokenService.clearTokens();
         }
         dispatch(appActions.setAppInitialized({ isInitialized: true }));
         dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
@@ -52,8 +54,8 @@ export const authSuccessTC = (): AppThunk => dispatch => {
         } else {
             dispatch(appActions.setAppError({ error: 'An unexpected error occurred' }));
         }
-
         dispatch(appActions.setAppStatus({ status: Status.FAILED }));
+        authTokenService.clearTokens();
     }
 };
 
@@ -88,7 +90,7 @@ export const loginTC =
 
 export const logOutTC = (): AppThunk => dispatch => {
     dispatch(appActions.setAppStatus({ status: Status.LOADING }));
-
+    authAPI.logout();
     dispatch(authActions.setUser({ user: null }));
     userStorage.removeUser();
     dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
