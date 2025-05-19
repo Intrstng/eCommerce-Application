@@ -2,7 +2,7 @@ import { genStyles } from '../../../../common/utils/generate-styles';
 
 export const STYLES = genStyles({
     content: {
-        paddingTop: 8,
+        paddingTop: 3,
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
