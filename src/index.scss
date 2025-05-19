@@ -37,3 +37,45 @@ button:focus {
 .MuiButtonBase-root:focus {
     outline: none;
 }
+
+/* Fix for placeholder styles */
+::input-placeholder {
+    color: currentcolor;
+    opacity: 0.42;
+}
+
+::placeholder {
+    color: currentcolor;
+    opacity: 0.42;
+}
+
+:input-placeholder {
+    color: currentcolor;
+    opacity: 0.42;
+}
+
+::placeholder {
+    color: currentcolor;
+    opacity: 0.42;
+}
+
+/* Fix for Material-UI input styles */
+.MuiInputBase-input::input-placeholder {
+    color: currentcolor;
+    opacity: 0.42;
+}
+
+.MuiInputBase-input::placeholder {
+    color: currentcolor;
+    opacity: 0.42;
+}
+
+.MuiInputBase-input:input-placeholder {
+    color: currentcolor;
+    opacity: 0.42;
+}
+
+.MuiInputBase-input::placeholder {
+    color: currentcolor;
+    opacity: 0.42;
+}
