@@ -13,11 +13,11 @@ describe('AppSlice tests', () => {
     let appState: AppInitialState;
 
     beforeEach(() => {
-        status = 'loading';
+        status = Status.LOADING;
         error = null;
         isInitialized = false;
 
-        newStatus = 'failed';
+        newStatus = Status.FAILED;
         newError = 'Some error occurred';
         newIsInitialized = true;
 

@@ -14,7 +14,7 @@ import { errorNotifyMessageWithDispatch } from '../../common/utils/notify-messag
 export const App = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const appStatus = useAppSelector<Status>(statusSelector);
+    const appStatus: string = useAppSelector<Status>(statusSelector);
     const appError = useAppSelector<AppError>(errorSelector);
 
     const navigateHandler = () => {

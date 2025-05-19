@@ -3,12 +3,13 @@ import type { User } from '../../../common/types';
 import { apiRoot } from '../../../common/api/commercetools';
 import { getEnvironmentVariable } from '../../../common/utils/get-environment-variable';
 import { userStorage } from '../../../common/services/local-storage.service';
+import { EnvironmentKeys } from '../../../common/enums';
 
 export const authAPI = {
     async login(email: string, password: string): Promise<ClientResponse<CustomerSignInResult>> {
         try {
             return await apiRoot
-                .withProjectKey({ projectKey: getEnvironmentVariable('VITE_CTP_PROJECT_KEY') })
+                .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
                 .me()
                 .login()
                 .post({
@@ -38,7 +39,7 @@ export const authAPI = {
     }: User): Promise<ClientResponse<CustomerSignInResult>> {
         try {
             await apiRoot
-                .withProjectKey({ projectKey: getEnvironmentVariable('VITE_CTP_PROJECT_KEY') })
+                .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
                 .customers()
                 .post({
                     body: {
@@ -65,7 +66,7 @@ export const authAPI = {
     async getCurrentUser(): Promise<Customer | null> {
         try {
             const response = await apiRoot
-                .withProjectKey({ projectKey: getEnvironmentVariable('VITE_CTP_PROJECT_KEY') })
+                .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
                 .me()
                 .get()
                 .execute();

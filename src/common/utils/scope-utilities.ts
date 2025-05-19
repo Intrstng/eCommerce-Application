@@ -5,9 +5,10 @@
  * @returns Array of formatted scopes with project key
  */
 import { getEnvironmentVariable } from './get-environment-variable';
+import { EnvironmentKeys } from '../enums';
 
 export function getScopesArray(scopesString: string): string[] {
-    const projectKey = getEnvironmentVariable('VITE_CTP_PROJECT_KEY');
+    const projectKey = getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY);
 
     return scopesString
         .split(' ')

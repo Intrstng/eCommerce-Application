@@ -25,12 +25,12 @@ import { loginTC } from '../../model/slices/authSlice';
 import { PATH } from '../../../../common/enums';
 import { AuthFormLink } from '../../../../common/components/AuthFormLink/AuthFormLink';
 import { onMouseDownPassword } from '../../utils/auth-handlers';
-import type { Status } from 'app/model/types';
 import { statusSelector } from 'app/model/selectors/appSelectors';
+import type { Status } from 'app/model/types';
 
 export const SignInForm = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const appStatus = useAppSelector<Status>(statusSelector);
+    const appStatus: string = useAppSelector<Status>(statusSelector);
     const dispatch = useAppDispatch();
 
     const onClickShowPassword = () => {
@@ -73,7 +73,7 @@ export const SignInForm = () => {
                                 error={!!errors.email}
                                 variant="filled"
                                 sx={STYLES.emailInput}
-                                {...register("email")}
+                                {...register('email')}
                                 autoComplete="email"
                                 size="small"
                             />
@@ -91,8 +91,8 @@ export const SignInForm = () => {
                             <InputLabel htmlFor="password">Password</InputLabel>
                             <FilledInput
                                 id="password"
-                                type={showPassword ? "text" : "password"}
-                                {...register("password")}
+                                type={showPassword ? 'text' : 'password'}
+                                {...register('password')}
                                 autoComplete="current-password"
                                 endAdornment={
                                     <InputAdornment position="end">
@@ -106,7 +106,6 @@ export const SignInForm = () => {
                                         </IconButton>
                                     </InputAdornment>
                                 }
-                                label="Password"
                             />
                             {!isValid && errors.password && (
                                 <Typography
@@ -123,7 +122,7 @@ export const SignInForm = () => {
                             type="submit"
                             variant="contained"
                             fullWidth
-                            disabled={!isValid || appStatus === "loading"}
+                            disabled={!isValid || appStatus === 'loading'}
                             color="info"
                         >
                             Sign in

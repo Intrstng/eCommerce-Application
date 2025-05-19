@@ -35,7 +35,7 @@ import { signUpTC } from '../../model/slices/authSlice';
 export const SignUpForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const appStatus = useAppSelector<Status>(statusSelector);
+    const appStatus: string = useAppSelector<Status>(statusSelector);
     const dispatch = useAppDispatch();
 
     const passwordInputReference = useRef<HTMLInputElement | null>(null);
@@ -173,7 +173,7 @@ export const SignUpForm = () => {
                                         variant="filled"
                                         sx={{
                                             ...STYLES.emailInput,
-                                            ...STYLES.autofillInput
+                                            ...STYLES.autofillInput,
                                         }}
                                         {...register('email')}
                                         autoComplete="email"
@@ -207,7 +207,6 @@ export const SignUpForm = () => {
                                                 </IconButton>
                                             </InputAdornment>
                                         }
-                                        label="Password"
                                     />
                                     {errors.password && (
                                         <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
@@ -235,7 +234,6 @@ export const SignUpForm = () => {
                                                 </IconButton>
                                             </InputAdornment>
                                         }
-                                        label="Confirm password"
                                     />
                                     {errors.confirmPassword && (
                                         <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
@@ -262,7 +260,7 @@ export const SignUpForm = () => {
                                         variant="filled"
                                         sx={{
                                             ...STYLES.nameInput,
-                                            ...STYLES.autofillInput
+                                            ...STYLES.autofillInput,
                                         }}
                                         {...register('firstName')}
                                         autoComplete="given-name"
@@ -289,7 +287,7 @@ export const SignUpForm = () => {
                                         variant="filled"
                                         sx={{
                                             ...STYLES.nameInput,
-                                            ...STYLES.autofillInput
+                                            ...STYLES.autofillInput,
                                         }}
                                         {...register('lastName')}
                                         autoComplete="family-name"
@@ -342,7 +340,7 @@ export const SignUpForm = () => {
                                         sx={{
                                             ...STYLES.addressInput,
                                             ...STYLES.addressInputMedia,
-                                            ...STYLES.autofillInput
+                                            ...STYLES.autofillInput,
                                         }}
                                         error={!!errors.streetShipping}
                                         variant="filled"
@@ -366,7 +364,7 @@ export const SignUpForm = () => {
                                         sx={{
                                             ...STYLES.addressInput,
                                             ...STYLES.addressInputMedia,
-                                            ...STYLES.autofillInput
+                                            ...STYLES.autofillInput,
                                         }}
                                         error={!!errors.cityShipping}
                                         variant="filled"
@@ -482,7 +480,7 @@ export const SignUpForm = () => {
                                                 sx={{
                                                     ...STYLES.addressInput,
                                                     ...STYLES.addressInputMedia,
-                                                    ...STYLES.autofillInput
+                                                    ...STYLES.autofillInput,
                                                 }}
                                                 error={!!errors.streetBilling}
                                                 variant="filled"
@@ -506,7 +504,7 @@ export const SignUpForm = () => {
                                                 sx={{
                                                     ...STYLES.addressInput,
                                                     ...STYLES.addressInputMedia,
-                                                    ...STYLES.autofillInput
+                                                    ...STYLES.autofillInput,
                                                 }}
                                                 error={!!errors.cityBilling}
                                                 variant="filled"
