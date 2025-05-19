@@ -21,7 +21,7 @@ export const Header = () => {
                     Rings
                 </NavLink>
                 <NavLink to={`${PATH.CATALOG}?page=1&type=Brooch`} className={S.navLink}>
-                    Brooch
+                    Brooches
                 </NavLink>
 
                 {/*Code below will be added in Sprint #3*/}
