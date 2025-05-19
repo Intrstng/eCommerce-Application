@@ -51,7 +51,7 @@ export const SignUpForm = () => {
     const {
         register,
         handleSubmit,
-        reset,
+        // reset,
         control,
         formState: { errors, isValid },
         setValue,
@@ -117,10 +117,10 @@ export const SignUpForm = () => {
 
         dispatch(signUpTC(newUser));
 
-        setValue('isDefaultShippingAddress', false);
-        setValue('isBillingSameAsShipping', false);
-        setValue('isDefaultBillingAddress', false);
-        reset();
+        // setValue('isDefaultShippingAddress', false);
+        // setValue('isBillingSameAsShipping', false);
+        // setValue('isDefaultBillingAddress', false);
+        // reset();
     };
 
     const selectedCountryShipping = useWatch({
