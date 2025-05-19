@@ -19,3 +19,21 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+/* Fix for Material-UI focus styles */
+button::-moz-focus-inner {
+    border: 0;
+}
+
+.MuiButtonBase-root::-moz-focus-inner {
+    border: 0;
+}
+
+/* Remove focus outline for all buttons */
+button:focus {
+    outline: none;
+}
+
+.MuiButtonBase-root:focus {
+    outline: none;
+}
