@@ -14,7 +14,7 @@ import FormGroup from '@mui/material/FormGroup';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import OutlinedInput from '@mui/material/OutlinedInput';
+import { FilledInput } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { STYLES } from './styles.signInForm';
@@ -25,12 +25,12 @@ import { loginTC } from '../../model/slices/authSlice';
 import { PATH } from '../../../../common/enums';
 import { AuthFormLink } from '../../../../common/components/AuthFormLink/AuthFormLink';
 import { onMouseDownPassword } from '../../utils/auth-handlers';
-import type { Status } from 'app/model/types';
 import { statusSelector } from 'app/model/selectors/appSelectors';
+import type { Status } from 'app/model/types';
 
 export const SignInForm = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const appStatus = useAppSelector<Status>(statusSelector);
+    const appStatus: string = useAppSelector<Status>(statusSelector);
     const dispatch = useAppDispatch();
 
     const onClickShowPassword = () => {
@@ -63,7 +63,7 @@ export const SignInForm = () => {
                 </Typography>
                 <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
                     <FormGroup>
-                        <FormControl fullWidth>
+                        <FormControl fullWidth variant="filled">
                             <TextField
                                 label="Email"
                                 type="email"
@@ -71,7 +71,7 @@ export const SignInForm = () => {
                                 fullWidth
                                 id="email"
                                 error={!!errors.email}
-                                variant="outlined"
+                                variant="filled"
                                 sx={STYLES.emailInput}
                                 {...register('email')}
                                 autoComplete="email"
@@ -87,9 +87,9 @@ export const SignInForm = () => {
                                 </Typography>
                             )}
                         </FormControl>
-                        <FormControl variant="outlined" size="small" error={!!errors.password}>
+                        <FormControl variant="filled" size="small" error={!!errors.password}>
                             <InputLabel htmlFor="password">Password</InputLabel>
-                            <OutlinedInput
+                            <FilledInput
                                 id="password"
                                 type={showPassword ? 'text' : 'password'}
                                 {...register('password')}
@@ -106,7 +106,6 @@ export const SignInForm = () => {
                                         </IconButton>
                                     </InputAdornment>
                                 }
-                                label="Password"
                             />
                             {!isValid && errors.password && (
                                 <Typography

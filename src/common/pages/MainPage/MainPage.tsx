@@ -5,17 +5,6 @@ import Typography from '@mui/material/Typography';
 import { useAppSelector } from '../../hooks';
 import { authIsLoggedInSelector } from '../../../features/auth/model/selectors/authSelector';
 import SignUpStyles from '../../../common/components/SignUpButton/SignUpButton.module.scss';
-import { successNotifyMessage, warningNotifyMessage } from '../../utils/notify-message';
-import Button from '@mui/material/Button';
-
-const notifySuccess = () => {
-    // Will be removed later
-    successNotifyMessage('Some success toastify message');
-};
-const notifyWarning = () => {
-    // Will be removed later
-    warningNotifyMessage('Some warning toastify message');
-};
 
 export const MainPage = () => {
     const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
@@ -58,11 +47,6 @@ export const MainPage = () => {
                     <NavLink to={PATH.PROFILE}>Authorized user profile page</NavLink>
                     <NavLink to={PATH.ADDRESSES}>Authorized user addresses page</NavLink>
                 </div>
-            </div>
-            <div className={S.mainControls}>
-                <p>Examples of messages:</p>
-                <Button onClick={notifySuccess}>Show Success Message</Button>
-                <Button onClick={notifyWarning}>Show Warning Message</Button>
             </div>
         </div>
     );

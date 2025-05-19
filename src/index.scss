@@ -3,6 +3,17 @@
     src: url('../src/assets/fonts/jost/Jost-Regular.ttf');
 }
 
+::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+html,
+body {
+    scrollbar-width: thin;
+
+    //scrollbar-gutter: stable;
+}
+
 body {
     box-sizing: border-box;
     margin: 0;

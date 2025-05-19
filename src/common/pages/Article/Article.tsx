@@ -5,10 +5,6 @@ import { NavLink, useParams } from 'react-router-dom';
 import S from './Article.module.scss';
 import { PATH } from '../../enums';
 
-// type ArticleParamsType = {
-//   id: string
-// }
-
 export const Article = () => {
     const { id } = useParams<{ id: string }>();
 

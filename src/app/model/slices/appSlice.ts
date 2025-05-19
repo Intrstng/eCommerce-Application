@@ -1,9 +1,10 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import type { AppInitialState, Status } from 'app/model/types';
+import type { AppInitialState } from 'app/model/types';
+import { Status } from 'app/model/types';
 
 const initialState: AppInitialState = {
-    status: 'idle',
+    status: Status.IDLE,
     error: null,
     isInitialized: false,
 };
