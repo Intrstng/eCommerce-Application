@@ -5,7 +5,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { authIsLoggedInSelector } from '../../../features/auth/model/selectors/authSelector';
 import Box from '@mui/material/Box';
 import { STYLES } from './styles.signUpButton';
-import registerImg from '../../../assets/logo/register.png';
+import registerImg from '../../../assets/logo/register.svg';
 import S from './SignUpButton.module.scss';
 
 export const SignUpButton = () => {

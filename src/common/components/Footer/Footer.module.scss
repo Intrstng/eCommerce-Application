@@ -2,12 +2,66 @@
     display: flex;
     grid-row: 3;
     flex: 0 0 auto;
+    flex-direction: column;
+    gap: 30px;
     align-items: center;
     justify-content: center;
 
-    height: 10vh;
-    padding: 0 3rem;
-    border: 1px solid #000;
+    width: 100%;
+    padding: 30px 0;
 
-    background-color: #4caf50;
+    background-color: #f4f4f2;
+
+    ul {
+        display: flex;
+        gap: 60px;
+        align-items: center;
+
+        margin: 0;
+        padding: 0;
+
+        letter-spacing: 0.1em;
+        list-style: none;
+    }
+
+    li {
+        cursor: default;
+    }
+
+    a {
+        color: black;
+        text-decoration: none;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: #65635f;
+        }
+    }
+}
+
+.topRow {
+    font: normal 400 13px / 25px Jost;
+
+    ul {
+        @media (width <=768px) {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+}
+
+.bottomRow {
+    font: normal 400 10px / 25px Jost;
+    text-transform: uppercase;
+}
+
+.languageSelect {
+    pointer-events: none;
+
+    padding: 0.5rem;
+    border: none;
+
+    font-size: 0.8rem;
+
+    background-color: transparent;
 }
