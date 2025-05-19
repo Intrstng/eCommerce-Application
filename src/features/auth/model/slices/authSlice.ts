@@ -10,6 +10,7 @@ import { appActions } from 'app/model/slices/appSlice';
 import type { SignInFormData } from '../../../../common/validations/signInValidation.schema';
 import { authAPI } from '../../api/authApi';
 import type { User } from '../../../../common/types';
+import { successNotifyMessage } from '../../../../common/utils/notify-message';
 
 export const initialState: AuthState = {
     user: null,
@@ -68,6 +69,8 @@ export const loginTC =
 
                 userStorage.saveUser(response.body);
                 dispatch(appActions.setAppStatus({ status: 'succeeded' }));
+
+                successNotifyMessage('You have successfully logged in');
             }
         } catch (error) {
             if (error instanceof Error) {
@@ -90,6 +93,7 @@ export const logOutTC = (): AppThunk => dispatch => {
     dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
 
     dispatch(appActions.setAppStatus({ status: 'succeeded' }));
+    successNotifyMessage("You've logged out of your account");
 };
 
 export const signUpTC =
@@ -106,6 +110,8 @@ export const signUpTC =
 
                 userStorage.saveUser(response.body);
                 dispatch(appActions.setAppStatus({ status: 'succeeded' }));
+
+                successNotifyMessage('You have successfully registered');
             }
         } catch (error) {
             if (error instanceof Error) {

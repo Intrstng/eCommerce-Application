@@ -14,7 +14,13 @@ const warningNotifyMessage = (message: string) => {
     });
 };
 
-const errorNotifyMessage = (dispatch: AppDispatch, message: string) => {
+const errorNotifyMessage = (message: string) => {
+    toast.error(message, {
+        position: 'bottom-left',
+    });
+};
+
+const errorNotifyMessageWithDispatch = (dispatch: AppDispatch, message: string) => {
     toast.error(message, {
         position: 'bottom-left',
     });
@@ -22,4 +28,4 @@ const errorNotifyMessage = (dispatch: AppDispatch, message: string) => {
     dispatch(appActions.setAppError({ error: null }));
 };
 
-export { successNotifyMessage, errorNotifyMessage, warningNotifyMessage };
+export { successNotifyMessage, warningNotifyMessage, errorNotifyMessage, errorNotifyMessageWithDispatch };

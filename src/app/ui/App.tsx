@@ -6,46 +6,30 @@ import { PATH } from '../../common/enums';
 import { ToastifyNotification } from '../../common/components/ToastifyNotification/ToastifyNotification';
 import { useAppDispatch, useAppSelector } from '../../common/hooks';
 import type { AppError, Status } from 'app/model/types';
-// import { useEffect } from 'react';
-// import { initializeAppTC } from 'app/model/slices/appSlice';
 import { errorSelector, statusSelector } from 'app/model/selectors/appSelectors';
-// import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useEffect } from 'react';
-import { errorNotifyMessage } from '../../common/utils/notify-message';
+import { errorNotifyMessageWithDispatch } from '../../common/utils/notify-message';
 
 export const App = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const appStatus = useAppSelector<Status>(statusSelector);
     const appError = useAppSelector<AppError>(errorSelector);
-    // const isInitialized = useAppSelector<boolean>(isInitializedSelector)
 
     const navigateHandler = () => {
         navigate(-1);
     };
 
-    // useEffect(() => {
-    //   dispatch(initializeAppTC())
-    // }, [])
-
-    // if (!isInitialized) {
-    //   return (
-    //       <div className='loaderContainer'>
-    //         <CircularProgress color='secondary' />
-    //       </div>
-    //   )
-    // }
-
     useEffect(() => {
         if (typeof appError === 'string') {
-            errorNotifyMessage(dispatch, appError);
+            errorNotifyMessageWithDispatch(dispatch, appError);
         }
     }, [dispatch, appError]);
 
     const linearProgressStyles = {
         position: 'absolute',
-        top: 76, // fix
+        top: 76,
         left: 0,
         right: 0,
         zIndex: 5,

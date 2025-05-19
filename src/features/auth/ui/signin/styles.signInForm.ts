@@ -14,8 +14,8 @@ export const STYLES = genStyles({
     emailInput: {
         mb: 4,
         '& input:-webkit-autofill': {
-            '-webkit-box-shadow': '0 0 0px 1000px rgba(250, 237, 202, 0.4) inset',
-            '-webkit-text-fill-color': '#205781',
+            WebkitBoxShadow: '0 0 0px 1000px rgba(250, 237, 202, 0.4) inset',
+            WebkitTextFillColor: '#205781',
         },
     },
     button: {

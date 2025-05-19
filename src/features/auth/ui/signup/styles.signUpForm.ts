@@ -41,8 +41,8 @@ export const STYLES = genStyles({
     },
     autofillInput: {
         '& input:-webkit-autofill': {
-            '-webkit-box-shadow': '0 0 0px 1000px rgba(250, 237, 202, 0.4) inset',
-            '-webkit-text-fill-color': '#205781',
+            WebkitBoxShadow: '0 0 0px 1000px rgba(250, 237, 202, 0.4) inset',
+            WebkitTextFillColor: '#205781',
         },
     },
     formShipping: {
@@ -111,7 +111,6 @@ export const STYLES = genStyles({
     },
     passInput: {
         mt: 0,
-        // mb: '0.4rem',
         '@media (max-width: 640px)': {
             mb: '2rem',
         },
@@ -123,7 +122,7 @@ export const STYLES = genStyles({
         mt: '-0.15rem',
     },
     button: {
-        mt: 0, // 5
+        mt: 0,
         mb: 1,
     },
     link: {
