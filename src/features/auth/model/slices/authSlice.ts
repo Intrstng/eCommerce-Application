@@ -10,6 +10,7 @@ import { appActions } from 'app/model/slices/appSlice';
 import type { SignInFormData } from '../../../../common/validations/signInValidation.schema';
 import { authAPI } from '../../api/authApi';
 import type { User } from '../../../../common/types';
+import { authTokenService } from '../../../../common/services/auth-token.service';
 
 export const initialState: AuthState = {
     user: null,
@@ -41,6 +42,7 @@ export const authSuccessTC = (): AppThunk => dispatch => {
             dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
         } else {
             dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
+            authTokenService.clearTokens();
         }
         dispatch(appActions.setAppInitialized({ isInitialized: true }));
         dispatch(appActions.setAppStatus({ status: 'succeeded' }));
@@ -50,7 +52,7 @@ export const authSuccessTC = (): AppThunk => dispatch => {
         } else {
             dispatch(appActions.setAppError({ error: 'An unexpected error occurred' }));
         }
-
+        authTokenService.clearTokens();
         dispatch(appActions.setAppStatus({ status: 'failed' }));
     }
 };
@@ -84,7 +86,7 @@ export const loginTC =
 
 export const logOutTC = (): AppThunk => dispatch => {
     dispatch(appActions.setAppStatus({ status: 'loading' }));
-
+    authAPI.logout();
     dispatch(authActions.setUser({ user: null }));
     userStorage.removeUser();
     dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
