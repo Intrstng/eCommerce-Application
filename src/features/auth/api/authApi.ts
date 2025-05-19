@@ -3,54 +3,41 @@ import type { User } from '../../../common/types';
 import { apiRoot } from '../../../common/api/commercetools';
 import { getEnvironmentVariable } from '../../../common/utils/get-environment-variable';
 import { authTokenService } from '../../../common/services/auth-token.service';
-import { isErrorWithMessage, isDuplicateEmailError } from '../../../common/utils/type-guards';
+import { isDuplicateEmailError } from '../../../common/utils/type-guards';
 
 export const authAPI = {
     async login(email: string, password: string): Promise<ClientResponse<CustomerSignInResult>> {
         try {
-            try {
-                await authTokenService.getCustomerToken(email, password);
-            } catch {
-                const projectKey = getEnvironmentVariable('VITE_CTP_PROJECT_KEY');
-                const response = await apiRoot
-                    .withProjectKey({ projectKey })
-                    .customers()
-                    .get({
-                        queryArgs: {
-                            where: `email="${email}"`,
-                            limit: 1,
-                        },
-                    })
-                    .execute();
+            await authTokenService.getCustomerToken(email, password);
 
-                const accountExists = response.body.count > 0;
-
-                if (!accountExists) {
-                    throw new Error('Account not found. Please check your email or register a new account.');
-                }
-                throw new Error('Incorrect password. Please try again.');
-            }
             return await apiRoot
                 .withProjectKey({ projectKey: getEnvironmentVariable('VITE_CTP_PROJECT_KEY') })
                 .me()
                 .login()
                 .post({
-                    body: {
-                        email,
-                        password,
+                    body: { email, password },
+                })
+                .execute();
+        } catch {
+            authTokenService.clearTokens();
+
+            const response = await apiRoot
+                .withProjectKey({ projectKey: getEnvironmentVariable('VITE_CTP_PROJECT_KEY') })
+                .customers()
+                .get({
+                    queryArgs: {
+                        where: `email="${email}"`,
+                        limit: 1,
                     },
                 })
                 .execute();
-        } catch (error) {
-            authTokenService.clearTokens();
-            if (
-                isErrorWithMessage(error) &&
-                (error.message === 'Account not found. Please check your email or register a new account.' ||
-                    error.message === 'Incorrect password. Please try again.')
-            ) {
-                throw new Error(error.message);
+
+            const accountExists = response.body.count > 0;
+
+            if (!accountExists) {
+                throw new Error('Account not found. Please check your email or register a new account.');
             }
-            throw new Error('Login failed. Please try again.');
+            throw new Error('Incorrect password. Please try again.');
         }
     },
 

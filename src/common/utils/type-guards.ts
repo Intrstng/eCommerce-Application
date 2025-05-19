@@ -14,9 +14,6 @@ export function isCustomerSignInResult(data: unknown): data is CustomerSignInRes
     return data !== null && typeof data === 'object' && 'customer' in data && isCustomer(data.customer);
 }
 
-export const isErrorWithMessage = (error: unknown): error is { message: string } =>
-    isObject(error) && 'message' in error && isString(error.message);
-
 export const isDuplicateEmailError = (error: unknown): error is { code: string; message: string } =>
     isObject(error) &&
     'code' in error &&
