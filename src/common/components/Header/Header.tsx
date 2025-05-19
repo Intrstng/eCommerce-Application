@@ -23,6 +23,9 @@ export const Header = () => {
                 <NavLink to={`${PATH.CATALOG}?page=1&type=Brooch`} className={S.navLink}>
                     Brooch
                 </NavLink>
+
+                {/*Code below will be added in Sprint #3*/}
+
                 {/*{isLoggedIn ? (*/}
                 {/*    <NavLink to={PATH.SIGNIN} onClick={handleLogout}>*/}
                 {/*        Logout*/}
