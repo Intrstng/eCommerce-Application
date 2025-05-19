@@ -1,11 +1,82 @@
 import { projectKey, clientId, clientSecret, baseAuthUrl, scopes } from '../api/commercetools-config';
 import { isTokenResponse, isErrorResponse } from '../utils/type-guards';
 import type { TokenResponse } from '../types';
+import { cookieService } from './cookie.service';
+
+const TOKEN_COOKIE_NAME = 'LC-auth-token';
+const REFRESH_TOKEN_COOKIE_NAME = 'LC-refresh-token';
+const TOKEN_EXPIRY_COOKIE_NAME = 'LC-expiry-token';
+
+const MILLISECONDS_IN_SECOND = 1000;
+const SECONDS_IN_MINUTE = 60;
+const MINUTES_IN_HOUR = 60;
+const HOURS_IN_DAY = 24;
+
+const TOKEN_EXPIRATION_BUFFER = 5 * MINUTES_IN_HOUR * SECONDS_IN_MINUTE * MILLISECONDS_IN_SECOND;
+const REFRESH_TOKEN_EXPIRY_DAYS = 30;
+const REFRESH_TOKEN_EXPIRY_SECONDS = REFRESH_TOKEN_EXPIRY_DAYS * HOURS_IN_DAY * MINUTES_IN_HOUR * SECONDS_IN_MINUTE;
 
 let currentTokenData: TokenResponse | null = null;
 let tokenRefreshPromise: Promise<TokenResponse> | null = null;
 
 const formattedScopes = scopes.join(' ');
+
+function saveTokenToCookies(tokenData: TokenResponse) {
+    const expiresIn = tokenData.expires_in;
+    const expiryDate = new Date();
+    expiryDate.setTime(expiryDate.getTime() + expiresIn * MILLISECONDS_IN_SECOND);
+
+    cookieService.set(TOKEN_COOKIE_NAME, tokenData.access_token, {
+        expires: expiresIn,
+        path: '/',
+        secure: true,
+        sameSite: 'Strict',
+    });
+
+    cookieService.set(REFRESH_TOKEN_COOKIE_NAME, tokenData.refresh_token, {
+        expires: REFRESH_TOKEN_EXPIRY_SECONDS,
+        path: '/',
+        secure: true,
+        sameSite: 'Strict',
+    });
+
+    cookieService.set(TOKEN_EXPIRY_COOKIE_NAME, expiryDate.toISOString(), {
+        expires: expiresIn,
+        path: '/',
+        secure: true,
+        sameSite: 'Strict',
+    });
+}
+
+function loadTokenFromCookies(): TokenResponse | null {
+    const accessToken = cookieService.get(TOKEN_COOKIE_NAME);
+    const refreshToken = cookieService.get(REFRESH_TOKEN_COOKIE_NAME);
+    const expiryDate = cookieService.get(TOKEN_EXPIRY_COOKIE_NAME);
+
+    if (!accessToken || !refreshToken || !expiryDate) {
+        return null;
+    }
+
+    const expiresIn = Math.floor((new Date(expiryDate).getTime() - Date.now()) / MILLISECONDS_IN_SECOND);
+    if (expiresIn <= 0) {
+        clearTokenCookies();
+        return null;
+    }
+
+    return {
+        access_token: accessToken,
+        refresh_token: refreshToken,
+        expires_in: expiresIn,
+        scope: formattedScopes,
+        token_type: 'Bearer',
+    };
+}
+
+function clearTokenCookies() {
+    cookieService.remove(TOKEN_COOKIE_NAME, '/');
+    cookieService.remove(REFRESH_TOKEN_COOKIE_NAME, '/');
+    cookieService.remove(TOKEN_EXPIRY_COOKIE_NAME, '/');
+}
 
 async function handleTokenResponse(response: Response): Promise<TokenResponse> {
     const data: unknown = await response.json();
@@ -28,19 +99,28 @@ async function handleTokenResponse(response: Response): Promise<TokenResponse> {
 export const authTokenService = {
     setTokenData(tokenData: TokenResponse | null) {
         currentTokenData = tokenData;
+        if (tokenData) {
+            saveTokenToCookies(tokenData);
+        } else {
+            clearTokenCookies();
+        }
     },
 
     getAccessToken(): string | null {
+        currentTokenData ??= loadTokenFromCookies();
         return currentTokenData?.access_token ?? null;
     },
 
     async refreshTokenIfNeeded(): Promise<string | null> {
         if (!currentTokenData) {
-            return null;
+            currentTokenData = loadTokenFromCookies();
+            if (!currentTokenData) {
+                return null;
+            }
         }
 
-        const expirationThreshold = 300 * 1000;
-        const tokenExpiresAt = Date.now() + currentTokenData.expires_in * 1000;
+        const expirationThreshold = TOKEN_EXPIRATION_BUFFER;
+        const tokenExpiresAt = Date.now() + currentTokenData.expires_in * MILLISECONDS_IN_SECOND;
         const isExpiringSoon = tokenExpiresAt < Date.now() + expirationThreshold;
 
         if (isExpiringSoon && currentTokenData.refresh_token) {
@@ -125,5 +205,6 @@ export const authTokenService = {
     clearTokens() {
         currentTokenData = null;
         tokenRefreshPromise = null;
+        clearTokenCookies();
     },
 };
