@@ -1,17 +1,25 @@
-import type { Customer, CustomerSignInResult } from '@commercetools/platform-sdk';
-import type { TokenResponse, ErrorResponse } from '../types';
+import type { ErrorResponse, TokenResponse, UserDataLS } from '../types';
 
 const isObject = (value: unknown): value is object => value !== null && typeof value === 'object';
 const isString = (value: unknown): value is string => typeof value === 'string';
 const isNumber = (value: unknown): value is number => typeof value === 'number';
 const isArray = (value: unknown): value is unknown[] => Array.isArray(value);
 
-export function isCustomer(value: unknown): value is Customer {
-    return value !== null && typeof value === 'object' && 'id' in value && typeof value.id === 'string';
-}
-
-export function isCustomerSignInResult(data: unknown): data is CustomerSignInResult {
-    return data !== null && typeof data === 'object' && 'customer' in data && isCustomer(data.customer);
+export function isCustomerSignInResult(data: unknown): data is UserDataLS {
+    return (
+        typeof data === 'object' &&
+        data !== null &&
+        'email' in data &&
+        typeof data.email === 'string' &&
+        'firstName' in data &&
+        typeof data.firstName === 'string' &&
+        'lastName' in data &&
+        typeof data.lastName === 'string' &&
+        'id' in data &&
+        typeof data.id === 'string' &&
+        'createdAt' in data &&
+        typeof data.createdAt === 'string'
+    );
 }
 
 export const isErrorWithMessage = (error: unknown): error is { message: string } =>

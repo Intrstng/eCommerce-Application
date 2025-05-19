@@ -13,6 +13,7 @@ import { successNotifyMessage } from '../../../../common/utils/notify-message';
 import { StatusCode } from '../../../../common/enums';
 import { Status } from 'app/model/types';
 import { authTokenService } from '../../../../common/services/auth-token.service';
+import type { UserDataLS } from '../../../../common/types';
 
 export const initialState: AuthState = {
     user: null,
@@ -38,7 +39,7 @@ export const authActions = authSlice.actions;
 export const authSuccessTC = (): AppThunk => dispatch => {
     dispatch(appActions.setAppStatus({ status: Status.LOADING }));
     try {
-        const user = userStorage.getUser();
+        const user: UserDataLS | null = userStorage.getUser();
 
         if (user && isCustomerSignInResult(user)) {
             dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));

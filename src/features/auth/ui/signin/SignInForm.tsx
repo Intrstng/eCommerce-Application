@@ -40,7 +40,7 @@ export const SignInForm = () => {
     const {
         register,
         handleSubmit,
-        reset,
+        // reset,
         formState: { errors, isValid },
     } = useForm<SignInFormData>({
         mode: 'all',
@@ -49,7 +49,7 @@ export const SignInForm = () => {
 
     const onSubmit: SubmitHandler<SignInFormData> = data => {
         dispatch(loginTC(data));
-        reset();
+        // reset();
     };
 
     return (

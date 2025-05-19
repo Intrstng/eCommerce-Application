@@ -1,14 +1,23 @@
 import type { CustomerSignInResult } from '@commercetools/platform-sdk';
 import { isCustomerSignInResult } from '../utils/type-guards';
+import type { UserDataLS } from '../types';
 
 export const STORAGE_KEYS = {
     USER: 'user',
 } as const;
 
 export const localStorageService = {
-    save(key: string, data: unknown): void {
+    save(key: string, data: CustomerSignInResult): void {
         try {
-            localStorage.setItem(key, JSON.stringify(data));
+            const userDataLS: UserDataLS = {
+                email: data.customer.email,
+                firstName: data.customer.firstName,
+                lastName: data.customer.lastName,
+                id: data.customer.id,
+                createdAt: data.customer.createdAt,
+            };
+
+            localStorage.setItem(key, JSON.stringify(userDataLS));
         } catch (error) {
             console.error(`Failed to save data to localStorage key "${key}":`, error);
         }
@@ -42,7 +51,7 @@ export const userStorage = {
         localStorageService.save(STORAGE_KEYS.USER, user);
     },
 
-    getUser(): CustomerSignInResult | null {
+    getUser(): UserDataLS | null {
         try {
             const data = localStorageService.get(STORAGE_KEYS.USER);
             if (data && isCustomerSignInResult(data)) {
