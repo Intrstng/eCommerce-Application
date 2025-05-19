@@ -13,6 +13,10 @@ export const STYLES = genStyles({
     },
     emailInput: {
         mb: 4,
+        '& input:-webkit-autofill': {
+            '-webkit-box-shadow': '0 0 0px 1000px rgba(250, 237, 202, 0.4) inset',
+            '-webkit-text-fill-color': '#205781',
+        },
     },
     button: {
         mt: 4.5,
@@ -32,7 +36,7 @@ export const STYLES = genStyles({
         bottom: '0.8rem',
     },
     errorPass: {
-        top: '2.8rem',
+        top: '3.3rem',
     },
     linkSignUp: {
         m: '0 auto',

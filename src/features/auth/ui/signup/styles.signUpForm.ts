@@ -22,8 +22,9 @@ export const STYLES = genStyles({
         gap: '0.5rem',
         mt: 1,
         mb: 4,
-        '@media (max-width: 500px)': {
+        '@media (max-width: 640px)': {
             flexDirection: 'column',
+            mb: 2,
         },
     },
     formName: {
@@ -34,8 +35,14 @@ export const STYLES = genStyles({
         gap: '0.5rem',
         mt: 1,
         mb: 4,
-        '@media (max-width: 500px)': {
+        '@media (max-width: 640px)': {
             flexDirection: 'column',
+        },
+    },
+    autofillInput: {
+        '& input:-webkit-autofill': {
+            '-webkit-box-shadow': '0 0 0px 1000px rgba(250, 237, 202, 0.4) inset',
+            '-webkit-text-fill-color': '#205781',
         },
     },
     formShipping: {
@@ -46,7 +53,7 @@ export const STYLES = genStyles({
         gap: '0.5rem',
         mt: 1,
         mb: 3,
-        '@media (max-width: 900px)': {
+        '@media (max-width: 950px)': {
             flexDirection: 'column',
             mb: 0,
         },
@@ -62,7 +69,7 @@ export const STYLES = genStyles({
         gap: '0.5rem',
         mt: 1,
         mb: 3,
-        '@media (max-width: 900px)': {
+        '@media (max-width: 950px)': {
             flexDirection: 'column',
             mb: 0,
         },
@@ -70,6 +77,9 @@ export const STYLES = genStyles({
     nameInput: {
         mt: 0,
         mb: 0,
+        '@media (max-width: 640px)': {
+            mb: '1rem',
+        },
     },
     dateInput: {
         mt: 0,
@@ -78,14 +88,20 @@ export const STYLES = genStyles({
     emailInput: {
         mt: 0,
         mb: 0,
+        '@media (max-width: 640px)': {
+            mb: 3,
+        },
     },
     addressInput: {
         mt: 0,
         mb: 0,
     },
     addressInputMedia: {
-        '@media (max-width: 900px)': {
+        '@media (max-width: 950px)': {
             mb: 3,
+        },
+        '@media (max-width: 640px)': {
+            mb: '1.4rem',
         },
     },
     countryInput: {
@@ -95,13 +111,16 @@ export const STYLES = genStyles({
     },
     passInput: {
         mt: 0,
-        mb: '0.4rem',
+        // mb: '0.4rem',
+        '@media (max-width: 640px)': {
+            mb: '2rem',
+        },
     },
     confirmPassInput: {
         mt: '2rem',
     },
     countryLabel: {
-        mt: '-0.4rem',
+        mt: '-0.15rem',
     },
     button: {
         mt: 0, // 5
@@ -113,13 +132,13 @@ export const STYLES = genStyles({
     errorForm: {
         position: 'absolute',
         left: 0,
-        top: '2.8rem',
+        top: '3.2rem',
         color: '#d20000',
         fontFamily: 'Arial',
         fontSize: '0.6rem',
     },
     errorName: {
-        bottom: 3,
+        bottom: 1,
     },
     errorMail: {
         bottom: 3,

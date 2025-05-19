@@ -16,7 +16,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import OutlinedInput from '@mui/material/OutlinedInput';
+import { FilledInput } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { STYLES } from './styles.signUpForm';
@@ -170,7 +170,11 @@ export const SignUpForm = () => {
                                         fullWidth
                                         id="emailSignUp"
                                         error={!!errors.email}
-                                        variant="outlined"
+                                        variant="filled"
+                                        sx={{
+                                            ...STYLES.emailInput,
+                                            ...STYLES.autofillInput
+                                        }}
                                         {...register('email')}
                                         autoComplete="email"
                                         size="small"
@@ -182,11 +186,12 @@ export const SignUpForm = () => {
                                     )}
                                 </FormControl>
 
-                                <FormControl variant="outlined" size="small" error={!!errors.password} fullWidth>
+                                <FormControl variant="filled" size="small" error={!!errors.password} fullWidth>
                                     <InputLabel htmlFor="passwordSignUp">Password</InputLabel>
-                                    <OutlinedInput
+                                    <FilledInput
                                         id="passwordSignUp"
                                         type={showPassword ? 'text' : 'password'}
+                                        sx={STYLES.passInput}
                                         {...register('password')}
                                         autoComplete="new-password"
                                         inputRef={passwordInputReference}
@@ -211,9 +216,9 @@ export const SignUpForm = () => {
                                     )}
                                 </FormControl>
 
-                                <FormControl variant="outlined" size="small" error={!!errors.confirmPassword} fullWidth>
+                                <FormControl variant="filled" size="small" error={!!errors.confirmPassword} fullWidth>
                                     <InputLabel htmlFor="confirmPassword">Confirm password</InputLabel>
-                                    <OutlinedInput
+                                    <FilledInput
                                         id="confirmPassword"
                                         type={showConfirmPassword ? 'text' : 'password'}
                                         {...register('confirmPassword')}
@@ -254,8 +259,11 @@ export const SignUpForm = () => {
                                         fullWidth
                                         id="firstName"
                                         error={!!errors.firstName}
-                                        variant="outlined"
-                                        sx={STYLES.nameInput}
+                                        variant="filled"
+                                        sx={{
+                                            ...STYLES.nameInput,
+                                            ...STYLES.autofillInput
+                                        }}
                                         {...register('firstName')}
                                         autoComplete="given-name"
                                         size="small"
@@ -278,8 +286,11 @@ export const SignUpForm = () => {
                                         fullWidth
                                         id="lastName"
                                         error={!!errors.lastName}
-                                        variant="outlined"
-                                        sx={STYLES.nameInput}
+                                        variant="filled"
+                                        sx={{
+                                            ...STYLES.nameInput,
+                                            ...STYLES.autofillInput
+                                        }}
                                         {...register('lastName')}
                                         autoComplete="family-name"
                                         size="small"
@@ -298,8 +309,13 @@ export const SignUpForm = () => {
                                         fullWidth
                                         id="birthDate"
                                         error={!!errors.birthDate}
-                                        variant="outlined"
-                                        sx={STYLES.dateInput}
+                                        variant="filled"
+                                        sx={{
+                                            ...STYLES.dateInput,
+                                            '& .MuiInputBase-input': {
+                                                padding: '0.75rem',
+                                            },
+                                        }}
                                         {...register('birthDate')}
                                         size="small"
                                     />
@@ -326,9 +342,10 @@ export const SignUpForm = () => {
                                         sx={{
                                             ...STYLES.addressInput,
                                             ...STYLES.addressInputMedia,
+                                            ...STYLES.autofillInput
                                         }}
                                         error={!!errors.streetShipping}
-                                        variant="outlined"
+                                        variant="filled"
                                         {...register('streetShipping')}
                                         autoComplete="street-address"
                                         size="small"
@@ -349,9 +366,10 @@ export const SignUpForm = () => {
                                         sx={{
                                             ...STYLES.addressInput,
                                             ...STYLES.addressInputMedia,
+                                            ...STYLES.autofillInput
                                         }}
                                         error={!!errors.cityShipping}
-                                        variant="outlined"
+                                        variant="filled"
                                         {...register('cityShipping')}
                                         autoComplete="address-level2"
                                         size="small"
@@ -363,7 +381,7 @@ export const SignUpForm = () => {
                                     )}
                                 </FormControl>
 
-                                <FormControl fullWidth>
+                                <FormControl fullWidth variant="filled">
                                     <InputLabel id="country-label" sx={STYLES.countryLabel}>
                                         Country
                                     </InputLabel>
@@ -405,7 +423,7 @@ export const SignUpForm = () => {
                                             ...STYLES.addressInputMedia,
                                         }}
                                         error={!!errors.postalShipping}
-                                        variant="outlined"
+                                        variant="filled"
                                         {...register('postalShipping')}
                                         autoComplete="postal-code"
                                         size="small"
@@ -455,7 +473,7 @@ export const SignUpForm = () => {
                                         Billing address
                                     </Typography>
                                     <Box sx={STYLES.formBilling}>
-                                        <FormControl fullWidth>
+                                        <FormControl fullWidth variant="filled">
                                             <TextField
                                                 label="Street"
                                                 type="text"
@@ -464,9 +482,10 @@ export const SignUpForm = () => {
                                                 sx={{
                                                     ...STYLES.addressInput,
                                                     ...STYLES.addressInputMedia,
+                                                    ...STYLES.autofillInput
                                                 }}
                                                 error={!!errors.streetBilling}
-                                                variant="outlined"
+                                                variant="filled"
                                                 {...register('streetBilling')}
                                                 autoComplete="street-address"
                                                 size="small"
@@ -487,9 +506,10 @@ export const SignUpForm = () => {
                                                 sx={{
                                                     ...STYLES.addressInput,
                                                     ...STYLES.addressInputMedia,
+                                                    ...STYLES.autofillInput
                                                 }}
                                                 error={!!errors.cityBilling}
-                                                variant="outlined"
+                                                variant="filled"
                                                 {...register('cityBilling')}
                                                 autoComplete="address-level2"
                                                 size="small"
@@ -501,7 +521,7 @@ export const SignUpForm = () => {
                                             )}
                                         </FormControl>
 
-                                        <FormControl fullWidth>
+                                        <FormControl fullWidth variant="filled">
                                             <InputLabel id="country-label" sx={STYLES.countryLabel}>
                                                 Country
                                             </InputLabel>
@@ -542,7 +562,7 @@ export const SignUpForm = () => {
                                                 id="postalBilling"
                                                 sx={{ ...STYLES.addressInput, ...STYLES.addressInputMedia }}
                                                 error={!!errors.postalBilling}
-                                                variant="outlined"
+                                                variant="filled"
                                                 {...register('postalBilling')}
                                                 autoComplete="postal-code"
                                                 size="small"
