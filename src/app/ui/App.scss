@@ -1,8 +1,11 @@
 .app {
     display: grid;
     grid-template-rows: auto 1fr auto;
+
     width: 100vw; // 100%
+    max-width: 1180px;
     height: 100vh;
+    margin: 0 auto;
 }
 
 .main {
@@ -14,12 +17,24 @@
     overflow-y: auto;
     display: flex;
 
-    //flex: 1;
+    // flex: 1;
     flex-direction: column;
     margin: 0;
 }
 
+a {
+    color: #5488c0;
+    text-decoration: none;
+    transition: color;
+}
+
+a:hover {
+    color: #024caa;
+}
+
 .horizontalNavigation {
+    display: flex;
+    gap: 10px;
 }
 
 .linkLikeButton {
