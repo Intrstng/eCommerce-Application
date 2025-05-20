@@ -22,7 +22,7 @@ export const STYLES = genStyles({
         gap: '0.5rem',
         mt: 1,
         mb: 4,
-        '@media (max-width: 640px)': {
+        '@media (max-width: 690px)': {
             flexDirection: 'column',
             mb: 2,
         },
@@ -35,7 +35,7 @@ export const STYLES = genStyles({
         gap: '0.5rem',
         mt: 1,
         mb: 4,
-        '@media (max-width: 640px)': {
+        '@media (max-width: 690px)': {
             flexDirection: 'column',
         },
     },
@@ -77,7 +77,7 @@ export const STYLES = genStyles({
     nameInput: {
         mt: 0,
         mb: 0,
-        '@media (max-width: 640px)': {
+        '@media (max-width: 690px)': {
             mb: '1rem',
         },
     },
@@ -88,7 +88,7 @@ export const STYLES = genStyles({
     emailInput: {
         mt: 0,
         mb: 0,
-        '@media (max-width: 640px)': {
+        '@media (max-width: 690px)': {
             mb: 3,
         },
     },
@@ -100,7 +100,7 @@ export const STYLES = genStyles({
         '@media (max-width: 950px)': {
             mb: 3,
         },
-        '@media (max-width: 640px)': {
+        '@media (max-width: 690px)': {
             mb: '1.4rem',
         },
     },
@@ -111,7 +111,7 @@ export const STYLES = genStyles({
     },
     passInput: {
         mt: 0,
-        '@media (max-width: 640px)': {
+        '@media (max-width: 690px)': {
             mb: '2rem',
         },
     },
