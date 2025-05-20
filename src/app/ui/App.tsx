@@ -44,7 +44,7 @@ export const App = () => {
             <div className="main">
                 <div className="content">
                     <div className="horizontalNavigation">
-                        <NavLink className="linkLikeButton" to={PATH.PAGE_ROOT}>
+                        <NavLink className="linkLikeButton" to={PATH.MAIN}>
                             Home
                         </NavLink>
                         <button onClick={navigateHandler} className="buttonLikeLink">
