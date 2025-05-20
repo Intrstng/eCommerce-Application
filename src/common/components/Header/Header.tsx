@@ -38,6 +38,7 @@ export const Header = () => {
                 {/*</NavLink>*/}
                 <div className={S.authButtons}>
                     <SignInButton />
+                    <div className={S.divider}></div>
                     <SignUpButton />
                 </div>
             </div>
