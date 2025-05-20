@@ -78,12 +78,15 @@ export const STYLES = genStyles({
         mt: 0,
         mb: 0,
         '@media (max-width: 690px)': {
-            mb: '1rem',
+            mb: '1.5rem',
         },
     },
     dateInput: {
         mt: 0,
         mb: 0,
+        '@media (max-width: 690px)': {
+            mb: '-0.8rem',
+        },
     },
     emailInput: {
         mt: 0,
@@ -112,7 +115,7 @@ export const STYLES = genStyles({
     passInput: {
         mt: 0,
         '@media (max-width: 690px)': {
-            mb: '2rem',
+            mb: '1.7rem',
         },
     },
     confirmPassInput: {
