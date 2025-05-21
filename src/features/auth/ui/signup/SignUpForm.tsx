@@ -166,7 +166,7 @@ export const SignUpForm = () => {
                                 <FormControl fullWidth>
                                     <TextField
                                         label="Email"
-                                        type="email"
+                                        type="text"
                                         fullWidth
                                         id="emailSignUp"
                                         error={!!errors.email}

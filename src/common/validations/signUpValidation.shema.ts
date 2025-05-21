@@ -33,22 +33,22 @@ export const validateSignUpSchema = () => {
             .string()
             .trim()
             .required('Name is required')
-            .matches(/^[A-Za-z]+$/, {
+            .matches(/^[A-Za-zА-Яа-яЁё]+$/, {
                 message: 'First name must contain at least one character and not contain special characters or digits',
             }),
         lastName: yup
             .string()
             .trim()
             .required('Last name is required')
-            .matches(/^[A-Za-z]+$/, {
+            .matches(/^[A-Za-zА-Яа-яЁё]+$/, {
                 message: 'Last name must contain at least one character and not contain special characters or digits',
             }),
         email: yup
             .string()
+            .strict(true)
             .lowercase()
-            .trim()
             .required('Email is required')
-            .email('The email address must be in the format user@domain.com')
+            .trim('Email address must not contain leading or trailing whitespace')
             .test('email-domain', 'Email must contain a domain name (e.g., example.com)', value => {
                 if (!value) return false;
                 const parts = value.split('@');
@@ -61,8 +61,9 @@ export const validateSignUpSchema = () => {
             }),
         password: yup
             .string()
-            .trim()
+            .strict(true)
             .required('Password is required')
+            .trim('Password must not contain leading or trailing whitespace')
             .matches(
                 /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$#№:;^!%*?&*()_+,."'`~/|])[\p{L}\d@$!%*?&*()_+."']*/u,
                 'Password must contain at least one capital Latin letter, one lowercase Latin letter, one digit, and one special character'
@@ -70,7 +71,6 @@ export const validateSignUpSchema = () => {
             .min(8, 'Password must be at least 8 characters long'),
         confirmPassword: yup
             .string()
-            .trim()
             .required('Password is required')
             .oneOf([yup.ref('password')], 'Passwords do not match'),
         birthDate: yup
