@@ -10,11 +10,11 @@ export const validateSignInSchema = () => {
         .object({
             email: yup
                 .string()
+                .strict(true)
                 .lowercase()
-                .trim()
                 .required('Email is required')
-                .email('The email address must be in the format user@domain.com')
-                .test('email-domain', 'Email must contain a domain name (e.g., example.com)', value => {
+                .trim('Email address must not contain leading or trailing whitespace')
+                .test('email-domain', 'The email address must be in the format user@domain.com', value => {
                     if (!value) return false;
                     const parts = value.split('@');
                     if (parts.length !== 2) return false;
@@ -26,8 +26,9 @@ export const validateSignInSchema = () => {
                 }),
             password: yup
                 .string()
-                .trim()
+                .strict(true)
                 .required('Password is required')
+                .trim('Password must not contain leading or trailing whitespace')
                 .matches(
                     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$#№:;^!%*?&*()_+,."'`~/|])[\p{L}\d@$!%*?&*()_+."']*/u,
                     'Password must contain at least one capital Latin letter, one lowercase Latin letter, one digit, and one special character'

@@ -66,7 +66,7 @@ export const SignInForm = () => {
                         <FormControl fullWidth variant="filled">
                             <TextField
                                 label="Email"
-                                type="email"
+                                type="text"
                                 margin="normal"
                                 fullWidth
                                 id="email"
