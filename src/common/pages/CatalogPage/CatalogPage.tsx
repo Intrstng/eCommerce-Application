@@ -1,5 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import Button from '@mui/material/Button';
+import { apiRoot } from '../../api/commercetools';
+import { projectKey } from '../../api/commercetools-config';
 
 export const CatalogPage = () => {
     const [searchParameters, setSearchParameters] = useSearchParams();
@@ -15,6 +18,122 @@ export const CatalogPage = () => {
             return newParameters;
         });
     };
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await apiRoot
+                    .withProjectKey({ projectKey })
+                    .products()
+                    .get({
+                        queryArgs: {
+                            // limit: 6,
+                            staged: false,
+                        },
+                    })
+                    .execute();
+                const products = response.body.results.map(product => {
+                    const masterVariant = product.masterData.current.masterVariant;
+                    const description = product.masterData.current.description
+                        ? product.masterData.current.description['en-US'] ||
+                          Object.values(product.masterData.current.description)[0] ||
+                          'No description available'
+                        : 'No description available';
+
+                    const name = {
+                        en:
+                            product.masterData.current.name['en-US'] ||
+                            Object.values(product.masterData.current.name)[0] ||
+                            'Unnamed product',
+                        ru: product.masterData.current.name['ru-RU'] || 'Unnamed product',
+                    };
+
+                    const prices =
+                        masterVariant.prices?.map(price => ({
+                            id: price.id,
+                            value: {
+                                type: price.value.type,
+                                currencyCode: price.value.currencyCode,
+                                centAmount: price.value.centAmount,
+                                fractionDigits: price.value.fractionDigits,
+                            },
+                            country: price.country,
+                            channel: price.channel,
+                            discounted: price.discounted
+                                ? {
+                                      value: {
+                                          type: price.discounted.value.type,
+                                          currencyCode: price.discounted.value.currencyCode,
+                                          centAmount: price.discounted.value.centAmount,
+                                          fractionDigits: price.discounted.value.fractionDigits,
+                                      },
+                                  }
+                                : null,
+                        })) ?? [];
+
+                    const images = masterVariant.images?.map(image => image.url) ?? [];
+
+                    return {
+                        id: product.id,
+                        name,
+                        description,
+                        categories: product.masterData.current.categories,
+                        type: product.productType,
+                        prices,
+                        images,
+                        variants: [masterVariant, ...product.masterData.current.variants].map(variant => ({
+                            id: variant.id,
+                            sku: variant.sku,
+                            attributes: variant.attributes,
+                            availability: variant.availability,
+                        })),
+                    };
+                });
+                console.log('All products:', products);
+            } catch (error) {
+                console.error('Failed to fetch products:', error);
+            }
+        };
+
+        const fetchCategories = async () => {
+            try {
+                const response = await apiRoot.withProjectKey({ projectKey }).categories().get().execute();
+                const productsResponse = await apiRoot
+                    .withProjectKey({ projectKey })
+                    .products()
+                    .get({
+                        queryArgs: {
+                            staged: false,
+                        },
+                    })
+                    .execute();
+
+                const categoryProductCount = new Map<string, number>();
+                productsResponse.body.results.forEach(product => {
+                    product.masterData.current.categories.forEach(category => {
+                        const count = categoryProductCount.get(category.id) ?? 0;
+                        categoryProductCount.set(category.id, count + 1);
+                    });
+                });
+
+                const categories = response.body.results.map(category => ({
+                    externalId: category.externalId,
+                    id: category.id,
+                    key: category.key,
+                    name: category.name,
+                    orderHint: category.orderHint,
+                    slug: category.slug,
+                    productCount: categoryProductCount.get(category.id) ?? 0,
+                }));
+                console.log('All categories:', categories);
+            } catch (error) {
+                console.error('Failed to fetch categories:', error);
+            }
+        };
+
+        void fetchProducts();
+        void fetchCategories();
+    }, []);
 
     const catalogContent =
         currentPage && currentType ? (
