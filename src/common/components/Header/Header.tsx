@@ -5,22 +5,41 @@ import { LogoutButton } from '../LogoutButton/LogoutButton';
 import { Logo } from '../Logo/Logo';
 import { SignInButton } from '../SignInButton/SignInButton';
 import { SignUpButton } from '../SignUpButton/SignUpButton';
+import { authAPI } from 'src/features/auth/api/authApi';
 
 export const Header = () => {
-    // or we can use useSearchParams() here;
-    // const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
+    const handleCategoryClick = async (categoryType: string) => {
+        try {
+            const products = await authAPI.getProductsByCategory(categoryType);
+            console.log(`Products for category ${categoryType}:`, products);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
 
     return (
         <div className={S.header}>
             <Logo />
             <div className={S.nav}>
-                <NavLink to={`${PATH.CATALOG}?page=1&type=Earrings`} className={S.navLink}>
+                <NavLink
+                    to={`${PATH.CATALOG}?page=1&type=Earrings`}
+                    className={S.navLink}
+                    onClick={() => handleCategoryClick('earrings')}
+                >
                     Earrings
                 </NavLink>
-                <NavLink to={`${PATH.CATALOG}?page=1&type=Ring`} className={S.navLink}>
+                <NavLink
+                    to={`${PATH.CATALOG}?page=1&type=Ring`}
+                    className={S.navLink}
+                    onClick={() => handleCategoryClick('rings')}
+                >
                     Rings
                 </NavLink>
-                <NavLink to={`${PATH.CATALOG}?page=1&type=Brooch`} className={S.navLink}>
+                <NavLink
+                    to={`${PATH.CATALOG}?page=1&type=Brooch`}
+                    className={S.navLink}
+                    onClick={() => handleCategoryClick('brooches')}
+                >
                     Brooches
                 </NavLink>
 

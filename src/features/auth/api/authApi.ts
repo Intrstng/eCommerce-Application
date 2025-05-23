@@ -3,6 +3,8 @@ import type {
     Customer,
     CustomerSignInResult,
     MyCustomerUpdateAction,
+    Category,
+    Product,
 } from '@commercetools/platform-sdk';
 import type { User } from '../../../common/types';
 import { apiRoot } from '../../../common/api/commercetools';
@@ -155,5 +157,35 @@ export const authAPI = {
             }
             throw new Error('Failed to change password');
         }
+    },
+
+    async getCategories(): Promise<Category[]> {
+        const response = await apiRoot
+            .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
+            .categories()
+            .get()
+            .execute();
+        return response.body.results;
+    },
+
+    async getProductsByCategory(categoryType: string): Promise<Product[]> {
+        const categories = await this.getCategories();
+        const category = categories.find(cat => cat.key?.toLowerCase() === categoryType.toLowerCase());
+
+        if (!category) {
+            throw new Error(`Category ${categoryType} not found`);
+        }
+
+        const response = await apiRoot
+            .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
+            .products()
+            .get({
+                queryArgs: {
+                    where: `masterData(current(categories(id="${category.id}")))`,
+                },
+            })
+            .execute();
+
+        return response.body.results;
     },
 };
