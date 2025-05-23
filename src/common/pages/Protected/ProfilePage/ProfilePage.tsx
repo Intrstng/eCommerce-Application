@@ -24,6 +24,8 @@ export const ProfilePage = () => {
     const [customer, setCustomer] = useState<Customer | null>(null);
     const [isEditMode, setIsEditMode] = useState(false);
     const [isEditAddressMode, setIsEditAddressMode] = useState(false);
+    const [isAddAddressMode, setIsAddAddressMode] = useState(false);
+    const [editingAddressId, setEditingAddressId] = useState<string | null>(null);
     const [editData, setEditData] = useState<EditModeData>({
         firstName: '',
         lastName: '',
@@ -181,73 +183,132 @@ export const ProfilePage = () => {
         }));
     };
 
-    const handleEditAddressClick = (address: Address) => {
-        setIsEditAddressMode(true);
+    const handleAddAddressClick = () => {
+        setIsAddAddressMode(true);
         setEditAddressData({
-            streetName: address.streetName ?? '',
-            city: address.city ?? '',
-            postalCode: address.postalCode ?? '',
-            country: address.country ?? '',
-            isDefaultBilling: customer?.billingAddressIds?.includes(address.id ?? '') ?? false,
-            isDefaultShipping: customer?.shippingAddressIds?.includes(address.id ?? '') ?? false,
+            streetName: '',
+            city: '',
+            postalCode: '',
+            country: '',
+            isDefaultBilling: false,
+            isDefaultShipping: false,
         });
         setUpdateStatus({ type: null, message: '' });
     };
 
     const handleCancelAddressEdit = () => {
         setIsEditAddressMode(false);
+        setIsAddAddressMode(false);
+        setEditingAddressId(null);
         setUpdateStatus({ type: null, message: '' });
     };
 
-    const handleSaveAddress = async (addressId: string) => {
+    const handleDeleteAddress = async (addressId: string) => {
+        if (!customer) return;
+
+        try {
+            const actions: MyCustomerUpdateAction[] = [
+                {
+                    action: 'removeAddress',
+                    addressId,
+                },
+            ];
+
+            const updatedCustomer = await authAPI.updateCustomer({
+                version: customer.version,
+                actions,
+            });
+
+            setCustomer(updatedCustomer);
+            setUpdateStatus({
+                type: 'success',
+                message: 'Address deleted successfully!',
+            });
+        } catch (error) {
+            console.error('Error deleting address:', error);
+            setUpdateStatus({
+                type: 'error',
+                message: 'Failed to delete address. Please try again.',
+            });
+        }
+    };
+
+    const handleSaveAddress = async (addressId?: string) => {
         if (!customer) return;
 
         try {
             const actions: MyCustomerUpdateAction[] = [];
 
-            // Update address
-            actions.push({
-                action: 'changeAddress',
-                addressId,
-                address: {
-                    streetName: editAddressData.streetName,
-                    city: editAddressData.city,
-                    postalCode: editAddressData.postalCode,
-                    country: editAddressData.country,
-                },
-            });
+            if (isAddAddressMode) {
+                // Add new address
+                actions.push({
+                    action: 'addAddress',
+                    address: {
+                        streetName: editAddressData.streetName,
+                        city: editAddressData.city,
+                        postalCode: editAddressData.postalCode,
+                        country: editAddressData.country,
+                    },
+                });
 
-            // Update default billing address
-            if (editAddressData.isDefaultBilling) {
-                if (!customer.billingAddressIds?.includes(addressId)) {
+                // Set as default if needed
+                if (editAddressData.isDefaultBilling) {
                     actions.push({
                         action: 'setDefaultBillingAddress',
-                        addressId,
+                        addressId: '0', // Will be updated with actual ID after address is added
                     });
                 }
-            } else {
-                if (customer.billingAddressIds?.includes(addressId)) {
-                    actions.push({
-                        action: 'removeBillingAddressId',
-                        addressId,
-                    });
-                }
-            }
-
-            // Update default shipping address
-            if (editAddressData.isDefaultShipping) {
-                if (!customer.shippingAddressIds?.includes(addressId)) {
+                if (editAddressData.isDefaultShipping) {
                     actions.push({
                         action: 'setDefaultShippingAddress',
-                        addressId,
+                        addressId: '0', // Will be updated with actual ID after address is added
                     });
                 }
-            } else {
-                if (customer.shippingAddressIds?.includes(addressId)) {
-                    actions.push({
-                        action: 'removeShippingAddressId',
-                        addressId,
-                    });
+            } else if (addressId) {
+                // Update existing address
+                actions.push({
+                    action: 'changeAddress',
+                    addressId,
+                    address: {
+                        streetName: editAddressData.streetName,
+                        city: editAddressData.city,
+                        postalCode: editAddressData.postalCode,
+                        country: editAddressData.country,
+                    },
+                });
+
+                // Update default billing address
+                if (editAddressData.isDefaultBilling) {
+                    if (!customer.billingAddressIds?.includes(addressId)) {
+                        actions.push({
+                            action: 'setDefaultBillingAddress',
+                            addressId,
+                        });
+                    }
+                } else {
+                    if (customer.billingAddressIds?.includes(addressId)) {
+                        actions.push({
+                            action: 'removeBillingAddressId',
+                            addressId,
+                        });
+                    }
+                }
+
+                // Update default shipping address
+                if (editAddressData.isDefaultShipping) {
+                    if (!customer.shippingAddressIds?.includes(addressId)) {
+                        actions.push({
+                            action: 'setDefaultShippingAddress',
+                            addressId,
+                        });
+                    }
+                } else {
+                    if (customer.shippingAddressIds?.includes(addressId)) {
+                        actions.push({
+                            action: 'removeShippingAddressId',
+                            addressId,
+                        });
+                    }
                 }
             }
 
@@ -259,12 +320,16 @@ export const ProfilePage = () => {
 
                 setCustomer(updatedCustomer);
                 setIsEditAddressMode(false);
+                setIsAddAddressMode(false);
+                setEditingAddressId(null);
                 setUpdateStatus({
                     type: 'success',
-                    message: 'Address updated successfully!',
+                    message: isAddAddressMode ? 'Address added successfully!' : 'Address updated successfully!',
                 });
             } else {
                 setIsEditAddressMode(false);
+                setIsAddAddressMode(false);
+                setEditingAddressId(null);
                 setUpdateStatus({
                     type: 'success',
                     message: 'No changes to save.',
@@ -277,6 +342,20 @@ export const ProfilePage = () => {
                 message: 'Failed to update address. Please try again.',
             });
         }
+    };
+
+    const handleEditAddressClick = (address: Address) => {
+        setIsEditAddressMode(true);
+        setEditingAddressId(address.id ?? null);
+        setEditAddressData({
+            streetName: address.streetName ?? '',
+            city: address.city ?? '',
+            postalCode: address.postalCode ?? '',
+            country: address.country ?? '',
+            isDefaultBilling: customer?.billingAddressIds?.includes(address.id ?? '') ?? false,
+            isDefaultShipping: customer?.shippingAddressIds?.includes(address.id ?? '') ?? false,
+        });
+        setUpdateStatus({ type: null, message: '' });
     };
 
     const handleAddressInputChange = (field: keyof EditAddressData, value: string | boolean) => {
@@ -371,8 +450,92 @@ export const ProfilePage = () => {
             </div>
 
             <div>
-                <h3>Addresses</h3>
-                {customer.addresses.length === 0 ? (
+                <div>
+                    <h3>Addresses</h3>
+                    {!isAddAddressMode && !isEditAddressMode && (
+                        <Button onClick={handleAddAddressClick}>Add New Address</Button>
+                    )}
+                </div>
+
+                {updateStatus.type && <div>{updateStatus.message}</div>}
+
+                {isAddAddressMode ? (
+                    <div>
+                        <h4>Add New Address</h4>
+                        <div>
+                            <div>
+                                <label>Street</label>
+                                <input
+                                    type="text"
+                                    value={editAddressData.streetName}
+                                    onChange={event => {
+                                        handleAddressInputChange('streetName', event.target.value);
+                                    }}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label>City</label>
+                                <input
+                                    type="text"
+                                    value={editAddressData.city}
+                                    onChange={event => {
+                                        handleAddressInputChange('city', event.target.value);
+                                    }}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label>Postal Code</label>
+                                <input
+                                    type="text"
+                                    value={editAddressData.postalCode}
+                                    onChange={event => {
+                                        handleAddressInputChange('postalCode', event.target.value);
+                                    }}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label>Country</label>
+                                <input
+                                    type="text"
+                                    value={editAddressData.country}
+                                    onChange={event => {
+                                        handleAddressInputChange('country', event.target.value);
+                                    }}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        checked={editAddressData.isDefaultBilling}
+                                        onChange={event => {
+                                            handleAddressInputChange('isDefaultBilling', event.target.checked);
+                                        }}
+                                    />
+                                    Use as default billing address
+                                </label>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        checked={editAddressData.isDefaultShipping}
+                                        onChange={event => {
+                                            handleAddressInputChange('isDefaultShipping', event.target.checked);
+                                        }}
+                                    />
+                                    Use as default shipping address
+                                </label>
+                            </div>
+                            <div>
+                                <Button onClick={handleCancelAddressEdit}>Cancel</Button>
+                                <Button onClick={() => handleSaveAddress()}>Add Address</Button>
+                            </div>
+                        </div>
+                    </div>
+                ) : customer.addresses.length === 0 ? (
                     <div>No addresses saved yet</div>
                 ) : (
                     <div>
@@ -380,16 +543,21 @@ export const ProfilePage = () => {
                             <div key={address.id}>
                                 <div>
                                     {!isEditAddressMode && (
-                                        <Button
-                                            onClick={() => {
-                                                handleEditAddressClick(address);
-                                            }}
-                                        >
-                                            Edit
-                                        </Button>
+                                        <div>
+                                            <Button
+                                                onClick={() => {
+                                                    handleEditAddressClick(address);
+                                                }}
+                                            >
+                                                Edit
+                                            </Button>
+                                            <Button onClick={() => handleDeleteAddress(address.id ?? '')}>
+                                                Delete
+                                            </Button>
+                                        </div>
                                     )}
                                 </div>
-                                {isEditAddressMode ? (
+                                {isEditAddressMode && editingAddressId === address.id ? (
                                     <div>
                                         <div>
                                             <label>Street</label>
@@ -399,6 +567,7 @@ export const ProfilePage = () => {
                                                 onChange={event => {
                                                     handleAddressInputChange('streetName', event.target.value);
                                                 }}
+                                                required
                                             />
                                         </div>
                                         <div>
@@ -409,6 +578,7 @@ export const ProfilePage = () => {
                                                 onChange={event => {
                                                     handleAddressInputChange('city', event.target.value);
                                                 }}
+                                                required
                                             />
                                         </div>
                                         <div>
@@ -419,6 +589,7 @@ export const ProfilePage = () => {
                                                 onChange={event => {
                                                     handleAddressInputChange('postalCode', event.target.value);
                                                 }}
+                                                required
                                             />
                                         </div>
                                         <div>
@@ -429,6 +600,7 @@ export const ProfilePage = () => {
                                                 onChange={event => {
                                                     handleAddressInputChange('country', event.target.value);
                                                 }}
+                                                required
                                             />
                                         </div>
                                         <div>
