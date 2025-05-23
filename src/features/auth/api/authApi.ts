@@ -1,10 +1,20 @@
-import type { ClientResponse, CustomerSignInResult, Customer } from '@commercetools/platform-sdk';
+import type {
+    ClientResponse,
+    Customer,
+    CustomerSignInResult,
+    MyCustomerUpdateAction,
+} from '@commercetools/platform-sdk';
 import type { User } from '../../../common/types';
 import { apiRoot } from '../../../common/api/commercetools';
 import { getEnvironmentVariable } from '../../../common/utils/get-environment-variable';
 import { EnvironmentKeys } from '../../../common/enums';
 import { authTokenService } from '../../../common/services/auth-token.service';
 import { isDuplicateEmailError } from '../../../common/utils/type-guards';
+
+interface UpdateCustomerActions {
+    version: number;
+    actions: MyCustomerUpdateAction[];
+}
 
 export const authAPI = {
     async login(email: string, password: string): Promise<ClientResponse<CustomerSignInResult>> {
@@ -16,7 +26,11 @@ export const authAPI = {
                 .me()
                 .login()
                 .post({
-                    body: { email, password },
+                    body: {
+                        email,
+                        password,
+                        updateProductData: true,
+                    },
                 })
                 .execute();
         } catch {
@@ -85,24 +99,27 @@ export const authAPI = {
         }
     },
 
-    async getCurrentUser(): Promise<Customer | null> {
-        try {
-            const token = authTokenService.getAccessToken();
-            if (!token) {
-                return null;
-            }
-            const response = await apiRoot
-                .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
-                .me()
-                .get()
-                .execute();
+    async getCurrentUser(): Promise<Customer> {
+        const response = await apiRoot
+            .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
+            .me()
+            .get()
+            .execute();
+        return response.body;
+    },
 
-            return response.body;
-        } catch (error) {
-            console.error('Get current user error:', error);
-            authTokenService.clearTokens();
-            return null;
-        }
+    async updateCustomer({ version, actions }: UpdateCustomerActions): Promise<Customer> {
+        const response = await apiRoot
+            .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
+            .me()
+            .post({
+                body: {
+                    version,
+                    actions,
+                },
+            })
+            .execute();
+        return response.body;
     },
 
     logout(): void {
