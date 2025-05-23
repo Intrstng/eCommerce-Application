@@ -125,4 +125,35 @@ export const authAPI = {
     logout(): void {
         authTokenService.clearTokens();
     },
+
+    async changePassword(currentPassword: string, newPassword: string): Promise<void> {
+        try {
+            const customer = await this.getCurrentUser();
+            if (!customer) {
+                throw new Error('User not found');
+            }
+
+            const response = await apiRoot
+                .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
+                .me()
+                .password()
+                .post({
+                    body: {
+                        version: customer.version,
+                        currentPassword,
+                        newPassword,
+                    },
+                })
+                .execute();
+
+            if (!response.body) {
+                throw new Error('Failed to change password');
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                throw new TypeError(`Failed to change password: ${error.message}`);
+            }
+            throw new Error('Failed to change password');
+        }
+    },
 };

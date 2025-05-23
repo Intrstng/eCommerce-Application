@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { authAPI } from 'src/features/auth/api/authApi';
 import type { Customer, MyCustomerUpdateAction, Address } from '@commercetools/platform-sdk';
 import { Button } from 'src/common/components/Button/Button';
+import { ChangePasswordForm } from './ChangePasswordForm';
 
 interface EditModeData {
     firstName: string;
@@ -44,6 +45,7 @@ export const ProfilePage = () => {
         type: 'success' | 'error' | null;
         message: string;
     }>({ type: null, message: '' });
+    const [showPasswordForm, setShowPasswordForm] = useState(false);
 
     useEffect(() => {
         const fetchCustomerProfile = async () => {
@@ -364,13 +366,31 @@ export const ProfilePage = () => {
             [field]: value,
         }));
     };
+
+    const handlePasswordChangeSuccess = () => {
+        setShowPasswordForm(false);
+        setUpdateStatus({
+            type: 'success',
+            message: 'Password changed successfully!',
+        });
+    };
+
     if (!customer) {
         return <h2>No User Data</h2>;
     }
     return (
         <div>
+            <h2>Profile Information</h2>
             <div>
-                <h2>Profile Information</h2>
+                {!isEditMode && (
+                    <Button
+                        onClick={() => {
+                            setShowPasswordForm(true);
+                        }}
+                    >
+                        Change Password
+                    </Button>
+                )}
                 {isEditMode ? (
                     <div>
                         <Button onClick={handleCancelClick}>Cancel</Button>
@@ -382,6 +402,19 @@ export const ProfilePage = () => {
             </div>
 
             {updateStatus.type && <div>{updateStatus.message}</div>}
+
+            {showPasswordForm && (
+                <div>
+                    <div>
+                        <ChangePasswordForm
+                            onClose={() => {
+                                setShowPasswordForm(false);
+                            }}
+                            onSuccess={handlePasswordChangeSuccess}
+                        />
+                    </div>
+                </div>
+            )}
 
             <div>
                 <h3>Personal Details</h3>
