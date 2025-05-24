@@ -1,8 +1,10 @@
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { App } from 'app/ui/App';
+import { RouterProvider } from 'react-router-dom';
 import { store } from 'app/store';
 import './index.scss';
+import { router } from './common/routes/Route';
+import { AuthProvider } from './features/auth/providers/AuthProvider';
 
 const container = document.querySelector('#root');
 
@@ -11,7 +13,14 @@ if (container) {
 
     root.render(
         <Provider store={store}>
-            <App />
+            <AuthProvider>
+                <RouterProvider
+                    future={{
+                        v7_startTransition: true,
+                    }}
+                    router={router}
+                />
+            </AuthProvider>
         </Provider>
     );
 } else {

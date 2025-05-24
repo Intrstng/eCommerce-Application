@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-imports */
+import type { TypedUseSelectorHook } from 'react-redux';
 import { useSelector } from 'react-redux';
-import type { RootState } from 'app/store';
+import type { AppRootState } from 'app/store';
 
-export const useAppSelector = useSelector.withTypes<RootState>();
+export const useAppSelector: TypedUseSelectorHook<AppRootState> = useSelector;

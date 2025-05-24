@@ -1,4 +1,21 @@
+@font-face {
+    font-family: Jost;
+    src: url('../src/assets/fonts/jost/Jost-Regular.ttf');
+}
+
+::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+html,
 body {
+    scrollbar-width: thin;
+
+    // scrollbar-gutter: stable;
+}
+
+body {
+    box-sizing: border-box;
     margin: 0;
 
     font-family:
@@ -6,8 +23,6 @@ body {
         'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
-    background-color: #a3cff5;
 }
 
 code {

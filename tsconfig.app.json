@@ -8,7 +8,7 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler", // "node"
+    "moduleResolution": "node", // "bundler"
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
@@ -41,5 +41,7 @@
   "exclude": [
     "node_modules",
     "dist",
-  ],
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx"
+  ]
 }
