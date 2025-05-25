@@ -34,18 +34,18 @@ export const CatalogPage = () => {
                     .execute();
                 const products = response.body.results.map(product => {
                     const masterVariant = product.masterData.current.masterVariant;
-                    const description = product.masterData.current.description
-                        ? product.masterData.current.description['en-US'] ||
-                          Object.values(product.masterData.current.description)[0] ||
-                          'No description available'
-                        : 'No description available';
+                    const description = {
+                        ru: product.masterData.current.description
+                            ? product.masterData.current.description['ru']
+                            : 'No description available',
+                        en: product.masterData.current.description
+                            ? product.masterData.current.description['en']
+                            : 'No description available',
+                    };
 
                     const name = {
-                        en:
-                            product.masterData.current.name['en-US'] ||
-                            Object.values(product.masterData.current.name)[0] ||
-                            'Unnamed product',
-                        ru: product.masterData.current.name['ru-RU'] || 'Unnamed product',
+                        ru: product.masterData.current.name['ru'] || 'Unnamed product',
+                        en: product.masterData.current.name['en'] || 'Unnamed product',
                     };
 
                     const prices =
