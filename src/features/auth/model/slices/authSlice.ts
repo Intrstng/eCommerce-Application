@@ -36,7 +36,7 @@ export const authSlice = createSlice({
 export const authReducer = authSlice.reducer;
 export const authActions = authSlice.actions;
 
-export const authSuccessTC = (): AppThunk => dispatch => {
+export const authSuccessTC = (): AppThunk => async dispatch => {
     dispatch(appActions.setAppStatus({ status: Status.LOADING }));
     try {
         const user: UserDataLS | null = userStorage.getUser();
@@ -45,7 +45,7 @@ export const authSuccessTC = (): AppThunk => dispatch => {
             dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
         } else {
             dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
-            authTokenService.clearTokens();
+            await authTokenService.getAnonymousToken();
         }
         dispatch(appActions.setAppInitialized({ isInitialized: true }));
         dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
@@ -89,15 +89,23 @@ export const loginTC =
         }
     };
 
-export const logOutTC = (): AppThunk => dispatch => {
+export const logOutTC = (): AppThunk => async dispatch => {
     dispatch(appActions.setAppStatus({ status: Status.LOADING }));
-    authAPI.logout();
-    dispatch(authActions.setUser({ user: null }));
-    userStorage.removeUser();
-    dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
-
-    dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
-    successNotifyMessage("You've logged out of your account");
+    try {
+        await authAPI.logout();
+        dispatch(authActions.setUser({ user: null }));
+        userStorage.removeUser();
+        dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
+        dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
+        successNotifyMessage("You've logged out of your account");
+    } catch (error) {
+        if (error instanceof Error) {
+            dispatch(appActions.setAppError({ error: error.message }));
+        } else {
+            dispatch(appActions.setAppError({ error: 'Logout failed' }));
+        }
+        dispatch(appActions.setAppStatus({ status: Status.FAILED }));
+    }
 };
 
 export const signUpTC =

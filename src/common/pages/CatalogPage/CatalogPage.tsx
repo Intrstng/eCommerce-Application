@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Button from '@mui/material/Button';
 import { apiRoot } from '../../api/commercetools';
 import { projectKey } from '../../api/commercetools-config';
+import { authTokenService } from '../../services/auth-token.service';
 
 export const CatalogPage = () => {
     const [searchParameters, setSearchParameters] = useSearchParams();
@@ -22,6 +23,8 @@ export const CatalogPage = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
+                await authTokenService.getAnonymousToken();
+
                 const response = await apiRoot
                     .withProjectKey({ projectKey })
                     .products()
@@ -97,6 +100,8 @@ export const CatalogPage = () => {
 
         const fetchCategories = async () => {
             try {
+                await authTokenService.getAnonymousToken();
+
                 const response = await apiRoot.withProjectKey({ projectKey }).categories().get().execute();
                 const productsResponse = await apiRoot
                     .withProjectKey({ projectKey })

@@ -91,8 +91,6 @@ export const authAPI = {
                 .execute();
             return await this.login(email, password);
         } catch (error) {
-            authTokenService.clearTokens();
-
             if (isDuplicateEmailError(error)) {
                 throw new Error('This email is already registered. Please use a different email or sign in.');
             }
@@ -124,8 +122,9 @@ export const authAPI = {
         return response.body;
     },
 
-    logout(): void {
+    async logout(): Promise<void> {
         authTokenService.clearTokens();
+        await authTokenService.getAnonymousToken();
     },
 
     async changePassword(currentPassword: string, newPassword: string): Promise<void> {
