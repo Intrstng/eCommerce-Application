@@ -1,11 +1,10 @@
 import { Card, CardContent, Skeleton, Typography } from '@mui/material';
-import S from './CatalogCard.module.scss';
 import { STYLES } from './styles.catalogCard';
 
 export const CatalogCardSkeleton = () => {
     return (
         <Card sx={STYLES.card}>
-            <Skeleton variant="rectangular" width={370} height={370} className={S.card__image} />
+            <Skeleton variant="rectangular" width={370} height={370} />
             <CardContent sx={STYLES.cardContent}>
                 <Typography
                     className="cardTitle"

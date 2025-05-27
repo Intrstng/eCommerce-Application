@@ -1,4 +1,4 @@
-import { PATH } from '../../enums';
+import { CATEGORIES, PATH } from '../../enums';
 import { NavLink } from 'react-router-dom';
 import S from './Header.module.scss';
 import { LogoutButton } from '../LogoutButton/LogoutButton';
@@ -14,14 +14,14 @@ export const Header = () => {
         <div className={S.header}>
             <Logo />
             <div className={S.nav}>
-                <NavLink to={`${PATH.CATALOG}?page=1&type=earrings`} className={S.navLink}>
-                    Earrings
+                <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.EARRINGS}`} className={S.navLink}>
+                    {CATEGORIES.EARRINGS}
                 </NavLink>
-                <NavLink to={`${PATH.CATALOG}?page=1&type=rings`} className={S.navLink}>
-                    Rings
+                <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.RINGS}`} className={S.navLink}>
+                    {CATEGORIES.RINGS}
                 </NavLink>
-                <NavLink to={`${PATH.CATALOG}?page=1&type=brooches`} className={S.navLink}>
-                    Brooches
+                <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.BROOCHES}`} className={S.navLink}>
+                    {CATEGORIES.BROOCHES}
                 </NavLink>
 
                 {/*Code below will be added in Sprint #3*/}

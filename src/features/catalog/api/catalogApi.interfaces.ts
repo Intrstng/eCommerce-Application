@@ -55,4 +55,5 @@ export interface CatalogCategory {
     orderHint: string;
     slug: LocalizedString;
     productCount: number;
+    description?: LocalizedString;
 }

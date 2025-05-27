@@ -1,8 +1,7 @@
 import './App.scss';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { Footer } from '../../common/components/Footer/Footer';
 import { Header } from '../../common/components/Header/Header';
-import { PATH } from '../../common/enums';
 import { ToastifyNotification } from '../../common/components/ToastifyNotification/ToastifyNotification';
 import { useAppDispatch, useAppSelector } from '../../common/hooks';
 import type { AppError, Status } from 'app/model/types';
@@ -10,16 +9,12 @@ import { errorSelector, statusSelector } from 'app/model/selectors/appSelectors'
 import LinearProgress from '@mui/material/LinearProgress';
 import { useEffect } from 'react';
 import { errorNotifyMessageWithDispatch } from '../../common/utils/notify-message';
+import { BreadCrumbs } from '../../common/components/BreadCrumbs/BreadCrumbs';
 
 export const App = () => {
-    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const appStatus: string = useAppSelector<Status>(statusSelector);
     const appError = useAppSelector<AppError>(errorSelector);
-
-    const navigateHandler = () => {
-        navigate(-1);
-    };
 
     useEffect(() => {
         if (typeof appError === 'string') {
@@ -43,14 +38,7 @@ export const App = () => {
 
             <div className="main">
                 <div className="content">
-                    <div className="horizontalNavigation">
-                        <NavLink className="linkLikeButton" to={PATH.MAIN}>
-                            Home
-                        </NavLink>
-                        <button onClick={navigateHandler} className="buttonLikeLink">
-                            Back
-                        </button>
-                    </div>
+                    <BreadCrumbs />
                     <Outlet />
                 </div>
             </div>

@@ -51,3 +51,27 @@ export enum PATH {
     PROFILE = '/profile',
     ADDRESSES = '/addresses',
 }
+
+export enum PAGES {
+    MAIN = 'Home',
+    ABOUT = 'About',
+    CART = 'Cart',
+    FAVORITES = 'Favorites',
+    CATALOG = 'Catalog',
+    PRODUCT = 'Product',
+    ARTICLE = 'Article',
+    ARTICLES = 'Articles',
+    SIGNIN = 'Login',
+    SIGNUP = 'Registration',
+    ERROR = 'Error',
+    // Protected pages
+    PROFILE = 'Profile',
+    ADDRESSES = 'Addresses',
+}
+
+export enum CATEGORIES {
+    EARRINGS = 'earrings',
+    RINGS = 'rings',
+    BROOCHES = 'brooches',
+    OTHER = 'other',
+}

@@ -9,7 +9,7 @@ import { useFetchProducts } from '../../../common/hooks/useFetchProducts';
 export const Catalog = () => {
     const { catalogProducts, isProductsLoading } = useFetchProducts();
 
-    if (catalogProducts.length === 0) {
+    if (!isProductsLoading && catalogProducts.length === 0) {
         return (
             <Typography component="h2" variant="h5">
                 There are no products in the catalogue according to your requirements. Try requesting products with

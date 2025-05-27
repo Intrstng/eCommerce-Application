@@ -92,6 +92,7 @@ export const catalogAPI = {
                 orderHint: category.orderHint,
                 slug: category.slug,
                 productCount: categoryProductCount.get(category.id) ?? 0,
+                description: category.description,
             }));
 
             console.log('All categories:', categories);
