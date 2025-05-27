@@ -1,15 +1,13 @@
-import { useAppSelector } from '../../../common/hooks';
-import type { CatalogProduct } from '../api/catalogApi.interfaces';
-import { catalogProductsSelector } from '../model/selectors/catalogSelector';
 import Typography from '@mui/material/Typography';
 import { CatalogCard } from './CatalogCard/CatalogCard';
 import noImage from '../../../assets/products/no-image.png';
 import Box from '@mui/material/Box';
 import S from './Catalog.module.scss';
 import { formatPrice } from '../utils/format-price';
+import { useFetchProducts } from '../../../common/hooks/useFetchProducts';
 
 export const Catalog = () => {
-    const catalogProducts: CatalogProduct[] = useAppSelector<CatalogProduct[]>(catalogProductsSelector);
+    const { catalogProducts, isProductsLoading } = useFetchProducts();
 
     if (catalogProducts.length === 0) {
         return (
@@ -31,6 +29,7 @@ export const Catalog = () => {
                         title={product.name.en}
                         description={product.description.en}
                         price={formatPrice(product.prices)}
+                        isProductsLoading={isProductsLoading}
                     />
                 ))}
             </Box>

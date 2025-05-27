@@ -1,76 +1,72 @@
 .card {
-    cursor: pointer;
+    //cursor: pointer;
+    //
+    //position: relative;
+    //
+    //overflow: hidden;
+    //
+    ////height: 30rem;
+    //
+    //text-decoration: none;
 
-    position: relative;
-
-    overflow: hidden;
-
-    height: 450px;
-    border: 1px solid green;
-    border-radius: 1.25rem;
-
-    text-decoration: none;
-
-    background-color: yellow;
-
-    &__image {
-        overflow: hidden;
-        display: inline-block;
-
-        width: 100%;
-        height: 320px;
-
-        background-position: center;
-        background-size: cover;
-
-        transition: transform 0.8s ease;
+    &__content {
+        //margin-top: 0.625rem;
+        //padding: 0 !important;
     }
 
-    &__title {
-        margin: 7px 0 14px;
+    &__image {
+        //overflow: hidden;
+        //display: inline-block;
+        //
+        //width: 100%;
+        //height: 23.125rem;
+        //
+        //background-position: center;
+        //background-size: cover;
+        //
+        //transition: transform 0.8s ease;
+    }
 
-        font-family: 'Comic Sans MS', sans-serif;
-        font-size: 1.25rem;
-        font-weight: 700;
-        line-height: 1.25rem;
-        color: red;
-        text-align: center; // change
+    //&__title,
+    //&__text,
+    //&__price {
+    //    font-family: 'Jost', sans-serif;
+    //    font-weight: 400;
+    //    text-align: left;
+    //    transition: color 0.3s ease-in;
+    //}
 
-        @media (width <= 1000px) {
-            margin: 6px 0 10px;
-        }
+    //&__title {
+    //    margin-bottom: 0.25rem;
+    //    text-transform: uppercase;
+    //
+    //    font-size: 0.81rem;
+    //    line-height: 1.56rem;
+    //    letter-spacing: 1px;
+    //    color: #161412;
+    //}
+
+    &__text {
+        //margin-bottom: 0.25rem;
+        //font-size: 0.875rem;
+        //line-height: 1.19rem;
+        //color: #65635F;
+        //letter-spacing: 1px;
+        //
+        //display: -webkit-box;
+        //-webkit-box-orient: vertical;
+        //-webkit-line-clamp: 2;
+        //
+        //white-space: unset;
+        //overflow: hidden;
+        //text-overflow: ellipsis;
+        //max-width: 40ch;
     }
 
     &__price {
-        font-family: 'Comic Sans MS', sans-serif;
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.25rem;
-        color: green;
-        text-align: center; // change
-        @media (width <= 1000px) {
-            width: 205px;
-            margin-left: 36px;
-        }
-    }
-
-    &__text {
-        font-family: 'Comic Sans MS', sans-serif;
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.25rem;
-        color: blue;
-        text-align: center; // change
-        @media (width <= 1000px) {
-            width: 205px;
-            margin-left: 36px;
-        }
-    }
-
-    &__title,
-    &__price,
-    &__text {
-        transition: color 0.3s ease-in;
+        //font-size: 1rem;
+        //line-height: 1.5rem;
+        //color: #161412;
     }
 
     &:hover {
@@ -82,12 +78,12 @@
             color: purple;
         }
 
-        & .card__price {
-            color: grey;
+        & .card__text {
+            color: #161412;
         }
 
-        & .card__text {
-            color: grey;
+        & .card__price {
+            color: green;
         }
     }
 }
