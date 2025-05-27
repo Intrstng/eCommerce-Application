@@ -1,0 +1,26 @@
+.cards {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: repeat(3, 280px);
+    gap: 2rem 1rem;
+    justify-content: center;
+
+    padding-bottom: 3rem;
+
+    @media (width <= 1280px) {
+        grid-template-columns: repeat(3, 250px);
+        gap: 1.5rem 0.8rem;
+    }
+
+    @media (width <= 1000px) {
+        grid-template-columns: repeat(2, 250px);
+        gap: 2.3rem 1.5rem;
+    }
+
+    @media (width <= 768px) {
+        grid-template-columns: 250px;
+        column-gap: 3.75rem;
+        padding-bottom: 2rem;
+    }
+}

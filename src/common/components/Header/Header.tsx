@@ -14,13 +14,13 @@ export const Header = () => {
         <div className={S.header}>
             <Logo />
             <div className={S.nav}>
-                <NavLink to={`${PATH.CATALOG}?page=1&type=Earrings`} className={S.navLink}>
+                <NavLink to={`${PATH.CATALOG}?page=1&type=earrings`} className={S.navLink}>
                     Earrings
                 </NavLink>
-                <NavLink to={`${PATH.CATALOG}?page=1&type=Ring`} className={S.navLink}>
+                <NavLink to={`${PATH.CATALOG}?page=1&type=rings`} className={S.navLink}>
                     Rings
                 </NavLink>
-                <NavLink to={`${PATH.CATALOG}?page=1&type=Brooch`} className={S.navLink}>
+                <NavLink to={`${PATH.CATALOG}?page=1&type=brooches`} className={S.navLink}>
                     Brooches
                 </NavLink>
 

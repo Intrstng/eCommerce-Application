@@ -3,8 +3,9 @@ import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
 import { authSlice } from '../features/auth/model/slices/authSlice';
 import { appSlice } from 'app/model/slices/appSlice';
+import { catalogSlice } from '../features/catalog/model/slices/catalogSlice';
 
-const rootReducer = combineSlices(appSlice, authSlice);
+const rootReducer = combineSlices(appSlice, authSlice, catalogSlice);
 export type AppRootState = ReturnType<typeof rootReducer>;
 
 export const makeStore = (preloadedState?: Partial<AppRootState>) => {

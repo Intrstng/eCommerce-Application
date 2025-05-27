@@ -1,37 +1,26 @@
+import { useEffect } from 'react';
+import { Catalog } from '../../../features/catalog/ui/Catalog';
+import {
+    fetchAllCatalogProductsTC,
+    getProductsByCategoryTC,
+} from '../../../features/catalog/model/slices/catalogSlice';
+import { useAppDispatch } from '../../hooks';
 import { useSearchParams } from 'react-router-dom';
-import Button from '@mui/material/Button';
 
 export const CatalogPage = () => {
+    const dispatch = useAppDispatch();
+    // @ts-expect-error: Ignoring unused variable warning for setSearchParameters
     const [searchParameters, setSearchParameters] = useSearchParams();
-
     const currentPage = searchParameters.get('page');
     const currentType = searchParameters.get('type');
 
-    const handleEarringsClick = () => {
-        setSearchParameters(previousParameters => {
-            const newParameters = new URLSearchParams(previousParameters);
-            newParameters.set('page', '1');
-            newParameters.set('type', 'Earrings');
-            return newParameters;
-        });
-    };
+    useEffect(() => {
+        if (currentType) {
+            dispatch(getProductsByCategoryTC(currentType));
+        } else {
+            dispatch(fetchAllCatalogProductsTC());
+        }
+    }, [dispatch, currentPage, currentType]);
 
-    const catalogContent =
-        currentPage && currentType ? (
-            <div>
-                <h3>{`The catalog is filtered by type and presents page #${currentPage} of ${currentType} products`}</h3>
-                <Button type="button" onClick={handleEarringsClick} variant="outlined">
-                    Search Earrings in catalog
-                </Button>
-            </div>
-        ) : (
-            <h3>This catalog presents all types of products at the moment</h3>
-        );
-
-    return (
-        <div>
-            <h2>Catalog</h2>
-            {catalogContent}
-        </div>
-    );
+    return <Catalog />;
 };
