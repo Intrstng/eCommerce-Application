@@ -17,6 +17,7 @@ import type React from 'react';
 import { useAppSelector } from '../hooks';
 import { authIsLoggedInSelector } from '../../features/auth/model/selectors/authSelector';
 import { SignInPage } from '../pages/SignInPage/SignInPage';
+import { ProductPage } from '../pages/ProductPage/ProductPage';
 
 const PrivateRoutes = () => {
     const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
@@ -37,10 +38,10 @@ const publicRoutes: RouteObject[] = [
         path: PATH.CATALOG,
         element: <CatalogPage />,
     },
-    // {
-    //   path: PATH.PRODUCT,
-    //   element: <ProductPage/>,
-    // },
+    {
+        path: PATH.PRODUCT,
+        element: <ProductPage />,
+    },
     {
         path: PATH.ARTICLES,
         element: <ArticlesPage />,

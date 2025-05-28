@@ -24,6 +24,9 @@ export const STYLES = genStyles({
             },
         },
     },
+    link: {
+        textDecoration: 'none',
+    },
     cardImage: {
         overflow: 'hidden',
         display: 'inline-block',

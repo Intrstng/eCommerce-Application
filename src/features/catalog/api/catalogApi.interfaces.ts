@@ -19,19 +19,19 @@ export interface ProductPrice {
     } | null;
 }
 
-interface Variant {
+export interface Variant {
     id: number;
     sku?: string;
     attributes?: Attribute[];
     availability?: ProductVariantAvailability;
 }
 
-interface Description {
+export interface Description {
     ru: string;
     en: string;
 }
 
-interface Name {
+export interface Name {
     ru: string;
     en: string;
 }

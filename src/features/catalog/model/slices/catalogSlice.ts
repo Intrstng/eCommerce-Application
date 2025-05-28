@@ -9,6 +9,7 @@ import { catalogAPI } from '../../api/catalogApi';
 
 export const initialState: CatalogState = {
     products: [],
+    product: [],
 };
 
 export const catalogSlice = createSlice({
@@ -17,6 +18,9 @@ export const catalogSlice = createSlice({
     reducers: {
         setProducts(state, action: PayloadAction<{ products: CatalogProduct[] }>) {
             state.products = action.payload.products;
+        },
+        setProduct(state, action: PayloadAction<{ product: CatalogProduct[] }>) {
+            state.product = action.payload.product;
         },
     },
 });
@@ -49,6 +53,25 @@ export const getProductsByCategoryTC =
             const response = await catalogAPI.getProductsByCategory(categoryType);
 
             dispatch(catalogActions.setProducts({ products: response }));
+            dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(appActions.setAppError({ error: error.message }));
+            } else {
+                dispatch(appActions.setAppError({ error: 'An unexpected error occurred' }));
+            }
+            dispatch(appActions.setAppStatus({ status: Status.FAILED }));
+        }
+    };
+
+export const getProductByIdTC =
+    (id: string): AppThunk =>
+    async dispatch => {
+        dispatch(appActions.setAppStatus({ status: Status.LOADING }));
+        try {
+            const response = await catalogAPI.getProductByID(id);
+
+            dispatch(catalogActions.setProduct({ product: response }));
             dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
         } catch (error) {
             if (error instanceof Error) {

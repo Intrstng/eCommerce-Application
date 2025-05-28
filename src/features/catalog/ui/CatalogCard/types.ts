@@ -1,4 +1,5 @@
 export type CatalogItemProps = {
+    id: string;
     image: string;
     title: string;
     price: string;
@@ -6,4 +7,4 @@ export type CatalogItemProps = {
     isProductsLoading: boolean;
 };
 
-export type Currency = 'EUR' | 'BYN' | 'RUB';
+export type Currency = 'USD' | 'BYN' | 'RUB';

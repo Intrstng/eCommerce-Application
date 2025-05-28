@@ -18,7 +18,7 @@ export const catalogAPI = {
                     },
                 })
                 .execute();
-
+            console.log(response.body.results);
             return setProductDataFromResponse(response.body.results);
         } catch (error: unknown) {
             const error_ =
@@ -62,6 +62,29 @@ export const catalogAPI = {
             throw error_;
         }
     },
+
+    async getProductByID(id: string): Promise<CatalogProduct[]> {
+        try {
+            const response = await apiRoot
+                .withProjectKey({ projectKey })
+                .products()
+                .get({
+                    queryArgs: {
+                        where: `id="${id}"`,
+                    },
+                })
+                .execute();
+
+            return setProductDataFromResponse(response.body.results);
+        } catch (error: unknown) {
+            const error_ =
+                error instanceof Error
+                    ? new Error(`Failed to fetch product by ID: ${error.message}`)
+                    : new Error('Failed to fetch product by ID: Unknown error occurred');
+            throw error_;
+        }
+    },
+
     // ToDo: Check will we use fetchCategories function in the future:
     async fetchCategories(): Promise<CatalogCategory[]> {
         try {

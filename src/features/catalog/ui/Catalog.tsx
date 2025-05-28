@@ -25,10 +25,11 @@ export const Catalog = () => {
                 {catalogProducts.map(product => (
                     <CatalogCard
                         key={product.id}
+                        id={product.id}
                         image={product.images[0] || noImage}
                         title={product.name.en}
                         description={product.description.en}
-                        price={formatPrice(product.prices)}
+                        price={formatPrice(product.prices, 'USD')} // Temporrary currency solution
                         isProductsLoading={isProductsLoading}
                     />
                 ))}

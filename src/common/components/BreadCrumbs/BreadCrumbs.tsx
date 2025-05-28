@@ -2,6 +2,7 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { Breadcrumbs, Typography } from '@mui/material';
 import { PAGES, PATH } from '../../enums';
 import { STYLES } from './styles.breadCrumbs';
+import { isValidUUID } from '../../utils/validate-uuid';
 
 const BREAD_CRUMBS_NAMES: Record<string, PAGES> = {
     main: PAGES.MAIN,
@@ -29,6 +30,7 @@ export const BreadCrumbs = () => {
     if (location.pathname === '/main' || location.pathname === '/') {
         return null;
     }
+    const isParameterUUIDInURL = pathnames.some(pathname => isValidUUID(pathname));
 
     return (
         <Breadcrumbs aria-label="breadcrumb" sx={STYLES.breadcrumbs}>
@@ -39,20 +41,38 @@ export const BreadCrumbs = () => {
                 const routeTo = `${PATH.PAGE_ROOT}${pathnames.slice(0, index + 1).join(PATH.PAGE_ROOT)}`;
                 const displayName = BREAD_CRUMBS_NAMES[pathname] ?? pathname;
                 const isLastPage = index === pathnames.length - 1;
+                const isPathnameUUID = isValidUUID(pathname);
 
-                return (
-                    <Link to={routeTo} key={routeTo}>
+                if (!isParameterUUIDInURL) {
+                    return (
+                        <Link to={routeTo} key={routeTo}>
+                            <Typography
+                                color="textPrimary"
+                                sx={{
+                                    ...STYLES.links,
+                                    ...(!typeParameter && isLastPage ? STYLES.lastPage : {}),
+                                }}
+                            >
+                                {displayName}
+                            </Typography>
+                        </Link>
+                    );
+                } else if (isParameterUUIDInURL && !isPathnameUUID) {
+                    return (
                         <Typography
                             color="textPrimary"
                             sx={{
                                 ...STYLES.links,
                                 ...(!typeParameter && isLastPage ? STYLES.lastPage : {}),
+                                ...STYLES.lastPage,
                             }}
                         >
                             {displayName}
                         </Typography>
-                    </Link>
-                );
+                    );
+                } else if (isParameterUUIDInURL && isPathnameUUID) {
+                    return null;
+                }
             })}
             {typeParameter && (
                 <Typography
