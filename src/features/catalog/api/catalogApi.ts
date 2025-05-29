@@ -18,7 +18,9 @@ export const catalogAPI = {
                     },
                 })
                 .execute();
+            // await this.fetchCategories()
             console.log(response.body.results);
+
             return setProductDataFromResponse(response.body.results);
         } catch (error: unknown) {
             const error_ =

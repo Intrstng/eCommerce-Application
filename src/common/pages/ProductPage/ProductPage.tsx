@@ -22,7 +22,7 @@ import genderSvg from '../../../assets/icons/gender.svg';
 import sizeSvg from '../../../assets/icons/size-tag.svg';
 import stoneShineSvg from '../../../assets/icons/diamond_shine.svg';
 import skuSvg from '../../../assets/icons/sku.svg';
-import { isAttribute } from '../../utils/assertion-functions';
+import { isValidAttribute } from '../../utils/assertion-functions';
 import { ProductCarousel } from '../../components/ProductCarousel/ProductCarousel';
 
 export const ProductPage = () => {
@@ -75,16 +75,16 @@ export const ProductPage = () => {
         name = product.name.en;
         prices = product.prices;
 
-        const genderAttribute = product.variants[0].attributes?.find(isAttribute);
+        const genderAttribute = product.variants[0].attributes?.find(object => isValidAttribute(object, 'gender'));
         gender = genderAttribute ? genderAttribute.value.key : '';
 
-        const materialAttribute = product.variants[0].attributes?.find(isAttribute);
+        const materialAttribute = product.variants[0].attributes?.find(object => isValidAttribute(object, 'material'));
         material = materialAttribute ? materialAttribute.value.key : '';
 
-        const sizeAttribute = product.variants[0].attributes?.find(isAttribute);
+        const sizeAttribute = product.variants[0].attributes?.find(object => isValidAttribute(object, 'size'));
         size = sizeAttribute && typeof sizeAttribute.value === 'string' ? sizeAttribute.value : '';
 
-        const stoneAttribute = product.variants[0].attributes?.find(isAttribute);
+        const stoneAttribute = product.variants[0].attributes?.find(object => isValidAttribute(object, 'stone'));
         stone = stoneAttribute ? stoneAttribute.value.key : '';
 
         sku = product.variants[0].sku;

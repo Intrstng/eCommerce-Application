@@ -29,7 +29,7 @@ export const Catalog = () => {
                         image={product.images[0] || noImage}
                         title={product.name.en}
                         description={product.description.en}
-                        price={formatPrice(product.prices, 'USD')} // Temporrary currency solution
+                        price={formatPrice(product.prices, 'USD')} // Temporary currency solution
                         isProductsLoading={isProductsLoading}
                     />
                 ))}

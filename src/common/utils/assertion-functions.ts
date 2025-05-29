@@ -12,6 +12,12 @@ export function assertString(value: unknown, name: string): asserts value is str
     }
 }
 
-export function isAttribute(variant: unknown): variant is Attribute {
-    return typeof variant === 'object' && variant !== null && 'name' in variant && 'value' in variant;
+export function isValidAttribute(variant: unknown, value: string): variant is Attribute {
+    return (
+        typeof variant === 'object' &&
+        variant !== null &&
+        'name' in variant &&
+        'value' in variant &&
+        variant.name === value
+    );
 }

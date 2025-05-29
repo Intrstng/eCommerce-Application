@@ -7,7 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Carousel from 'react-material-ui-carousel';
 import type { ProductCarouselProps } from './types';
 
-export const ProductCarousel: FC<ProductCarouselProps> = ({images}) => {
+export const ProductCarousel: FC<ProductCarouselProps> = ({ images }) => {
     const [openImage, setOpenImage] = useState(false);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
@@ -19,22 +19,25 @@ export const ProductCarousel: FC<ProductCarouselProps> = ({images}) => {
     const handleClose = () => {
         setOpenImage(false);
     };
-    console.log(openImage)
+
     return (
         <Box sx={STYLES.carousel}>
             {images.length === 1 ? (
                 <Box>
-                    <CardMedia component="img"
-                               src={images[0]}
-                               alt="product"
-                               sx={STYLES.productImage}
-                               onClick={() => setOpenImage(prev => !prev)}
+                    <CardMedia
+                        component="img"
+                        src={images[0]}
+                        alt="product"
+                        sx={STYLES.productImage}
+                        onClick={() => {
+                            setOpenImage(previous => !previous);
+                        }}
                     />
 
                     <Dialog open={openImage} onClose={handleClose} fullWidth maxWidth="md">
                         <Box sx={STYLES.dialogContent}>
                             <IconButton sx={STYLES.closeButton} onClick={handleClose}>
-                                <CloseIcon/>
+                                <CloseIcon />
                             </IconButton>
                             <Carousel
                                 sx={STYLES.carouselZoomed}
@@ -45,11 +48,12 @@ export const ProductCarousel: FC<ProductCarouselProps> = ({images}) => {
                                 navButtonsAlwaysVisible={false}
                                 index={selectedImageIndex}
                             >
-                            <CardMedia component="img"
-                                       src={images[0]}
-                                       alt="product"
-                                       sx={STYLES.productImageZoomed}
-                            />
+                                <CardMedia
+                                    component="img"
+                                    src={images[0]}
+                                    alt="product"
+                                    sx={STYLES.productImageZoomed}
+                                />
                             </Carousel>
                         </Box>
                     </Dialog>
@@ -85,7 +89,7 @@ export const ProductCarousel: FC<ProductCarouselProps> = ({images}) => {
                     <Dialog open={openImage} onClose={handleClose} fullWidth maxWidth="sm">
                         <Box sx={STYLES.dialogContent}>
                             <IconButton sx={STYLES.closeButton} onClick={handleClose}>
-                                <CloseIcon/>
+                                <CloseIcon />
                             </IconButton>
                             <Carousel
                                 sx={STYLES.carouselZoomed}
