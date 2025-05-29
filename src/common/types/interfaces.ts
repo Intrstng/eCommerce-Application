@@ -40,3 +40,11 @@ export interface ErrorResponse {
         message: string;
     }[];
 }
+
+export interface Attribute {
+    name: string;
+    value: {
+        key: string;
+        label?: string;
+    };
+}

@@ -27,7 +27,7 @@ export const CopyToClipboard: FC<CopyToClipboardProps> = ({ value }) => {
     };
 
     return (
-        <IconButton onClick={handleCopy} aria-label="copy">
+        <IconButton sx={STYLES.iconButton} onClick={handleCopy} aria-label="copy">
             <ContentCopyIcon sx={STYLES.icon} />
         </IconButton>
     );

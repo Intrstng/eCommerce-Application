@@ -17,10 +17,6 @@ export const STYLES = genStyles({
             gap: '1.5rem',
         },
     },
-    productImage: {
-        height: '500px',
-        width: '500px',
-    },
     carousel: {
         height: '500px',
         width: '500px',
