@@ -14,10 +14,10 @@ import { StatusCode } from '../../../../common/enums';
 import { Status } from 'app/model/types';
 import { authTokenService } from '../../../../common/services/auth-token.service';
 import type { UserDataLS } from '../../../../common/types';
+import { profileActions } from '../../../profile/model/slices/__tests__/profileSlice';
 
 export const initialState: AuthState = {
-    user: null,
-    isLoggedIn: false,
+    isLoggedIn: !!userStorage.getUser(),
 };
 
 export const authSlice = createSlice({
@@ -26,9 +26,6 @@ export const authSlice = createSlice({
     reducers: {
         setIsLoggedIn(state, action: PayloadAction<{ isLoggedIn: boolean }>) {
             state.isLoggedIn = action.payload.isLoggedIn;
-        },
-        setUser(state, action: PayloadAction<{ user: CustomerSignInResult | null }>) {
-            state.user = action.payload.user;
         },
     },
 });
@@ -69,8 +66,8 @@ export const loginTC =
 
             if (response.statusCode === StatusCode.OK) {
                 dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-                dispatch(authActions.setUser({ user: response.body }));
-
+                dispatch(profileActions.setUser({ user: response.body }));
+                console.log(response.body);
                 userStorage.saveUser(response.body);
                 dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
 
@@ -84,7 +81,7 @@ export const loginTC =
             }
 
             // dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
-            dispatch(authActions.setUser({ user: null }));
+            dispatch(profileActions.setUser({ user: null }));
             dispatch(appActions.setAppStatus({ status: Status.FAILED }));
         }
     };
@@ -92,7 +89,7 @@ export const loginTC =
 export const logOutTC = (): AppThunk => dispatch => {
     dispatch(appActions.setAppStatus({ status: Status.LOADING }));
     authAPI.logout();
-    dispatch(authActions.setUser({ user: null }));
+    dispatch(profileActions.setUser({ user: null }));
     userStorage.removeUser();
     dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
 
@@ -110,7 +107,7 @@ export const signUpTC =
 
             if (response.statusCode === StatusCode.OK) {
                 dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-                dispatch(authActions.setUser({ user: response.body }));
+                dispatch(profileActions.setUser({ user: response.body }));
 
                 userStorage.saveUser(response.body);
                 dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));

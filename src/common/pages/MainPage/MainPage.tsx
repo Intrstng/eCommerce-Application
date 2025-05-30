@@ -44,8 +44,7 @@ export const MainPage = () => {
                     <Typography component="h2" variant="h5">
                         Protected routes:
                     </Typography>
-                    <NavLink to={PATH.PROFILE}>Authorized user profile page</NavLink>
-                    <NavLink to={PATH.ADDRESSES}>Authorized user addresses page</NavLink>
+                    <NavLink to={PATH.PROFILE_MAIN}>Authorized user profile page</NavLink>
                 </div>
             </div>
         </div>

@@ -1,12 +1,20 @@
-import S from './ProfilePage.module.scss';
+import { Profile } from '../../../../features/profile/ui/Profile';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { STYLES } from './styles.profilePage';
 
 export const ProfilePage = () => {
     return (
-        <div className={S.profileContent}>
-            <h2>Profile Page</h2>
-            <div>
-                <p>Here will be rendered user`s profile data</p>
-            </div>
-        </div>
+        <>
+            <Box sx={STYLES.profilePageContent}>
+                <Typography variant="h2" component="h2" sx={STYLES.profileTitle}>
+                    Welcome back!
+                </Typography>
+                <Typography variant="h3" component="h3" sx={STYLES.profileSubtitle}>
+                    Enjoy shopping with ease and happiness
+                </Typography>
+            </Box>
+            <Profile />
+        </>
     );
 };

@@ -85,25 +85,34 @@ export const authAPI = {
         }
     },
 
-    async getCurrentUser(): Promise<Customer | null> {
-        try {
-            const token = authTokenService.getAccessToken();
-            if (!token) {
-                return null;
-            }
-            const response = await apiRoot
-                .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
-                .me()
-                .get()
-                .execute();
-
-            return response.body;
-        } catch (error) {
-            console.error('Get current user error:', error);
-            authTokenService.clearTokens();
-            return null;
-        }
+    async getCurrentUser(): Promise<Customer> {
+        const response = await apiRoot
+            .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
+            .me()
+            .get()
+            .execute();
+        return response.body;
     },
+
+    // async getCurrentUser(): Promise<Customer | null> {
+    //     try {
+    //         const token = authTokenService.getAccessToken();
+    //         if (!token) {
+    //             return null;
+    //         }
+    //         const response = await apiRoot
+    //             .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
+    //             .me()
+    //             .get()
+    //             .execute();
+    //
+    //         return response.body;
+    //     } catch (error) {
+    //         console.error('Get current user error:', error);
+    //         authTokenService.clearTokens();
+    //         return null;
+    //     }
+    // },
 
     logout(): void {
         authTokenService.clearTokens();

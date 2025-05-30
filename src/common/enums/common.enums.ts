@@ -49,7 +49,12 @@ export enum PATH {
 
     // Protected routes
     PROFILE = '/profile',
-    ADDRESSES = '/addresses',
+    PROFILE_MAIN = '/profile/personal',
+
+    //Nested routes
+    PERSONAL_NESTED = 'personal',
+    ADDRESS_NESTED = 'address',
+    PASSWORDS_NESTED = 'password',
 }
 
 export enum PAGES {

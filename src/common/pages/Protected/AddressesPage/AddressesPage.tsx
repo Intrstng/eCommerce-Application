@@ -1,12 +1,13 @@
-import S from './AddressesPage.module.scss';
+import Typography from '@mui/material/Typography';
+import { STYLES } from './styles.addressesPage';
+import Box from '@mui/material/Box';
 
 export const AddressesPage = () => {
     return (
-        <div className={S.profileContent}>
-            <h2>Addresses Page</h2>
-            <div>
-                <p>Here will be rendered user`s addresses info (shipping and billing addresses)</p>
-            </div>
-        </div>
+        <Box>
+            <Typography variant="h3" component="h3" sx={STYLES.addressesTitle}>
+                Addresses
+            </Typography>
+        </Box>
     );
 };

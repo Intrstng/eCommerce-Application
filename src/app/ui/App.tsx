@@ -10,6 +10,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { useEffect } from 'react';
 import { errorNotifyMessageWithDispatch } from '../../common/utils/notify-message';
 import { BreadCrumbs } from '../../common/components/BreadCrumbs/BreadCrumbs';
+import Box from '@mui/material/Box';
 
 export const App = () => {
     const dispatch = useAppDispatch();
@@ -31,19 +32,19 @@ export const App = () => {
     };
 
     return (
-        <div className="app">
+        <Box className="app">
             <Header />
 
             {appStatus === 'loading' && <LinearProgress color={'success'} sx={linearProgressStyles} />}
 
-            <div className="main">
-                <div className="content">
+            <Box className="main container">
+                <Box className="content">
                     <BreadCrumbs />
                     <Outlet />
-                </div>
-            </div>
+                </Box>
+            </Box>
             <Footer />
             <ToastifyNotification />
-        </div>
+        </Box>
     );
 };

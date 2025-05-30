@@ -12,37 +12,39 @@ export const Header = () => {
 
     return (
         <div className={S.header}>
-            <Logo />
-            <div className={S.nav}>
-                <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.EARRINGS}`} className={S.navLink}>
-                    {CATEGORIES.EARRINGS}
-                </NavLink>
-                <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.RINGS}`} className={S.navLink}>
-                    {CATEGORIES.RINGS}
-                </NavLink>
-                <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.BROOCHES}`} className={S.navLink}>
-                    {CATEGORIES.BROOCHES}
-                </NavLink>
+            <div className={`${S.header__content} container`}>
+                <Logo />
+                <div className={S.nav}>
+                    <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.EARRINGS}`} className={S.navLink}>
+                        {CATEGORIES.EARRINGS}
+                    </NavLink>
+                    <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.RINGS}`} className={S.navLink}>
+                        {CATEGORIES.RINGS}
+                    </NavLink>
+                    <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.BROOCHES}`} className={S.navLink}>
+                        {CATEGORIES.BROOCHES}
+                    </NavLink>
 
-                {/*Code below will be added in Sprint #3*/}
+                    {/*Code below will be added in Sprint #3*/}
 
-                {/*{isLoggedIn ? (*/}
-                {/*    <NavLink to={PATH.SIGNIN} onClick={handleLogout}>*/}
-                {/*        Logout*/}
-                {/*    </NavLink>*/}
-                {/*) : (*/}
-                {/*    <NavLink to={PATH.SIGNIN}>Login</NavLink>*/}
-                {/*)}*/}
-                {/*<NavLink to={PATH.SIGNIN} className={isLoggedIn && S.authLinkDisabled}>*/}
-                {/*    Login*/}
-                {/*</NavLink>*/}
-                <div className={S.authButtons}>
-                    <SignInButton />
-                    <div className={S.divider}></div>
-                    <SignUpButton />
+                    {/*{isLoggedIn ? (*/}
+                    {/*    <NavLink to={PATH.SIGNIN} onClick={handleLogout}>*/}
+                    {/*        Logout*/}
+                    {/*    </NavLink>*/}
+                    {/*) : (*/}
+                    {/*    <NavLink to={PATH.SIGNIN}>Login</NavLink>*/}
+                    {/*)}*/}
+                    {/*<NavLink to={PATH.SIGNIN} className={isLoggedIn && S.authLinkDisabled}>*/}
+                    {/*    Login*/}
+                    {/*</NavLink>*/}
+                    <div className={S.authButtons}>
+                        <SignInButton />
+                        <div className={S.divider}></div>
+                        <SignUpButton />
+                    </div>
                 </div>
+                <LogoutButton />
             </div>
-            <LogoutButton />
         </div>
     );
 };

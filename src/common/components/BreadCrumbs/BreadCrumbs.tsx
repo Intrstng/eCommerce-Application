@@ -64,7 +64,6 @@ export const BreadCrumbs = () => {
                             sx={{
                                 ...STYLES.links,
                                 ...(!typeParameter && isLastPage ? STYLES.lastPage : {}),
-                                ...STYLES.lastPage,
                             }}
                         >
                             {displayName}

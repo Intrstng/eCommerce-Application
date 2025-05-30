@@ -3,9 +3,14 @@ import { genStyles } from '../../utils/generate-styles';
 export const STYLES = genStyles({
     productContainer: {
         width: '100%',
+        minWidth: '1180px',
         margin: '0 auto',
+        '@media (max-width: 950px)': {
+            minWidth: '500px',
+        },
     },
     product: {
+        width: '100%',
         borderRadius: '0',
         display: 'flex',
         flexDirection: 'row',
@@ -28,10 +33,10 @@ export const STYLES = genStyles({
     title: {
         mt: '0.625rem',
         mb: '1.25rem',
-        fontFamily: 'Wedding, serif',
-        fontWeight: '500',
-        fontSize: '3rem',
-        lineHeight: '3.75rem',
+        fontFamily: 'Cormorant, serif',
+        fontWeight: '400',
+        fontSize: '3.25rem',
+        lineHeight: '3.93rem',
         color: '#161412',
     },
     info: {

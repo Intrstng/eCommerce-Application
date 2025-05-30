@@ -18,6 +18,8 @@ import { useAppSelector } from '../hooks';
 import { authIsLoggedInSelector } from '../../features/auth/model/selectors/authSelector';
 import { SignInPage } from '../pages/SignInPage/SignInPage';
 import { ProductPage } from '../pages/ProductPage/ProductPage';
+import { PasswordsPage } from '../pages/Protected/PasswordsPage/PasswordsPage';
+import { PersonalInfoPage } from '../pages/Protected/PersonalInfoPage/PersonalInfoPage';
 
 const PrivateRoutes = () => {
     const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
@@ -88,10 +90,20 @@ const privateRoutes: RouteObject[] = [
     {
         path: PATH.PROFILE,
         element: <ProfilePage />,
-    },
-    {
-        path: PATH.ADDRESSES,
-        element: <AddressesPage />,
+        children: [
+            {
+                path: PATH.PERSONAL_NESTED,
+                element: <PersonalInfoPage />,
+            },
+            {
+                path: PATH.PASSWORDS_NESTED,
+                element: <PasswordsPage />,
+            },
+            {
+                path: PATH.ADDRESS_NESTED,
+                element: <AddressesPage />,
+            },
+        ],
     },
 ];
 

@@ -23,6 +23,8 @@ export const STYLES = genStyles({
     },
     lastPage: {
         color: '#2B1E09',
+        textTransform: 'capitalize',
+        cursor: 'text',
         '&:hover': {
             color: '#5459AC',
         },
