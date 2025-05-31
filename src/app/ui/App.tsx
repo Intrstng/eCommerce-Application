@@ -9,7 +9,6 @@ import { errorSelector, statusSelector } from 'app/model/selectors/appSelectors'
 import LinearProgress from '@mui/material/LinearProgress';
 import { useEffect } from 'react';
 import { errorNotifyMessageWithDispatch } from '../../common/utils/notify-message';
-import { BreadCrumbs } from '../../common/components/BreadCrumbs/BreadCrumbs';
 import Box from '@mui/material/Box';
 
 export const App = () => {
@@ -39,7 +38,6 @@ export const App = () => {
 
             <Box className="main container">
                 <Box className="content">
-                    <BreadCrumbs />
                     <Outlet />
                 </Box>
             </Box>

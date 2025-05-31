@@ -19,7 +19,7 @@ export const Catalog = () => {
     }
 
     return (
-        <div>
+        <Box>
             <h2>Catalog</h2>
             <Box className={S.cards}>
                 {catalogProducts.map(product => (
@@ -29,11 +29,11 @@ export const Catalog = () => {
                         image={product.images[0] || noImage}
                         title={product.name.en}
                         description={product.description.en}
-                        price={formatPrice(product.prices, 'USD')} // Temporary currency solution
+                        prices={product.prices} // Temporary currency solution
                         isProductsLoading={isProductsLoading}
                     />
                 ))}
             </Box>
-        </div>
+        </Box>
     );
 };

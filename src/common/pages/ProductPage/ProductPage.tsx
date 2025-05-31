@@ -151,12 +151,12 @@ export const ProductPage = () => {
                     <Box sx={STYLES.priceContent}>
                         {/*Temporary solution with price and currency*/}
                         {/*<Typography sx={STYLES.price}>{formatPrice(prices, prices[1].value.currencyCode)}</Typography>*/}
-                        <Typography sx={STYLES.price}>{formatPrice(prices, 'USD')}</Typography>
+                        <Typography sx={STYLES.price}>{formatPrice(prices, 'EUR')}</Typography>
                         {isFirstSignInIDOdd(id) && (
                             <Box sx={STYLES.oldPriceContent}>
                                 {/*Temporary solution with price and currency*/}
                                 {/*<Typography sx={STYLES.oldPrice}>{formatPriceTricky(prices, prices[1].value.currencyCode)}</Typography>*/}
-                                <Typography sx={STYLES.oldPrice}>{formatPriceDiscount(prices, 'USD')}</Typography>
+                                <Typography sx={STYLES.oldPrice}>{formatPriceDiscount(prices, 'EUR')}</Typography>
                                 <Box sx={STYLES.lineThrough} />
                             </Box>
                         )}

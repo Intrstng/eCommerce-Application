@@ -1,5 +1,9 @@
 import S from './AboutPage.module.scss';
+import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
 
 export const AboutPage = () => {
-    return <section className={S.aboutContent}>Here will be information about us</section>;
+    return <>
+        <BreadCrumbs />
+        <section className={S.aboutContent}>Here will be information about us</section>
+    </>
 };

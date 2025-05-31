@@ -13,7 +13,7 @@ export function formatPrice(prices: ProductPrice[], currency = 'USD'): string {
     return 'N/A';
 }
 
-export function formatPriceDiscount(prices: ProductPrice[], currency = 'USD'): string {
+export function formatPriceDiscount(prices: ProductPrice[], currency = 'EUR'): string {
     const currentCurrency = prices.find(price => price.value.currencyCode === currency);
 
     if (currentCurrency) {
