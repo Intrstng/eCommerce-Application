@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { PATH } from '../../enums';
 import { useAppDispatch } from '../../hooks';
@@ -7,19 +7,19 @@ import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import { STYLES } from './styles.logoutButton';
 import Button from '@mui/material/Button';
-import { LogoutButtonProps } from './types';
+import type { LogoutButtonProps } from './types';
 
 export const LogoutButton: FC<LogoutButtonProps> = ({ onClickHandler }) => {
     const dispatch = useAppDispatch();
 
     const handleLogout = () => {
         dispatch(logOutTC());
-        onClickHandler()
+        onClickHandler();
     };
 
     return (
-    <Box sx={STYLES.logoutBtn}>
-        <Tooltip title="Logout">
+        <Box sx={STYLES.logoutBtn}>
+            <Tooltip title="Logout">
                 <span>
                     <NavLink to={PATH.SIGNIN} style={STYLES.logoutLink}>
                         <Button onClick={handleLogout} aria-label="logout" sx={STYLES.logoutBtn}>
@@ -27,7 +27,7 @@ export const LogoutButton: FC<LogoutButtonProps> = ({ onClickHandler }) => {
                         </Button>
                     </NavLink>
                 </span>
-        </Tooltip>
-    </Box>
+            </Tooltip>
+        </Box>
     );
 };

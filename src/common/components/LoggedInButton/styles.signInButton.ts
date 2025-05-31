@@ -40,13 +40,4 @@ export const STYLES = genStyles({
             color: '#161412',
         },
     },
-
-    anchorOrigin: {
-        vertical: 'bottom',
-        horizontal: 'right',
-    },
-    transformOrigin: {
-        vertical: 'top',
-        horizontal: 'right',
-    },
 });

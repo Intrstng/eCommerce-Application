@@ -14,17 +14,15 @@ export const SignInButton = () => {
 
     return (
         <Box sx={STYLES.signInBtn}>
-          {isLoggedIn ? <LoggedInButton/>
-                      : <Tooltip title="Login">
-                            <NavLink to={PATH.SIGNIN}>
-                              <CardMedia
-                                  component="img"
-                                  src={loginSvg}
-                                  alt="Login"
-                                  sx={STYLES.authLink}
-                              />
-                            </NavLink>
-                        </Tooltip>}
+            {isLoggedIn ? (
+                <LoggedInButton />
+            ) : (
+                <Tooltip title="Login">
+                    <NavLink to={PATH.SIGNIN}>
+                        <CardMedia component="img" src={loginSvg} alt="Login" sx={STYLES.authLink} />
+                    </NavLink>
+                </Tooltip>
+            )}
         </Box>
     );
 };

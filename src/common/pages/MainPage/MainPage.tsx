@@ -5,7 +5,6 @@ import Typography from '@mui/material/Typography';
 import { useAppSelector } from '../../hooks';
 import { authIsLoggedInSelector } from '../../../features/auth/model/selectors/authSelector';
 import SignUpStyles from '../../../common/components/SignUpButton/SignUpButton.module.scss';
-import { LogoutButton } from '../../components/LogoutButton/LogoutButton';
 
 export const MainPage = () => {
     const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);

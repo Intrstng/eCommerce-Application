@@ -30,6 +30,11 @@ export const PersonalEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }
 
     let currentCustomerVersion: number;
 
+    const emailDefaultValue = currentCustomer && 'email' in currentCustomer ? currentCustomer.email : '';
+    const firstNameDefaultValue = currentCustomer && 'firstName' in currentCustomer ? currentCustomer.firstName : '';
+    const lastNameDefaultValue = currentCustomer && 'lastName' in currentCustomer ? currentCustomer.lastName : '';
+    const dateOfBirthDefaultValue = currentCustomer && 'dateOfBirth' in currentCustomer ? currentCustomer.dateOfBirth : '';
+
     if (currentCustomer && 'version' in currentCustomer) {
         currentCustomerVersion = currentCustomer.version;
     }
@@ -104,7 +109,7 @@ export const PersonalEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }
                     </Typography>
                     <TextField
                         hiddenLabel
-                        defaultValue={'email' in currentCustomer ? currentCustomer.email : 'N/A'}
+                        defaultValue={emailDefaultValue}
                         type="text"
                         fullWidth
                         variant="outlined"
@@ -128,7 +133,7 @@ export const PersonalEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }
                     </Typography>
                     <TextField
                         hiddenLabel
-                        defaultValue={'firstName' in currentCustomer ? currentCustomer.firstName : 'N/A'}
+                        defaultValue={firstNameDefaultValue}
                         type="text"
                         fullWidth
                         variant="outlined"
@@ -158,7 +163,7 @@ export const PersonalEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }
                     </Typography>
                     <TextField
                         hiddenLabel
-                        defaultValue={'lastName' in currentCustomer ? currentCustomer.lastName : 'N/A'}
+                        defaultValue={lastNameDefaultValue}
                         type="text"
                         fullWidth
                         variant="outlined"
@@ -188,7 +193,7 @@ export const PersonalEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }
                     </Typography>
                     <TextField
                         hiddenLabel
-                        defaultValue={'dateOfBirth' in currentCustomer ? currentCustomer.dateOfBirth : 'N/A'}
+                        defaultValue={dateOfBirthDefaultValue}
                         type="date"
                         fullWidth
                         variant="outlined"
@@ -199,9 +204,6 @@ export const PersonalEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }
                         sx={{
                             ...STYLES.personalItemInfo,
                             ...STYLES.dateInput,
-                            // '& .MuiInputBase-input': {
-                            //   padding: '0.75rem',
-                            // }
                         }}
                     />
                     {errors.birthDate && (
