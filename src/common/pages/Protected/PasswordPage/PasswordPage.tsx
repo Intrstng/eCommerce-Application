@@ -301,6 +301,9 @@ export const PasswordPage = () => {
 
     useEffect(() => {
         const validatePasswords = async () => {
+            if (currentPasswordValue && (newPasswordValue.length > 0)) {
+                await trigger('newPassword');
+            }
             if (newPasswordValue) {
                 await trigger('currentPassword');
             }
