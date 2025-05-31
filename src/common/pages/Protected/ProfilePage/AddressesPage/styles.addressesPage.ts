@@ -1,8 +1,8 @@
-import { genStyles } from '../../../utils/generate-styles';
+import { genStyles } from '../../../../utils/generate-styles';
 
 export const STYLES = genStyles({
     addressesTitle: {
-        mb: '2.5rem',
+        mb: '1rem',
         fontFamily: 'Jost, sans-serif',
         fontWeight: '400',
         fontSize: '1.31rem',

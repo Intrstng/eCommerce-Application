@@ -9,8 +9,6 @@ import Typography from '@mui/material/Typography';
 export const Profile = () => {
     const location = useLocation();
     const isProfilePage = location.pathname.endsWith(PATH.PROFILE) || location.pathname.endsWith(`${PATH.PROFILE}/`);
-    //const currentUser: CustomerSignInResult | null = useAppSelector<CustomerSignInResult | null>(profileUserSelector);
-    //const user = currentUser && currentUser.customer.firstName
 
     return (
         <Box sx={STYLES.profileContent}>

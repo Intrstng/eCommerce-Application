@@ -1,0 +1,191 @@
+import type { EditPersonalData } from '../../validations/editPersonalDataValidation.schema';
+import { validateEditPersonalDataSchema } from '../../validations/editPersonalDataValidation.schema';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import { STYLES } from './styles.personalData';
+import type { FC } from 'react';
+import type { SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useAppSelector } from '../../hooks';
+import type { Status } from 'app/model/types';
+import { statusSelector } from 'app/model/selectors/appSelectors';
+import Button from '@mui/material/Button';
+import type { Customer } from '@commercetools/platform-sdk';
+import { profileCustomerSelector } from '../../../features/profile/model/selectors/profileSelector';
+import type { PersonalDataProps } from '../../pages/Protected/ProfilePage/PersonalDataPage/types';
+import FormGroup from '@mui/material/FormGroup';
+import { FormControl } from '@mui/material';
+
+export const PersonalEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }) => {
+    const currentCustomer = useAppSelector<Customer | null>(profileCustomerSelector);
+    const appStatus: string = useAppSelector<Status>(statusSelector);
+    //const dispatch = useAppDispatch();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isValid },
+    } = useForm({
+        mode: 'all',
+        resolver: yupResolver(validateEditPersonalDataSchema()),
+    });
+
+    const cancelEditChangesHandler = () => {
+        toggleIsEditable(false);
+    };
+
+    const onSubmit: SubmitHandler<EditPersonalData> = data => {
+        console.log(data);
+        // dispatch(updateCustomerTC({ firstName, lastName, email, dateOfBirth }));
+        toggleIsEditable(false); // pass as callback
+        // reset();
+    };
+
+    return (
+        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+            <FormGroup sx={STYLES.personalEditableInfoContent}>
+                <FormControl fullWidth sx={STYLES.personalEditableInfo}>
+                    <Typography variant="h5" component="h5" sx={STYLES.personalItemTitle}>
+                        Email:
+                    </Typography>
+                    <TextField
+                        hiddenLabel
+                        defaultValue={'email' in currentCustomer ? currentCustomer.email : 'N/A'}
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        id="emailProfile"
+                        error={!!errors.email}
+                        {...register('email')}
+                        autoComplete="email"
+                        sx={STYLES.personalItemInfo}
+                    />
+                    {errors.email && (
+                        <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
+                            {errors.email.message}
+                        </Typography>
+                    )}
+                </FormControl>
+
+                <FormControl fullWidth sx={STYLES.personalEditableInfo}>
+                    <Typography variant="h5" component="h5" sx={STYLES.personalItemTitle}>
+                        First Name:
+                    </Typography>
+                    <TextField
+                        hiddenLabel
+                        defaultValue={'firstName' in currentCustomer ? currentCustomer.firstName : 'N/A'}
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        id="firstNameProfile"
+                        error={!!errors.firstName}
+                        {...register('firstName')}
+                        autoComplete="given-name"
+                        sx={STYLES.personalItemInfo}
+                    />
+                    {errors.firstName && (
+                        <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
+                            {errors.firstName.message}
+                        </Typography>
+                    )}
+                </FormControl>
+
+                <FormControl
+                    fullWidth
+                    sx={{
+                        ...STYLES.personalEditableInfo,
+                        ...STYLES.lastNameControl,
+                    }}
+                >
+                    <Typography variant="h5" component="h5" sx={STYLES.personalItemTitle}>
+                        Last Name:
+                    </Typography>
+                    <TextField
+                        hiddenLabel
+                        defaultValue={'lastName' in currentCustomer ? currentCustomer.lastName : 'N/A'}
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        id="lastNameProfile"
+                        error={!!errors.lastName}
+                        {...register('lastName')}
+                        autoComplete="given-name"
+                        sx={STYLES.personalItemInfo}
+                    />
+                    {errors.lastName && (
+                        <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
+                            {errors.lastName.message}
+                        </Typography>
+                    )}
+                </FormControl>
+
+                <FormControl
+                    fullWidth
+                    sx={{
+                        ...STYLES.personalEditableInfo,
+                        ...STYLES.birthControl,
+                    }}
+                >
+                    <Typography variant="h5" component="h5" sx={STYLES.personalItemTitle}>
+                        Date of Birth:
+                    </Typography>
+                    <TextField
+                        hiddenLabel
+                        defaultValue={'dateOfBirth' in currentCustomer ? currentCustomer.dateOfBirth : 'N/A'}
+                        type="date"
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        id="birthDateProfile"
+                        error={!!errors.birthDate}
+                        {...register('birthDate')}
+                        sx={{
+                            ...STYLES.personalItemInfo,
+                            ...STYLES.dateInput,
+                            // '& .MuiInputBase-input': {
+                            //   padding: '0.75rem',
+                            // }
+                        }}
+                    />
+                    {errors.birthDate && (
+                        <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
+                            {errors.birthDate.message}
+                        </Typography>
+                    )}
+                </FormControl>
+
+                <Box sx={STYLES.editControls}>
+                    <Button
+                        sx={{
+                            ...STYLES.editButton,
+                            ...STYLES.cancelButton,
+                        }}
+                        type="button"
+                        variant="contained"
+                        color="info"
+                        onClick={cancelEditChangesHandler}
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        sx={{
+                            ...STYLES.editButton,
+                            ...STYLES.saveButton,
+                        }}
+                        type="submit"
+                        variant="contained"
+                        color="info"
+                        disabled={!isValid || appStatus === 'loading'}
+                    >
+                        Save changes
+                    </Button>
+                </Box>
+            </FormGroup>
+        </Box>
+    );
+};

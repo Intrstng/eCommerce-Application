@@ -224,12 +224,11 @@
 //     );
 // };
 
-
 // Works good. Without !isValid but with cross-validation-check between currentPassword and newPassword in useEffect (parallel error handling)
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useEffect, useRef, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import type { Status } from 'app/model/types';
 import { statusSelector } from 'app/model/selectors/appSelectors';
 import type { SubmitHandler } from 'react-hook-form';
@@ -242,13 +241,13 @@ import {
     onMouseDownConfirmPassword,
     onMouseDownCurrentPassword,
     onMouseDownPassword,
-} from '../../../../features/auth/utils/auth-handlers';
+} from '../../../../../features/auth/utils/auth-handlers';
 import FormGroup from '@mui/material/FormGroup';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Button from '@mui/material/Button';
-import type { ChangePasswordData } from '../../../validations/changePasswordValidation.schema';
-import { validateChangePasswordSchema } from '../../../validations/changePasswordValidation.schema';
-import { changeCurrentCustomersPasswordTC } from '../../../../features/profile/model/slices/__tests__/profileSlice';
+import type { ChangePasswordData } from '../../../../validations/changePasswordValidation.schema';
+import { validateChangePasswordSchema } from '../../../../validations/changePasswordValidation.schema';
+import { changeCurrentCustomersPasswordTC } from '../../../../../features/profile/model/slices/__tests__/profileSlice';
 import { STYLES } from './styles.passwordPage';
 
 export const PasswordPage = () => {
@@ -301,7 +300,7 @@ export const PasswordPage = () => {
 
     useEffect(() => {
         const validatePasswords = async () => {
-            if (currentPasswordValue && (newPasswordValue.length > 0)) {
+            if (currentPasswordValue && newPasswordValue.length > 0) {
                 await trigger('newPassword');
             }
             if (newPasswordValue) {
@@ -312,7 +311,7 @@ export const PasswordPage = () => {
             }
         };
         void validatePasswords();
-    }, [currentPasswordValue, newPasswordValue, trigger]);
+    }, [currentPasswordValue, newPasswordValue, confirmPasswordValue, trigger]); // confirmPasswordValue ?
 
     const isCancelDisabled = !currentPasswordValue && !newPasswordValue && !confirmPasswordValue;
 
@@ -337,12 +336,7 @@ export const PasswordPage = () => {
                             {/* Hidden username input for accessibility */}
                             <input type="text" style={{ display: 'none' }} autoComplete="username" />
 
-                            <FormControl
-                                variant="filled"
-                                size="small"
-                                error={!!errors.currentPassword}
-                                fullWidth
-                            >
+                            <FormControl variant="filled" size="small" error={!!errors.currentPassword} fullWidth>
                                 <InputLabel htmlFor="currentPassword">Current password</InputLabel>
                                 <FilledInput
                                     id="currentPassword"
@@ -370,12 +364,7 @@ export const PasswordPage = () => {
                                 )}
                             </FormControl>
 
-                            <FormControl
-                                variant="filled"
-                                size="small"
-                                error={!!errors.newPassword}
-                                fullWidth
-                            >
+                            <FormControl variant="filled" size="small" error={!!errors.newPassword} fullWidth>
                                 <InputLabel htmlFor="newPassword">Password</InputLabel>
                                 <FilledInput
                                     id="newPassword"

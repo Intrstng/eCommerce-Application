@@ -4,7 +4,7 @@ export const STYLES = genStyles({
     profilePageContent: {
         width: '100%',
         // maxWidth: '1180px',
-        mb: '2.5rem',
+        mb: '1.5rem',
         // '@media (max-width: 950px)': {
         //     minWidth: '768px',
         // },

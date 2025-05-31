@@ -6,7 +6,7 @@ import { Error404 } from '../pages/Error404/Error404';
 import { MainPage } from '../pages/MainPage/MainPage';
 import { SignUpPage } from '../pages/SignUpPage/SignUpPage';
 import { ProfilePage } from '../pages/Protected/ProfilePage/ProfilePage';
-import { AddressesPage } from '../pages/Protected/AddressesPage/AddressesPage';
+import { AddressesPage } from '../pages/Protected/ProfilePage/AddressesPage/AddressesPage';
 import { ArticlesPage } from '../pages/ArticlesPage/ArticlesPage';
 import { Article } from '../pages/Article/Article';
 import { AboutPage } from '../pages/AboutPage/AboutPage';
@@ -18,8 +18,8 @@ import { useAppSelector } from '../hooks';
 import { authIsLoggedInSelector } from '../../features/auth/model/selectors/authSelector';
 import { SignInPage } from '../pages/SignInPage/SignInPage';
 import { ProductPage } from '../pages/ProductPage/ProductPage';
-import { PasswordPage } from '../pages/Protected/PasswordPage/PasswordPage';
-import { PersonalInfoPage } from '../pages/Protected/PersonalInfoPage/PersonalInfoPage';
+import { PasswordPage } from '../pages/Protected/ProfilePage/PasswordPage/PasswordPage';
+import { PersonalDataPage } from '../pages/Protected/ProfilePage/PersonalDataPage/PersonalDataPage';
 
 const PrivateRoutes = () => {
     const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
@@ -93,7 +93,7 @@ const privateRoutes: RouteObject[] = [
         children: [
             {
                 path: PATH.PERSONAL_NESTED,
-                element: <PersonalInfoPage />,
+                element: <PersonalDataPage />,
             },
             {
                 path: PATH.PASSWORDS_NESTED,

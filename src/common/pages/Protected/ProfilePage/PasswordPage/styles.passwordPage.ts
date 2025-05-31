@@ -1,8 +1,8 @@
-import { genStyles } from '../../../utils/generate-styles';
+import { genStyles } from '../../../../utils/generate-styles';
 
 export const STYLES = genStyles({
     passwordTitle: {
-        mb: '2.5rem',
+        mb: '1rem',
         fontFamily: 'Jost, sans-serif',
         fontWeight: '400',
         fontSize: '1.31rem',
@@ -71,8 +71,11 @@ export const STYLES = genStyles({
     cancelButton: {
         mt: 0,
         mb: '0.6rem',
-        color: '#000',
+        color: '#65635F',
         backgroundColor: '#FFF',
+        '&:hover': {
+            color: '#000',
+        },
     },
     submitButton: {
         mt: 0,
