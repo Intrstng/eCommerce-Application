@@ -8,20 +8,31 @@ import type { FC } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import type { Status } from 'app/model/types';
 import { statusSelector } from 'app/model/selectors/appSelectors';
 import Button from '@mui/material/Button';
-import type { Customer } from '@commercetools/platform-sdk';
+import type { Customer, MyCustomerUpdateAction } from '@commercetools/platform-sdk';
 import { profileCustomerSelector } from '../../../features/profile/model/selectors/profileSelector';
 import type { PersonalDataProps } from '../../pages/Protected/ProfilePage/PersonalDataPage/types';
 import FormGroup from '@mui/material/FormGroup';
 import { FormControl } from '@mui/material';
+import {
+    getCurrentCustomerTC,
+    updateCurrentCustomersPersonalInfoTC,
+} from '../../../features/profile/model/slices/__tests__/profileSlice';
+import { useEffect } from 'react';
 
 export const PersonalEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }) => {
     const currentCustomer = useAppSelector<Customer | null>(profileCustomerSelector);
     const appStatus: string = useAppSelector<Status>(statusSelector);
-    //const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
+
+    let currentCustomerVersion: number;
+
+    if (currentCustomer && 'version' in currentCustomer) {
+        currentCustomerVersion = currentCustomer.version;
+    }
 
     const {
         register,
@@ -37,11 +48,52 @@ export const PersonalEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }
     };
 
     const onSubmit: SubmitHandler<EditPersonalData> = data => {
-        console.log(data);
-        // dispatch(updateCustomerTC({ firstName, lastName, email, dateOfBirth }));
-        toggleIsEditable(false); // pass as callback
-        // reset();
+        const actions: MyCustomerUpdateAction[] = [];
+
+        if (data.email) {
+            actions.push({
+                action: 'changeEmail',
+                email: data.email,
+            });
+        }
+
+        if (data.firstName) {
+            actions.push({
+                action: 'setFirstName',
+                firstName: data.firstName,
+            });
+        }
+
+        if (data.lastName) {
+            actions.push({
+                action: 'setLastName',
+                lastName: data.lastName,
+            });
+        }
+
+        if (data.birthDate) {
+            actions.push({
+                action: 'setDateOfBirth',
+                dateOfBirth: data.birthDate,
+            });
+        }
+
+        if (actions.length > 0) {
+            dispatch(
+                updateCurrentCustomersPersonalInfoTC({
+                    version: currentCustomerVersion,
+                    actions,
+                })
+            );
+        }
+
+        //reset();
+        toggleIsEditable(false);
     };
+
+    useEffect(() => {
+        dispatch(getCurrentCustomerTC());
+    }, [dispatch]);
 
     return (
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>

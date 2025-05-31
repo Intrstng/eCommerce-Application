@@ -6,7 +6,9 @@ import type { AppThunk } from 'app/store';
 import { appActions } from 'app/model/slices/appSlice';
 import { Status } from 'app/model/types';
 import { StatusCode } from '../../../../../common/enums';
+import type { UpdateCustomerActions } from '../../../api/profileApi';
 import { profileApi } from '../../../api/profileApi';
+import { successNotifyMessage } from '../../../../../common/utils/notify-message';
 
 export const initialState: ProfileState = {
     customer: null,
@@ -55,11 +57,33 @@ export const changeCurrentCustomersPasswordTC =
         try {
             await profileApi.changePassword(currentPassword, newPassword);
             dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
+
+            successNotifyMessage('You have successfully changed your password');
         } catch (error) {
             if (error instanceof Error) {
                 dispatch(appActions.setAppError({ error: error.message }));
             } else {
                 dispatch(appActions.setAppError({ error: 'Change current customers password failed' }));
+            }
+            dispatch(appActions.setAppStatus({ status: Status.FAILED }));
+        }
+    };
+
+export const updateCurrentCustomersPersonalInfoTC =
+    (updatedProfileData: UpdateCustomerActions): AppThunk =>
+    async dispatch => {
+        dispatch(appActions.setAppStatus({ status: Status.LOADING }));
+
+        try {
+            await profileApi.updateCustomer(updatedProfileData);
+            dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
+
+            successNotifyMessage('You have successfully updated your personal info');
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(appActions.setAppError({ error: error.message }));
+            } else {
+                dispatch(appActions.setAppError({ error: 'Update current customers personal info failed' }));
             }
             dispatch(appActions.setAppStatus({ status: Status.FAILED }));
         }

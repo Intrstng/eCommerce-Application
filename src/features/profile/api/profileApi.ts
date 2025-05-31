@@ -1,7 +1,12 @@
-import type { ClientResponse, Customer } from '@commercetools/platform-sdk';
+import type { ClientResponse, Customer, MyCustomerUpdateAction } from '@commercetools/platform-sdk';
 import { apiRoot } from '../../../common/api/commercetools';
 import { getEnvironmentVariable } from '../../../common/utils/get-environment-variable';
 import { EnvironmentKeys } from '../../../common/enums';
+
+export interface UpdateCustomerActions {
+    version: number;
+    actions: MyCustomerUpdateAction[];
+}
 
 export const profileApi = {
     async getCurrentCustomer(): Promise<ClientResponse<Customer>> {
@@ -16,6 +21,26 @@ export const profileApi = {
                 throw new TypeError(`Failed to get current customer profile: ${error.message}`);
             }
             throw new Error('Failed to get current customer profile');
+        }
+    },
+
+    async updateCustomer({ version, actions }: UpdateCustomerActions): Promise<ClientResponse<Customer>> {
+        try {
+            return await apiRoot
+                .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
+                .me()
+                .post({
+                    body: {
+                        version,
+                        actions,
+                    },
+                })
+                .execute();
+        } catch (error) {
+            if (error instanceof Error) {
+                throw new TypeError(`Failed to update current customer profile: ${error.message}`);
+            }
+            throw new Error('Failed to update current customer profile');
         }
     },
 

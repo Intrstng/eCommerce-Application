@@ -94,6 +94,7 @@ export const logOutTC = (): AppThunk => async dispatch => {
         userStorage.removeUser();
         dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
         dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
+
         successNotifyMessage("You've logged out of your account");
     } catch (error) {
         if (error instanceof Error) {

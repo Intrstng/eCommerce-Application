@@ -1,16 +1,23 @@
 import type { FC } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import type { Customer } from '@commercetools/platform-sdk';
 import { profileCustomerSelector } from '../../../features/profile/model/selectors/profileSelector';
 import Button from '@mui/material/Button';
 import { STYLES } from './styles.personalData';
 import type { PersonalDataProps } from '../../pages/Protected/ProfilePage/PersonalDataPage/types';
 import Skeleton from '@mui/material/Skeleton';
+import { useEffect } from 'react';
+import { getCurrentCustomerTC } from '../../../features/profile/model/slices/__tests__/profileSlice';
 
 export const PersonalNotEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }) => {
     const currentCustomer = useAppSelector<Customer | null>(profileCustomerSelector);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(getCurrentCustomerTC());
+    }, [dispatch]);
 
     return (
         <Box>
