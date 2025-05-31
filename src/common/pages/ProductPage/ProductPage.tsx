@@ -24,6 +24,7 @@ import stoneShineSvg from '../../../assets/icons/diamond_shine.svg';
 import skuSvg from '../../../assets/icons/sku.svg';
 import { isValidAttribute } from '../../utils/assertion-functions';
 import { ProductCarousel } from '../../components/ProductCarousel/ProductCarousel';
+import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
 
 export const ProductPage = () => {
     const dispatch = useAppDispatch();
@@ -97,84 +98,87 @@ export const ProductPage = () => {
     }
 
     return (
-        <Box sx={STYLES.productContainer}>
-            <Card sx={STYLES.product}>
-                <ProductCarousel images={images} />
+        <>
+            <BreadCrumbs />
+            <Box sx={STYLES.productContainer}>
+                <Card sx={STYLES.product}>
+                    <ProductCarousel images={images} />
 
-                <Box sx={STYLES.content}>
-                    <BackButton />
-                    <Typography sx={STYLES.title}>{name ?? 'Name is not present'}</Typography>
+                    <Box sx={STYLES.content}>
+                        <BackButton />
+                        <Typography sx={STYLES.title}>{name ?? 'Name is not present'}</Typography>
 
-                    {material && (
-                        <Box sx={{ ...STYLES.info, ...STYLES.material }}>
-                            <img src={materialSvg} alt="Material" />
-                            <Typography>Material:</Typography>
-                            <Typography>{material}</Typography>
-                        </Box>
-                    )}
-
-                    {gender && (
-                        <Box sx={{ ...STYLES.info, ...STYLES.gender }}>
-                            <img src={genderSvg} alt="Gender" />
-                            <Typography>Gender:</Typography>
-                            <Typography>{gender}</Typography>
-                        </Box>
-                    )}
-
-                    {size && (
-                        <Box sx={STYLES.info}>
-                            <img src={sizeSvg} alt="Size" />
-                            <Typography>Size:</Typography>
-                            <Typography>{size}</Typography>
-                        </Box>
-                    )}
-
-                    {stone && (
-                        <Box sx={{ ...STYLES.info, ...STYLES.stone }}>
-                            <img src={stoneShineSvg} alt="Stone" />
-                            <Typography>Stone:</Typography>
-                            <Typography>{stone}</Typography>
-                        </Box>
-                    )}
-
-                    {sku && (
-                        <Box sx={{ ...STYLES.info, ...STYLES.sku }}>
-                            <img src={skuSvg} alt="Sku" />
-                            <Typography>SKU:</Typography>
-                            <Typography>{sku ?? 'SKU is not present'}</Typography>
-                            <CopyToClipboard value={sku} />
-                        </Box>
-                    )}
-
-                    <Typography sx={STYLES.text}>{description}</Typography>
-                    <Divider sx={STYLES.devider} />
-                    <Box sx={STYLES.priceContent}>
-                        {/*Temporary solution with price and currency*/}
-                        {/*<Typography sx={STYLES.price}>{formatPrice(prices, prices[1].value.currencyCode)}</Typography>*/}
-                        <Typography sx={STYLES.price}>{formatPrice(prices, 'EUR')}</Typography>
-                        {isFirstSignInIDOdd(id) && (
-                            <Box sx={STYLES.oldPriceContent}>
-                                {/*Temporary solution with price and currency*/}
-                                {/*<Typography sx={STYLES.oldPrice}>{formatPriceTricky(prices, prices[1].value.currencyCode)}</Typography>*/}
-                                <Typography sx={STYLES.oldPrice}>{formatPriceDiscount(prices, 'EUR')}</Typography>
-                                <Box sx={STYLES.lineThrough} />
+                        {material && (
+                            <Box sx={{ ...STYLES.info, ...STYLES.material }}>
+                                <img src={materialSvg} alt="Material" />
+                                <Typography>Material:</Typography>
+                                <Typography>{material}</Typography>
                             </Box>
                         )}
-                    </Box>
-                    <Box sx={STYLES.productControls}>
-                        <CustomButton style={{ width: '21.8rem' }} onClick={handleCartToggle}>
+
+                        {gender && (
+                            <Box sx={{ ...STYLES.info, ...STYLES.gender }}>
+                                <img src={genderSvg} alt="Gender" />
+                                <Typography>Gender:</Typography>
+                                <Typography>{gender}</Typography>
+                            </Box>
+                        )}
+
+                        {size && (
+                            <Box sx={STYLES.info}>
+                                <img src={sizeSvg} alt="Size" />
+                                <Typography>Size:</Typography>
+                                <Typography>{size}</Typography>
+                            </Box>
+                        )}
+
+                        {stone && (
+                            <Box sx={{ ...STYLES.info, ...STYLES.stone }}>
+                                <img src={stoneShineSvg} alt="Stone" />
+                                <Typography>Stone:</Typography>
+                                <Typography>{stone}</Typography>
+                            </Box>
+                        )}
+
+                        {sku && (
+                            <Box sx={{ ...STYLES.info, ...STYLES.sku }}>
+                                <img src={skuSvg} alt="Sku" />
+                                <Typography>SKU:</Typography>
+                                <Typography>{sku ?? 'SKU is not present'}</Typography>
+                                <CopyToClipboard value={sku} />
+                            </Box>
+                        )}
+
+                        <Typography sx={STYLES.text}>{description}</Typography>
+                        <Divider sx={STYLES.devider} />
+                        <Box sx={STYLES.priceContent}>
+                            {/*Temporary solution with price and currency*/}
+                            {/*<Typography sx={STYLES.price}>{formatPrice(prices, prices[1].value.currencyCode)}</Typography>*/}
+                            <Typography sx={STYLES.price}>{formatPrice(prices, 'EUR')}</Typography>
+                            {isFirstSignInIDOdd(id) && (
+                                <Box sx={STYLES.oldPriceContent}>
+                                    {/*Temporary solution with price and currency*/}
+                                    {/*<Typography sx={STYLES.oldPrice}>{formatPriceTricky(prices, prices[1].value.currencyCode)}</Typography>*/}
+                                    <Typography sx={STYLES.oldPrice}>{formatPriceDiscount(prices, 'EUR')}</Typography>
+                                    <Box sx={STYLES.lineThrough} />
+                                </Box>
+                            )}
+                        </Box>
+                        <Box sx={STYLES.productControls}>
+                            <CustomButton style={{ width: '21.8rem' }} onClick={handleCartToggle}>
+                                {/*Temporary solution for Sprint 3*/}
+                                {isInBasket ? 'Remove from Cart' : 'Add to Cart'}
+                            </CustomButton>
                             {/*Temporary solution for Sprint 3*/}
-                            {isInBasket ? 'Remove from Cart' : 'Add to Cart'}
-                        </CustomButton>
-                        {/*Temporary solution for Sprint 3*/}
-                        <FavouriteSwitch
-                            id={'uuidFav1'}
-                            isFavourite={isFavourite.uuidFav1}
-                            onToggle={handleIsFavouriteToggle}
-                        />
+                            <FavouriteSwitch
+                                id={'uuidFav1'}
+                                isFavourite={isFavourite.uuidFav1}
+                                onToggle={handleIsFavouriteToggle}
+                            />
+                        </Box>
                     </Box>
-                </Box>
-            </Card>
-        </Box>
+                </Card>
+            </Box>
+        </>
     );
 };

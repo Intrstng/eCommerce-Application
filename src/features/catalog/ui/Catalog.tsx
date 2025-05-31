@@ -3,7 +3,6 @@ import { CatalogCard } from './CatalogCard/CatalogCard';
 import noImage from '../../../assets/products/no-image.png';
 import Box from '@mui/material/Box';
 import S from './Catalog.module.scss';
-import { formatPrice } from '../utils/format-price';
 import { useFetchProducts } from '../../../common/hooks/useFetchProducts';
 
 export const Catalog = () => {

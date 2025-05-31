@@ -5,6 +5,7 @@ import { STYLES } from './styles.profilePage';
 import type { Customer } from '@commercetools/platform-sdk';
 import { profileCustomerSelector } from '../../../../features/profile/model/selectors/profileSelector';
 import { useAppSelector } from '../../../hooks';
+import { BreadCrumbs } from '../../../components/BreadCrumbs/BreadCrumbs';
 
 export const ProfilePage = () => {
     const currentUser: Customer | null = useAppSelector<Customer | null>(profileCustomerSelector);
@@ -12,6 +13,7 @@ export const ProfilePage = () => {
 
     return (
         <>
+            <BreadCrumbs />
             <Box sx={STYLES.profilePageContent}>
                 <Typography variant="h2" component="h2" sx={STYLES.profileTitle}>
                     Welcome back, {firstName}!
