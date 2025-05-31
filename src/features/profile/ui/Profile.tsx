@@ -1,10 +1,9 @@
 import S from './Profile.module.scss';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { STYLES } from './styles.profile';
 import Divider from '@mui/material/Divider';
 import { PATH } from '../../../common/enums';
-import { useLocation } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 
 export const Profile = () => {

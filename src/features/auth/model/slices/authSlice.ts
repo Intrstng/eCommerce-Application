@@ -8,16 +8,15 @@ import { isCustomerSignInResult } from '../../../../common/utils/type-guards';
 import { appActions } from 'app/model/slices/appSlice';
 import type { SignInFormData } from '../../../../common/validations/signInValidation.schema';
 import { authAPI } from '../../api/authApi';
-import type { User } from '../../../../common/types';
+import type { User, UserDataLS } from '../../../../common/types';
 import { successNotifyMessage } from '../../../../common/utils/notify-message';
 import { StatusCode } from '../../../../common/enums';
 import { Status } from 'app/model/types';
 import { authTokenService } from '../../../../common/services/auth-token.service';
-import type { UserDataLS } from '../../../../common/types';
-import { profileActions } from '../../../profile/model/slices/__tests__/profileSlice';
 
 export const initialState: AuthState = {
     isLoggedIn: !!userStorage.getUser(),
+    user: null,
 };
 
 export const authSlice = createSlice({
@@ -27,13 +26,16 @@ export const authSlice = createSlice({
         setIsLoggedIn(state, action: PayloadAction<{ isLoggedIn: boolean }>) {
             state.isLoggedIn = action.payload.isLoggedIn;
         },
+        setUser(state, action: PayloadAction<{ user: CustomerSignInResult | null }>) {
+            state.user = action.payload.user;
+        },
     },
 });
 
 export const authReducer = authSlice.reducer;
 export const authActions = authSlice.actions;
 
-export const authSuccessTC = (): AppThunk => dispatch => {
+export const authSuccessTC = (): AppThunk => async dispatch => {
     dispatch(appActions.setAppStatus({ status: Status.LOADING }));
     try {
         const user: UserDataLS | null = userStorage.getUser();
@@ -42,7 +44,7 @@ export const authSuccessTC = (): AppThunk => dispatch => {
             dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
         } else {
             dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
-            authTokenService.clearTokens();
+            await authTokenService.getAnonymousToken();
         }
         dispatch(appActions.setAppInitialized({ isInitialized: true }));
         dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
@@ -66,8 +68,7 @@ export const loginTC =
 
             if (response.statusCode === StatusCode.OK) {
                 dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-                dispatch(profileActions.setUser({ user: response.body }));
-                console.log(response.body);
+                dispatch(authActions.setUser({ user: response.body }));
                 userStorage.saveUser(response.body);
                 dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
 
@@ -81,20 +82,27 @@ export const loginTC =
             }
 
             // dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
-            dispatch(profileActions.setUser({ user: null }));
+            dispatch(authActions.setUser({ user: null }));
             dispatch(appActions.setAppStatus({ status: Status.FAILED }));
         }
     };
 
-export const logOutTC = (): AppThunk => dispatch => {
-    dispatch(appActions.setAppStatus({ status: Status.LOADING }));
-    authAPI.logout();
-    dispatch(profileActions.setUser({ user: null }));
-    userStorage.removeUser();
-    dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
-
-    dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
-    successNotifyMessage("You've logged out of your account");
+export const logOutTC = (): AppThunk => async dispatch => {
+    try {
+        await authAPI.logout();
+        dispatch(authActions.setUser({ user: null }));
+        userStorage.removeUser();
+        dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
+        dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
+        successNotifyMessage("You've logged out of your account");
+    } catch (error) {
+        if (error instanceof Error) {
+            dispatch(appActions.setAppError({ error: error.message }));
+        } else {
+            dispatch(appActions.setAppError({ error: 'Logout failed' }));
+        }
+        dispatch(appActions.setAppStatus({ status: Status.FAILED }));
+    }
 };
 
 export const signUpTC =
@@ -107,7 +115,7 @@ export const signUpTC =
 
             if (response.statusCode === StatusCode.OK) {
                 dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-                dispatch(profileActions.setUser({ user: response.body }));
+                dispatch(authActions.setUser({ user: response.body }));
 
                 userStorage.saveUser(response.body);
                 dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));

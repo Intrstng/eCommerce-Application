@@ -3,11 +3,11 @@ import { genStyles } from '../../../utils/generate-styles';
 export const STYLES = genStyles({
     profilePageContent: {
         width: '100%',
-        minWidth: '1180px',
+        // maxWidth: '1180px',
         mb: '2.5rem',
-        '@media (max-width: 950px)': {
-            minWidth: '768px',
-        },
+        // '@media (max-width: 950px)': {
+        //     minWidth: '768px',
+        // },
     },
     profileTitle: {
         mb: '0.25rem',

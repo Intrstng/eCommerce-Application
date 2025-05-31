@@ -1,4 +1,4 @@
-import type { ClientResponse, CustomerSignInResult, Customer } from '@commercetools/platform-sdk';
+import type { ClientResponse, CustomerSignInResult } from '@commercetools/platform-sdk';
 import type { User } from '../../../common/types';
 import { apiRoot } from '../../../common/api/commercetools';
 import { getEnvironmentVariable } from '../../../common/utils/get-environment-variable';
@@ -75,23 +75,12 @@ export const authAPI = {
                 .execute();
             return await this.login(email, password);
         } catch (error) {
-            authTokenService.clearTokens();
-
             if (isDuplicateEmailError(error)) {
                 throw new Error('This email is already registered. Please use a different email or sign in.');
             }
 
             throw new Error('Registration failed. Please try again.');
         }
-    },
-
-    async getCurrentUser(): Promise<Customer> {
-        const response = await apiRoot
-            .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
-            .me()
-            .get()
-            .execute();
-        return response.body;
     },
 
     // async getCurrentUser(): Promise<Customer | null> {
@@ -114,7 +103,8 @@ export const authAPI = {
     //     }
     // },
 
-    logout(): void {
+    async logout(): Promise<void> {
         authTokenService.clearTokens();
+        await authTokenService.getAnonymousToken();
     },
 };

@@ -5,6 +5,7 @@
  * @throws {TypeError} If the value is not a string
  */
 import type { Attribute } from '../types';
+import type { ChangePasswordData } from '../validations/changePasswordValidation.schema';
 
 export function assertString(value: unknown, name: string): asserts value is string {
     if (typeof value !== 'string') {
@@ -19,5 +20,15 @@ export function isValidAttribute(variant: unknown, value: string): variant is At
         'name' in variant &&
         'value' in variant &&
         variant.name === value
+    );
+}
+
+export function isChangePasswordData(data: unknown): data is ChangePasswordData {
+    return (
+        typeof data === 'object' &&
+        data !== null &&
+        'currentPassword' in data &&
+        'newPassword' in data &&
+        'confirmPassword' in data
     );
 }

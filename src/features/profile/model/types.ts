@@ -1,5 +1,5 @@
-import type { CustomerSignInResult } from '@commercetools/platform-sdk';
+import type { Customer } from '@commercetools/platform-sdk';
 
 export type ProfileState = {
-    user: CustomerSignInResult | null;
+    customer: Customer | null;
 };

@@ -18,7 +18,7 @@ import { useAppSelector } from '../hooks';
 import { authIsLoggedInSelector } from '../../features/auth/model/selectors/authSelector';
 import { SignInPage } from '../pages/SignInPage/SignInPage';
 import { ProductPage } from '../pages/ProductPage/ProductPage';
-import { PasswordsPage } from '../pages/Protected/PasswordsPage/PasswordsPage';
+import { PasswordPage } from '../pages/Protected/PasswordPage/PasswordPage';
 import { PersonalInfoPage } from '../pages/Protected/PersonalInfoPage/PersonalInfoPage';
 
 const PrivateRoutes = () => {
@@ -97,7 +97,7 @@ const privateRoutes: RouteObject[] = [
             },
             {
                 path: PATH.PASSWORDS_NESTED,
-                element: <PasswordsPage />,
+                element: <PasswordPage />,
             },
             {
                 path: PATH.ADDRESS_NESTED,
