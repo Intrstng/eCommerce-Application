@@ -75,8 +75,12 @@ export const updateCurrentCustomersPersonalInfoTC =
         dispatch(appActions.setAppStatus({ status: Status.LOADING }));
 
         try {
-            await profileApi.updateCustomer(updatedProfileData);
-            dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
+            const response: ClientResponse<Customer> = await profileApi.updateCustomer(updatedProfileData);
+
+            if (response.statusCode === StatusCode.OK) {
+                dispatch(profileActions.setCustomer({ customer: response.body }));
+                dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
+            }
 
             successNotifyMessage('You have successfully updated your personal info');
         } catch (error) {
