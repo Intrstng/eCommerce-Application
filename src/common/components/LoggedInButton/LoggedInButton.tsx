@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Box, CardMedia, Popover } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import loggedSvg from '../../../assets/logo/logged.svg';
-import { STYLES } from './styles.signInButton';
+import { STYLES } from './styles.loggedInButton';
 import Divider from '@mui/material/Divider';
 import { PATH } from '../../enums';
 import { LogoutButton } from '../LogoutButton/LogoutButton';

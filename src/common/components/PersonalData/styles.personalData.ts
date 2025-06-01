@@ -71,6 +71,13 @@ export const STYLES = genStyles({
     birthControl: {
         mb: '1.7rem',
     },
+    editControls: {
+        mt: '0',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.7rem',
+    },
     editButton: {
         maxWidth: '9.25rem',
         width: '100%',
@@ -100,13 +107,6 @@ export const STYLES = genStyles({
             backgroundColor: '#FFF',
         },
     },
-    editControls: {
-        mt: '0',
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.7rem',
-    },
     cancelButton: {
         mt: 0,
         color: '#65635F',
@@ -115,7 +115,6 @@ export const STYLES = genStyles({
             color: '#000',
         },
     },
-
     errorForm: {
         width: '16rem',
         position: 'absolute',

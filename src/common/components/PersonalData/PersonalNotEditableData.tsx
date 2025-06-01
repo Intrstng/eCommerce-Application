@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -8,12 +9,19 @@ import Button from '@mui/material/Button';
 import { STYLES } from './styles.personalData';
 import type { PersonalDataProps } from '../../pages/Protected/ProfilePage/PersonalDataPage/types';
 import Skeleton from '@mui/material/Skeleton';
-import { useEffect } from 'react';
 import { getCurrentCustomerTC } from '../../../features/profile/model/slices/__tests__/profileSlice';
+import type { Status } from 'app/model/types';
+import { statusSelector } from 'app/model/selectors/appSelectors';
 
 export const PersonalNotEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }) => {
     const currentCustomer = useAppSelector<Customer | null>(profileCustomerSelector);
+    const appStatus: string = useAppSelector<Status>(statusSelector);
     const dispatch = useAppDispatch();
+
+    const emailValue = currentCustomer && 'email' in currentCustomer ? currentCustomer.email : '';
+    const firstNameValue = currentCustomer && 'firstName' in currentCustomer ? currentCustomer.firstName : '';
+    const lastNameValue = currentCustomer && 'lastName' in currentCustomer ? currentCustomer.lastName : '';
+    const dateOfBirthValue = currentCustomer && 'dateOfBirth' in currentCustomer ? currentCustomer.dateOfBirth : '';
 
     useEffect(() => {
         dispatch(getCurrentCustomerTC());
@@ -34,10 +42,10 @@ export const PersonalNotEditableData: FC<PersonalDataProps> = ({ toggleIsEditabl
                             ...STYLES.editableField,
                         }}
                     >
-                        {currentCustomer && 'email' in currentCustomer ? (
-                            currentCustomer.email
-                        ) : (
+                        {appStatus === 'loading' || !emailValue ? (
                             <Skeleton variant="text" width="80%" height={35} />
+                        ) : (
+                            emailValue
                         )}
                     </Typography>
                 </Box>
@@ -54,10 +62,10 @@ export const PersonalNotEditableData: FC<PersonalDataProps> = ({ toggleIsEditabl
                             ...STYLES.editableField,
                         }}
                     >
-                        {currentCustomer && 'firstName' in currentCustomer ? (
-                            currentCustomer.firstName
-                        ) : (
+                        {appStatus === 'loading' || !firstNameValue ? (
                             <Skeleton variant="text" width="80%" height={35} />
+                        ) : (
+                            firstNameValue
                         )}
                     </Typography>
                 </Box>
@@ -74,10 +82,10 @@ export const PersonalNotEditableData: FC<PersonalDataProps> = ({ toggleIsEditabl
                             ...STYLES.editableField,
                         }}
                     >
-                        {currentCustomer && 'lastName' in currentCustomer ? (
-                            currentCustomer.lastName
-                        ) : (
+                        {appStatus === 'loading' || !lastNameValue ? (
                             <Skeleton variant="text" width="80%" height={35} />
+                        ) : (
+                            lastNameValue
                         )}
                     </Typography>
                 </Box>
@@ -94,10 +102,10 @@ export const PersonalNotEditableData: FC<PersonalDataProps> = ({ toggleIsEditabl
                             ...STYLES.editableField,
                         }}
                     >
-                        {currentCustomer && 'dateOfBirth' in currentCustomer ? (
-                            currentCustomer.dateOfBirth
-                        ) : (
+                        {appStatus === 'loading' || !dateOfBirthValue ? (
                             <Skeleton variant="text" width="80%" height={35} />
+                        ) : (
+                            dateOfBirthValue
                         )}
                     </Typography>
                 </Box>

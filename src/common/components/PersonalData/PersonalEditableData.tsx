@@ -33,7 +33,8 @@ export const PersonalEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }
     const emailDefaultValue = currentCustomer && 'email' in currentCustomer ? currentCustomer.email : '';
     const firstNameDefaultValue = currentCustomer && 'firstName' in currentCustomer ? currentCustomer.firstName : '';
     const lastNameDefaultValue = currentCustomer && 'lastName' in currentCustomer ? currentCustomer.lastName : '';
-    const dateOfBirthDefaultValue = currentCustomer && 'dateOfBirth' in currentCustomer ? currentCustomer.dateOfBirth : '';
+    const dateOfBirthDefaultValue =
+        currentCustomer && 'dateOfBirth' in currentCustomer ? currentCustomer.dateOfBirth : '';
 
     if (currentCustomer && 'version' in currentCustomer) {
         currentCustomerVersion = currentCustomer.version;

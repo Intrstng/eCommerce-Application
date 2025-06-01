@@ -14,7 +14,7 @@ export const STYLES = genStyles({
         color: '#65635F',
         transition: '0.3s all ease-in-out',
         '&:hover': {
-            color: '#161412',
+            color: '#d20000',
         },
     },
 });
