@@ -63,6 +63,7 @@ export const loginTC =
     (data: SignInFormData): AppThunk =>
     async dispatch => {
         dispatch(appActions.setAppStatus({ status: Status.LOADING }));
+        dispatch(appActions.setAppError({ error: null }));
         try {
             const response: ClientResponse<CustomerSignInResult> = await authAPI.login(data.email, data.password);
 
