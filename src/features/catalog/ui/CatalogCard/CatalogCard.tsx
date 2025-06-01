@@ -6,6 +6,7 @@ import { STYLES } from './styles.catalogCard';
 import { Link } from 'react-router-dom';
 import { formatPrice, formatPriceDiscount } from '../../utils/format-price';
 import Box from '@mui/material/Box';
+import { PRICE_STYLES } from '../../../../common/styles/price.styles';
 
 export const CatalogCard: FC<CatalogItemProps> = ({
     id,
@@ -37,21 +38,17 @@ export const CatalogCard: FC<CatalogItemProps> = ({
                                 {description}
                             </Typography>
 
-                            <Box sx={STYLES.priceBlock}>
+                            <Box sx={PRICE_STYLES.priceContent}>
                                 {priceInfo.hasDiscount ? (
                                     <>
-                                        <Typography
-                                            sx={{
-                                                ...STYLES.cardPrice,
-                                                ...STYLES.discountPrice,
-                                            }}
-                                        >
-                                            {priceInfo.discounted}
-                                        </Typography>
-                                        <Typography sx={STYLES.oldPrice}>{priceInfo.original}</Typography>
+                                        <Typography sx={PRICE_STYLES.price}>{priceInfo.discounted}</Typography>
+                                        <Box sx={PRICE_STYLES.oldPriceContent}>
+                                            <Typography sx={PRICE_STYLES.oldPrice}>{priceInfo.original}</Typography>
+                                            <Box sx={PRICE_STYLES.lineThrough} />
+                                        </Box>
                                     </>
                                 ) : (
-                                    <Typography sx={STYLES.cardPrice}>{priceInfo.original}</Typography>
+                                    <Typography sx={PRICE_STYLES.price}>{priceInfo.original}</Typography>
                                 )}
                             </Box>
                         </CardContent>

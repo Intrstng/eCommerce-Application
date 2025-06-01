@@ -8,6 +8,7 @@ import type { Status } from 'app/model/types';
 import { statusSelector } from 'app/model/selectors/appSelectors';
 import Box from '@mui/material/Box';
 import { STYLES } from './styles.productPage';
+import { PRICE_STYLES } from '../../styles/price.styles';
 import { Card } from '@mui/material';
 import { BackButton } from '../../buttons/BackButton';
 import Typography from '@mui/material/Typography';
@@ -157,17 +158,17 @@ export const ProductPage = () => {
 
                         <Typography sx={STYLES.text}>{description}</Typography>
                         <Divider sx={STYLES.devider} />
-                        <Box sx={STYLES.priceContent}>
+                        <Box sx={{ ...PRICE_STYLES.priceContent, mb: '1.25rem' }}>
                             {priceInfo.hasDiscount ? (
                                 <>
-                                    <Typography sx={STYLES.price}>{priceInfo.discounted}</Typography>
-                                    <Box sx={STYLES.oldPriceContent}>
-                                        <Typography sx={STYLES.oldPrice}>{priceInfo.original}</Typography>
-                                        <Box sx={STYLES.lineThrough} />
+                                    <Typography sx={PRICE_STYLES.price}>{priceInfo.discounted}</Typography>
+                                    <Box sx={PRICE_STYLES.oldPriceContent}>
+                                        <Typography sx={PRICE_STYLES.oldPrice}>{priceInfo.original}</Typography>
+                                        <Box sx={PRICE_STYLES.lineThrough} />
                                     </Box>
                                 </>
                             ) : (
-                                <Typography sx={STYLES.price}>{priceInfo.original}</Typography>
+                                <Typography sx={PRICE_STYLES.price}>{priceInfo.original}</Typography>
                             )}
                         </Box>
                         <Box sx={STYLES.productControls}>
