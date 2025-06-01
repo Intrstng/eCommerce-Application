@@ -4,10 +4,11 @@ export const STYLES = genStyles({
     signInBtn: {
         // width: '3rem',
     },
-    signInIcon: {
-        // color: 'rgba(210,10,17,0.6)',
-    },
-    authLinkDisabled: {
-        opacity: '0.3',
+    authLink: {
+        cursor: 'pointer',
+        transition: '0.3s all ease',
+        '&:hover': {
+            transform: 'scale(1.07)',
+        },
     },
 });

@@ -5,6 +5,19 @@ export interface Address {
     city: string;
 }
 
+export interface EditAddressData {
+    streetName: string;
+    city: string;
+    postalCode: string;
+    country: string;
+    isDefaultBilling: boolean;
+    isDefaultShipping: boolean;
+}
+
+export interface AddressData extends Address {
+    id: string;
+}
+
 export interface LoginParameters {
     email: string;
     password: string;
@@ -39,4 +52,12 @@ export interface ErrorResponse {
         code: string;
         message: string;
     }[];
+}
+
+export interface Attribute {
+    name: string;
+    value: {
+        key: string;
+        label?: string;
+    };
 }

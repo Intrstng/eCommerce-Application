@@ -1,4 +1,4 @@
-export const COUNTRIES: Countries[] = [
+export const COUNTRIES: Country[] = [
     // { code: 'AL', name: 'Albania' },
     { code: 'AT', name: 'Austria' },
     // { code: 'BA', name: 'Bosnia and Herzegovina' },
@@ -76,7 +76,7 @@ export const ZIP_CODE_PATTERNS: Record<string, { pattern: RegExp; example: strin
     RU: { pattern: /^\d{6}$/, example: '101000' },
 };
 
-export type Countries = {
+export type Country = {
     code: string;
     name: string;
 };

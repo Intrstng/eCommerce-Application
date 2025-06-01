@@ -1,4 +1,4 @@
-import type { ClientResponse, CustomerSignInResult, Customer } from '@commercetools/platform-sdk';
+import type { ClientResponse, CustomerSignInResult } from '@commercetools/platform-sdk';
 import type { User } from '../../../common/types';
 import { apiRoot } from '../../../common/api/commercetools';
 import { getEnvironmentVariable } from '../../../common/utils/get-environment-variable';
@@ -75,8 +75,6 @@ export const authAPI = {
                 .execute();
             return await this.login(email, password);
         } catch (error) {
-            authTokenService.clearTokens();
-
             if (isDuplicateEmailError(error)) {
                 throw new Error('This email is already registered. Please use a different email or sign in.');
             }
@@ -85,27 +83,28 @@ export const authAPI = {
         }
     },
 
-    async getCurrentUser(): Promise<Customer | null> {
-        try {
-            const token = authTokenService.getAccessToken();
-            if (!token) {
-                return null;
-            }
-            const response = await apiRoot
-                .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
-                .me()
-                .get()
-                .execute();
+    // async getCurrentUser(): Promise<Customer | null> {
+    //     try {
+    //         const token = authTokenService.getAccessToken();
+    //         if (!token) {
+    //             return null;
+    //         }
+    //         const response = await apiRoot
+    //             .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
+    //             .me()
+    //             .get()
+    //             .execute();
+    //
+    //         return response.body;
+    //     } catch (error) {
+    //         console.error('Get current user error:', error);
+    //         authTokenService.clearTokens();
+    //         return null;
+    //     }
+    // },
 
-            return response.body;
-        } catch (error) {
-            console.error('Get current user error:', error);
-            authTokenService.clearTokens();
-            return null;
-        }
-    },
-
-    logout(): void {
+    async logout(): Promise<void> {
         authTokenService.clearTokens();
+        await authTokenService.getAnonymousToken();
     },
 };
