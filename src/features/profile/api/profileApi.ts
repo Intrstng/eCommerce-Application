@@ -2,6 +2,7 @@ import type { ClientResponse, Customer, MyCustomerUpdateAction } from '@commerce
 import { apiRoot } from '../../../common/api/commercetools';
 import { getEnvironmentVariable } from '../../../common/utils/get-environment-variable';
 import { EnvironmentKeys } from '../../../common/enums';
+import { authTokenService } from '../../../common/services/auth-token.service';
 
 export interface UpdateCustomerActions {
     version: number;
@@ -63,6 +64,13 @@ export const profileApi = {
                     },
                 })
                 .execute();
+
+            try {
+                const user = customer.body;
+                await authTokenService.getCustomerToken(user.email, newPassword);
+            } catch (tokenError) {
+                console.error('Token refresh failed, but password was changed:', tokenError);
+            }
         } catch (error) {
             if (error instanceof Error) {
                 throw new TypeError(`Failed to change password: ${error.message}`);
