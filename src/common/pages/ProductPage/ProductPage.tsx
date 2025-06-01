@@ -15,7 +15,7 @@ import Divider from '@mui/material/Divider';
 import { CustomButton } from '../../buttons/CustomButton';
 import { FavouriteSwitch } from '../../components/FavouriteSwitch/FavouriteSwitch';
 import { ProductPageSkeleton } from './ProductPageSkeleton';
-import { formatPrice, formatPriceDiscount, isFirstSignInIDOdd } from '../../../features/catalog/utils/format-price';
+import { formatPrice, formatPriceDiscount } from '../../../features/catalog/utils/format-price';
 import { CopyToClipboard } from '../../components/CopyToClipboard/CopyToClipboard';
 import materialSvg from '../../../assets/icons/material.svg';
 import genderSvg from '../../../assets/icons/gender.svg';
@@ -97,6 +97,12 @@ export const ProductPage = () => {
         return <ProductPageSkeleton />;
     }
 
+    const priceInfo = {
+        original: formatPrice(prices, 'EUR'),
+        discounted: formatPriceDiscount(prices, 'EUR'),
+        hasDiscount: !!formatPriceDiscount(prices, 'EUR'),
+    };
+
     return (
         <>
             <BreadCrumbs />
@@ -152,24 +158,22 @@ export const ProductPage = () => {
                         <Typography sx={STYLES.text}>{description}</Typography>
                         <Divider sx={STYLES.devider} />
                         <Box sx={STYLES.priceContent}>
-                            {/*Temporary solution with price and currency*/}
-                            {/*<Typography sx={STYLES.price}>{formatPrice(prices, prices[1].value.currencyCode)}</Typography>*/}
-                            <Typography sx={STYLES.price}>{formatPrice(prices, 'EUR')}</Typography>
-                            {isFirstSignInIDOdd(id) && (
-                                <Box sx={STYLES.oldPriceContent}>
-                                    {/*Temporary solution with price and currency*/}
-                                    {/*<Typography sx={STYLES.oldPrice}>{formatPriceTricky(prices, prices[1].value.currencyCode)}</Typography>*/}
-                                    <Typography sx={STYLES.oldPrice}>{formatPriceDiscount(prices, 'EUR')}</Typography>
-                                    <Box sx={STYLES.lineThrough} />
-                                </Box>
+                            {priceInfo.hasDiscount ? (
+                                <>
+                                    <Typography sx={STYLES.price}>{priceInfo.discounted}</Typography>
+                                    <Box sx={STYLES.oldPriceContent}>
+                                        <Typography sx={STYLES.oldPrice}>{priceInfo.original}</Typography>
+                                        <Box sx={STYLES.lineThrough} />
+                                    </Box>
+                                </>
+                            ) : (
+                                <Typography sx={STYLES.price}>{priceInfo.original}</Typography>
                             )}
                         </Box>
                         <Box sx={STYLES.productControls}>
                             <CustomButton style={{ width: '21.8rem' }} onClick={handleCartToggle}>
-                                {/*Temporary solution for Sprint 3*/}
                                 {isInBasket ? 'Remove from Cart' : 'Add to Cart'}
                             </CustomButton>
-                            {/*Temporary solution for Sprint 3*/}
                             <FavouriteSwitch
                                 id={'uuidFav1'}
                                 isFavourite={isFavourite.uuidFav1}
