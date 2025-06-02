@@ -75,6 +75,18 @@
     background: rgb(244 244 242 / 60%);
 }
 
+.videoPlaceholder {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: #f4f4f2;
+}
+
 .heroVideo {
     display: block;
 
@@ -83,7 +95,14 @@
     margin-right: auto;
     margin-left: auto;
 
+    opacity: 0;
     object-fit: cover;
+
+    transition: opacity 0.3s ease;
+}
+
+.videoLoaded {
+    opacity: 1;
 }
 
 @media screen and (width <= 1024px) {

@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState, useEffect } from 'react';
 import Button from '../../../components/Button/Button';
 import styles from './HeroSection.module.scss';
 import heroVideoSource from '../../../../assets/videos/hero.mp4';
@@ -7,7 +7,24 @@ import { useNavigate } from 'react-router-dom';
 
 export const HeroSection = memo(() => {
     const navigate = useNavigate();
+    const [isVideoLoaded, setIsVideoLoaded] = useState(false);
     // const { t } = useTranslation();
+
+    useEffect(() => {
+        const video = document.createElement('video');
+        video.src = heroVideoSource;
+        video.preload = 'metadata';
+
+        const handleLoadedData = () => {
+            setIsVideoLoaded(true);
+        };
+
+        video.addEventListener('loadeddata', handleLoadedData);
+
+        return () => {
+            video.removeEventListener('loadeddata', handleLoadedData);
+        };
+    }, []);
 
     return (
         <div className={styles.heroSection}>
@@ -29,15 +46,16 @@ export const HeroSection = memo(() => {
                 </div>
             </div>
             <div className={styles.videoWrapper}>
+                {!isVideoLoaded && <div className={styles.videoPlaceholder} />}
                 <video
-                    className={styles.heroVideo}
-                    preload="true"
+                    className={`${styles.heroVideo} ${isVideoLoaded ? styles.videoLoaded : ''}`}
+                    preload="metadata"
                     playsInline
                     autoPlay
                     loop
                     muted
                     src={heroVideoSource}
-                ></video>
+                />
             </div>
         </div>
     );
