@@ -36,7 +36,7 @@ export const App = () => {
 
             {appStatus === 'loading' && <LinearProgress color={'success'} sx={linearProgressStyles} />}
 
-            <Box className="main container">
+            <Box className="main mainContainer">
                 <Box className="content">
                     <Outlet />
                 </Box>

@@ -1,34 +1,33 @@
 import type { ProductPrice } from '../api/catalogApi.interfaces';
 
-export function formatPrice(prices: ProductPrice[], currency = 'USD'): string {
-    const currentCurrency = prices.find(price => price.value.currencyCode === currency);
+/**
+ * Formats product price in "100.00 EUR" formatAdd commentMore actions
+ * @param prices - Array of product prices from commercetools
+ * @param currency - Currency code (default: 'EUR')
+ * @returns Formatted price string or "N/A" if price not found
+ */
+export function formatPrice(prices: ProductPrice[], currency = 'EUR'): string {
+    const price = prices.find(p => p?.value?.currencyCode === currency);
 
-    if (currentCurrency) {
-        const centAmount = currentCurrency.value.centAmount;
-        const fractionDigits = currentCurrency.value.fractionDigits;
+    if (!price?.value) return 'N/A';
 
-        return `${(centAmount / 100).toFixed(fractionDigits)} ${currency}`;
-    }
-
-    return 'N/A';
+    const amount = price.value.centAmount / Math.pow(10, price.value.fractionDigits ?? 2);
+    return `${amount.toFixed(price.value.fractionDigits ?? 2)} ${currency}`;
 }
 
+/**Add commentMore actions
+ * Formats discounted price from commercetools
+ * @param prices - Array of product prices
+ * @param currency - Currency code (default: 'EUR')
+ * @returns Discounted price string or empty string if no discount
+ */
 export function formatPriceDiscount(prices: ProductPrice[], currency = 'EUR'): string {
-    const currentCurrency = prices.find(price => price.value.currencyCode === currency);
+    const price = prices.find(p => p?.value?.currencyCode === currency);
 
-    if (currentCurrency) {
-        const centAmount = currentCurrency.value.centAmount;
-        const fractionDigits = currentCurrency.value.fractionDigits;
-        const amount = centAmount / 100;
+    if (!price?.discounted?.value) return '';
 
-        return `${(amount + amount * 0.1).toFixed(fractionDigits)} ${currency}`;
-    }
-    return '';
-}
-
-export function isFirstSignInIDOdd(id = ''): boolean {
-    const firstChar = id.charAt(0);
-    const number = Number.parseInt(firstChar, 10);
-
-    return !Number.isNaN(number) && number % 2 !== 0;
+    const amount =
+        price.discounted.value.centAmount /
+        Math.pow(10, price.discounted.value.fractionDigits ?? price.value.fractionDigits ?? 2);
+    return `${amount.toFixed(price.discounted.value.fractionDigits ?? 2)} ${currency}`;
 }

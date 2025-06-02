@@ -4,66 +4,57 @@ import type { CatalogItemProps } from './types';
 import { CatalogCardSkeleton } from './CatalogCardSkeleton';
 import { STYLES } from './styles.catalogCard';
 import { Link } from 'react-router-dom';
-import { formatPrice, formatPriceDiscount, isFirstSignInIDOdd } from '../../utils/format-price';
+import { formatPrice, formatPriceDiscount } from '../../utils/format-price';
 import Box from '@mui/material/Box';
+import { PRICE_STYLES } from '../../../../common/styles/price.styles';
 
-export const CatalogCard: FC<CatalogItemProps> = ({ id, image, title, prices, description, isProductsLoading }) => {
-    const price: string = formatPrice(prices, 'EUR');
+export const CatalogCard: FC<CatalogItemProps> = ({
+    id,
+    image,
+    title,
+    prices = [],
+    description,
+    isProductsLoading,
+}) => {
+    const priceInfo = {
+        original: formatPrice(prices, 'EUR'),
+        discounted: formatPriceDiscount(prices, 'EUR'),
+        hasDiscount: !!formatPriceDiscount(prices, 'EUR'),
+    };
 
     return (
         <>
             {isProductsLoading ? (
                 <CatalogCardSkeleton />
             ) : (
-                <Link to={`/product/${id}`}>
+                <Link to={`/product/${id}`} style={{ textDecoration: 'none' }}>
                     <Card sx={STYLES.card}>
                         <CardMedia
                             component="img"
                             src={image}
-                            alt="product"
+                            alt={title}
                             className="cardImage"
                             sx={STYLES.cardImage}
                         />
                         <CardContent sx={STYLES.cardContent}>
-                            <Typography
-                                className="cardTitle"
-                                sx={{
-                                    ...STYLES.cardFont,
-                                    ...STYLES.cardTitle,
-                                }}
-                            >
+                            <Typography className="cardTitle" sx={STYLES.cardTitle}>
                                 {title}
                             </Typography>
-                            <Typography
-                                className="cardText"
-                                sx={{
-                                    ...STYLES.cardFont,
-                                    ...STYLES.cardText,
-                                }}
-                            >
+                            <Typography className="cardText" sx={STYLES.cardText}>
                                 {description}
                             </Typography>
 
-                            <Box sx={STYLES.priceBlock}>
-                                <Typography
-                                    className="cardPrice"
-                                    sx={{
-                                        ...STYLES.cardFont,
-                                        ...STYLES.cardPrice,
-                                        ...(isFirstSignInIDOdd(id) ? STYLES.discountPrice : {}),
-                                    }}
-                                >
-                                    {price}
-                                </Typography>
-
-                                {isFirstSignInIDOdd(id) && (
-                                    <Box sx={STYLES.oldPriceContent}>
-                                        <Typography sx={STYLES.oldPrice}>
-                                            {formatPriceDiscount(prices, 'EUR')}
-                                        </Typography>
-
-                                        <Box sx={STYLES.lineThrough} />
-                                    </Box>
+                            <Box sx={PRICE_STYLES.priceContent}>
+                                {priceInfo.hasDiscount ? (
+                                    <>
+                                        <Typography sx={PRICE_STYLES.price}>{priceInfo.discounted}</Typography>
+                                        <Box sx={PRICE_STYLES.oldPriceContent}>
+                                            <Typography sx={PRICE_STYLES.oldPrice}>{priceInfo.original}</Typography>
+                                            <Box sx={PRICE_STYLES.lineThrough} />
+                                        </Box>
+                                    </>
+                                ) : (
+                                    <Typography sx={PRICE_STYLES.price}>{priceInfo.original}</Typography>
                                 )}
                             </Box>
                         </CardContent>

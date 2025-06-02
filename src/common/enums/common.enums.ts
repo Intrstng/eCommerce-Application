@@ -80,3 +80,13 @@ export enum CATEGORIES {
     BROOCHES = 'brooches',
     OTHER = 'other',
 }
+
+export enum AddressModalType {
+    SHIPPING = 'shipping',
+    BILLING = 'billing',
+}
+
+export enum DefaultAddressStatus {
+    ON = 'on',
+    OFF = 'off',
+}

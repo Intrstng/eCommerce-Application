@@ -9,19 +9,6 @@ import { isDuplicateEmailError } from '../../../common/utils/type-guards';
 export const authAPI = {
     async login(email: string, password: string): Promise<ClientResponse<CustomerSignInResult>> {
         try {
-            await authTokenService.getCustomerToken(email, password);
-
-            return await apiRoot
-                .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
-                .me()
-                .login()
-                .post({
-                    body: { email, password },
-                })
-                .execute();
-        } catch {
-            authTokenService.clearTokens();
-
             const response = await apiRoot
                 .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
                 .customers()
@@ -38,7 +25,38 @@ export const authAPI = {
             if (!accountExists) {
                 throw new Error('Account not found. Please check your email or register a new account.');
             }
-            throw new Error('Incorrect password. Please try again.');
+            authTokenService.clearTokens();
+
+            try {
+                await authTokenService.getCustomerToken(email, password);
+            } catch (error) {
+                if (
+                    error instanceof Error &&
+                    (error.message.includes('Customer account with the given credentials not found') ||
+                        error.message.includes('invalid_customer_account_credentials'))
+                ) {
+                    throw new Error('Incorrect password. Please try again.');
+                }
+                throw error;
+            }
+
+            return await apiRoot
+                .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
+                .me()
+                .login()
+                .post({
+                    body: { email, password },
+                })
+                .execute();
+        } catch (error) {
+            authTokenService.clearTokens();
+            if (
+                error instanceof Error &&
+                (error.message.includes('Authorization header') || error.message.includes('Bearer'))
+            ) {
+                throw new Error('Account not found. Please check your email or register a new account.');
+            }
+            throw error;
         }
     },
 

@@ -32,7 +32,8 @@ export const STYLES = genStyles({
     },
     addressCardItemInfo: {
         marginLeft: '0',
-        width: '10rem',
+        marginRight: '0.5rem',
+        width: '11.92rem',
         height: '2.5rem',
         display: 'flex',
         alignItems: 'center',
@@ -118,6 +119,7 @@ export const STYLES = genStyles({
         boxShadow: 'unset',
         border: '1px solid #000',
         transition: '0.3s all ease-in-out',
+        borderRadius: 0,
         '&:disabled': {
             border: '1px solid rgba(101, 99, 95, 0.65)',
             backgroundColor: 'rgba(101, 99, 95, 0.15)',
@@ -169,11 +171,17 @@ export const STYLES = genStyles({
     },
 
     statusActive: {
+        border: '1px solid #65635F',
         color: '#FFF',
-        backgroundColor: '#3D365C',
+        backgroundColor: '#65635F',
         '&:hover': {
-            color: '#FFF',
-            backgroundColor: '#65635F',
+            // backgroundColor: '#3D365C',
+            backgroundColor: '#000',
+        },
+    },
+    dialog: {
+        '& .MuiPaper-root': {
+            borderRadius: '0',
         },
     },
 });

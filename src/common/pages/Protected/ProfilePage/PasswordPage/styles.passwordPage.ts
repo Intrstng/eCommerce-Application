@@ -14,6 +14,7 @@ export const STYLES = genStyles({
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
+        mb: '2rem',
     },
     passwordsForm: {
         maxWidth: '23.5rem',
@@ -62,6 +63,7 @@ export const STYLES = genStyles({
         pb: '0.375rem',
         boxShadow: 'unset',
         border: '1px solid #000',
+        borderRadius: 0,
         transition: '0.3s all ease-in-out',
         '&:disabled': {
             border: '1px solid rgba(101, 99, 95, 0.65)',

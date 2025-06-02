@@ -207,4 +207,10 @@ export const authTokenService = {
         tokenRefreshPromise = null;
         clearTokenCookies();
     },
+
+    async ensureAnonymousToken(): Promise<void> {
+        const token = this.getAccessToken();
+        if (token) return;
+        await this.getAnonymousToken();
+    },
 };

@@ -8,6 +8,7 @@ import type { Status } from 'app/model/types';
 import { statusSelector } from 'app/model/selectors/appSelectors';
 import Box from '@mui/material/Box';
 import { STYLES } from './styles.productPage';
+import { PRICE_STYLES } from '../../styles/price.styles';
 import { Card } from '@mui/material';
 import { BackButton } from '../../buttons/BackButton';
 import Typography from '@mui/material/Typography';
@@ -15,7 +16,7 @@ import Divider from '@mui/material/Divider';
 import { CustomButton } from '../../buttons/CustomButton';
 import { FavouriteSwitch } from '../../components/FavouriteSwitch/FavouriteSwitch';
 import { ProductPageSkeleton } from './ProductPageSkeleton';
-import { formatPrice, formatPriceDiscount, isFirstSignInIDOdd } from '../../../features/catalog/utils/format-price';
+import { formatPrice, formatPriceDiscount } from '../../../features/catalog/utils/format-price';
 import { CopyToClipboard } from '../../components/CopyToClipboard/CopyToClipboard';
 import materialSvg from '../../../assets/icons/material.svg';
 import genderSvg from '../../../assets/icons/gender.svg';
@@ -97,6 +98,12 @@ export const ProductPage = () => {
         return <ProductPageSkeleton />;
     }
 
+    const priceInfo = {
+        original: formatPrice(prices, 'EUR'),
+        discounted: formatPriceDiscount(prices, 'EUR'),
+        hasDiscount: !!formatPriceDiscount(prices, 'EUR'),
+    };
+
     return (
         <>
             <BreadCrumbs />
@@ -148,20 +155,19 @@ export const ProductPage = () => {
                                 <CopyToClipboard value={sku} />
                             </Box>
                         )}
-
                         <Typography sx={STYLES.text}>{description}</Typography>
                         <Divider sx={STYLES.devider} />
-                        <Box sx={STYLES.priceContent}>
-                            {/*Temporary solution with price and currency*/}
-                            {/*<Typography sx={STYLES.price}>{formatPrice(prices, prices[1].value.currencyCode)}</Typography>*/}
-                            <Typography sx={STYLES.price}>{formatPrice(prices, 'EUR')}</Typography>
-                            {isFirstSignInIDOdd(id) && (
-                                <Box sx={STYLES.oldPriceContent}>
-                                    {/*Temporary solution with price and currency*/}
-                                    {/*<Typography sx={STYLES.oldPrice}>{formatPriceTricky(prices, prices[1].value.currencyCode)}</Typography>*/}
-                                    <Typography sx={STYLES.oldPrice}>{formatPriceDiscount(prices, 'EUR')}</Typography>
-                                    <Box sx={STYLES.lineThrough} />
-                                </Box>
+                        <Box sx={{ ...PRICE_STYLES.priceContent, mb: '1.25rem' }}>
+                            {priceInfo.hasDiscount ? (
+                                <>
+                                    <Typography sx={PRICE_STYLES.price}>{priceInfo.discounted}</Typography>
+                                    <Box sx={PRICE_STYLES.oldPriceContent}>
+                                        <Typography sx={PRICE_STYLES.oldPrice}>{priceInfo.original}</Typography>
+                                        <Box sx={PRICE_STYLES.lineThrough} />
+                                    </Box>
+                                </>
+                            ) : (
+                                <Typography sx={PRICE_STYLES.price}>{priceInfo.original}</Typography>
                             )}
                         </Box>
                         <Box sx={STYLES.productControls}>

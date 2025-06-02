@@ -3,7 +3,7 @@ import { STYLES } from './styles.addressCard';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
 import type { FC } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getCurrentCustomerTC } from '../../../features/profile/model/slices/__tests__/profileSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import type { Status } from 'app/model/types';
@@ -18,13 +18,41 @@ import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import { DeleteAddressModal } from '../ModalWindow/DeleteAddressModal/DeleteAddressModal';
+import Dialog from '@mui/material/Dialog';
+import { EditAddressModalForm } from '../ModalWindow/EditAddressModalForm/EditAddressModalForm';
+import { AddressModalType, DefaultAddressStatus } from '../../enums';
 
-export const AddressCard: FC<AddressCardProps> = ({ address }) => {
-    const dispatch = useAppDispatch();
+export const AddressCard: FC<AddressCardProps> = ({
+    address,
+    deleteAddressCB,
+    editAddressCB,
+    toggleDefaultAddressesCB,
+    shippingAddressIds,
+    billingAddressIds,
+}) => {
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+    const [addressToDeleteId, setAddressToDeleteId] = useState<string>('');
+    const [openEditModal, setOpenEditModal] = useState(false);
     const currentCustomer = useAppSelector<Customer | null>(profileCustomerSelector);
     const appStatus: string = useAppSelector<Status>(statusSelector);
+    const dispatch = useAppDispatch();
 
     const currentCountry: Country | undefined = COUNTRIES.find(country => country.code === address?.country);
+    let isDefaultShippingAddress: DefaultAddressStatus = DefaultAddressStatus.OFF;
+    let isDefaultBillingAddress: DefaultAddressStatus = DefaultAddressStatus.OFF;
+
+    if (address.id != null) {
+        isDefaultShippingAddress = shippingAddressIds.includes(address.id)
+            ? DefaultAddressStatus.ON
+            : DefaultAddressStatus.OFF;
+        isDefaultBillingAddress = billingAddressIds.includes(address.id)
+            ? DefaultAddressStatus.ON
+            : DefaultAddressStatus.OFF;
+    }
+
+    const [isDefaultShipping, setIsDefaultShipping] = useState(isDefaultShippingAddress);
+    const [isDefaultBilling, setIsDefaultBilling] = useState(isDefaultBillingAddress);
 
     const currentAddressData: EditAddressData = {
         streetName: address?.streetName ?? '',
@@ -38,6 +66,52 @@ export const AddressCard: FC<AddressCardProps> = ({ address }) => {
     useEffect(() => {
         dispatch(getCurrentCustomerTC());
     }, [dispatch]);
+
+    const handleIconDeleteClick = (addressId?: string) => {
+        if (!addressId) return;
+        setAddressToDeleteId(addressId);
+        setOpenDeleteDialog(true);
+    };
+
+    const handleModalConfirmDelete = () => {
+        if (addressToDeleteId) {
+            deleteAddressCB(addressToDeleteId);
+        }
+        setOpenDeleteDialog(false);
+    };
+
+    const handleModalCancelDelete = () => {
+        setOpenDeleteDialog(false);
+        setAddressToDeleteId('');
+    };
+
+    const handleToggleDefaultBilling = () => {
+        const newDefaultBillingStatus =
+            isDefaultBilling === DefaultAddressStatus.ON ? DefaultAddressStatus.OFF : DefaultAddressStatus.ON;
+        setIsDefaultBilling(newDefaultBillingStatus);
+        if (address.id) {
+            console.log(
+                'sent from AddressCard: isDefaultShipping, newDefaultBillingStatus',
+                isDefaultShipping,
+                newDefaultBillingStatus
+            );
+            toggleDefaultAddressesCB(isDefaultShipping, newDefaultBillingStatus, address.id, AddressModalType.BILLING);
+        }
+    };
+
+    const handleToggleDefaultShipping = () => {
+        const newDefaultShippingStatus =
+            isDefaultShipping === DefaultAddressStatus.ON ? DefaultAddressStatus.OFF : DefaultAddressStatus.ON;
+        setIsDefaultShipping(newDefaultShippingStatus);
+        if (address.id) {
+            console.log(
+                'sent from AddressCard: newDefaultShippingStatus, isDefaultBilling',
+                newDefaultShippingStatus,
+                isDefaultBilling
+            );
+            toggleDefaultAddressesCB(newDefaultShippingStatus, isDefaultBilling, address.id, AddressModalType.SHIPPING);
+        }
+    };
 
     return (
         <Box sx={STYLES.addressCardInfoContent}>
@@ -100,7 +174,9 @@ export const AddressCard: FC<AddressCardProps> = ({ address }) => {
                     <IconButton
                         sx={STYLES.editAddressButton}
                         type="button"
-                        // onClick={cancelEditChangesHandler}
+                        onClick={() => {
+                            setOpenEditModal(true);
+                        }}
                         disabled={appStatus === 'loading'}
                     >
                         <EditIcon />
@@ -108,7 +184,9 @@ export const AddressCard: FC<AddressCardProps> = ({ address }) => {
                     <IconButton
                         sx={STYLES.deleteAddressButton}
                         type="button"
-                        // onClick={cancelEditChangesHandler}
+                        onClick={() => {
+                            handleIconDeleteClick(address.id);
+                        }}
                         disabled={appStatus === 'loading'}
                     >
                         <DeleteIcon />
@@ -120,63 +198,57 @@ export const AddressCard: FC<AddressCardProps> = ({ address }) => {
                         <Button
                             sx={{
                                 ...STYLES.addressDetailsButton,
-                                ...STYLES.billingPurposeButton,
-                            }}
-                            type="button"
-                            variant="contained"
-                            color="info"
-                            // onClick={cancelEditChangesHandler}
-                            disabled={appStatus === 'loading'}
-                        >
-                            as for billing
-                        </Button>
-                        <Button
-                            sx={{
-                                ...STYLES.addressDetailsButton,
                                 ...STYLES.shippingPurposeButton,
+                                ...(isDefaultShipping === DefaultAddressStatus.ON ? STYLES.statusActive : {}),
                             }}
                             type="button"
                             variant="contained"
                             color="info"
-                            // onClick={cancelEditChangesHandler}
+                            onClick={handleToggleDefaultShipping}
                             disabled={appStatus === 'loading'}
                         >
                             as for shipping
                         </Button>
-                    </Box>
 
-                    <Box sx={STYLES.addressStatusButtons}>
                         <Button
                             sx={{
                                 ...STYLES.addressDetailsButton,
-                                ...STYLES.defaultBillingStatusButton,
-                                ...(currentAddressData.isDefaultBilling ? STYLES.statusActive : {}),
+                                ...STYLES.billingPurposeButton,
+                                ...(isDefaultBilling === DefaultAddressStatus.ON ? STYLES.statusActive : {}),
                             }}
                             type="button"
                             variant="contained"
                             color="info"
-                            // onClick={cancelEditChangesHandler}
+                            onClick={handleToggleDefaultBilling}
                             disabled={appStatus === 'loading'}
                         >
-                            default billing
-                        </Button>
-                        <Button
-                            sx={{
-                                ...STYLES.addressDetailsButton,
-                                ...STYLES.defaultShippingStatusButton,
-                                ...(currentAddressData.isDefaultShipping ? STYLES.statusActive : {}),
-                            }}
-                            type="button"
-                            variant="contained"
-                            color="info"
-                            // onClick={cancelEditChangesHandler}
-                            disabled={appStatus === 'loading'}
-                        >
-                            default shipping
+                            as for billing
                         </Button>
                     </Box>
                 </Box>
             </Box>
+
+            <DeleteAddressModal
+                isOpen={openDeleteDialog}
+                modalCancelDeleteCB={handleModalCancelDelete}
+                modalConfirmDeleteCB={handleModalConfirmDelete}
+            />
+
+            <Dialog
+                open={openEditModal}
+                onClose={() => {
+                    setOpenEditModal(false);
+                }}
+                sx={STYLES.dialog}
+            >
+                <EditAddressModalForm
+                    addressId={address.id ?? ''}
+                    closeModalCB={() => {
+                        setOpenEditModal(false);
+                    }}
+                    editAddressCB={editAddressCB}
+                />
+            </Dialog>
         </Box>
     );
 };

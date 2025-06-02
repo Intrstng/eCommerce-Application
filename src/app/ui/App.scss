@@ -10,14 +10,22 @@
 
 .container {
     //width: 100%; // delete
-    width: 100vw; // delete
+    //width: 100vw; // delete
     max-width: 1180px;
     margin: 0 auto;
 }
 
+.mainContainer {
+    // as .container
+    margin: 0 auto;
+
+    //min-width: 1180px; // add later
+}
+
 .main {
     grid-row: 2;
-    padding: 0 1.25rem 2rem;
+
+    //padding: 0 1.25rem 2rem;
 }
 
 .content {

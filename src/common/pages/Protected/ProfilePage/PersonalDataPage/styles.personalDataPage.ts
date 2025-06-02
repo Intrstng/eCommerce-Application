@@ -1,6 +1,9 @@
 import { genStyles } from '../../../../utils/generate-styles';
 
 export const STYLES = genStyles({
+    personalContent: {
+        mb: '2rem',
+    },
     personalTitle: {
         mb: '1rem',
         fontFamily: 'Jost, sans-serif',
