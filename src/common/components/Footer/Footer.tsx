@@ -46,16 +46,10 @@
 //     );
 // };
 
-import { useState } from 'react';
 import S from './Footer.module.scss';
+import { LanguageSwitcher } from '../LanguageSwitcher/LanguageSwitcher';
 
 export const Footer = () => {
-    const [language, setLanguage] = useState('en');
-
-    const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setLanguage(event.target.value);
-    };
-
     return (
         <div className={S.footer}>
             <div className={S.topRow}>
@@ -63,14 +57,7 @@ export const Footer = () => {
                     <li>OUR CARE GUIDE</li>
                     <li>ABOUT US</li>
                     <li>DO X JEWERLY</li>
-                    <li>
-                        <div className={S.section}>
-                            <select value={language} onChange={handleLanguageChange} className={S.languageSelect}>
-                                <option value="en">EN</option>
-                                {/*<option value="ru">RU</option>*/}
-                            </select>
-                        </div>
-                    </li>
+                    <LanguageSwitcher />
                 </ul>
             </div>
 

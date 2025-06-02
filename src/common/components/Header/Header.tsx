@@ -8,6 +8,7 @@ import { CATEGORIES, PATH } from '../../enums';
 import Box from '@mui/material/Box';
 import SearchIcon from '@mui/icons-material/Search';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
+import { LanguageSwitcher } from '../LanguageSwitcher/LanguageSwitcher';
 
 export const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -62,6 +63,7 @@ export const Header: React.FC = () => {
                     <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.BROOCHES}`} className={S.navLink}>
                         {CATEGORIES.BROOCHES}
                     </NavLink>
+                    <LanguageSwitcher />
                     <icons.dox className={S.doxIcon} />
                     <NavLink to={PATH.SIGNIN} className={S.login}>
                         <icons.login />
