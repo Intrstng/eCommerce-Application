@@ -280,17 +280,25 @@ export const AddressesPage = () => {
             </Typography>
 
             <Box sx={STYLES.addressCards}>
-                {currentAddresses.map(address => (
-                    <AddressCard
-                        key={address.id}
-                        address={address}
-                        deleteAddressCB={handleDeleteAddress}
-                        editAddressCB={handleSaveAddress}
-                        toggleDefaultAddressesCB={handleSetDefaultAddressByClick}
-                        shippingAddressIds={shippingAddressIds ?? []}
-                        billingAddressIds={billingAddressIds ?? []}
-                    />
-                ))}
+                {currentAddresses.length > 0 ? (
+                    currentAddresses.map(address => (
+                        <AddressCard
+                            key={address.id}
+                            address={address}
+                            deleteAddressCB={handleDeleteAddress}
+                            editAddressCB={handleSaveAddress}
+                            toggleDefaultAddressesCB={handleSetDefaultAddressByClick}
+                            shippingAddressIds={shippingAddressIds ?? []}
+                            billingAddressIds={billingAddressIds ?? []}
+                        />
+                    ))
+                ) : (
+                    <Box sx={STYLES.emptyAddressMessage}>
+                        <Typography variant="body1" sx={STYLES.emptyAddressMessageTitle}>
+                            You haven't added any addresses yet
+                        </Typography>
+                    </Box>
+                )}
             </Box>
 
             <Box sx={STYLES.addressControls}>
