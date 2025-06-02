@@ -140,6 +140,14 @@
 }
 
 /* Responsive */
+@media (width <= 955px) {
+    .small,
+    .default,
+    .large {
+        font: normal 400 10px / 20px Jost;
+    }
+}
+
 @media (width <= 480px) {
     .small,
     .default,

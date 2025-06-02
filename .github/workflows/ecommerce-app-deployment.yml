@@ -1,9 +1,9 @@
 name: eCommerce app deployment
 on:
   push:
-    branches: [ main, develop, release/login-registration-main ]
+    branches: [ main, develop, release/login-registration-main, release/catalog-product-profile ]
   pull_request:
-    branches: [ main, develop, release/login-registration-main ]
+    branches: [ main, develop, release/login-registration-main, release/catalog-product-profile ]
 env:
   VITE_CTP_PROJECT_KEY: ${{ secrets.ECOMMERCE_CTP_PROJECT_KEY }}
   VITE_CTP_CLIENT_ID: ${{ secrets.ECOMMERCE_CTP_CLIENT_ID }}
@@ -31,7 +31,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.node-version }}-
       - name: install modules
-        run: npm install
+        run: npm install --legacy-peer-deps
       - name: unit test
         run: npm run coverage
         continue-on-error: false
@@ -66,7 +66,7 @@ jobs:
             ${{ runner.os }}-node-${{ matrix.node-version }}-
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: lint code
         run: npm run lint:fix
@@ -99,7 +99,7 @@ jobs:
             ${{ runner.os }}-node-${{ matrix.node-version }}-
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Build project
         run: npm run build

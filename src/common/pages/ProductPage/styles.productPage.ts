@@ -5,6 +5,7 @@ export const STYLES = genStyles({
         width: '100%',
         minWidth: '1180px',
         margin: '0 auto',
+        marginBottom: '2rem',
         '@media (max-width: 950px)': {
             minWidth: '500px',
         },
@@ -17,6 +18,7 @@ export const STYLES = genStyles({
         alignItems: 'center',
         justifyContent: 'center',
         gap: '5.8rem',
+        boxShadow: 'unset',
         '@media (max-width: 950px)': {
             flexDirection: 'column',
             gap: '1.5rem',
