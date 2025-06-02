@@ -6,6 +6,8 @@
     gap: 3.75rem 2.15rem;
     justify-content: center;
 
+    padding: 40px 0;
+
     @media (width <= 1280px) {
         grid-template-columns: repeat(3, 21.875rem);
         gap: 1.5rem 0.8rem;
@@ -20,5 +22,122 @@
         grid-template-columns: 21.875rem;
         column-gap: 3.75rem;
         padding-bottom: 2rem;
+    }
+}
+
+h1 {
+    margin-top: 0;
+    font: normal 500 52px / 63px Cormorant;
+    line-height: 63px;
+}
+
+.selectControls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+select {
+    cursor: pointer;
+    border: none;
+    font: normal 400 13px Jost;
+    color: #161412;
+
+    &:focus {
+        border-color: #666;
+        outline: none;
+    }
+
+    &:disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
+    &:active {
+        border-color: #f4f4f2;
+    }
+
+    option {
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+}
+
+select option:checked {
+    font-weight: bold;
+    color: #333;
+}
+
+.searchContainer {
+    pointer-events: none;
+
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    max-width: 200px;
+    height: 20px;
+    padding: 0 4px 0 12px;
+    border-bottom: 1px solid #c4c4c4;
+
+    @media (width <= 768px) {
+        display: none;
+    }
+}
+
+.searchInput {
+    flex: 1 1;
+    border: none;
+    background: transparent;
+    outline: none;
+}
+
+.clearButton {
+    cursor: pointer;
+
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+
+    height: 20px;
+    padding: 0 20px;
+    border: 1px solid #65635f;
+    border-radius: 4px;
+
+    font: normal 400 12px / 24px Jost;
+    color: #161412;
+    letter-spacing: 1px;
+
+    transition: all 0.3s ease;
+
+    &:hover {
+        border: 1px solid #161412;
+        color: #f4f4f2;
+        background-color: #161412;
+    }
+}
+
+.noResults {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+
+    padding: 40px 0;
+
+    font: normal 400 16px / 24px Jost;
+    color: #161412;
+
+    button {
+        height: 24px;
     }
 }

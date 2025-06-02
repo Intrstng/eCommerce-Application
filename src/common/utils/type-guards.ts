@@ -56,3 +56,23 @@ export const isErrorResponse = (value: unknown): value is ErrorResponse => {
 
     return (hasMessage || hasError || hasErrorDesc || hasErrors) && hasMessage && hasError && hasErrorDesc && hasErrors;
 };
+
+import type { LocalizedString } from '@commercetools/platform-sdk';
+
+export const isLocalizedString = (value: unknown): value is LocalizedString => {
+    return !!value && typeof value === 'object' && 'en' in value && typeof value.en === 'string';
+};
+
+export const isPlainEnumValue = (value: unknown): value is { key: string } => {
+    return !!value && typeof value === 'object' && 'key' in value && typeof value.key === 'string';
+};
+
+export const isLocalizedEnumValue = (value: unknown): value is { key: string; label: LocalizedString } => {
+    if (!value || typeof value !== 'object') return false;
+    if (!('key' in value) || !('label' in value)) return false;
+    if (typeof value.key !== 'string') return false;
+    const label = value.label;
+    if (!label || typeof label !== 'object') return false;
+    if (!('en' in label)) return false;
+    return typeof label.en === 'string';
+};
