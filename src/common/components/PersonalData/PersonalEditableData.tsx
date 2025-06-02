@@ -23,7 +23,6 @@ import {
 } from '../../../features/profile/model/slices/__tests__/profileSlice';
 import { useEffect } from 'react';
 
-
 export const PersonalEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }) => {
     const currentCustomer = useAppSelector<Customer | null>(profileCustomerSelector);
     const appStatus: string = useAppSelector<Status>(statusSelector);

@@ -71,11 +71,11 @@ export const STYLES = genStyles({
         textOverflow: 'ellipsis',
         maxWidth: '40ch',
     },
-    // cardPrice: {
-    //     fontSize: '1rem',
-    //     lineHeight: '1.5rem',
-    //     color: '#161412',
-    // },
+    cardPrice: {
+        // fontSize: '1rem',
+        // lineHeight: '1.5rem',
+        // color: '#161412',
+    },
     //
     // priceBlock: {
     //     display: 'flex',

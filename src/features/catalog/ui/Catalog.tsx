@@ -2,8 +2,8 @@ import Typography from '@mui/material/Typography';
 import { CatalogCard } from './CatalogCard/CatalogCard';
 import noImage from '../../../assets/products/no-image.png';
 import Box from '@mui/material/Box';
-import S from './Catalog.module.scss';
 import { useFetchProducts } from '../../../common/hooks/useFetchProducts';
+import { STYLES } from './styles.Catalog';
 
 export const Catalog = () => {
     const { catalogProducts, isProductsLoading } = useFetchProducts();
@@ -19,8 +19,10 @@ export const Catalog = () => {
 
     return (
         <Box>
-            <h2>Catalog</h2>
-            <Box className={S.cards}>
+            <Typography variant="h2" component="h2" sx={STYLES.catalogTitle}>
+                Catalog
+            </Typography>
+            <Box sx={STYLES.cards}>
                 {catalogProducts.map(product => (
                     <CatalogCard
                         key={product.id}

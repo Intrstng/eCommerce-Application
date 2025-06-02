@@ -1,3 +1,20 @@
+.catalogTitle {
+    margin-bottom: 0.25rem;
+
+    font-family: Cormorant, serif;
+    font-size: 3.25rem;
+    font-weight: 500;
+    line-height: 3.9rem;
+    color: #000;
+}
+
+@media (width <= 768px) {
+    .catalogTitle {
+        font-size: 2rem;
+        line-height: 2.5rem;
+    }
+}
+
 .cards {
     position: relative;
 

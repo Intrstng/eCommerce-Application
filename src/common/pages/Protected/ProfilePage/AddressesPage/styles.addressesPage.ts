@@ -3,6 +3,7 @@ import { genStyles } from '../../../../utils/generate-styles';
 export const STYLES = genStyles({
     addressCardsContent: {
         maxWidth: '30rem',
+        mb: '2rem',
     },
 
     addressesTitle: {

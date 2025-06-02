@@ -21,7 +21,6 @@ import type { AddAddressAction } from './interfaces';
 import { profileApi } from '../../../../../features/profile/api/profileApi';
 import { appActions } from 'app/model/slices/appSlice';
 
-
 export const AddressesPage = () => {
     const [openModal, setOpenModal] = useState(false);
     const [modalType, setModalType] = useState<AddressModalType | null>(null);

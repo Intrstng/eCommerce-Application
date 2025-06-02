@@ -9,13 +9,13 @@ import Box from '@mui/material/Box';
 import { PRICE_STYLES } from '../../../../common/styles/price.styles';
 
 export const CatalogCard: FC<CatalogItemProps> = ({
-                                                      id,
-                                                      image,
-                                                      title,
-                                                      prices = [],
-                                                      description,
-                                                      isProductsLoading,
-                                                  }) => {
+    id,
+    image,
+    title,
+    prices = [],
+    description,
+    isProductsLoading,
+}) => {
     const priceInfo = {
         original: formatPrice(prices, 'EUR'),
         discounted: formatPriceDiscount(prices, 'EUR'),
@@ -37,27 +37,21 @@ export const CatalogCard: FC<CatalogItemProps> = ({
                             sx={STYLES.cardImage}
                         />
                         <CardContent sx={STYLES.cardContent}>
-                            <Typography
-                                className="cardTitle"
-                                sx={STYLES.cardTitle}
-                            >
+                            <Typography className="cardTitle" sx={STYLES.cardTitle}>
                                 {title}
                             </Typography>
-                            <Typography
-                                className="cardText"
-                                sx={STYLES.cardText}
-                            >
+                            <Typography className="cardText" sx={STYLES.cardText}>
                                 {description}
                             </Typography>
 
-                          <Box sx={PRICE_STYLES.priceContent}>
+                            <Box sx={PRICE_STYLES.priceContent}>
                                 {priceInfo.hasDiscount ? (
                                     <>
-                                      <Typography sx={PRICE_STYLES.price}>{priceInfo.discounted}</Typography>
-                                      <Box sx={PRICE_STYLES.oldPriceContent}>
-                                        <Typography sx={PRICE_STYLES.oldPrice}>{priceInfo.original}</Typography>
-                                        <Box sx={PRICE_STYLES.lineThrough} />
-                                      </Box>
+                                        <Typography sx={PRICE_STYLES.price}>{priceInfo.discounted}</Typography>
+                                        <Box sx={PRICE_STYLES.oldPriceContent}>
+                                            <Typography sx={PRICE_STYLES.oldPrice}>{priceInfo.original}</Typography>
+                                            <Box sx={PRICE_STYLES.lineThrough} />
+                                        </Box>
                                     </>
                                 ) : (
                                     <Typography sx={PRICE_STYLES.price}>{priceInfo.original}</Typography>

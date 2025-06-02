@@ -15,9 +15,17 @@
     margin: 0 auto;
 }
 
+.mainContainer {
+    // as .container
+    margin: 0 auto;
+
+    //min-width: 1180px; // add later
+}
+
 .main {
     grid-row: 2;
-    padding: 0 1.25rem 2rem;
+
+    //padding: 0 1.25rem 2rem;
 }
 
 .content {

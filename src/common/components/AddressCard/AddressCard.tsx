@@ -23,7 +23,6 @@ import Dialog from '@mui/material/Dialog';
 import { EditAddressModalForm } from '../ModalWindow/EditAddressModalForm/EditAddressModalForm';
 import { AddressModalType, DefaultAddressStatus } from '../../enums';
 
-
 export const AddressCard: FC<AddressCardProps> = ({
     address,
     deleteAddressCB,
@@ -88,9 +87,7 @@ export const AddressCard: FC<AddressCardProps> = ({
 
     const handleToggleDefaultBilling = () => {
         const newDefaultBillingStatus =
-            isDefaultBilling === DefaultAddressStatus.ON
-                                ? DefaultAddressStatus.OFF
-                                : DefaultAddressStatus.ON;
+            isDefaultBilling === DefaultAddressStatus.ON ? DefaultAddressStatus.OFF : DefaultAddressStatus.ON;
         setIsDefaultBilling(newDefaultBillingStatus);
         if (address.id) {
             console.log(
@@ -104,9 +101,7 @@ export const AddressCard: FC<AddressCardProps> = ({
 
     const handleToggleDefaultShipping = () => {
         const newDefaultShippingStatus =
-            isDefaultShipping === DefaultAddressStatus.ON
-                                ? DefaultAddressStatus.OFF
-                                : DefaultAddressStatus.ON;
+            isDefaultShipping === DefaultAddressStatus.ON ? DefaultAddressStatus.OFF : DefaultAddressStatus.ON;
         setIsDefaultShipping(newDefaultShippingStatus);
         if (address.id) {
             console.log(

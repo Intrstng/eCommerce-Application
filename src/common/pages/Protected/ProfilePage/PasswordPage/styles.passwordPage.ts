@@ -14,6 +14,7 @@ export const STYLES = genStyles({
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
+        mb: '2rem',
     },
     passwordsForm: {
         maxWidth: '23.5rem',

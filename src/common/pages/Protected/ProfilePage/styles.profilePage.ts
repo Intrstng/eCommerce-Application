@@ -2,8 +2,9 @@ import { genStyles } from '../../../utils/generate-styles';
 
 export const STYLES = genStyles({
     profilePageContent: {
-        width: '100%',
-        // maxWidth: '1180px',
+        //width: '100%', add
+        //maxWidth: '1180px',
+        // width: '1180px', try after cross-check
         mb: '1.5rem',
         // '@media (max-width: 950px)': {
         //     minWidth: '768px',
