@@ -1,0 +1,101 @@
+{
+    "mainPage": {
+        "title": "Main Page",
+        "publicRoutes": "Public routes:",
+        "publicRoutesDescription": "Here will be rendered all articles of the main page",
+        "authLinks": "Authorization links:",
+        "protectedRoutes": "Protected routes:",
+        "examples": "Examples of messages:",
+        "catalog": "Catalog",
+        "articles": "Blog Articles",
+        "about": "About us",
+        "cart": "Cart for unauthorized user",
+        "favorites": "Favorites page for unauthorized user",
+        "login": "Login page",
+        "register": "Registration page",
+        "profile": "Authorized user profile page",
+        "addresses": "Authorized user addresses page",
+        "successMessage": "Show Success Message",
+        "warningMessage": "Show Warning Message",
+        "errorMessage": "Show Error Message",
+        "hero": "Custom jewelry for friends, family, and special occasions.",
+        "heroButton": "SEARCH CATALOG"
+    },
+    "aboutPage": {
+        "title": "About us",
+        "description": "Learn more about us"
+    },
+    "catalogPage": {
+        "title": "Catalog",
+        "description": "Browse our collection of products.",
+        "button": "Search Earrings in catalog"
+    },
+    "articlesPage": {
+        "title": "Blog Articles",
+        "description": "Read our latest articles and news."
+    },
+    "cartPage": {
+        "title": "Cart",
+        "emptyMessage": "Your cart is empty."
+    },
+    "favoritesPage": {
+        "title": "Favorites",
+        "emptyMessage": "Your favorites list is empty."
+    },
+    "signInPage": {
+        "title": "Sign In",
+        "titleForm": "Login to account",
+        "email": "Email",
+        "password": "Password",
+        "signInButton": "Sign In",
+        "forgotPassword": "Forgot Password?",
+        "signupLink": "Sign up",
+        "loginLink": "Login",
+        "noAccount": "If you don't have an account yet, please",
+        "register": "Register"
+    },
+    "signUpPage": {
+        "title": "Sign Up",
+        "name": "Name",
+        "email": "Email",
+        "password": "Password",
+        "emailAndPassword": "Email and Password",
+        "confirmPassword": "Confirm Password",
+        "personalInf": "Personal information",
+        "firstName": "First name",
+        "lastName": "Last Name",
+        "shippingAddress": "Shipping address",
+        "street": "Street",
+        "city": "City",
+        "country": "Country",
+        "setDefaultShippingAddress": "Set address as default for shipping",
+        "setDefaultBillingAddress": "Set address as default for billing",
+        "useShippingAddressAsBilling": "Using shipping address as billing address",
+        "billingAddress": "Billing address",
+        "signUpButton": "Sign Up",
+        "alreadyHaveAccount": "Already have an account?",
+        "signupLink": "Sign up",
+        "loginLink": "Login",
+        "noAccount": "If you don't have an account yet, please",
+        "login": "Login"
+    },
+    "header": {
+        "title": "Header",
+        "earrings": "Earrings",
+        "rings": "Rings",
+        "brooch": "Brooch"
+    },
+    "footer": {
+        "title": "Footer",
+        "description": "This is the footer of the page eCommerce Store 2025.",
+        "aboutUs": "About US"
+    },
+    "error404": {
+        "title": "404 Not Found",
+        "description": "The page you are looking for does not exist.",
+        "goBack": "Go back to the home page"
+    },
+    "messages": {
+        "topmessage": "Working in progress"
+    }
+}

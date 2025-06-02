@@ -1,11 +1,8 @@
 import S from './AboutPage.module.scss';
-import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
+// import { useTranslation } from 'react-i18next';
 
 export const AboutPage = () => {
-    return (
-        <>
-            <BreadCrumbs />
-            <section className={S.aboutContent}>Here will be information about us</section>
-        </>
-    );
+    // const { t } = useTranslation();
+    // return <section className={S.aboutContent}>{t('Here will be information about us')}</section>;
+    return <section className={S.aboutContent}>Here will be information about us</section>;
 };
