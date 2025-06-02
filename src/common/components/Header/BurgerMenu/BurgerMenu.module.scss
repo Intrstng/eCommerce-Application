@@ -1,0 +1,147 @@
+.burgerMenuOverlay {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: #f4f4f2;
+}
+
+.burgerMenuContent {
+    position: relative;
+
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+    padding: 0 20px;
+}
+
+.topBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    height: 76px;
+    margin-bottom: 20%;
+    padding: 0 1.5rem;
+}
+
+.closeIcon {
+    cursor: pointer;
+
+    svg {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+.logo {
+    cursor: pointer;
+
+    display: flex;
+
+    width: auto;
+    height: 1.875rem;
+
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.03);
+}
+
+.searchIcon {
+    width: 24px;
+    height: 24px;
+}
+
+.navLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+
+    width: 100%;
+}
+
+.navLink {
+    cursor: pointer;
+
+    width: 100%;
+    padding: 10px 20px;
+
+    font: normal 500 13px Jost;
+    color: #161412;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+
+    transition: color 0.3s ease;
+}
+
+.navLink:hover {
+    color: #65635f;
+}
+
+.button {
+    cursor: pointer;
+
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    width: 140px;
+    padding: 10px 20px;
+    border: 1px solid #65635f;
+    border-radius: 4px;
+
+    font: normal 400 13px Jost;
+    color: #65635f;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+
+    background-color: transparent;
+
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    border: 1px solid #161412;
+    color: #f4f4f2;
+    background-color: #161412;
+}
+
+.languageSwitcher {
+    margin-top: 20px;
+}
+
+.languageSelect {
+    cursor: pointer;
+
+    border: none;
+
+    font: normal 400 13px Jost;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+
+    background-color: transparent;
+    outline: none;
+}
