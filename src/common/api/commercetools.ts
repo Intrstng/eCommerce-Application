@@ -23,10 +23,36 @@ const authMiddlewareOptions: AuthMiddlewareOptions = {
     scopes,
     httpClient: fetch,
     tokenCache: {
-        get: (): TokenStore => ({
-            token: authTokenService.getAccessToken() ?? '',
-            expirationTime: Date.now(),
-        }),
+        get: (): TokenStore => {
+            const token = authTokenService.getAccessToken();
+
+            if (!token) {
+                authTokenService
+                    .ensureAnonymousToken()
+                    .then(() => {
+                        const newToken = authTokenService.getAccessToken();
+                        return {
+                            token: newToken ?? '',
+                            expirationTime: Date.now() + 3600000,
+                        };
+                    })
+                    .catch((error: unknown) => {
+                        console.error(
+                            'Failed to get anonymous token:',
+                            error instanceof Error ? error.message : String(error)
+                        );
+                        return {
+                            token: '',
+                            expirationTime: Date.now(),
+                        };
+                    });
+            }
+
+            return {
+                token: token ?? '',
+                expirationTime: Date.now() + 3600000,
+            };
+        },
         set: () => {
             // Token is managed by authTokenService
         },

@@ -3,13 +3,10 @@ import { projectKey } from '../../../common/api/commercetools-config';
 import type { CatalogCategory, CatalogProduct } from './catalogApi.interfaces';
 import type { Category } from '@commercetools/platform-sdk';
 import { setProductDataFromResponse } from '../utils/set-product-data-from-response';
-import { authTokenService } from '../../../common/services/auth-token.service';
 
 export const catalogAPI = {
     async fetchProducts(): Promise<CatalogProduct[]> {
         try {
-            await authTokenService.getAnonymousToken();
-
             const response = await apiRoot
                 .withProjectKey({ projectKey })
                 .products()
@@ -41,8 +38,6 @@ export const catalogAPI = {
 
     async getProductsByCategory(categoryType: string): Promise<CatalogProduct[]> {
         try {
-            await authTokenService.getAnonymousToken();
-
             const categories = await this.getCategories();
             const category = categories.find(cat => cat.key?.toLowerCase() === categoryType.toLowerCase());
 
@@ -95,8 +90,6 @@ export const catalogAPI = {
     // ToDo: Check will we use fetchCategories function in the future:
     async fetchCategories(): Promise<CatalogCategory[]> {
         try {
-            await authTokenService.getAnonymousToken();
-
             const response = await apiRoot.withProjectKey({ projectKey }).categories().get().execute();
             const productsResponse = await apiRoot
                 .withProjectKey({ projectKey })
