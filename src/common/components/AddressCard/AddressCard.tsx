@@ -21,6 +21,8 @@ import IconButton from '@mui/material/IconButton';
 import { DeleteAddressModal } from '../ModalWindow/DeleteAddressModal/DeleteAddressModal';
 import Dialog from '@mui/material/Dialog';
 import { EditAddressModalForm } from '../ModalWindow/EditAddressModalForm/EditAddressModalForm';
+import { AddressModalType, DefaultAddressStatus } from '../../enums';
+
 
 export const AddressCard: FC<AddressCardProps> = ({
     address,
@@ -38,16 +40,17 @@ export const AddressCard: FC<AddressCardProps> = ({
     const dispatch = useAppDispatch();
 
     const currentCountry: Country | undefined = COUNTRIES.find(country => country.code === address?.country);
-    let isDefaultShippingAddress: boolean = false;
-    let isDefaultBillingAddress: boolean = false;
+    let isDefaultShippingAddress: DefaultAddressStatus = DefaultAddressStatus.OFF;
+    let isDefaultBillingAddress: DefaultAddressStatus = DefaultAddressStatus.OFF;
 
     if (address.id != null) {
-        isDefaultShippingAddress = shippingAddressIds.includes(address.id);
-        isDefaultBillingAddress = billingAddressIds.includes(address.id);
+        isDefaultShippingAddress = shippingAddressIds.includes(address.id)
+            ? DefaultAddressStatus.ON
+            : DefaultAddressStatus.OFF;
+        isDefaultBillingAddress = billingAddressIds.includes(address.id)
+            ? DefaultAddressStatus.ON
+            : DefaultAddressStatus.OFF;
     }
-
-    // console.log('isDefaultShippingAddress', isDefaultShippingAddress);
-    // console.log('isDefaultBillingAddress', isDefaultBillingAddress);
 
     const [isDefaultShipping, setIsDefaultShipping] = useState(isDefaultShippingAddress);
     const [isDefaultBilling, setIsDefaultBilling] = useState(isDefaultBillingAddress);
@@ -84,25 +87,35 @@ export const AddressCard: FC<AddressCardProps> = ({
     };
 
     const handleToggleDefaultBilling = () => {
-        const newDefaultBillingStatus = !isDefaultBilling;
+        const newDefaultBillingStatus =
+            isDefaultBilling === DefaultAddressStatus.ON
+                                ? DefaultAddressStatus.OFF
+                                : DefaultAddressStatus.ON;
         setIsDefaultBilling(newDefaultBillingStatus);
         if (address.id) {
-            toggleDefaultAddressesCB(isDefaultShipping, newDefaultBillingStatus, address.id);
+            console.log(
+                'sent from AddressCard: isDefaultShipping, newDefaultBillingStatus',
+                isDefaultShipping,
+                newDefaultBillingStatus
+            );
+            toggleDefaultAddressesCB(isDefaultShipping, newDefaultBillingStatus, address.id, AddressModalType.BILLING);
         }
-
-        // const newDefaultBillingStatus = !isDefaultBillingAddress;
-        // toggleDefaultAddressesCB(isDefaultShippingAddress, newDefaultBillingStatus, address.id);
     };
 
     const handleToggleDefaultShipping = () => {
-        const newDefaultShippingStatus = !isDefaultShipping;
+        const newDefaultShippingStatus =
+            isDefaultShipping === DefaultAddressStatus.ON
+                                ? DefaultAddressStatus.OFF
+                                : DefaultAddressStatus.ON;
         setIsDefaultShipping(newDefaultShippingStatus);
         if (address.id) {
-            toggleDefaultAddressesCB(newDefaultShippingStatus, isDefaultBilling, address.id);
+            console.log(
+                'sent from AddressCard: newDefaultShippingStatus, isDefaultBilling',
+                newDefaultShippingStatus,
+                isDefaultBilling
+            );
+            toggleDefaultAddressesCB(newDefaultShippingStatus, isDefaultBilling, address.id, AddressModalType.SHIPPING);
         }
-
-        // const newDefaultShippingStatus = !isDefaultBillingAddress;
-        // toggleDefaultAddressesCB(newDefaultShippingStatus, isDefaultBillingAddress, address.id);
     };
 
     return (
@@ -191,8 +204,7 @@ export const AddressCard: FC<AddressCardProps> = ({
                             sx={{
                                 ...STYLES.addressDetailsButton,
                                 ...STYLES.shippingPurposeButton,
-                                ...(isDefaultShipping ? STYLES.statusActive : {}),
-                                // ...(isDefaultShippingAddress  ? STYLES.statusActive : {}),
+                                ...(isDefaultShipping === DefaultAddressStatus.ON ? STYLES.statusActive : {}),
                             }}
                             type="button"
                             variant="contained"
@@ -207,8 +219,7 @@ export const AddressCard: FC<AddressCardProps> = ({
                             sx={{
                                 ...STYLES.addressDetailsButton,
                                 ...STYLES.billingPurposeButton,
-                                ...(isDefaultBilling ? STYLES.statusActive : {}),
-                                // ...(isDefaultBillingAddress ? STYLES.statusActive : {}),
+                                ...(isDefaultBilling === DefaultAddressStatus.ON ? STYLES.statusActive : {}),
                             }}
                             type="button"
                             variant="contained"

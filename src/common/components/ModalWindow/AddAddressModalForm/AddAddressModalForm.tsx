@@ -33,11 +33,8 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
     const {
         register,
         handleSubmit,
-        // reset,
         control,
         formState: { errors, isValid },
-        // setValue,
-        // getValues,
     } = useForm({
         // useForm<SignUpFormData>({
         mode: 'all',
