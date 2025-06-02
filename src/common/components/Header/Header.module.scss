@@ -1,8 +1,5 @@
 .header {
-    position: sticky;
-    z-index: 100;
-    top: 0;
-    width: 100%;
+    position: relative;
 
     &__content {
         display: flex;
@@ -13,7 +10,9 @@
         align-items: center;
         justify-content: space-between;
 
+        max-width: 1180px;
         height: 75px;
+        margin: 0 auto;
         padding: 0 1rem;
 
         color: #161412;
@@ -30,18 +29,14 @@
     left: 0;
 
     width: 100%;
+
+    background-color: transparent;
+
+    transition: background-color 0.3s ease;
 }
 
 .solidHeader {
     background-color: #f4f4f2;
-}
-
-.header.scrolled {
-    background-color: #f4f4f2;
-}
-
-.headerWrapper.scrolled {
-    height: 75px;
 }
 
 .burgerIcon {
@@ -51,11 +46,13 @@
 .doxIcon {
     z-index: 4;
     width: 60px;
-    height: 95px;
+    height: 92px;
     color: black;
 }
 
-.login svg {
+.login svg,
+.searchIcon,
+.burgerIcon svg {
     width: 24px;
     height: 24px;
 }
@@ -65,8 +62,8 @@
 
     display: flex;
 
-    width: auto;
-    height: 1.875rem;
+    width: 30px;
+    height: 30px;
 
     transition: transform 0.3s ease;
 }
@@ -138,7 +135,6 @@
 
 @media (width <= 768px) {
     .header__content {
-        //height: 50px;
         padding: 0 1.5rem;
     }
 
