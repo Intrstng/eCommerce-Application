@@ -4,6 +4,7 @@ import { defineConfig } from "vitest/config";
 import packageJson from './package.json' assert { type: 'json' };
 import tsconfigPaths from 'vite-tsconfig-paths';
 import addRootDivPlugin from './src/plugins/vite-root-plugin';
+import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,7 +14,15 @@ export default defineConfig({
     }
   },
 
-  plugins: [react(), tsconfigPaths(), addRootDivPlugin()],
+  plugins: [react(), tsconfigPaths(), addRootDivPlugin(), svgr({
+      svgrOptions: {
+        icon: true,
+        ref: true,
+        titleProp: true,
+        svgo: true,
+      },
+    })
+      ],
 
   build: {
     chunkSizeWarningLimit: 3000,
