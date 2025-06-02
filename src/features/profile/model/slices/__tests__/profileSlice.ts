@@ -92,3 +92,6 @@ export const updateCurrentCustomersPersonalInfoTC =
             dispatch(appActions.setAppStatus({ status: Status.FAILED }));
         }
     };
+
+//shippingAddressIds
+//billingAddressIds
