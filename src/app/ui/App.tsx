@@ -1,5 +1,5 @@
 import './App.scss';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Footer } from '../../common/components/Footer/Footer';
 import { Header } from '../../common/components/Header/Header';
 import { ToastifyNotification } from '../../common/components/ToastifyNotification/ToastifyNotification';
@@ -15,6 +15,7 @@ export const App = () => {
     const dispatch = useAppDispatch();
     const appStatus: string = useAppSelector<Status>(statusSelector);
     const appError = useAppSelector<AppError>(errorSelector);
+    const location = useLocation();
 
     useEffect(() => {
         if (typeof appError === 'string') {
@@ -30,13 +31,17 @@ export const App = () => {
         zIndex: 5,
     };
 
+    const isMainPage = location.pathname === '/' || location.pathname === '/main';
+
+    const containerClasses = `main container ${!isMainPage ? 'container--padded' : ''}`;
+
     return (
         <Box className="app">
             <Header />
 
             {appStatus === 'loading' && <LinearProgress color={'success'} sx={linearProgressStyles} />}
 
-            <Box className="main container">
+            <Box className={containerClasses}>
                 <Box className="content">
                     <Outlet />
                 </Box>
