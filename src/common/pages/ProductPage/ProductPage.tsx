@@ -155,7 +155,6 @@ export const ProductPage = () => {
                                 <CopyToClipboard value={sku} />
                             </Box>
                         )}
-
                         <Typography sx={STYLES.text}>{description}</Typography>
                         <Divider sx={STYLES.devider} />
                         <Box sx={{ ...PRICE_STYLES.priceContent, mb: '1.25rem' }}>

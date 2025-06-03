@@ -41,6 +41,7 @@ export const App = () => {
 
             {appStatus === 'loading' && <LinearProgress color={'success'} sx={linearProgressStyles} />}
 
+            {/*<Box className="main mainContainer">*/}
             <Box className={containerClasses}>
                 <Box className="content">
                     <Outlet />

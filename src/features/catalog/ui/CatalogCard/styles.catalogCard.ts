@@ -76,7 +76,7 @@ export const STYLES = genStyles({
         // lineHeight: '1.5rem',
         // color: '#161412',
     },
-
+    //
     // priceBlock: {
     //     display: 'flex',
     //     flexWrap: 'nowrap',

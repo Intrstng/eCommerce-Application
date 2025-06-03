@@ -59,7 +59,6 @@ export function setProductDataFromResponse(data: Product[]): CatalogProduct[] {
         };
     });
 
-    console.log('Discounted Products');
     const discountedProducts = products.filter(product => product.prices.some(price => price.discounted !== null));
     discountedProducts.forEach(product => {
         console.log(`${product.name.ru || product.name.en} ID: ${product.id}`);

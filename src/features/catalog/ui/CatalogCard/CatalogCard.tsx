@@ -29,12 +29,18 @@ export const CatalogCard: FC<CatalogItemProps> = ({
             ) : (
                 <Link to={`/product/${id}`} style={{ textDecoration: 'none' }}>
                     <Card sx={STYLES.card}>
-                        <CardMedia component="img" src={image} alt={title} sx={STYLES.cardImage} />
+                        <CardMedia
+                            component="img"
+                            src={image}
+                            alt={title}
+                            className="cardImage"
+                            sx={STYLES.cardImage}
+                        />
                         <CardContent sx={STYLES.cardContent}>
-                            <Typography variant="h3" sx={STYLES.cardTitle}>
+                            <Typography className="cardTitle" sx={STYLES.cardTitle}>
                                 {title}
                             </Typography>
-                            <Typography variant="body2" sx={STYLES.cardText}>
+                            <Typography className="cardText" sx={STYLES.cardText}>
                                 {description}
                             </Typography>
 

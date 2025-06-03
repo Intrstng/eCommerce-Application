@@ -2,7 +2,7 @@ import { genStyles } from '../../utils/generate-styles';
 
 export const STYLES = genStyles({
     breadcrumbs: {
-        mt: 2,
+        mt: 3,
         mb: 2,
     },
     links: {
@@ -10,7 +10,7 @@ export const STYLES = genStyles({
         color: '#547792',
         fontFamily: 'Jost, sans-serif',
         fontWeight: '400',
-        fontSize: '1rem',
+        fontSize: '0.92rem',
         transition: '0.3s ease color',
         letterSpacing: '1px',
         '&:hover': {

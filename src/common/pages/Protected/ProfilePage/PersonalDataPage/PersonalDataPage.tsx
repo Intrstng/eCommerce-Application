@@ -13,7 +13,7 @@ export const PersonalDataPage = () => {
     };
 
     return (
-        <Box>
+        <Box sx={STYLES.personalContent}>
             <Typography variant="h3" component="h3" sx={STYLES.personalTitle}>
                 Your Information
             </Typography>

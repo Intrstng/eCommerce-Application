@@ -1,7 +1,7 @@
 import type { ProductPrice } from '../api/catalogApi.interfaces';
 
 /**
- * Formats product price in "100.00 EUR" format
+ * Formats product price in "100.00 EUR" formatAdd commentMore actions
  * @param prices - Array of product prices from commercetools
  * @param currency - Currency code (default: 'EUR')
  * @returns Formatted price string or "N/A" if price not found
@@ -15,7 +15,7 @@ export function formatPrice(prices: ProductPrice[], currency = 'EUR'): string {
     return `${amount.toFixed(price.value.fractionDigits ?? 2)} ${currency}`;
 }
 
-/**
+/**Add commentMore actions
  * Formats discounted price from commercetools
  * @param prices - Array of product prices
  * @param currency - Currency code (default: 'EUR')

@@ -1,6 +1,6 @@
 import type React from 'react';
 import icons from '../../../assets/icons/icons';
-import styles from './Button.module.css';
+import styles from './Button.module.scss';
 
 export interface ButtonProps {
     onClick?: () => void;
@@ -59,8 +59,8 @@ const Button: React.FC<ButtonProps> = ({
     const iconStyles = customColor && variant === 'primary' ? { fill: '#fff' } : {};
 
     const buttonClass = customColor
-        ? `${styles.button} ${styles[variant]} ${styles[size]} ${fullWidth ? styles.fullWidth : ''} ${styles.noHover} ${className}`
-        : `${styles.button} ${styles[variant]} ${styles[size]} ${fullWidth ? styles.fullWidth : ''} ${className}`;
+        ? `${styles.button} ${styles[variant]} ${styles[size]} ${fullWidth ? styles.fullWidth : ''} ${styles.noHover} ${className ?? ''}`
+        : `${styles.button} ${styles[variant]} ${styles[size]} ${fullWidth ? styles.fullWidth : ''} ${className ?? ''}`;
 
     const isDisabled = state === 'disabled' || state === 'loading';
 

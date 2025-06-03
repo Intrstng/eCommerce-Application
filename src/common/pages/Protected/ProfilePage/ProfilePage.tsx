@@ -16,7 +16,7 @@ export const ProfilePage = () => {
             <BreadCrumbs />
             <Box sx={STYLES.profilePageContent}>
                 <Typography variant="h2" component="h2" sx={STYLES.profileTitle}>
-                    Welcome back, {firstName}!
+                    Welcome back{firstName ? `, ${firstName}` : ''}!
                 </Typography>
                 <Typography variant="h3" component="h3" sx={STYLES.profileSubtitle}>
                     Enjoy shopping with ease and happiness

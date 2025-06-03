@@ -63,7 +63,7 @@ export const loginTC =
     (data: SignInFormData): AppThunk =>
     async dispatch => {
         dispatch(appActions.setAppStatus({ status: Status.LOADING }));
-        dispatch(appActions.setAppError({ error: null }));
+        dispatch(appActions.setAppError({ error: null })); // ?? Our setAppError auto cancels after error
         try {
             const response: ClientResponse<CustomerSignInResult> = await authAPI.login(data.email, data.password);
 

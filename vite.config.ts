@@ -15,14 +15,14 @@ export default defineConfig({
   },
 
   plugins: [react(), tsconfigPaths(), addRootDivPlugin(), svgr({
-      svgrOptions: {
-        icon: true,
-        ref: true,
-        titleProp: true,
-        svgo: true,
-      },
-    })
-      ],
+    svgrOptions: {
+      icon: true,
+      ref: true,
+      titleProp: true,
+      svgo: true,
+    },
+  })
+  ],
 
   build: {
     chunkSizeWarningLimit: 3000,
