@@ -10,8 +10,6 @@ export interface EditAddressData {
     city: string;
     postalCode: string;
     country: string;
-    isDefaultBilling: boolean;
-    isDefaultShipping: boolean;
 }
 
 export interface AddressData extends Address {

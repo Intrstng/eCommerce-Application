@@ -86,7 +86,7 @@ export enum AddressModalType {
     BILLING = 'billing',
 }
 
-export enum DefaultAddressStatus {
+export enum AddressStatus {
     ON = 'on',
     OFF = 'off',
 }

@@ -2,7 +2,7 @@ import { genStyles } from '../../../../utils/generate-styles';
 
 export const STYLES = genStyles({
     addressCardsContent: {
-        maxWidth: '30rem',
+        maxWidth: '35rem',
         mb: '2rem',
     },
 
@@ -25,14 +25,20 @@ export const STYLES = genStyles({
 
     addressControls: {
         mt: '1rem',
-        width: '100%',
+        width: '91%',
         display: 'flex',
+        flexDirection: 'row',
         alignItems: 'center',
         gap: '0.7rem',
+        '@media (max-width: 600px)': {
+            flexDirection: 'column',
+            maxWidth: '76.5%',
+        },
     },
     addressButton: {
-        // maxWidth: '13rem',
+        minWidth: '13rem',
         width: '100%',
+        whiteSpace: 'nowrap',
         fontFamily: 'Jost, sans-serif',
         fontWeight: '400',
         fontSize: '0.75rem',
@@ -80,12 +86,16 @@ export const STYLES = genStyles({
         alignItems: 'center',
         justifyContent: 'center',
         padding: '2.25rem 0',
-        maxWidth: '29.8rem',
+        maxWidth: '31.8rem',
         width: '100%',
         textAlign: 'center',
         border: '1px dashed',
         borderColor: 'divider',
         borderRadius: 0,
+        '@media (max-width: 600px)': {
+            border: 'none',
+            padding: '1.25rem 0',
+        },
     },
     emptyAddressMessageTitle: {
         mb: 0,

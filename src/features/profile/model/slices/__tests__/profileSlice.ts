@@ -12,6 +12,8 @@ import { successNotifyMessage } from '../../../../../common/utils/notify-message
 
 export const initialState: ProfileState = {
     customer: null,
+    defaultShippingAddressId: '',
+    defaultBillingAddressId: '',
 };
 
 export const profileSlice = createSlice({
@@ -20,6 +22,14 @@ export const profileSlice = createSlice({
     reducers: {
         setCustomer(state, action: PayloadAction<{ customer: Customer | null }>) {
             state.customer = action.payload.customer;
+        },
+
+        setDefaultShippingAddressId(state, action: PayloadAction<{ addressId: string }>) {
+            state.defaultShippingAddressId = action.payload.addressId;
+        },
+
+        setDefaultBillingAddressId(state, action: PayloadAction<{ addressId: string }>) {
+            state.defaultBillingAddressId = action.payload.addressId;
         },
     },
 });

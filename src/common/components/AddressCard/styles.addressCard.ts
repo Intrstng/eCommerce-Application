@@ -3,7 +3,7 @@ import { genStyles } from '../../utils/generate-styles';
 export const STYLES = genStyles({
     addressCardInfoContent: {
         padding: '0.5rem 0.75rem 0.75rem 1.25rem',
-        height: '10rem',
+        // height: '10rem',
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'nowrap',
@@ -45,6 +45,9 @@ export const STYLES = genStyles({
         color: '#000000',
         letterSpacing: '0.1em',
         overflow: 'hidden',
+        '@media (max-width: 600px)': {
+            width: '7rem',
+        },
     },
 
     addressEditButton: {},
@@ -53,9 +56,10 @@ export const STYLES = genStyles({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         alignSelf: 'flex-start',
-        height: '100%',
+        // height: '10rem',
+        position: 'relative',
     },
 
     addressEditControls: {
@@ -63,6 +67,15 @@ export const STYLES = genStyles({
     },
 
     addressDetailsControls: {
+        mt: '2rem',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        gap: '1rem',
+    },
+
+    addressDefaultControls: {
         mt: '0',
         width: '100%',
         display: 'flex',
@@ -75,6 +88,9 @@ export const STYLES = genStyles({
         width: '2rem',
         height: '2rem',
         color: '#65635F',
+        position: 'absolute',
+        top: '0',
+        right: '1.2rem',
         transition: '0.3s all ease-in-out',
         '&:hover': {
             color: 'green',
@@ -85,6 +101,9 @@ export const STYLES = genStyles({
         width: '2rem',
         height: '2rem',
         color: '#65635F',
+        position: 'absolute',
+        top: '0',
+        right: '-0.5rem',
         transition: '0.3s all ease-in-out',
         '&:hover': {
             color: '#d20000',
@@ -94,9 +113,12 @@ export const STYLES = genStyles({
     addressPurposeButtons: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'flex-end',
+        width: '100%',
         justifyContent: 'flex-start',
         gap: '0.5rem',
+        mt: '0.75rem',
+        mb: '0.1rem',
     },
     addressStatusButtons: {
         display: 'flex',
@@ -147,6 +169,62 @@ export const STYLES = genStyles({
         },
     },
 
+    addressDefaultButtons: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        width: '100%',
+        justifyContent: 'flex-start',
+        gap: '0.5rem',
+        mt: '0.75rem',
+        mb: 0,
+    },
+    tooltipDefaultButton: {
+        maxWidth: '10.25rem',
+        width: '100%',
+    },
+    addressDefaultButton: {
+        maxWidth: '10.25rem',
+        width: '100%',
+        fontFamily: 'Jost, sans-serif',
+        fontWeight: '400',
+        fontSize: '0.6rem',
+        lineHeight: '1.25rem',
+        letterSpacing: '1px',
+        pt: '0.3rem',
+        pb: '0.3rem',
+        boxShadow: 'unset',
+        border: '1px solid #000',
+        transition: '0.3s all ease-in-out',
+        borderRadius: 0,
+        '&:disabled': {
+            border: '1px solid rgba(101, 99, 95, 0.65)',
+            backgroundColor: 'rgba(101, 99, 95, 0.15)',
+        },
+    },
+    billingDefaultButton: {
+        mt: 0,
+        color: '#65635F',
+        border: '1px solid #65635F',
+
+        backgroundColor: '#FFF',
+        '&:hover': {
+            color: '#000',
+            border: '1px solid #000',
+        },
+    },
+    shippingDefaultButton: {
+        mt: 0,
+        mb: 0,
+        color: '#65635F',
+        border: '1px solid #65635F',
+        backgroundColor: '#FFF',
+        '&:hover': {
+            color: '#000',
+            border: '1px solid #000',
+        },
+    },
+
     defaultBillingStatusButton: {
         mt: 0,
         color: '#65635F',
@@ -161,22 +239,32 @@ export const STYLES = genStyles({
         mt: 0,
         mb: 0,
         color: '#65635F',
-        border: '1px solid #65635F',
-        backgroundColor: 'rgb(101 99 95 / 15%)',
+        backgroundColor: '#65635F',
         '&:hover': {
-            color: '#000',
-            border: '1px solid #000',
-            backgroundColor: '#FFF',
+            backgroundColor: '#65635F',
+            boxShadow: 'unset',
+            cursor: 'unset',
         },
     },
 
+    purposeActive: {
+        border: '1px solid #65635F',
+        color: '#FFF',
+        // backgroundColor: '#000',
+        backgroundColor: '#65635F',
+        '&:hover': {
+            backgroundColor: '#65635F',
+        },
+    },
     statusActive: {
         border: '1px solid #65635F',
         color: '#FFF',
-        backgroundColor: '#65635F',
+        // backgroundColor: '#65635F',
+        backgroundColor: '#000',
         '&:hover': {
-            // backgroundColor: '#3D365C',
-            backgroundColor: '#000',
+            backgroundColor: '#3D365C',
+            // color: '#65635F',
+            // backgroundColor: 'rgb(101 99 95 / 25%)',
         },
     },
     dialog: {
