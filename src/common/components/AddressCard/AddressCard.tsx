@@ -9,7 +9,11 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import type { Status } from 'app/model/types';
 import { statusSelector } from 'app/model/selectors/appSelectors';
 import type { Customer } from '@commercetools/platform-sdk';
-import { profileCustomerSelector } from '../../../features/profile/model/selectors/profileSelector';
+import {
+    profileCustomerSelector,
+    profileDefaultBillingAddressIdSelector,
+    profileDefaultShippingAddressIdSelector,
+} from '../../../features/profile/model/selectors/profileSelector';
 import type { EditAddressData } from '../../types';
 import type { AddressCardProps } from './types';
 import type { Country } from '../../validations/validation-data/validation-data';
@@ -21,13 +25,15 @@ import IconButton from '@mui/material/IconButton';
 import { DeleteAddressModal } from '../ModalWindow/DeleteAddressModal/DeleteAddressModal';
 import Dialog from '@mui/material/Dialog';
 import { EditAddressModalForm } from '../ModalWindow/EditAddressModalForm/EditAddressModalForm';
-import { AddressModalType, DefaultAddressStatus } from '../../enums';
+import { AddressModalType, AddressStatus } from '../../enums';
+import Tooltip from '@mui/material/Tooltip';
 
 export const AddressCard: FC<AddressCardProps> = ({
     address,
     deleteAddressCB,
     editAddressCB,
-    toggleDefaultAddressesCB,
+    toggleStatusAddressesCB,
+    toggleIsDefaultAddressesCB,
     shippingAddressIds,
     billingAddressIds,
 }) => {
@@ -35,32 +41,43 @@ export const AddressCard: FC<AddressCardProps> = ({
     const [addressToDeleteId, setAddressToDeleteId] = useState<string>('');
     const [openEditModal, setOpenEditModal] = useState(false);
     const currentCustomer = useAppSelector<Customer | null>(profileCustomerSelector);
+    const currentDefaultShippingAddressId = useAppSelector<string>(profileDefaultShippingAddressIdSelector);
+    const currentDefaultBillingAddressId = useAppSelector<string>(profileDefaultBillingAddressIdSelector);
     const appStatus: string = useAppSelector<Status>(statusSelector);
     const dispatch = useAppDispatch();
 
-    const currentCountry: Country | undefined = COUNTRIES.find(country => country.code === address?.country);
-    let isDefaultShippingAddress: DefaultAddressStatus = DefaultAddressStatus.OFF;
-    let isDefaultBillingAddress: DefaultAddressStatus = DefaultAddressStatus.OFF;
+    const defaultShippingAddressId: string | undefined =
+        currentCustomer && 'defaultShippingAddressId' in currentCustomer
+            ? currentCustomer.defaultShippingAddressId
+            : '';
+    const defaultBillingAddressId: string | undefined =
+        currentCustomer && 'defaultBillingAddressId' in currentCustomer ? currentCustomer.defaultBillingAddressId : '';
 
-    if (address.id != null) {
-        isDefaultShippingAddress = shippingAddressIds.includes(address.id)
-            ? DefaultAddressStatus.ON
-            : DefaultAddressStatus.OFF;
-        isDefaultBillingAddress = billingAddressIds.includes(address.id)
-            ? DefaultAddressStatus.ON
-            : DefaultAddressStatus.OFF;
+    const currentCountry: Country | undefined = COUNTRIES.find(country => country.code === address?.country);
+    let isShippingAddress: AddressStatus = AddressStatus.OFF;
+    let isBillingAddress: AddressStatus = AddressStatus.OFF;
+
+    let isDefaultShippingAddress: AddressStatus = AddressStatus.OFF;
+    let isDefaultBillingAddress: AddressStatus = AddressStatus.OFF;
+
+    if (address.id) {
+        isShippingAddress = shippingAddressIds.includes(address.id) ? AddressStatus.ON : AddressStatus.OFF;
+        isBillingAddress = billingAddressIds.includes(address.id) ? AddressStatus.ON : AddressStatus.OFF;
+
+        isDefaultShippingAddress = defaultShippingAddressId === address.id ? AddressStatus.ON : AddressStatus.OFF;
+        isDefaultBillingAddress = defaultBillingAddressId === address.id ? AddressStatus.ON : AddressStatus.OFF;
     }
 
-    const [isDefaultShipping, setIsDefaultShipping] = useState(isDefaultShippingAddress);
-    const [isDefaultBilling, setIsDefaultBilling] = useState(isDefaultBillingAddress);
+    const [isShipping, setIsShipping] = useState(isShippingAddress);
+    const [isBilling, setIsBilling] = useState(isBillingAddress);
+    // const [isDefaultShipping, setIsDefaultShipping] = useState(isDefaultShippingAddress); // Todo: check is needed in code
+    // const [isDefaultBilling, setIsDefaultBilling] = useState(isDefaultBillingAddress); // Todo: check is needed in code
 
     const currentAddressData: EditAddressData = {
         streetName: address?.streetName ?? '',
         city: address?.city ?? '',
         postalCode: address?.postalCode ?? '',
         country: address?.country ?? '',
-        isDefaultBilling: currentCustomer?.billingAddressIds?.includes(address.id ?? '') ?? false,
-        isDefaultShipping: currentCustomer?.shippingAddressIds?.includes(address.id ?? '') ?? false,
     };
 
     useEffect(() => {
@@ -85,31 +102,47 @@ export const AddressCard: FC<AddressCardProps> = ({
         setAddressToDeleteId('');
     };
 
-    const handleToggleDefaultBilling = () => {
-        const newDefaultBillingStatus =
-            isDefaultBilling === DefaultAddressStatus.ON ? DefaultAddressStatus.OFF : DefaultAddressStatus.ON;
-        setIsDefaultBilling(newDefaultBillingStatus);
+    const handleToggleIsShipping = () => {
+        const newIsShippingStatus = isShipping === AddressStatus.ON ? AddressStatus.OFF : AddressStatus.ON;
+        setIsShipping(newIsShippingStatus);
         if (address.id) {
-            console.log(
-                'sent from AddressCard: isDefaultShipping, newDefaultBillingStatus',
-                isDefaultShipping,
-                newDefaultBillingStatus
-            );
-            toggleDefaultAddressesCB(isDefaultShipping, newDefaultBillingStatus, address.id, AddressModalType.BILLING);
+            toggleStatusAddressesCB(newIsShippingStatus, isBilling, address.id, AddressModalType.SHIPPING);
+        }
+    };
+
+    const handleToggleIsBilling = () => {
+        const newIsBillingStatus = isBilling === AddressStatus.ON ? AddressStatus.OFF : AddressStatus.ON;
+        setIsBilling(newIsBillingStatus);
+        if (address.id) {
+            toggleStatusAddressesCB(isShipping, newIsBillingStatus, address.id, AddressModalType.BILLING);
         }
     };
 
     const handleToggleDefaultShipping = () => {
         const newDefaultShippingStatus =
-            isDefaultShipping === DefaultAddressStatus.ON ? DefaultAddressStatus.OFF : DefaultAddressStatus.ON;
-        setIsDefaultShipping(newDefaultShippingStatus);
+            isDefaultShippingAddress === AddressStatus.ON ? AddressStatus.OFF : AddressStatus.ON;
+        // setIsDefaultShipping(newDefaultShippingStatus); // Todo: check is needed in code
         if (address.id) {
-            console.log(
-                'sent from AddressCard: newDefaultShippingStatus, isDefaultBilling',
+            toggleIsDefaultAddressesCB(
                 newDefaultShippingStatus,
-                isDefaultBilling
+                isDefaultBillingAddress,
+                address.id,
+                AddressModalType.SHIPPING
             );
-            toggleDefaultAddressesCB(newDefaultShippingStatus, isDefaultBilling, address.id, AddressModalType.SHIPPING);
+        }
+    };
+
+    const handleToggleDefaultBilling = () => {
+        const newDefaultBillingStatus =
+            isDefaultBillingAddress === AddressStatus.ON ? AddressStatus.OFF : AddressStatus.ON;
+        // setIsDefaultBilling(newDefaultBillingStatus); // Todo: check is needed in code
+        if (address.id) {
+            toggleIsDefaultAddressesCB(
+                isDefaultShippingAddress,
+                newDefaultBillingStatus,
+                address.id,
+                AddressModalType.BILLING
+            );
         }
     };
 
@@ -199,12 +232,12 @@ export const AddressCard: FC<AddressCardProps> = ({
                             sx={{
                                 ...STYLES.addressDetailsButton,
                                 ...STYLES.shippingPurposeButton,
-                                ...(isDefaultShipping === DefaultAddressStatus.ON ? STYLES.statusActive : {}),
+                                ...(isShipping === AddressStatus.ON ? STYLES.purposeActive : {}),
                             }}
                             type="button"
                             variant="contained"
                             color="info"
-                            onClick={handleToggleDefaultShipping}
+                            onClick={handleToggleIsShipping}
                             disabled={appStatus === 'loading'}
                         >
                             as for shipping
@@ -214,16 +247,106 @@ export const AddressCard: FC<AddressCardProps> = ({
                             sx={{
                                 ...STYLES.addressDetailsButton,
                                 ...STYLES.billingPurposeButton,
-                                ...(isDefaultBilling === DefaultAddressStatus.ON ? STYLES.statusActive : {}),
+                                ...(isBilling === AddressStatus.ON ? STYLES.purposeActive : {}),
                             }}
                             type="button"
                             variant="contained"
                             color="info"
-                            onClick={handleToggleDefaultBilling}
+                            onClick={handleToggleIsBilling}
                             disabled={appStatus === 'loading'}
                         >
                             as for billing
                         </Button>
+                    </Box>
+                </Box>
+
+                <Box sx={STYLES.addressDefaultControls}>
+                    <Box sx={STYLES.addressDefaultButtons}>
+                        <Tooltip
+                            title={
+                                isShipping === AddressStatus.OFF
+                                    ? 'At first set this address as the shipping address'
+                                    : ''
+                            }
+                            placement="right"
+                            arrow
+                            slotProps={{
+                                tooltip: {
+                                    sx: {
+                                        fontSize: '0.8rem',
+                                        bgcolor: 'grey.800',
+                                    },
+                                },
+                                arrow: {
+                                    sx: {
+                                        color: 'grey.800',
+                                    },
+                                },
+                            }}
+                        >
+                            <Box component="span" sx={STYLES.tooltipDefaultButton}>
+                                <Button
+                                    sx={{
+                                        ...STYLES.addressDefaultButton,
+                                        ...STYLES.shippingDefaultButton,
+                                        ...(currentDefaultShippingAddressId === address.id &&
+                                        isShipping === AddressStatus.ON
+                                            ? STYLES.statusActive
+                                            : {}),
+                                    }}
+                                    type="button"
+                                    variant="contained"
+                                    color="info"
+                                    onClick={handleToggleDefaultShipping}
+                                    disabled={appStatus === 'loading' || isShipping === AddressStatus.OFF}
+                                >
+                                    Default for shipping
+                                </Button>
+                            </Box>
+                        </Tooltip>
+
+                        <Tooltip
+                            title={
+                                isBilling === AddressStatus.OFF
+                                    ? 'At first set this address as the billing address'
+                                    : ''
+                            }
+                            placement="right"
+                            arrow
+                            slotProps={{
+                                tooltip: {
+                                    sx: {
+                                        fontSize: '0.8rem',
+                                        bgcolor: 'grey.800',
+                                    },
+                                },
+                                arrow: {
+                                    sx: {
+                                        color: 'grey.800',
+                                    },
+                                },
+                            }}
+                        >
+                            <Box component="span" sx={STYLES.tooltipDefaultButton}>
+                                <Button
+                                    sx={{
+                                        ...STYLES.addressDefaultButton,
+                                        ...STYLES.billingDefaultButton,
+                                        ...(currentDefaultBillingAddressId === address.id &&
+                                        isBilling === AddressStatus.ON
+                                            ? STYLES.statusActive
+                                            : {}),
+                                    }}
+                                    type="button"
+                                    variant="contained"
+                                    color="info"
+                                    onClick={handleToggleDefaultBilling}
+                                    disabled={appStatus === 'loading' || isBilling === AddressStatus.OFF}
+                                >
+                                    Default for billing
+                                </Button>
+                            </Box>
+                        </Tooltip>
                     </Box>
                 </Box>
             </Box>

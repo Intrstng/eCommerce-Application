@@ -5,9 +5,14 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { useEffect, useState } from 'react';
 import {
     getCurrentCustomerTC,
+    profileSlice,
     updateCurrentCustomersPersonalInfoTC,
 } from '../../../../../features/profile/model/slices/__tests__/profileSlice';
-import { profileCustomerSelector } from '../../../../../features/profile/model/selectors/profileSelector';
+import {
+    profileCustomerSelector,
+    profileDefaultBillingAddressIdSelector,
+    profileDefaultShippingAddressIdSelector,
+} from '../../../../../features/profile/model/selectors/profileSelector';
 import type { Address, ClientResponse, Customer, MyCustomerUpdateAction } from '@commercetools/platform-sdk';
 import Button from '@mui/material/Button';
 import { statusSelector } from 'app/model/selectors/appSelectors';
@@ -15,7 +20,7 @@ import type { Status } from 'app/model/types';
 import { AddressCard } from '../../../../components/AddressCard/AddressCard';
 import Dialog from '@mui/material/Dialog';
 import { AddAddressModalForm } from '../../../../components/ModalWindow/AddAddressModalForm/AddAddressModalForm';
-import { AddressModalType, DefaultAddressStatus } from '../../../../enums';
+import { AddressModalType, AddressStatus } from '../../../../enums';
 import type { AddressModalFormData } from '../../../../validations/addressModalFormValidation';
 import type { AddAddressAction } from './interfaces';
 import { profileApi } from '../../../../../features/profile/api/profileApi';
@@ -27,9 +32,12 @@ export const AddressesPage = () => {
     const dispatch = useAppDispatch();
     const appStatus: string = useAppSelector<Status>(statusSelector);
     const currentCustomer = useAppSelector<Customer | null>(profileCustomerSelector);
+    const currentDefaultShippingAddressId = useAppSelector<string>(profileDefaultShippingAddressIdSelector);
+    const currentDefaultBillingAddressId = useAppSelector<string>(profileDefaultBillingAddressIdSelector);
 
     const currentAddresses: Address[] =
         currentCustomer && 'addresses' in currentCustomer ? currentCustomer.addresses : [];
+
     const shippingAddressIds: string[] | undefined =
         currentCustomer && 'shippingAddressIds' in currentCustomer ? currentCustomer.shippingAddressIds : [];
     const billingAddressIds: string[] | undefined =
@@ -65,15 +73,21 @@ export const AddressesPage = () => {
                 addressId,
             },
         ];
-
-        if (actions.length > 0) {
-            dispatch(
-                updateCurrentCustomersPersonalInfoTC({
-                    version: currentCustomerVersion,
-                    actions,
-                })
-            );
+        // Clear current default address record in store
+        if (currentDefaultShippingAddressId === addressId) {
+            console.log('currentDefaultShippingAddressId deleted');
+            dispatch(profileSlice.actions.setDefaultShippingAddressId({ addressId: '' }));
         }
+        if (currentDefaultBillingAddressId === addressId) {
+            dispatch(profileSlice.actions.setDefaultBillingAddressId({ addressId: '' }));
+        }
+
+        dispatch(
+            updateCurrentCustomersPersonalInfoTC({
+                version: currentCustomerVersion,
+                actions,
+            })
+        );
     };
 
     const handleSaveAddress = async (address?: AddressModalFormData, addressId?: string) => {
@@ -111,11 +125,12 @@ export const AddressesPage = () => {
                     createdAddress = addressesCollection.at(-1);
                     updatedCurrentCustomerVersion = response.body.version;
 
-                    if (createdAddress?.id) {
-                        handleSetDefaultAddress(
+                    if (createdAddress?.id && address.addressType) {
+                        handleSetIsDefaultAddress(
                             !!address.isDefaultShippingAddress,
                             !!address.isDefaultBillingAddress,
                             createdAddress.id,
+                            address.addressType,
                             updatedCurrentCustomerVersion
                         );
                     }
@@ -133,39 +148,6 @@ export const AddressesPage = () => {
                     },
                 });
 
-                // Update default billing address
-                if (address.isDefaultBillingAddress) {
-                    if (!currentCustomer.billingAddressIds?.includes(addressId)) {
-                        actions.push({
-                            action: 'setDefaultBillingAddress',
-                            addressId,
-                        });
-                    }
-                } else {
-                    if (currentCustomer.billingAddressIds?.includes(addressId)) {
-                        actions.push({
-                            action: 'removeBillingAddressId',
-                            addressId,
-                        });
-                    }
-                }
-                // Update default shipping address
-                if (address.isDefaultShippingAddress) {
-                    if (!currentCustomer.shippingAddressIds?.includes(addressId)) {
-                        actions.push({
-                            action: 'setDefaultShippingAddress',
-                            addressId,
-                        });
-                    }
-                } else {
-                    if (currentCustomer.shippingAddressIds?.includes(addressId)) {
-                        actions.push({
-                            action: 'removeShippingAddressId',
-                            addressId,
-                        });
-                    }
-                }
-
                 dispatch(
                     updateCurrentCustomersPersonalInfoTC({
                         version: currentCustomerVersion,
@@ -182,28 +164,45 @@ export const AddressesPage = () => {
         }
     };
 
-    const handleSetDefaultAddress = (
-        isDefaultShippingAddress: boolean,
-        isDefaultBillingAddress: boolean,
+    const handleSetIsDefaultAddress = (
+        isShippingAddress: boolean,
+        isBillingAddress: boolean,
         addressId: string,
+        addressType: AddressModalType,
         currentCustomerVersion: number
     ): void => {
         if (!currentCustomer) return;
 
         const actions: MyCustomerUpdateAction[] = [];
+        // Set address type to billing
+        if (addressType === AddressModalType.BILLING) {
+            actions.push({
+                action: 'addBillingAddressId',
+                addressId: addressId,
+            });
+        }
+        // Set address type to shipping
+        if (addressType === AddressModalType.SHIPPING) {
+            actions.push({
+                action: 'addShippingAddressId',
+                addressId: addressId,
+            });
+        }
         // Update default billing address
-        if (isDefaultBillingAddress) {
+        if (isBillingAddress) {
             actions.push({
                 action: 'setDefaultBillingAddress',
                 addressId: addressId,
             });
+            dispatch(profileSlice.actions.setDefaultBillingAddressId({ addressId }));
         }
         // Update default shipping address
-        if (isDefaultShippingAddress) {
+        if (isShippingAddress) {
             actions.push({
                 action: 'setDefaultShippingAddress',
                 addressId: addressId,
             });
+            dispatch(profileSlice.actions.setDefaultShippingAddressId({ addressId }));
         }
 
         dispatch(
@@ -214,9 +213,55 @@ export const AddressesPage = () => {
         );
     };
 
-    const handleSetDefaultAddressByClick = (
-        isDefaultShippingAddress: DefaultAddressStatus,
-        isDefaultBillingAddress: DefaultAddressStatus,
+    const handleSetDefaultAddress = (
+        isDefaultShippingAddress: AddressStatus,
+        isDefaultBillingAddress: AddressStatus,
+        addressId: string,
+        addressToToggle: AddressModalType
+    ): void => {
+        if (!currentCustomer) return;
+        const actions: MyCustomerUpdateAction[] = [];
+
+        // Update default billing address
+        if (isDefaultBillingAddress === AddressStatus.ON && addressToToggle === AddressModalType.BILLING) {
+            actions.push({
+                action: 'setDefaultBillingAddress',
+                addressId,
+            });
+            dispatch(profileSlice.actions.setDefaultBillingAddressId({ addressId }));
+        } else if (isDefaultBillingAddress === AddressStatus.OFF && addressToToggle === AddressModalType.BILLING) {
+            actions.push({
+                action: 'removeBillingAddressId',
+                addressId,
+            });
+            dispatch(profileSlice.actions.setDefaultBillingAddressId({ addressId: '' }));
+        }
+        // Update default shipping address
+        if (isDefaultShippingAddress === AddressStatus.ON && addressToToggle === AddressModalType.SHIPPING) {
+            actions.push({
+                action: 'setDefaultShippingAddress',
+                addressId,
+            });
+            dispatch(profileSlice.actions.setDefaultShippingAddressId({ addressId }));
+        } else if (isDefaultShippingAddress === AddressStatus.OFF && addressToToggle === AddressModalType.SHIPPING) {
+            actions.push({
+                action: 'removeShippingAddressId',
+                addressId,
+            });
+            dispatch(profileSlice.actions.setDefaultShippingAddressId({ addressId: '' }));
+        }
+
+        dispatch(
+            updateCurrentCustomersPersonalInfoTC({
+                version: currentCustomerVersion,
+                actions,
+            })
+        );
+    };
+
+    const handleSetStatusAddressByClick = (
+        isShippingAddress: AddressStatus,
+        isBillingAddress: AddressStatus,
         addressId: string,
         addressToToggle: AddressModalType
     ): void => {
@@ -224,15 +269,15 @@ export const AddressesPage = () => {
 
         const actions: MyCustomerUpdateAction[] = [];
         // Update default billing address
-        if (isDefaultBillingAddress === DefaultAddressStatus.ON && addressToToggle === AddressModalType.BILLING) {
+        if (isBillingAddress === AddressStatus.ON && addressToToggle === AddressModalType.BILLING) {
             if (!currentCustomer.billingAddressIds?.includes(addressId)) {
                 actions.push({
-                    action: 'setDefaultBillingAddress',
+                    action: 'addBillingAddressId',
                     addressId,
                 });
             }
         } else if (
-            isDefaultBillingAddress === DefaultAddressStatus.OFF &&
+            isBillingAddress === AddressStatus.OFF &&
             addressToToggle === AddressModalType.BILLING &&
             currentCustomer.billingAddressIds?.includes(addressId)
         ) {
@@ -242,15 +287,15 @@ export const AddressesPage = () => {
             });
         }
         // Update default shipping address
-        if (isDefaultShippingAddress === DefaultAddressStatus.ON && addressToToggle === AddressModalType.SHIPPING) {
+        if (isShippingAddress === AddressStatus.ON && addressToToggle === AddressModalType.SHIPPING) {
             if (!currentCustomer.shippingAddressIds?.includes(addressId)) {
                 actions.push({
-                    action: 'setDefaultShippingAddress',
+                    action: 'addShippingAddressId',
                     addressId,
                 });
             }
         } else if (
-            isDefaultShippingAddress === DefaultAddressStatus.OFF &&
+            isShippingAddress === AddressStatus.OFF &&
             addressToToggle === AddressModalType.SHIPPING &&
             currentCustomer.shippingAddressIds?.includes(addressId)
         ) {
@@ -286,7 +331,8 @@ export const AddressesPage = () => {
                             address={address}
                             deleteAddressCB={handleDeleteAddress}
                             editAddressCB={handleSaveAddress}
-                            toggleDefaultAddressesCB={handleSetDefaultAddressByClick}
+                            toggleStatusAddressesCB={handleSetStatusAddressByClick}
+                            toggleIsDefaultAddressesCB={handleSetDefaultAddress}
                             shippingAddressIds={shippingAddressIds ?? []}
                             billingAddressIds={billingAddressIds ?? []}
                         />

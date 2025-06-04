@@ -47,17 +47,21 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
     });
 
     const onSubmit: SubmitHandler<AddressModalFormData> = data => {
-        const newAddress: AddressModalFormData = {
-            street: data.street,
-            city: data.city,
-            postal: data.postal,
-            country: data.country,
+        if (modalType) {
+            const newAddress: AddressModalFormData = {
+                street: data.street,
+                city: data.city,
+                postal: data.postal,
+                country: data.country,
 
-            isDefaultShippingAddress: data.isDefaultShippingAddress,
-            isDefaultBillingAddress: data.isDefaultBillingAddress,
-        };
+                isDefaultShippingAddress: data.isDefaultShippingAddress,
+                isDefaultBillingAddress: data.isDefaultBillingAddress,
 
-        addAddressCB(newAddress);
+                addressType: modalType,
+            };
+
+            addAddressCB(newAddress);
+        }
     };
 
     const selectedCountry = useWatch({

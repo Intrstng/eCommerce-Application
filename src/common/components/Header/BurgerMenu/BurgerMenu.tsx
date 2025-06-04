@@ -93,7 +93,7 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
                     </NavLink>
                 ) : (
                     <NavLink to={PATH.SIGNIN} className={styles.button} onClick={onClose}>
-                        Add commentMore actions LOG IN
+                        LOG IN
                     </NavLink>
                 )}
             </motion.div>

@@ -2,7 +2,13 @@ import { genStyles } from '../../../common/utils/generate-styles';
 
 export const STYLES = genStyles({
     profileContent: {
-        width: '100%',
+        width: '35rem',
+        '@media (max-width: 600px)': {
+            width: '24rem',
+        },
+        '@media (max-width: 400px)': {
+            width: '23rem',
+        },
     },
     devider: {
         mb: '1.875rem',
