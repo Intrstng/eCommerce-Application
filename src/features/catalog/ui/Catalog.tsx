@@ -7,8 +7,14 @@ import { NoResults } from './NoResults/NoResults';
 import { useSearchParams } from 'react-router-dom';
 import { CatalogControls } from './CatalogControls/CatalogControls';
 
+// catalogProductsFiltered: allCatalogProducts,
+//     isProductsLoading,
+//     materials,
+//     genders,
+//     productTypes,
+
 export const Catalog = () => {
-    const { catalogProducts, isProductsLoading, materials, genders } = useFetchProducts();
+    const { catalogProductsFiltered, isProductsLoading, materials, genders, productTypes } = useFetchProducts();
     const [searchParameters, setSearchParameters] = useSearchParams();
 
     const updateParameter = (key: string, value: string) => {
@@ -26,7 +32,7 @@ export const Catalog = () => {
     };
 
     const hasActiveFilters = searchParameters.toString().length > 0;
-    const hasProducts = catalogProducts?.length > 0;
+    const hasProducts = catalogProductsFiltered?.length > 0;
 
     return (
         <Box>
@@ -40,10 +46,11 @@ export const Catalog = () => {
                 handleClearFiltersCB={handleClearFilters}
                 materials={materials}
                 genders={genders}
+                productTypes={productTypes}
             />
 
             {hasProducts ? (
-                <ProductsGrid products={catalogProducts} isProductsLoading={isProductsLoading} />
+                <ProductsGrid products={catalogProductsFiltered} isProductsLoading={isProductsLoading} />
             ) : (
                 <NoResults hasActiveFilters={hasActiveFilters} onClearFilters={handleClearFilters} />
             )}

@@ -4,6 +4,7 @@ import { CatalogFilterSelect } from '../CatalogFilterSelect/CatalogFilterSelect'
 import { useSearchParams } from 'react-router-dom';
 import searchSvg from '../../../../assets/icons/search.svg';
 import S from './CatalogControls.module.scss';
+import type { ProductType } from '../../api/catalogApi';
 
 type CatalogControlsProps = {
     hasActiveFilters: boolean;
@@ -11,6 +12,7 @@ type CatalogControlsProps = {
     handleClearFiltersCB: () => void;
     materials: string[];
     genders: string[];
+    productTypes: ProductType[];
 };
 
 export const CatalogControls: FC<CatalogControlsProps> = ({
@@ -19,12 +21,24 @@ export const CatalogControls: FC<CatalogControlsProps> = ({
     handleClearFiltersCB,
     materials,
     genders,
+    productTypes,
 }) => {
     const [searchParameters] = useSearchParams();
+    const isCategorySelected = searchParameters.has('type');
 
     return (
         <Box className={S.controls}>
             <Box className={S.selectControls}>
+                <CatalogFilterSelect
+                    value={(searchParameters.get('productType') ?? '').trim()}
+                    options={productTypes.map(type => type.name.trim())}
+                    placeholder="ALL TYPES"
+                    onChange={value => {
+                        updateParameterCB('productType', value.trim());
+                    }}
+                    disabled={productTypes.length === 0 || isCategorySelected}
+                />
+
                 <CatalogFilterSelect
                     value={searchParameters.get('material') ?? ''}
                     options={materials}
