@@ -1,40 +1,52 @@
 import Typography from '@mui/material/Typography';
-import { CatalogCard } from './CatalogCard/CatalogCard';
-import noImage from '../../../assets/products/no-image.png';
 import Box from '@mui/material/Box';
 import { useFetchProducts } from '../../../common/hooks/useFetchProducts';
 import { STYLES } from './styles.Catalog';
+import { ProductsGrid } from './CatalogProduct/CatalogProduct';
+import { NoResults } from './NoResults/NoResults';
+import { useSearchParams } from 'react-router-dom';
+import { CatalogControls } from './CatalogControls/CatalogControls';
 
 export const Catalog = () => {
-    const { catalogProducts, isProductsLoading } = useFetchProducts();
+    const { catalogProducts, isProductsLoading, materials, genders } = useFetchProducts();
+    const [searchParameters, setSearchParameters] = useSearchParams();
 
-    if (!isProductsLoading && catalogProducts.length === 0) {
-        return (
-            <Typography component="h2" variant="h5">
-                There are no products in the catalogue according to your requirements. Try requesting products with
-                another characteristics...
-            </Typography>
-        );
-    }
+    const updateParameter = (key: string, value: string) => {
+        const newParameters = new URLSearchParams(searchParameters);
+        if (value) {
+            newParameters.set(key, value);
+        } else {
+            newParameters.delete(key);
+        }
+        setSearchParameters(newParameters);
+    };
+
+    const handleClearFilters = () => {
+        setSearchParameters(new URLSearchParams());
+    };
+
+    const hasActiveFilters = searchParameters.toString().length > 0;
+    const hasProducts = catalogProducts?.length > 0;
 
     return (
         <Box>
             <Typography variant="h2" component="h2" sx={STYLES.catalogTitle}>
                 Catalog
             </Typography>
-            <Box sx={STYLES.cards}>
-                {catalogProducts.map(product => (
-                    <CatalogCard
-                        key={product.id}
-                        id={product.id}
-                        image={product.images[0] || noImage}
-                        title={product.name.en}
-                        description={product.description.en}
-                        prices={product.prices} // Temporary currency solution
-                        isProductsLoading={isProductsLoading}
-                    />
-                ))}
-            </Box>
+
+            <CatalogControls
+                hasActiveFilters={hasActiveFilters}
+                updateParameterCB={updateParameter}
+                handleClearFiltersCB={handleClearFilters}
+                materials={materials}
+                genders={genders}
+            />
+
+            {hasProducts ? (
+                <ProductsGrid products={catalogProducts} isProductsLoading={isProductsLoading} />
+            ) : (
+                <NoResults hasActiveFilters={hasActiveFilters} onClearFilters={handleClearFilters} />
+            )}
         </Box>
     );
 };

@@ -59,3 +59,11 @@ export interface Attribute {
         label?: string;
     };
 }
+
+export interface FilterParameters {
+    gender: string | null;
+    material: string | null;
+    search: string | null;
+    sort: string | null;
+    type: string | null;
+}

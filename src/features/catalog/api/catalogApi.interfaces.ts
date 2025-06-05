@@ -57,3 +57,11 @@ export interface CatalogCategory {
     productCount: number;
     description?: LocalizedString;
 }
+
+export interface CatalogProductSelect {
+    sort?: string;
+    filter?: string[];
+    query?: string;
+    limit?: number;
+    offset?: number;
+}

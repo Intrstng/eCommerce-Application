@@ -6,6 +6,7 @@ import type { AppThunk } from 'app/store';
 import { appActions } from 'app/model/slices/appSlice';
 import { Status } from 'app/model/types';
 import { catalogAPI } from '../../api/catalogApi';
+import type { FilterParameters } from '../../../../common/types';
 
 export const initialState: CatalogState = {
     products: [],
@@ -51,6 +52,25 @@ export const getProductsByCategoryTC =
         dispatch(appActions.setAppStatus({ status: Status.LOADING }));
         try {
             const response = await catalogAPI.getProductsByCategory(categoryType);
+
+            dispatch(catalogActions.setProducts({ products: response }));
+            dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(appActions.setAppError({ error: error.message }));
+            } else {
+                dispatch(appActions.setAppError({ error: 'An unexpected error occurred' }));
+            }
+            dispatch(appActions.setAppStatus({ status: Status.FAILED }));
+        }
+    };
+
+export const getProductsByFilterParametersTC =
+    (filterParameters: FilterParameters): AppThunk =>
+    async dispatch => {
+        dispatch(appActions.setAppStatus({ status: Status.LOADING }));
+        try {
+            const response = await catalogAPI.getProductsBySelect(filterParameters);
 
             dispatch(catalogActions.setProducts({ products: response }));
             dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));

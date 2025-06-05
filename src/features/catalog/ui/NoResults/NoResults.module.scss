@@ -1,0 +1,41 @@
+.noResults {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+
+    padding: 40px 0;
+
+    font: normal 400 16px / 24px Jost;
+    color: #161412;
+
+    button {
+        height: 24px;
+    }
+}
+
+.clearButton {
+    cursor: pointer;
+
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+
+    height: 20px;
+    padding: 0 20px;
+    border: 1px solid #65635f;
+    border-radius: 4px;
+
+    font: normal 400 12px / 24px Jost;
+    color: #161412;
+    letter-spacing: 1px;
+
+    transition: all 0.3s ease;
+
+    &:hover {
+        border: 1px solid #161412;
+        color: #f4f4f2;
+        background-color: #161412;
+    }
+}
