@@ -79,7 +79,6 @@ export const CatalogControls: FC<CatalogControlsProps> = ({
                     onChange={event => {
                         updateParameterCB('search', event.target.value);
                     }}
-                    disabled
                     className={S.searchInputField}
                 />
                 <img src={searchSvg} alt={'Search'} className={S.searchIcon} />

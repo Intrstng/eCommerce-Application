@@ -75,6 +75,12 @@ Follow these steps to run the application locally:
     ```bash
     npm install
     ```
+    
+    or use command in CLI:
+
+    ```bash
+    npm install --legacy-peer-deps
+    ```
 
 5.  **Configure environment variables:**
 

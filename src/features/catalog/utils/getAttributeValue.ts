@@ -17,19 +17,12 @@ export const getAttributeValue = (
     const value: unknown = attribute.value;
     if (typeof value === 'string') {
         return value;
-    }
-
-    if (isLocalizedString(value)) {
+    } else if (isLocalizedString(value)) {
         return value.en;
-    }
-
-    if (isPlainEnumValue(value)) {
+    } else if (isPlainEnumValue(value)) {
         return value.key;
-    }
-
-    if (isLocalizedEnumValue(value)) {
+    } else if (isLocalizedEnumValue(value)) {
         return value.label.en;
     }
-
     return String(value);
 };
