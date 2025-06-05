@@ -5,6 +5,8 @@ import Burger from 'src/assets/icons/burger.svg?react';
 import Dox from 'src/assets/icons/dox.svg?react';
 import Account from 'src/assets/icons/account.svg?react';
 import Instagram from 'src/assets/icons/instagram.svg?react';
+import Filter from 'src/assets/icons/filter.svg?react';
+
 const icons = {
     logo: Logo,
     login: Login,
@@ -13,6 +15,7 @@ const icons = {
     dox: Dox,
     account: Account,
     instagram: Instagram,
+    filter1: Filter,
 };
 
 export default icons;
