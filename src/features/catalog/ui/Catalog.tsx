@@ -35,7 +35,7 @@ export const Catalog = () => {
     const hasProducts = catalogProductsFiltered?.length > 0;
 
     return (
-        <Box>
+        <Box sx={STYLES.catalogContainer}>
             <Typography variant="h2" component="h2" sx={STYLES.catalogTitle}>
                 Catalog
             </Typography>
