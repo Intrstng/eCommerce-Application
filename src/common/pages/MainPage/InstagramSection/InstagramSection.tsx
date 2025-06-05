@@ -49,7 +49,7 @@ export const InstagramSection = memo(() => {
             <div className={styles.instagramCta}>
                 <h2 className={styles.subsection}>Join #do.jewelry</h2>
                 <Button
-                    text="FOLLOW US ON INSTAGRAM"
+                    text="FOLLOW ON INSTAGRAM"
                     size="large"
                     variant="secondary"
                     iconRight="instagram"
