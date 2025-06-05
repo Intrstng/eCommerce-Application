@@ -36,7 +36,6 @@ import { motion } from 'framer-motion';
 import icons from '../../../assets/icons/icons';
 import { CATEGORIES, PATH } from '../../enums';
 import Box from '@mui/material/Box';
-import SearchIcon from '@mui/icons-material/Search';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { SignInButton } from '../SignInButton/SignInButton';
 
@@ -95,7 +94,7 @@ export const Header: React.FC = () => {
                     </NavLink>
                     <icons.dox className={S.doxIcon} />
                     <SignInButton />
-                    <SearchIcon />
+                    <icons.search className={S.searchIcon} />
                 </Box>
             </Box>
             <BurgerMenu isOpen={isMenuOpen} onClose={handleCloseMenu} />

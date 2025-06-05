@@ -231,6 +231,10 @@
 
 .burgerIcon {
     display: none;
+
+    svg {
+        font-size: 24px;
+    }
 }
 
 @media (width <= 768px) {
@@ -257,4 +261,9 @@
             align-items: center;
         }
     }
+}
+
+.searchIcon {
+    width: 24px;
+    height: auto;
 }
