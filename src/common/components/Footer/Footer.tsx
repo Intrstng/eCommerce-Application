@@ -1,28 +1,28 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import S from './Footer.module.scss';
 
 export const Footer = () => {
-    const [language, setLanguage] = useState('en');
-
-    const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setLanguage(event.target.value);
-    };
+    // const [language, setLanguage] = useState('en');
+    //
+    // const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    //     setLanguage(event.target.value);
+    // };
 
     return (
         <div className={S.footer}>
             <div className={S.topRow}>
                 <ul>
-                    <li>OUR CARE GUIDE</li>
+                    <li>CARE GUIDE</li>
+                    <li>BLOG</li>
                     <li>ABOUT US</li>
-                    <li>DO X JEWERLY</li>
-                    <li>
-                        <div className={S.section}>
-                            <select value={language} onChange={handleLanguageChange} className={S.languageSelect}>
-                                <option value="en">EN</option>
-                                {/*<option value="ru">RU</option>*/}
-                            </select>
-                        </div>
-                    </li>
+                    {/*<li>*/}
+                    {/*    <div className={S.section}>*/}
+                    {/*        <select value={language} onChange={handleLanguageChange} className={S.languageSelect}>*/}
+                    {/*            <option value="en">EN</option>*/}
+                    {/*            /!*<option value="ru">RU</option>*!/*/}
+                    {/*        </select>*/}
+                    {/*    </div>*/}
+                    {/*</li>*/}
                 </ul>
             </div>
 
@@ -30,17 +30,7 @@ export const Footer = () => {
                 <ul>
                     <li>
                         <a
-                            href="https://www.facebook.com/DoKraPhotography/"
-                            className={S.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Facebook
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="https://www.instagram.com/do.jewellery/"
+                            href="https://www.instagram.com/do.jewelry/"
                             className={S.link}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -48,7 +38,17 @@ export const Footer = () => {
                             Instagram
                         </a>
                     </li>
-                    <li>Snapchat</li>
+                    <li>
+                        <a
+                            href="https://www.threads.com/@k.dorozhko?xmt=AQF0J9-FRlzR02FqiPu3Pf84PAh20QITCS7-MeZwU7mmWJw"
+                            className={S.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Threads
+                        </a>
+                    </li>
+                    {/*<li>About author</li>*/}
                 </ul>
             </div>
         </div>
