@@ -29,14 +29,18 @@
 }
 
 .content {
-    overflow-y: auto;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+
+.contentWithMargin {
+    margin-top: 75px;
+}
+
+.app .mainContainer {
     display: flex;
-    flex-direction: column;
-
-    // flex: 1;
-    align-items: center;
-
-    margin: 0;
+    flex-grow: 1;
 }
 
 a {

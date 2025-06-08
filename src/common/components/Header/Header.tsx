@@ -47,7 +47,7 @@ export const Header: React.FC = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 50) {
+            if (window.scrollY > 40) {
                 setIsScrolled(true);
             } else {
                 setIsScrolled(false);

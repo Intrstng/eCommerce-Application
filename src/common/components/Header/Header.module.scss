@@ -91,24 +91,28 @@
 //}
 
 .header {
-    position: sticky;
+    position: fixed;
     z-index: 100;
     top: 0;
+    right: 0;
+    left: 0;
 
     width: 100%;
-    max-width: 1338px; // fix remove
-    margin: 0 auto;
+
+    background-color: transparent;
+
+    transition: background-color 0.3s ease;
 
     &__content {
         display: flex;
         grid-row: 1;
         flex: 0 0 auto;
-        flex-wrap: nowrap;
-        gap: 0.5rem;
         align-items: center;
         justify-content: space-between;
 
+        max-width: 1180px;
         height: 75px;
+        margin: 0 auto;
         padding: 0 2.5rem; // fix remove
 
         color: #161412;
@@ -139,10 +143,6 @@
 
 .headerWrapper.scrolled {
     height: 75px;
-}
-
-.burgerIcon {
-    display: none;
 }
 
 .doxIcon {
@@ -230,10 +230,12 @@
 }
 
 .burgerIcon {
+    cursor: pointer;
     display: none;
 
     svg {
-        font-size: 24px;
+        width: 24px;
+        height: 24px;
     }
 }
 
