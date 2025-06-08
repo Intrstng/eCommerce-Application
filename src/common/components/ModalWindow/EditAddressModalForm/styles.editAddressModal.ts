@@ -30,8 +30,6 @@ export const STYLES = genStyles({
         },
     },
     addressInput: {
-        // minWidth: '22.8rem',
-        // width: '100%',
         mt: 0,
         mb: '0.25rem',
     },
@@ -78,7 +76,6 @@ export const STYLES = genStyles({
         top: '2.8rem',
     },
     modalButton: {
-        // maxWidth: '13rem',
         width: '100%',
         fontFamily: 'Jost, sans-serif',
         fontWeight: '400',

@@ -7,12 +7,6 @@ import { NoResults } from './NoResults/NoResults';
 import { useSearchParams } from 'react-router-dom';
 import { CatalogControls } from './CatalogControls/CatalogControls';
 
-// catalogProductsFiltered: allCatalogProducts,
-//     isProductsLoading,
-//     materials,
-//     genders,
-//     productTypes,
-
 export const Catalog = () => {
     const { catalogProductsFiltered, isProductsLoading, materials, genders, productTypes } = useFetchProducts();
     const [searchParameters, setSearchParameters] = useSearchParams();

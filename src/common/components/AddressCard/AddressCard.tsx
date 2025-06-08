@@ -70,8 +70,8 @@ export const AddressCard: FC<AddressCardProps> = ({
 
     const [isShipping, setIsShipping] = useState(isShippingAddress);
     const [isBilling, setIsBilling] = useState(isBillingAddress);
-    // const [isDefaultShipping, setIsDefaultShipping] = useState(isDefaultShippingAddress); // Todo: check is needed in code
-    // const [isDefaultBilling, setIsDefaultBilling] = useState(isDefaultBillingAddress); // Todo: check is needed in code
+    // const [isDefaultShipping, setIsDefaultShipping] = useState(isDefaultShippingAddress); // Todo: check is needed in code in Sprint 4
+    // const [isDefaultBilling, setIsDefaultBilling] = useState(isDefaultBillingAddress); // Todo: check is needed in code in Sprint 4
 
     const currentAddressData: EditAddressData = {
         streetName: address?.streetName ?? '',
@@ -121,7 +121,7 @@ export const AddressCard: FC<AddressCardProps> = ({
     const handleToggleDefaultShipping = () => {
         const newDefaultShippingStatus =
             isDefaultShippingAddress === AddressStatus.ON ? AddressStatus.OFF : AddressStatus.ON;
-        // setIsDefaultShipping(newDefaultShippingStatus); // Todo: check is needed in code
+        // setIsDefaultShipping(newDefaultShippingStatus); // Todo: check is needed in code in Sprint 4
         if (address.id) {
             toggleIsDefaultAddressesCB(
                 newDefaultShippingStatus,
@@ -135,7 +135,7 @@ export const AddressCard: FC<AddressCardProps> = ({
     const handleToggleDefaultBilling = () => {
         const newDefaultBillingStatus =
             isDefaultBillingAddress === AddressStatus.ON ? AddressStatus.OFF : AddressStatus.ON;
-        // setIsDefaultBilling(newDefaultBillingStatus); // Todo: check is needed in code
+        // setIsDefaultBilling(newDefaultBillingStatus); // Todo: check is needed in code in Sprint 4
         if (address.id) {
             toggleIsDefaultAddressesCB(
                 isDefaultShippingAddress,

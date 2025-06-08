@@ -1,5 +1,6 @@
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Typography } from '@mui/material';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
 import { PAGES, PATH } from '../../enums';
 import { STYLES } from './styles.breadCrumbs';
 import { isValidUUID } from '../../utils/validate-uuid';

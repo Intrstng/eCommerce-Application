@@ -35,7 +35,7 @@ const Button: React.FC<ButtonProps> = ({
 
     let IconRightComponent;
     if (state === 'loading') {
-        // IconRightComponent = <Loader size={16} />; // Показываем лоадер, если состояние 'loading'
+        // IconRightComponent = <Loader size={16} />; // Show loader, when 'loading' === true
     } else if (iconRight) {
         const ActualIconRight = icons[iconRight];
         IconRightComponent = (

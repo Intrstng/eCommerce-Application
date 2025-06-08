@@ -61,11 +61,12 @@ export const CatalogControls: FC<CatalogControlsProps> = ({
 
                 <CatalogFilterSelect
                     value={searchParameters.get('sort') ?? ''}
-                    options={['price_asc', 'price_desc']}
-                    placeholder="PRICE"
+                    options={['price_asc', 'price_desc', 'name:A-Z', 'name:Z-A']}
+                    placeholder="SORT"
                     onChange={value => {
                         updateParameterCB('sort', value);
                     }}
+                    disabled={false}
                 />
                 <button onClick={handleClearFiltersCB} className={S.clearButton} disabled={!hasActiveFilters}>
                     Clear

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Box, CardMedia, Popover } from '@mui/material';
+import Box from '@mui/material/Box';
+import CardMedia from '@mui/material/CardMedia';
+import Popover from '@mui/material/Popover';
 import Tooltip from '@mui/material/Tooltip';
 import loggedSvg from '../../../assets/logo/logged.svg';
 import { STYLES } from './styles.loggedInButton';

@@ -1,36 +1,33 @@
 import { memo } from 'react';
 import Button from '../../../components/Button/Button';
-import styles from './HeroSection.module.scss';
+import S from './HeroSection.module.scss';
 import heroVideoSource from '../../../../assets/video/hero.mp4';
 import { useNavigate } from 'react-router-dom';
-// import { useTranslation } from 'react-i18next';
+import { PATH } from '../../../enums';
 
 export const HeroSection = memo(() => {
     const navigate = useNavigate();
-    // const { t } = useTranslation();
 
     return (
-        <div className={styles.heroSection}>
-            <div className={styles.heroContent}>
-                <h1 className={styles.heroHeading}>
-                    Custom jewerly for yourself, friends, family, and special occasions.
-                </h1>
-                <div className={styles.heroButtons}>
+        <div className={S.heroSection}>
+            <div className={S.heroContent}>
+                <h1 className={S.heroHeading}>Custom jewerly for yourself, friends, family, and special occasions.</h1>
+                <div className={S.heroButtons}>
                     <Button
                         text="Search catalog"
                         size="large"
                         variant="primary"
                         fullWidth
-                        className={styles.heroSearchCatalog}
+                        className={S.heroSearchCatalog}
                         onClick={() => {
-                            navigate('/catalog');
+                            navigate(PATH.CATALOG);
                         }}
                     />
                 </div>
             </div>
-            <div className={styles.videoWrapper}>
+            <div className={S.videoWrapper}>
                 <video
-                    className={styles.heroVideo}
+                    className={S.heroVideo}
                     preload="true"
                     playsInline
                     autoPlay

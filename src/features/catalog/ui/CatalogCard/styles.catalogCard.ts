@@ -71,40 +71,5 @@ export const STYLES = genStyles({
         textOverflow: 'ellipsis',
         maxWidth: '40ch',
     },
-    cardPrice: {
-        // fontSize: '1rem',
-        // lineHeight: '1.5rem',
-        // color: '#161412',
-    },
-    //
-    // priceBlock: {
-    //     display: 'flex',
-    //     flexWrap: 'nowrap',
-    //     flexDirection: 'row',
-    //     gap: '0.75rem',
-    // },
-    // oldPriceContent: {
-    //     position: 'relative',
-    //     width: 'auto',
-    // },
-    // oldPrice: {
-    //     fontFamily: 'Jost, sans-serif',
-    //     fontWeight: '400',
-    //     fontSize: '1rem',
-    //     lineHeight: '1.5rem',
-    //     color: '#65635F',
-    // },
-    // lineThrough: {
-    //     position: 'absolute',
-    //     left: 0,
-    //     top: '50%',
-    //     width: '100%',
-    //     height: '2px',
-    //     backgroundColor: 'rgba(197,9,9,0.7)',
-    //     transform: 'translateY(-50%)',
-    // },
-    // discountPrice: {
-    //     color: 'green',
-    //     fontWeight: 'bold',
-    // },
+    cardPrice: {},
 });

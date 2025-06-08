@@ -250,7 +250,6 @@ export const STYLES = genStyles({
     purposeActive: {
         border: '1px solid #65635F',
         color: '#FFF',
-        // backgroundColor: '#000',
         backgroundColor: '#65635F',
         '&:hover': {
             backgroundColor: '#65635F',
@@ -259,12 +258,9 @@ export const STYLES = genStyles({
     statusActive: {
         border: '1px solid #65635F',
         color: '#FFF',
-        // backgroundColor: '#65635F',
         backgroundColor: '#000',
         '&:hover': {
             backgroundColor: '#3D365C',
-            // color: '#65635F',
-            // backgroundColor: 'rgb(101 99 95 / 25%)',
         },
     },
     dialog: {

@@ -18,7 +18,8 @@
 .clearButton {
     cursor: pointer;
 
-    margin-left: 1.5rem;
+    margin-right: 1.25rem;
+    margin-left: 1.25rem;
     padding: 0.25rem 1.25rem;
     border: 1px solid #65635f;
     border-radius: 0;
@@ -42,7 +43,7 @@
 
     &:disabled {
         border: 1px solid rgb(101 99 95 / 65%);
-        background-color: rgb(101 99 95 / 15%);
+        background-color: rgb(101 99 95 / 20%);
     }
 
     @media (width <= 768px) {

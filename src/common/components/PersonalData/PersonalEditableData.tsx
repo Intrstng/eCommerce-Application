@@ -16,7 +16,7 @@ import type { Customer, MyCustomerUpdateAction } from '@commercetools/platform-s
 import { profileCustomerSelector } from '../../../features/profile/model/selectors/profileSelector';
 import type { PersonalDataProps } from '../../pages/Protected/ProfilePage/PersonalDataPage/types';
 import FormGroup from '@mui/material/FormGroup';
-import { FormControl } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
 import {
     getCurrentCustomerTC,
     updateCurrentCustomersPersonalInfoTC,

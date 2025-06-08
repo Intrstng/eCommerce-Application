@@ -1,10 +1,17 @@
-import type { ButtonProps } from '@mui/material/Button';
+import type React from 'react';
 import Button from '@mui/material/Button';
 import { STYLES } from './styles.CustomButton';
 
-export const CustomButton = ({ children, className = '', ...props }: ButtonProps) => {
+interface CustomButtonProps {
+    children: React.ReactNode;
+    className?: string;
+    onClick: () => void;
+    style?: React.CSSProperties;
+}
+
+export const CustomButton = ({ children, className = '', onClick, style, ...props }: CustomButtonProps) => {
     return (
-        <Button variant="contained" sx={STYLES.button} className={className || ''} {...props}>
+        <Button sx={STYLES.button} className={className ?? ''} style={style ?? {}} onClick={onClick} {...props}>
             {children}
         </Button>
     );

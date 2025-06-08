@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { IconButton } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { successNotifyMessage } from '../../utils/notify-message';
 import { STYLES } from './styles.copyToClipboard';

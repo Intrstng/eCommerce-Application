@@ -1,4 +1,7 @@
-import { Card, CardContent, Skeleton, Typography } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Skeleton from '@mui/material/Skeleton';
+import Typography from '@mui/material/Typography';
 import { STYLES } from './styles.catalogCard';
 
 export const CatalogCardSkeleton = () => {

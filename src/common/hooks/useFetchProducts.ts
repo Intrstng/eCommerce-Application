@@ -19,8 +19,8 @@ export const useFetchProducts = () => {
     const [allProductsForFilters, setAllProductsForFilters] = useState<CatalogProduct[]>([]);
     const [productTypes, setProductTypes] = useState<ProductType[]>([]);
 
-    // const currentType = searchParameters.get('type');
-    // const currentPage = searchParameters.get('page');
+    // const currentType = searchParameters.get('type'); ToDo: check for using in Sprint 4 (pagination)
+    // const currentPage = searchParameters.get('page'); ToDo: check for using in Sprint 4 (pagination)
 
     const allCatalogProducts = useMemo(() => catalogProducts ?? [], [catalogProducts]);
 
@@ -46,7 +46,7 @@ export const useFetchProducts = () => {
         if (allProductsForFilters.length === 0) {
             void fetchAllProducts();
         }
-    }, [dispatch, allProductsForFilters.length, searchParameters]); // searchParameters probably to delete
+    }, [dispatch, allProductsForFilters.length, searchParameters]); // check searchParameters probably to delete
 
     const { materials, genders } = useMemo(() => {
         const materialsSet = new Set<string>();
@@ -67,20 +67,72 @@ export const useFetchProducts = () => {
             materials: Array.from(materialsSet).sort(),
             genders: Array.from(gendersSet).sort(),
         };
-    }, [allProductsForFilters, searchParameters]); // added searchParameters because: allProductsForFilters is object; materials and genders were not updated on allProductsForFilters change - у нас materials, genders обновляется только раз и касательно для всех товаров. Но есть же еще отдельные переходы между страницами с категориями где materials, genders могут отличаться
+    }, [allProductsForFilters, searchParameters]); // check searchParameters probably to delete
+
+    const filters = useMemo(
+        () => ({
+            material: searchParameters.get('material'),
+            gender: searchParameters.get('gender'),
+            search: searchParameters.get('search'),
+            sort: searchParameters.get('sort'),
+        }),
+        [searchParameters]
+    );
+
+    const sortParameter = searchParameters.get('sort');
+    const catalogProductsFiltered = useMemo(() => {
+        const filteredProducts = [...allCatalogProducts];
+
+        if (sortParameter) {
+            filteredProducts.sort((a, b) => {
+                const currentCurrencyA = a.prices.find(price => price.value.currencyCode === 'EUR');
+                const currentCurrencyB = b.prices.find(price => price.value.currencyCode === 'EUR');
+
+                let priceA = 0;
+                let priceB = 0;
+
+                if (currentCurrencyA) {
+                    priceA = currentCurrencyA.discounted?.value.centAmount ?? currentCurrencyA.value.centAmount;
+                }
+
+                if (currentCurrencyB) {
+                    priceB = currentCurrencyB.discounted?.value.centAmount ?? currentCurrencyB.value.centAmount;
+                }
+
+                switch (sortParameter) {
+                    case 'price_asc': {
+                        return priceA - priceB;
+                    }
+                    case 'price_desc': {
+                        return priceB - priceA;
+                    }
+                    case 'name:A-Z': {
+                        return a.name.en.localeCompare(b.name.en);
+                    }
+                    case 'name:Z-A': {
+                        return b.name.en.localeCompare(a.name.en);
+                    }
+                    default: {
+                        return 0;
+                    }
+                }
+            });
+        }
+
+        return filteredProducts;
+    }, [allCatalogProducts, filters.sort]);
 
     useLayoutEffect(() => {
         const fetchData = () => {
             setIsProductsLoading(true);
             try {
                 const currentProductType: string | null = searchParameters.get('type');
-                const productTypeParameter = searchParameters.get('productType');
+                const productTypeParameter: string | null = searchParameters.get('productType');
 
                 const searchParameters_ = {
                     material: searchParameters.get('material') ?? undefined,
                     gender: searchParameters.get('gender') ?? undefined,
                     search: searchParameters.get('search') ?? undefined,
-                    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                     productType: productTypeParameter === null ? undefined : productTypeParameter,
                 };
 
@@ -100,7 +152,7 @@ export const useFetchProducts = () => {
     }, [dispatch, searchParameters, productTypes]);
 
     return {
-        catalogProductsFiltered: allCatalogProducts,
+        catalogProductsFiltered,
         isProductsLoading,
         materials,
         genders,

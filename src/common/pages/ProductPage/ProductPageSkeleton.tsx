@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import { STYLES } from './styles.productPage';
-import { Card } from '@mui/material';
+import Card from '@mui/material/Card';
 import Skeleton from '@mui/material/Skeleton';
 import Divider from '@mui/material/Divider';
 

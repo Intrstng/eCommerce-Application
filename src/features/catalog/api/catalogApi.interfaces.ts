@@ -3,7 +3,7 @@ import type { Attribute, LocalizedString, ProductVariantAvailability } from '@co
 export interface ProductPrice {
     id: string;
     value: {
-        type: 'centPrecision' | 'highPrecision'; // string
+        type: 'centPrecision' | 'highPrecision';
         currencyCode: string;
         centAmount: number;
         fractionDigits: number;
@@ -11,7 +11,7 @@ export interface ProductPrice {
     country?: string;
     discounted: {
         value: {
-            type: 'centPrecision' | 'highPrecision'; // string
+            type: 'centPrecision' | 'highPrecision';
             currencyCode: string;
             centAmount: number;
             fractionDigits: number;

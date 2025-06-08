@@ -24,16 +24,12 @@
 
 .main {
     grid-row: 2;
-
-    //padding: 0 1.25rem 2rem;
 }
 
 .content {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-
-    // flex: 1;
     align-items: center;
 
     margin: 0;
