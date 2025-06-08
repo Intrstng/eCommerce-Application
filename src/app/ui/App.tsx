@@ -11,7 +11,6 @@ import { useEffect } from 'react';
 import { errorNotifyMessageWithDispatch } from '../../common/utils/notify-message';
 import Box from '@mui/material/Box';
 import { useLocation } from 'react-router-dom';
-import { PATH } from '../../common/enums';
 
 export const App = () => {
     const dispatch = useAppDispatch();
@@ -33,16 +32,16 @@ export const App = () => {
         zIndex: 5,
     };
 
-    const isMainPage = location.pathname === PATH.MAIN || location.pathname === '/';
+    const isMainPage = location.pathname === '/main' || location.pathname === '/';
     const contentClassName = `content ${isMainPage ? '' : 'contentWithMargin'}`;
 
     return (
-        <Box className='app'>
+        <Box className="app">
             <Header />
 
             {appStatus === 'loading' && <LinearProgress color={'success'} sx={linearProgressStyles} />}
 
-            <Box className='main mainContainer'>
+            <Box className="main mainContainer">
                 <Box className={contentClassName}>
                     <Outlet />
                 </Box>
