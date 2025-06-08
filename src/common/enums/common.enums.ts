@@ -37,7 +37,7 @@ export enum PATH {
 
     CATALOG = '/catalog',
 
-    PRODUCT = '/:product/:id', // MODEL
+    PRODUCT = '/product/:id',
 
     ARTICLES = '/articles',
     // ARTICLE = `/articles/:id`,
@@ -49,5 +49,44 @@ export enum PATH {
 
     // Protected routes
     PROFILE = '/profile',
-    ADDRESSES = '/addresses',
+    PROFILE_MAIN = '/profile/personal',
+
+    //Nested routes
+    PERSONAL_NESTED = 'personal',
+    ADDRESS_NESTED = 'address',
+    PASSWORDS_NESTED = 'password',
+}
+
+export enum PAGES {
+    MAIN = 'Home',
+    ABOUT = 'About',
+    CART = 'Cart',
+    FAVORITES = 'Favorites',
+    CATALOG = 'Catalog',
+    PRODUCT = 'Product',
+    ARTICLE = 'Article',
+    ARTICLES = 'Articles',
+    SIGNIN = 'Login',
+    SIGNUP = 'Registration',
+    ERROR = 'Error',
+    // Protected pages
+    PROFILE = 'Profile',
+    ADDRESSES = 'Addresses',
+}
+
+export enum CATEGORIES {
+    EARRINGS = 'earrings',
+    RINGS = 'rings',
+    BROOCHES = 'brooches',
+    OTHER = 'other',
+}
+
+export enum AddressModalType {
+    SHIPPING = 'shipping',
+    BILLING = 'billing',
+}
+
+export enum AddressStatus {
+    ON = 'on',
+    OFF = 'off',
 }

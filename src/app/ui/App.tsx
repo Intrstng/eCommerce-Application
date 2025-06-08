@@ -1,8 +1,7 @@
 import './App.scss';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { Footer } from '../../common/components/Footer/Footer';
 import { Header } from '../../common/components/Header/Header';
-import { PATH } from '../../common/enums';
 import { ToastifyNotification } from '../../common/components/ToastifyNotification/ToastifyNotification';
 import { useAppDispatch, useAppSelector } from '../../common/hooks';
 import type { AppError, Status } from 'app/model/types';
@@ -10,16 +9,14 @@ import { errorSelector, statusSelector } from 'app/model/selectors/appSelectors'
 import LinearProgress from '@mui/material/LinearProgress';
 import { useEffect } from 'react';
 import { errorNotifyMessageWithDispatch } from '../../common/utils/notify-message';
+import Box from '@mui/material/Box';
+import { useLocation } from 'react-router-dom';
 
 export const App = () => {
-    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const appStatus: string = useAppSelector<Status>(statusSelector);
     const appError = useAppSelector<AppError>(errorSelector);
-
-    const navigateHandler = () => {
-        navigate(-1);
-    };
+    const location = useLocation();
 
     useEffect(() => {
         if (typeof appError === 'string') {
@@ -35,27 +32,22 @@ export const App = () => {
         zIndex: 5,
     };
 
+    const isMainPage = location.pathname === '/main' || location.pathname === '/';
+    const contentClassName = `content ${isMainPage ? '' : 'contentWithMargin'}`;
+
     return (
-        <div className="app">
+        <Box className="app">
             <Header />
 
             {appStatus === 'loading' && <LinearProgress color={'success'} sx={linearProgressStyles} />}
 
-            <div className="main">
-                <div className="content">
-                    <div className="horizontalNavigation">
-                        <NavLink className="linkLikeButton" to={PATH.MAIN}>
-                            Home
-                        </NavLink>
-                        <button onClick={navigateHandler} className="buttonLikeLink">
-                            Back
-                        </button>
-                    </div>
+            <Box className="main mainContainer">
+                <Box className={contentClassName}>
                     <Outlet />
-                </div>
-            </div>
+                </Box>
+            </Box>
             <Footer />
             <ToastifyNotification />
-        </div>
+        </Box>
     );
 };

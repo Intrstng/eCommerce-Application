@@ -1,0 +1,157 @@
+.button {
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    justify-content: center;
+
+    box-sizing: border-box;
+    width: fit-content;
+    height: 40px;
+    padding: 0 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+
+    line-height: normal !important;
+    letter-spacing: 1px;
+
+    background-color: transparent;
+
+    transition: all 0.1s linear;
+}
+
+.fullWidth {
+    position: relative;
+    width: 100%;
+}
+
+.noHover:hover {
+    border: none !important;
+    filter: brightness(0.8);
+}
+
+/* Button types */
+.primary {
+    gap: 8px;
+    color: #f4f4f2;
+    background-color: #161412;
+}
+
+.primary:hover {
+    border: 1px solid #161412;
+    color: #161412;
+    background-color: transparent;
+}
+
+.secondary {
+    gap: 4px;
+    border: 1px solid #65635f;
+    color: #161412;
+    background-color: transparent;
+}
+
+.secondary:hover {
+    border: 1px solid #161412;
+    color: #f4f4f2;
+    background-color: #161412;
+}
+
+.text {
+    gap: 4px;
+    color: #65635f;
+    background: none;
+}
+
+.text:hover {
+    color: #161412;
+    background: none;
+}
+
+/* Button sizes */
+.small {
+    height: 20px;
+    font: normal 400 12px / 24px Jost;
+}
+
+.default {
+    height: 40px;
+    font: normal 400 12px / 24px Jost;
+}
+
+.large {
+    height: 48px;
+    font: normal 400 16px/24px Jost;
+}
+
+/* Icon colors */
+.primary .icon {
+    color: #f4f4f2;
+}
+
+.secondary .icon {
+    color: #161412;
+}
+
+.text .icon {
+    color: #65635f;
+}
+
+/* Icon sizes */
+.small .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.default .icon {
+    width: 20px;
+    height: 20px;
+}
+
+.large .icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Icon hover colors */
+.primary:hover .icon {
+    color: #161412;
+}
+
+.secondary:hover .icon {
+    color: #f4f4f2;
+}
+
+.text:hover .icon {
+    color: #161412;
+}
+
+/* Disabled styles */
+.button:disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+.button.secondary:disabled {
+    border: 1px solid transparent;
+    opacity: 0.9;
+    background-color: #f4f4f2;
+}
+
+/* Responsive */
+@media (width <= 955px) {
+    .small,
+    .default,
+    .large {
+        font: normal 400 10px / 20px Jost;
+    }
+}
+
+@media (width <= 480px) {
+    .small,
+    .default,
+    .large {
+        font: normal 400 12px / 24px Jost;
+    }
+}

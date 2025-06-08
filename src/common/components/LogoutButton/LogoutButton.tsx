@@ -1,33 +1,33 @@
+import type { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { PATH } from '../../enums';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
 import { logOutTC } from '../../../features/auth/model/slices/authSlice';
-import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import LogoutIcon from '@mui/icons-material/Logout';
-import { authIsLoggedInSelector } from '../../../features/auth/model/selectors/authSelector';
 import Box from '@mui/material/Box';
 import { STYLES } from './styles.logoutButton';
+import Button from '@mui/material/Button';
+import type { LogoutButtonProps } from './types';
 
-export const LogoutButton = () => {
-    const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
+export const LogoutButton: FC<LogoutButtonProps> = ({ onClickHandler }) => {
     const dispatch = useAppDispatch();
 
     const handleLogout = () => {
         dispatch(logOutTC());
+        onClickHandler();
     };
 
     return (
         <Box sx={STYLES.logoutBtn}>
-            {isLoggedIn && (
-                <Tooltip title="Logout">
-                    <NavLink to={PATH.SIGNIN}>
-                        <IconButton onClick={handleLogout} aria-label="logout">
-                            <LogoutIcon sx={STYLES.logoutIcon} />
-                        </IconButton>
+            <Tooltip title="Logout">
+                <span>
+                    <NavLink to={PATH.SIGNIN} style={STYLES.logoutLink}>
+                        <Button onClick={handleLogout} aria-label="logout" sx={STYLES.logoutBtn}>
+                            Logout
+                        </Button>
                     </NavLink>
-                </Tooltip>
-            )}
+                </span>
+            </Tooltip>
         </Box>
     );
 };

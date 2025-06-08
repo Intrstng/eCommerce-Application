@@ -3,6 +3,11 @@
     src: url('../src/assets/fonts/jost/Jost-Regular.ttf');
 }
 
+@font-face {
+    font-family: Cormorant;
+    src: url('../src/assets/fonts/cormorant/Cormorant-Regular.ttf');
+}
+
 ::-webkit-scrollbar {
     width: 0.5rem;
 }
@@ -12,6 +17,9 @@ body {
     scrollbar-width: thin;
 
     // scrollbar-gutter: stable;
+
+    height: 100%;
+    margin: 0;
 }
 
 body {

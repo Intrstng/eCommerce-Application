@@ -1,7 +1,13 @@
-import { ClientBuilder, type AuthMiddlewareOptions, type HttpMiddlewareOptions } from '@commercetools/ts-client';
+import {
+    ClientBuilder,
+    type AuthMiddlewareOptions,
+    type HttpMiddlewareOptions,
+    type TokenStore,
+} from '@commercetools/ts-client';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { projectKey, clientId, clientSecret, authUrl, apiUrl, scopes } from './commercetools-config';
 import { EnvironmentKeys } from '../enums';
+import { authTokenService } from '../services/auth-token.service';
 
 if (!import.meta.env.VITE_CTP_PROJECT_KEY) {
     throw new Error(`${EnvironmentKeys.CTP_PROJECT_KEY} is not defined`);
@@ -16,6 +22,41 @@ const authMiddlewareOptions: AuthMiddlewareOptions = {
     },
     scopes,
     httpClient: fetch,
+    tokenCache: {
+        get: (): TokenStore => {
+            const token = authTokenService.getAccessToken();
+
+            if (!token) {
+                authTokenService
+                    .ensureAnonymousToken()
+                    .then(() => {
+                        const newToken = authTokenService.getAccessToken();
+                        return {
+                            token: newToken ?? '',
+                            expirationTime: Date.now() + 3600000,
+                        };
+                    })
+                    .catch((error: unknown) => {
+                        console.error(
+                            'Failed to get anonymous token:',
+                            error instanceof Error ? error.message : String(error)
+                        );
+                        return {
+                            token: '',
+                            expirationTime: Date.now(),
+                        };
+                    });
+            }
+
+            return {
+                token: token ?? '',
+                expirationTime: Date.now() + 3600000,
+            };
+        },
+        set: () => {
+            // Token is managed by authTokenService
+        },
+    },
 };
 
 const httpMiddlewareOptions: HttpMiddlewareOptions = {

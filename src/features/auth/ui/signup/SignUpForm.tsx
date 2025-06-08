@@ -5,7 +5,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -16,7 +19,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import { FilledInput } from '@mui/material';
+import FilledInput from '@mui/material/FilledInput';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { STYLES } from './styles.signUpForm';
@@ -306,6 +309,7 @@ export const SignUpForm = () => {
                                         type="date"
                                         fullWidth
                                         id="birthDate"
+                                        data-testid="birth-date-input"
                                         error={!!errors.birthDate}
                                         variant="filled"
                                         sx={{
@@ -337,6 +341,7 @@ export const SignUpForm = () => {
                                         type="text"
                                         fullWidth
                                         id="streetShipping"
+                                        data-testid="street-shipping-input"
                                         sx={{
                                             ...STYLES.addressInput,
                                             ...STYLES.addressInputMedia,
@@ -361,6 +366,7 @@ export const SignUpForm = () => {
                                         type="text"
                                         fullWidth
                                         id="cityShipping"
+                                        data-testid="city-shipping-input"
                                         sx={{
                                             ...STYLES.addressInput,
                                             ...STYLES.addressInputMedia,
@@ -386,6 +392,7 @@ export const SignUpForm = () => {
                                     <Select
                                         labelId="country-label"
                                         id="countryShipping"
+                                        data-testid="country-shipping-input"
                                         label="Country"
                                         sx={{
                                             ...STYLES.addressInput,
@@ -416,6 +423,7 @@ export const SignUpForm = () => {
                                         type="text"
                                         fullWidth
                                         id="postalShipping"
+                                        data-testid="postal-shipping-input"
                                         sx={{
                                             ...STYLES.addressInput,
                                             ...STYLES.addressInputMedia,
@@ -477,6 +485,7 @@ export const SignUpForm = () => {
                                                 type="text"
                                                 fullWidth
                                                 id="streetBilling"
+                                                data-testid="street-billing-input"
                                                 sx={{
                                                     ...STYLES.addressInput,
                                                     ...STYLES.addressInputMedia,
@@ -501,6 +510,7 @@ export const SignUpForm = () => {
                                                 type="text"
                                                 fullWidth
                                                 id="cityBilling"
+                                                data-testid="city-billing-input"
                                                 sx={{
                                                     ...STYLES.addressInput,
                                                     ...STYLES.addressInputMedia,
@@ -526,6 +536,7 @@ export const SignUpForm = () => {
                                             <Select
                                                 labelId="country-label"
                                                 id="countryBilling"
+                                                data-testid="country-billing-input"
                                                 label="Country"
                                                 sx={{
                                                     ...STYLES.addressInput,
@@ -558,6 +569,7 @@ export const SignUpForm = () => {
                                                 type="text"
                                                 fullWidth
                                                 id="postalBilling"
+                                                data-testid="postal-billing-input"
                                                 sx={{ ...STYLES.addressInput, ...STYLES.addressInputMedia }}
                                                 error={!!errors.postalBilling}
                                                 variant="filled"

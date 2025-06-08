@@ -33,14 +33,14 @@ export const validateSignUpSchema = () => {
             .string()
             .trim()
             .required('Name is required')
-            .matches(/^[A-Za-zА-Яа-яЁё]+$/, {
+            .matches(/^[A-Za-zЁА-яё]+$/, {
                 message: 'First name must contain at least one character and not contain special characters or digits',
             }),
         lastName: yup
             .string()
             .trim()
             .required('Last name is required')
-            .matches(/^[A-Za-zА-Яа-яЁё]+$/, {
+            .matches(/^[A-Za-zЁА-яё]+$/, {
                 message: 'Last name must contain at least one character and not contain special characters or digits',
             }),
         email: yup

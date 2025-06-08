@@ -165,7 +165,7 @@ export const authTokenService = {
     },
 
     async getAnonymousToken(): Promise<TokenResponse> {
-        const response = await fetch(`${baseAuthUrl}/oauth/token`, {
+        const response = await fetch(`${baseAuthUrl}/oauth/${projectKey}/anonymous/token`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -206,5 +206,11 @@ export const authTokenService = {
         currentTokenData = null;
         tokenRefreshPromise = null;
         clearTokenCookies();
+    },
+
+    async ensureAnonymousToken(): Promise<void> {
+        const token = this.getAccessToken();
+        if (token) return;
+        await this.getAnonymousToken();
     },
 };
