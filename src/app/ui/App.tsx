@@ -31,13 +31,13 @@ export const App = () => {
     };
 
     return (
-        <Box className="app">
+        <Box className='app'>
             <Header />
 
             {appStatus === 'loading' && <LinearProgress color={'success'} sx={linearProgressStyles} />}
 
-            <Box className="main mainContainer">
-                <Box className="content">
+            <Box className='main mainContainer'>
+                <Box className='content'>
                     <Outlet />
                 </Box>
             </Box>
