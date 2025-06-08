@@ -9,7 +9,7 @@ import { statusSelector } from 'app/model/selectors/appSelectors';
 import Box from '@mui/material/Box';
 import { STYLES } from './styles.productPage';
 import { PRICE_STYLES } from '../../styles/price.styles';
-import { Card } from '@mui/material';
+import Card from '@mui/material/Card';
 import { BackButton } from '../../buttons/BackButton';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -59,8 +59,8 @@ export const ProductPage = () => {
     }, [dispatch, id]);
 
     let images: string[] = [''];
-    // let isInCart: boolean = false;
-    // let isInFavourites: boolean = false;
+    // let isInCart: boolean = false; ToDo: Temporary solution
+    // let isInFavourites: boolean = false; ToDo: Temporary solution
     let name = '';
     let prices: ProductPrice[] = [];
     let material = '';

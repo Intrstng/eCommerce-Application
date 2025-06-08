@@ -37,7 +37,7 @@ export enum PATH {
 
     CATALOG = '/catalog',
 
-    PRODUCT = '/product/:id', // MODEL
+    PRODUCT = '/product/:id',
 
     ARTICLES = '/articles',
     // ARTICLE = `/articles/:id`,

@@ -84,7 +84,6 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
                 <div className={styles.languageSwitcher}>
                     <select value={language} onChange={handleLanguageChange} className={styles.languageSelect}>
                         <option value="en">EN</option>
-                        {/*<option value="ru">RU</option>*/}
                     </select>
                 </div>
                 {isLoggedIn ? (

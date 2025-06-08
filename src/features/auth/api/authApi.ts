@@ -101,7 +101,7 @@ export const authAPI = {
         }
     },
 
-    // async getCurrentUser(): Promise<Customer | null> {
+    // async getCurrentUser(): Promise<Customer | null> { ToDo: check if will be needed in Sprint 4
     //     try {
     //         const token = authTokenService.getAccessToken();
     //         if (!token) {

@@ -1,27 +1,93 @@
 import { apiRoot } from '../../../common/api/commercetools';
 import { projectKey } from '../../../common/api/commercetools-config';
 import type { CatalogCategory, CatalogProduct } from './catalogApi.interfaces';
-import type { Category } from '@commercetools/platform-sdk';
+import type { Category, QueryParam } from '@commercetools/platform-sdk';
 import { setProductDataFromResponse } from '../utils/set-product-data-from-response';
+import { setProductDataFromProjectionResponse } from '../utils/set-product-data-from-response';
+
+export interface ProductType {
+    id: string;
+    name: string;
+    description?: string;
+    createdAt: string;
+    lastModifiedAt: string;
+    version: number;
+}
+
+interface ProductsQueryArguments {
+    [key: string]: QueryParam | string | string[] | undefined;
+    staged?: boolean;
+    // where?: string | string[];
+}
 
 export const catalogAPI = {
-    async fetchProducts(): Promise<CatalogProduct[]> {
+    async fetchProducts(
+        searchParameters?: {
+            material?: string;
+            gender?: string;
+            search?: string;
+            productType?: string;
+        },
+        allProductTypes?: ProductType[],
+        categoryType?: string
+    ): Promise<CatalogProduct[]> {
         try {
+            let categoryId = '';
+
+            if (categoryType) {
+                const categories = await this.getCategories();
+                const category = categories.find(cat => cat.key?.toLowerCase() === categoryType.toLowerCase());
+
+                if (category) {
+                    categoryId = category.id;
+                }
+            }
+
+            const queryArguments: ProductsQueryArguments = {
+                staged: false,
+            };
+
+            if (searchParameters?.search?.trim()) {
+                queryArguments['text.en'] = searchParameters.search.trim();
+            }
+
+            const filters = [];
+            if (searchParameters?.material?.trim()) {
+                filters.push(`variants.attributes.material.key:"${searchParameters.material.trim()}"`);
+            }
+            if (searchParameters?.gender?.trim()) {
+                filters.push(`variants.attributes.gender.key:"${searchParameters.gender.trim()}"`);
+            }
+
+            const productTypeName = searchParameters?.productType?.trim();
+            if (productTypeName && allProductTypes) {
+                const selectedType = allProductTypes.find(type => type.name === productTypeName);
+                if (selectedType) {
+                    filters.push(`productType.id:"${selectedType.id}"`);
+                }
+            }
+
+            if (categoryId.length > 0) {
+                filters.push(`categories.id: subtree("${categoryId.trim()}")`);
+            }
+
+            if (filters.length > 0) {
+                queryArguments['filter.query'] = filters;
+            }
+
             const response = await apiRoot
                 .withProjectKey({ projectKey })
-                .products()
+                .productProjections()
+                .search()
                 .get({
-                    queryArgs: {
-                        // limit: 7,
-                        // offset: 0,
-                        staged: false,
-                    },
+                    queryArgs: queryArguments,
+                    // limit: 7,
+                    // offset: 0,
                 })
                 .execute();
-            // await this.fetchCategories()
-            console.log(response.body.results);
+            // console.log(response.body.results);
 
-            return setProductDataFromResponse(response.body.results);
+            return setProductDataFromProjectionResponse(response.body.results);
         } catch (error: unknown) {
             const error_ =
                 error instanceof Error
@@ -120,13 +186,27 @@ export const catalogAPI = {
                 description: category.description,
             }));
 
-            console.log('All categories:', categories);
+            // console.log('All categories:', categories);
             return categories;
         } catch (error: unknown) {
             const error_ =
                 error instanceof Error
                     ? new Error(`Failed to fetch categories: ${error.message}`)
                     : new Error('Failed to fetch categories: Unknown error occurred');
+            throw error_;
+        }
+    },
+
+    async fetchProductTypes(): Promise<ProductType[]> {
+        try {
+            const response = await apiRoot.withProjectKey({ projectKey }).productTypes().get().execute();
+            // console.log('All product types:', response.body.results);
+            return response.body.results;
+        } catch (error: unknown) {
+            const error_ =
+                error instanceof Error
+                    ? new Error(`Failed to fetch product types: ${error.message}`)
+                    : new Error('Failed to fetch product types: Unknown error occurred');
             throw error_;
         }
     },

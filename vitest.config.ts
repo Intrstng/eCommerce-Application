@@ -17,9 +17,30 @@ export default defineConfig({
             enabled: true,
             all: true,
             reporter: ['text', 'json', 'html'],
+            reportsDirectory: './coverage',
             include: ['src/**/*.{ts,tsx}'],
-            exclude: ['node_modules', 'src/**/*.test.{ts,tsx}', 'src/types', '**/styles*'],
+            exclude: [
+                'node_modules',
+                'src/**/*.test.{ts,tsx}',
+                'src/types',
+                '**/styles*',
+                'src/vite-env.d.ts',
+                'src/setupTests.ts',
+            ],
         },
+        poolOptions: {
+            threads: {
+                minThreads: 1,
+                maxThreads: 2,
+            },
+        },
+        maxConcurrency: 5,
+        openHandlesTimeout: 1000,
+        clean: true,
+        cleanOnRerun: true,
+        testTimeout: 10000,
+        slowTestThreshold: 1000,
+        // maxWorkers: 2,
     },
     resolve: {
         alias: {

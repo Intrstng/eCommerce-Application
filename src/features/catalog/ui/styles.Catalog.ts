@@ -5,7 +5,7 @@ export const STYLES = genStyles({
         mb: '0.4rem',
         fontFamily: 'Cormorant, serif',
         fontWeight: '500',
-        fontSize: '3rem',
+        fontSize: '3.25rem',
         lineHeight: '3.9rem',
         color: '#000000',
         '@media (max-width: 768px)': {

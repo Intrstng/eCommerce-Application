@@ -2,7 +2,10 @@ import type { FC } from 'react';
 import Typography from '@mui/material/Typography';
 import { STYLES } from './styles.addAddressModalForm';
 import Box from '@mui/material/Box';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import { COUNTRIES } from '../../../validations/validation-data/validation-data';
 import type { SubmitHandler } from 'react-hook-form';
@@ -36,7 +39,6 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
         control,
         formState: { errors, isValid },
     } = useForm({
-        // useForm<SignUpFormData>({
         mode: 'all',
         resolver: yupResolver(validateAddressModalFormSchema()),
         defaultValues: {

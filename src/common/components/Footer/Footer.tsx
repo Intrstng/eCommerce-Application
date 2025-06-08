@@ -19,7 +19,6 @@ export const Footer = () => {
                         <div className={S.section}>
                             <select value={language} onChange={handleLanguageChange} className={S.languageSelect}>
                                 <option value="en">EN</option>
-                                {/*<option value="ru">RU</option>*/}
                             </select>
                         </div>
                     </li>

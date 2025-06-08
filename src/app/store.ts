@@ -6,7 +6,7 @@ import { appSlice } from 'app/model/slices/appSlice';
 import { catalogSlice } from '../features/catalog/model/slices/catalogSlice';
 import { profileSlice } from '../features/profile/model/slices/__tests__/profileSlice';
 
-const rootReducer = combineSlices(appSlice, authSlice, profileSlice, catalogSlice);
+export const rootReducer = combineSlices(appSlice, authSlice, profileSlice, catalogSlice);
 export type AppRootState = ReturnType<typeof rootReducer>;
 
 export const makeStore = (preloadedState?: Partial<AppRootState>) => {
