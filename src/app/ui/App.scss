@@ -27,12 +27,18 @@
 }
 
 .content {
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
 
-    margin: 0;
+.contentWithMargin {
+    margin-top: 75px;
+}
+
+.app .mainContainer {
+    display: flex;
+    flex-grow: 1;
 }
 
 a {

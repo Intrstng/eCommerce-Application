@@ -10,11 +10,13 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { useEffect } from 'react';
 import { errorNotifyMessageWithDispatch } from '../../common/utils/notify-message';
 import Box from '@mui/material/Box';
+import { useLocation } from 'react-router-dom';
 
 export const App = () => {
     const dispatch = useAppDispatch();
     const appStatus: string = useAppSelector<Status>(statusSelector);
     const appError = useAppSelector<AppError>(errorSelector);
+    const location = useLocation();
 
     useEffect(() => {
         if (typeof appError === 'string') {
@@ -30,6 +32,9 @@ export const App = () => {
         zIndex: 5,
     };
 
+    const isMainPage = location.pathname === '/main' || location.pathname === '/';
+    const contentClassName = `content ${isMainPage ? '' : 'contentWithMargin'}`;
+
     return (
         <Box className="app">
             <Header />
@@ -37,7 +42,7 @@ export const App = () => {
             {appStatus === 'loading' && <LinearProgress color={'success'} sx={linearProgressStyles} />}
 
             <Box className="main mainContainer">
-                <Box className="content">
+                <Box className={contentClassName}>
                     <Outlet />
                 </Box>
             </Box>

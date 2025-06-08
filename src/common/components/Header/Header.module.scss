@@ -1,22 +1,26 @@
 .header {
-    position: sticky;
+    position: fixed;
     z-index: 100;
     top: 0;
+    right: 0;
+    left: 0;
 
     width: 100%;
-    max-width: 1338px; // fix later
-    margin: 0 auto;
+
+    background-color: transparent;
+
+    transition: background-color 0.3s ease;
 
     &__content {
         display: flex;
         grid-row: 1;
         flex: 0 0 auto;
-        flex-wrap: nowrap;
-        gap: 0.5rem;
         align-items: center;
         justify-content: space-between;
 
+        max-width: 1180px;
         height: 75px;
+        margin: 0 auto;
         padding: 0 2.5rem; // fix later
 
         color: #161412;
@@ -48,7 +52,13 @@
 }
 
 .burgerIcon {
+    cursor: pointer;
     display: none;
+
+    svg {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
 }
 
 .doxIcon {
@@ -59,8 +69,8 @@
 }
 
 .login svg {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 .nav {
@@ -120,17 +130,12 @@
     }
 }
 
-.burgerIcon {
-    display: none;
-}
-
 @media (width <= 768px) {
     .header__content {
         padding: 0 1.5rem;
     }
 
     .burgerIcon {
-        cursor: pointer;
         display: flex;
     }
 

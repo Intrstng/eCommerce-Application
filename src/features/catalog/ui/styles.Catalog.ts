@@ -1,6 +1,10 @@
 import { genStyles } from '../../../common/utils/generate-styles';
 
 export const STYLES = genStyles({
+    catalogContainer: {
+        width: '93vw',
+        maxWidth: '1180px',
+    },
     catalogTitle: {
         mb: '0.4rem',
         fontFamily: 'Cormorant, serif',
