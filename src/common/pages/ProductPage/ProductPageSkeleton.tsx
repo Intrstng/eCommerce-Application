@@ -6,7 +6,7 @@ import Divider from '@mui/material/Divider';
 
 export const ProductPageSkeleton = () => {
     return (
-        <Box sx={STYLES.productContainer}>
+        <Box sx={STYLES.productSkeletonContainer}>
             <Card sx={STYLES.product}>
                 <Box sx={STYLES.carousel}>
                     <Skeleton variant="rectangular" width={500} height={500} />

@@ -6,6 +6,8 @@
     gap: 3.75rem 2.15rem;
     justify-content: center;
 
+    margin-bottom: 2rem;
+
     @media (width <= 1280px) {
         grid-template-columns: repeat(3, 21.875rem);
         gap: 1.5rem 0.8rem;

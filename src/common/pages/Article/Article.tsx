@@ -5,6 +5,7 @@ import { NavLink, useParams } from 'react-router-dom';
 import S from './Article.module.scss';
 import { PATH } from '../../enums';
 import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
+import Box from '@mui/material/Box';
 
 export const Article = () => {
     const { id } = useParams<{ id: string }>();
@@ -21,7 +22,7 @@ export const Article = () => {
     }
 
     return (
-        <>
+        <Box className={S.articleContainer}>
             <BreadCrumbs />
             <section className={S.articleWrapper}>
                 <ArticleCard
@@ -35,6 +36,6 @@ export const Article = () => {
                     Back to articles
                 </NavLink>
             </section>
-        </>
+        </Box>
     );
 };

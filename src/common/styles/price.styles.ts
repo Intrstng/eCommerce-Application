@@ -6,6 +6,9 @@ export const PRICE_STYLES = genStyles({
         alignItems: 'center',
         gap: '0.75rem',
     },
+    priceContentPosition: {
+        mb: '1.25rem',
+    },
     price: {
         fontFamily: 'Jost, sans-serif',
         fontWeight: 500,

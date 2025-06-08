@@ -1,14 +1,15 @@
 import { genStyles } from '../../utils/generate-styles';
 
 export const STYLES = genStyles({
+    productPageContainer: {
+        maxWidth: '1180px',
+        width: '100%',
+        margin: '0 auto',
+        padding: '0 1rem',
+    },
     productContainer: {
         width: '100%',
-        minWidth: '1180px',
-        margin: '0 auto',
         marginBottom: '2rem',
-        '@media (max-width: 950px)': {
-            minWidth: '500px',
-        },
     },
     product: {
         width: '100%',
@@ -19,7 +20,7 @@ export const STYLES = genStyles({
         justifyContent: 'center',
         gap: '5.8rem',
         boxShadow: 'unset',
-        '@media (max-width: 950px)': {
+        '@media (max-width: 1180px)': {
             flexDirection: 'column',
             gap: '1.5rem',
         },
@@ -87,6 +88,12 @@ export const STYLES = genStyles({
         flexWrap: 'nowrap',
         alignItems: 'center',
         justifyContent: 'space-between',
+    },
+    productSkeletonContainer: {
+        maxWidth: '1180px',
+        width: '100%',
+        margin: '7rem auto 2rem',
+        padding: '0 1rem',
     },
     skeletonBlock: {
         display: 'flex',
