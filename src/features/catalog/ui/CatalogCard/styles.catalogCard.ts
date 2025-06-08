@@ -40,7 +40,7 @@ export const STYLES = genStyles({
         transition: 'transform 0.8s ease',
     },
     cardContent: {
-        padding: '0',
+        padding: '0 !important',
         marginTop: '0.625rem',
     },
     cardFont: {

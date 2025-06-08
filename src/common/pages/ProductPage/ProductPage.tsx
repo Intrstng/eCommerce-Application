@@ -105,7 +105,7 @@ export const ProductPage = () => {
     };
 
     return (
-        <>
+        <Box sx={STYLES.productPageContainer}>
             <BreadCrumbs />
             <Box sx={STYLES.productContainer}>
                 <Card sx={STYLES.product}>
@@ -157,7 +157,12 @@ export const ProductPage = () => {
                         )}
                         <Typography sx={STYLES.text}>{description}</Typography>
                         <Divider sx={STYLES.devider} />
-                        <Box sx={{ ...PRICE_STYLES.priceContent, mb: '1.25rem' }}>
+                        <Box
+                            sx={{
+                                ...PRICE_STYLES.priceContent,
+                                ...PRICE_STYLES.priceContentPosition,
+                            }}
+                        >
                             {priceInfo.hasDiscount ? (
                                 <>
                                     <Typography sx={PRICE_STYLES.price}>{priceInfo.discounted}</Typography>
@@ -185,6 +190,6 @@ export const ProductPage = () => {
                     </Box>
                 </Card>
             </Box>
-        </>
+        </Box>
     );
 };

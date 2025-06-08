@@ -1,5 +1,16 @@
+.articlesContainer {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.articles {
+    margin: 2rem auto 1.5rem;
+}
+
 .articlesContent {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    width: 100%;
 }
