@@ -26,19 +26,24 @@ import skuSvg from '../../../assets/icons/sku.svg';
 import { isValidAttribute } from '../../utils/assertion-functions';
 import { ProductCarousel } from '../../components/ProductCarousel/ProductCarousel';
 import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
+import { addToCartTC, removeFromCartTC } from '../../../features/cart/model/slices/cartSlice';
+import { cartLineItemsSelector } from '../../../features/cart/model/selectors/cartSelectors';
+import type { LineItem } from '@commercetools/platform-sdk';
 
 export const ProductPage = () => {
     const dispatch = useAppDispatch();
     const { id } = useParams();
     const catalogProduct: CatalogProduct[] = useAppSelector<CatalogProduct[]>(catalogProductSelector);
     const isLoading: string = useAppSelector<Status>(statusSelector);
+    const lineItems: LineItem[] = useAppSelector(cartLineItemsSelector);
+
+    const isInCart = lineItems.some((item: LineItem) => item.productId === id);
 
     // ToDo: Temporary solution:
     const [isFavourite, setIsFavourite] = useState<Record<string, boolean>>({
         uuidFav1: false,
         uuidFav2: false,
     });
-    const [isInBasket, setIsInBasket] = useState(false);
 
     const handleIsFavouriteToggle = (id: string) => {
         setIsFavourite(previous => ({
@@ -47,10 +52,18 @@ export const ProductPage = () => {
         }));
     };
 
-    const handleCartToggle = () => {
-        setIsInBasket(previous => !previous);
+    const handleCartAction = () => {
+        if (id) {
+            if (isInCart) {
+                const itemToRemove = lineItems.find((item: LineItem) => item.productId === id);
+                if (itemToRemove) {
+                    dispatch(removeFromCartTC(itemToRemove.id));
+                }
+            } else {
+                dispatch(addToCartTC(id, 1));
+            }
+        }
     };
-    ///////////////
 
     useEffect(() => {
         if (id) {
@@ -59,8 +72,6 @@ export const ProductPage = () => {
     }, [dispatch, id]);
 
     let images: string[] = [''];
-    // let isInCart: boolean = false; ToDo: Temporary solution
-    // let isInFavourites: boolean = false; ToDo: Temporary solution
     let name = '';
     let prices: ProductPrice[] = [];
     let material = '';
@@ -176,11 +187,9 @@ export const ProductPage = () => {
                             )}
                         </Box>
                         <Box sx={STYLES.productControls}>
-                            <CustomButton style={{ width: '21.8rem' }} onClick={handleCartToggle}>
-                                {/*Temporary solution for Sprint 3*/}
-                                {isInBasket ? 'Remove from Cart' : 'Add to Cart'}
+                            <CustomButton style={{ width: '21.8rem' }} onClick={handleCartAction}>
+                                {isInCart ? 'Remove from Cart' : 'Add to Cart'}
                             </CustomButton>
-                            {/*Temporary solution for Sprint 3*/}
                             <FavouriteSwitch
                                 id={'uuidFav1'}
                                 isFavourite={isFavourite.uuidFav1}
