@@ -68,9 +68,31 @@
     }
 }
 
+.deleteButton {
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
 .cartSummary {
     margin-top: 2rem;
     padding: 1rem;
     border-top: 1px solid #e5e5e5;
     text-align: right;
+}
+
+.quantityControl {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+
+    button:disabled {
+        opacity: 0.5;
+    }
+
+    img {
+        width: 24px;
+        height: 24px;
+    }
 }

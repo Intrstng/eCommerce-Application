@@ -20,8 +20,8 @@ export const catalogSlice = createSlice({
         setProducts(state, action: PayloadAction<{ products: CatalogProduct[] }>) {
             state.products = action.payload.products;
         },
-        setProduct(state, action: PayloadAction<{ product: CatalogProduct[] }>) {
-            state.product = action.payload.product;
+        setProduct(state, action: PayloadAction<{ product: CatalogProduct }>) {
+            state.product = [action.payload.product];
         },
     },
 });
@@ -72,7 +72,7 @@ export const getProductsByCategoryTC =
     };
 
 export const getProductByIdTC =
-    (id: string): AppThunk =>
+    (id: string): AppThunk<Promise<CatalogProduct>> =>
     async dispatch => {
         dispatch(appActions.setAppStatus({ status: Status.LOADING }));
         try {
@@ -80,6 +80,7 @@ export const getProductByIdTC =
 
             dispatch(catalogActions.setProduct({ product: response }));
             dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
+            return response;
         } catch (error) {
             if (error instanceof Error) {
                 dispatch(appActions.setAppError({ error: error.message }));
@@ -87,6 +88,7 @@ export const getProductByIdTC =
                 dispatch(appActions.setAppError({ error: 'An unexpected error occurred' }));
             }
             dispatch(appActions.setAppStatus({ status: Status.FAILED }));
+            throw error;
         }
     };
 

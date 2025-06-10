@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getActiveCartTC } from '../../../features/cart/model/slices/cartSlice';
 import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
@@ -9,15 +9,46 @@ import { statusSelector } from 'app/model/selectors/appSelectors';
 import Skeleton from '@mui/material/Skeleton';
 import { CartItem } from './CartItem';
 import S from './CartPage.module.scss';
+import { getProductByIdTC } from '../../../features/catalog/model/slices/catalogSlice';
+import type { LineItem } from '@commercetools/platform-sdk';
+
+type CartItemWithAvailability = {
+    item: LineItem;
+    availableQuantity?: number;
+};
 
 export const CartPage = () => {
     const dispatch = useAppDispatch();
     const cart = useAppSelector(state => state.cart.cart);
     const status = useAppSelector<Status>(statusSelector);
+    const [lineItemsWithAvailability, setLineItemsWithAvailability] = useState<CartItemWithAvailability[]>([]);
 
     useEffect(() => {
         dispatch(getActiveCartTC());
     }, [dispatch]);
+
+    useEffect(() => {
+        const fetchProductAvailability = async () => {
+            if (cart && cart.lineItems.length > 0) {
+                const productsPromises = cart.lineItems.map(item => dispatch(getProductByIdTC(item.productId)));
+                const productsResults = await Promise.all(productsPromises);
+
+                const updatedLineItems: CartItemWithAvailability[] = cart.lineItems.map(item => {
+                    const catalogProduct = productsResults.find(product => product.id === item.productId);
+
+                    const variant = catalogProduct?.variants.find(v => v.id === item.variant.id);
+                    const availableQuantity = variant?.availability?.availableQuantity;
+
+                    return {
+                        item,
+                        availableQuantity,
+                    };
+                });
+                setLineItemsWithAvailability(updatedLineItems);
+            }
+        };
+        fetchProductAvailability();
+    }, [cart, dispatch]);
 
     if (status === 'loading') {
         return (
@@ -51,8 +82,8 @@ export const CartPage = () => {
                 <Typography variant="h4" className={S.cartTitle}>
                     Shopping Cart
                 </Typography>
-                {cart.lineItems.map(item => (
-                    <CartItem key={item.id} item={item} />
+                {lineItemsWithAvailability.map(({ item, availableQuantity }) => (
+                    <CartItem key={item.id} item={item} availableQuantity={availableQuantity} />
                 ))}
                 <Box className={S.cartSummary}>
                     <Typography variant="h6">Total: {cart.totalPrice.centAmount / 100} EUR</Typography>

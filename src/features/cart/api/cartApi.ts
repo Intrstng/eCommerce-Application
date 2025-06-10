@@ -1,6 +1,6 @@
 import { apiRoot } from '../../../common/api/commercetools';
 import { projectKey } from '../../../common/api/commercetools-config';
-import type { Cart, MyCartUpdateAction } from '@commercetools/platform-sdk';
+import type { Cart } from '@commercetools/platform-sdk';
 
 export const cartAPI = {
     async createCart(): Promise<Cart> {
@@ -105,7 +105,7 @@ export const cartAPI = {
         }
     },
 
-    async updateCart(cartId: string, cartVersion: number, actions: MyCartUpdateAction[]): Promise<Cart> {
+    async updateCart(cartId: string, cartVersion: number, lineItemId: string, quantity: number): Promise<Cart> {
         try {
             const response = await apiRoot
                 .withProjectKey({ projectKey })
@@ -115,7 +115,13 @@ export const cartAPI = {
                 .post({
                     body: {
                         version: cartVersion,
-                        actions,
+                        actions: [
+                            {
+                                action: 'changeLineItemQuantity',
+                                lineItemId,
+                                quantity,
+                            },
+                        ],
                     },
                 })
                 .execute();

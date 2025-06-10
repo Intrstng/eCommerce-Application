@@ -103,3 +103,27 @@ export const removeFromCartTC =
             );
         }
     };
+
+export const updateCartTC =
+    (lineItemId: string, quantity: number): AppThunk =>
+    async (dispatch, getState) => {
+        try {
+            dispatch(setStatus(Status.LOADING));
+            const { cart } = getState().cart;
+
+            if (!cart) {
+                throw new Error('Cart is not initialized');
+            }
+
+            const updatedCart = await cartAPI.updateCart(cart.id, cart.version, lineItemId, quantity);
+            dispatch(setCart(updatedCart));
+            dispatch(setStatus(Status.SUCCEEDED));
+        } catch (error) {
+            dispatch(setStatus(Status.FAILED));
+            dispatch(
+                appActions.setAppError({
+                    error: error instanceof Error ? error.message : 'Failed to update item quantity in cart',
+                })
+            );
+        }
+    };
