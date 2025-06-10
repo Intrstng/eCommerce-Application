@@ -6,6 +6,7 @@ import Dox from 'src/assets/icons/dox.svg?react';
 import Account from 'src/assets/icons/account.svg?react';
 import Instagram from 'src/assets/icons/instagram.svg?react';
 import Filter from 'src/assets/icons/filter.svg?react';
+import Basket from 'src/assets/icons/basket.svg?react';
 
 const icons = {
     logo: Logo,
@@ -16,6 +17,7 @@ const icons = {
     account: Account,
     instagram: Instagram,
     filter1: Filter,
+    basket: Basket,
 };
 
 export default icons;

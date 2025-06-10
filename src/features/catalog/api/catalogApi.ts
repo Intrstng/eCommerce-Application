@@ -81,7 +81,7 @@ export const catalogAPI = {
                 .search()
                 .get({
                     queryArgs: queryArguments,
-                    // limit: 7,
+                    // limit: 6,
                     // offset: 0,
                 })
                 .execute();

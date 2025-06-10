@@ -1,12 +1,13 @@
 import type React from 'react';
-import { useState, useEffect } from 'react';
-import styles from './BurgerMenu.module.scss';
+import { useEffect } from 'react';
+import S from './BurgerMenu.module.scss';
 import icons from '../../../../assets/icons/icons.tsx';
-import { NavLink, Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { CATEGORIES, PATH } from '../../../enums';
 import { useAppSelector } from '../../../hooks';
-import SearchIcon from '@mui/icons-material/Search';
 import { motion } from 'framer-motion';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 interface BurgerMenuProps {
     isOpen: boolean;
@@ -15,11 +16,6 @@ interface BurgerMenuProps {
 
 export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
-    const [language, setLanguage] = useState('en');
-
-    const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setLanguage(event.target.value);
-    };
 
     useEffect(() => {
         document.body.style.overflow = isOpen ? 'hidden' : 'unset';
@@ -33,9 +29,9 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
     }
 
     return (
-        <div className={styles.burgerMenuOverlay} onClick={onClose}>
+        <div className={S.burgerMenuOverlay} onClick={onClose}>
             <motion.div
-                className={styles.burgerMenuContent}
+                className={S.burgerMenuContent}
                 onClick={event => {
                     event.stopPropagation();
                 }}
@@ -44,54 +40,57 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
                 exit={{ x: '-100%' }}
                 transition={{ type: 'spring', stiffness: 200, damping: 25 }}
             >
-                <div className={styles.topBar}>
-                    <div className={styles.closeIcon} onClick={onClose}>
+                <div className={S.topBar}>
+                    <div className={S.closeIcon} onClick={onClose}>
                         <icons.close />
                     </div>
-                    <Link to="/" onClick={onClose}>
-                        <icons.logo className={styles.logo} />
+                    <Link to={PATH.PAGE_ROOT} onClick={onClose}>
+                        <icons.logo className={S.logo} />
                     </Link>
-                    <div className={styles.searchIcon}>
-                        <SearchIcon />
-                    </div>
+                    <Box className={S.cartLogoWrapper}>
+                        <Link to={PATH.CART} onClick={onClose}>
+                            <icons.basket className={S.logo} />
+                        </Link>
+                        <Typography variant="subtitle2" component="h6" className={S.cartCounter}>
+                            5
+                        </Typography>
+                    </Box>
                 </div>
-                <div className={styles.navLinks}>
+                <div className={S.navLinks}>
                     <NavLink
                         to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.EARRINGS}`}
-                        className={styles.navLink}
+                        className={S.navLink}
                         onClick={onClose}
                     >
                         {CATEGORIES.EARRINGS}
                     </NavLink>
                     <NavLink
                         to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.RINGS}`}
-                        className={styles.navLink}
+                        className={S.navLink}
                         onClick={onClose}
                     >
                         {CATEGORIES.RINGS}
                     </NavLink>
                     <NavLink
                         to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.BROOCHES}`}
-                        className={styles.navLink}
+                        className={S.navLink}
                         onClick={onClose}
                     >
                         {CATEGORIES.BROOCHES}
                     </NavLink>
-                    <NavLink to={PATH.CATALOG} className={styles.navLink} onClick={onClose}>
+                    <NavLink to={PATH.CATALOG} className={S.navLink} onClick={onClose}>
                         ALL PRODUCTS
                     </NavLink>
-                </div>
-                <div className={styles.languageSwitcher}>
-                    <select value={language} onChange={handleLanguageChange} className={styles.languageSelect}>
-                        <option value="en">EN</option>
-                    </select>
+                    <NavLink to={PATH.ABOUT} className={S.navLink} onClick={onClose}>
+                        ABOUT US
+                    </NavLink>
                 </div>
                 {isLoggedIn ? (
-                    <NavLink to={PATH.PROFILE_MAIN} className={styles.button} onClick={onClose}>
+                    <NavLink to={PATH.PROFILE_MAIN} className={S.button} onClick={onClose}>
                         ACCOUNT
                     </NavLink>
                 ) : (
-                    <NavLink to={PATH.SIGNIN} className={styles.button} onClick={onClose}>
+                    <NavLink to={PATH.SIGNIN} className={S.button} onClick={onClose}>
                         LOG IN
                     </NavLink>
                 )}

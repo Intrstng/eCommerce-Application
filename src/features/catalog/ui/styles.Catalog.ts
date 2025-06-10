@@ -3,6 +3,7 @@ import { genStyles } from '../../../common/utils/generate-styles';
 export const STYLES = genStyles({
     catalogContainer: {
         width: '100%',
+        maxWidth: '1180px',
         margin: '0 auto',
     },
     catalogTitle: {

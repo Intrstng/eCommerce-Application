@@ -49,6 +49,19 @@
     }
 }
 
+.cartLogoWrapper {
+    position: relative;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.cartCounter {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    color: #d20000;
+}
+
 .logo {
     cursor: pointer;
 

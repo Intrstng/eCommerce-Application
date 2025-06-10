@@ -4,11 +4,27 @@ export const STYLES = genStyles({
     productImage: {
         height: '500px',
         width: '500px',
+        '@media (max-width: 850px)': {
+            height: '390px',
+            width: '390px',
+        },
+        '@media (max-width: 550px)': {
+            height: '320px',
+            width: '320px',
+        },
     },
     carousel: {
         height: '500px',
         width: '500px',
         cursor: 'zoom-in',
+        '@media (max-width: 850px)': {
+            height: '390px',
+            width: '390px',
+        },
+        '@media (max-width: 550px)': {
+            height: '320px',
+            width: '320px',
+        },
     },
     carouselZoomed: {
         cursor: 'zoom-out',

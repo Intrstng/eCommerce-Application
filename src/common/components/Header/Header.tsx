@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import S from './Header.module.scss';
 import { motion } from 'framer-motion';
 import icons from '../../../assets/icons/icons';
@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { SignInButton } from '../SignInButton/SignInButton';
 import { Logo } from '../Logo/Logo';
+import Typography from '@mui/material/Typography';
 
 export const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -61,8 +62,21 @@ export const Header: React.FC = () => {
                     <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.BROOCHES}`} className={S.navLink}>
                         {CATEGORIES.BROOCHES}
                     </NavLink>
+                    <NavLink to={PATH.ABOUT} className={S.navLink}>
+                        About us
+                    </NavLink>
                     <icons.dox className={S.doxIcon} />
-                    <SignInButton />
+                    <Box className={S.customerControls}>
+                        <Box className={S.cartLogoWrapper}>
+                            <Link to={PATH.CART}>
+                                <icons.basket className={S.cartLogo} />
+                            </Link>
+                            <Typography variant="subtitle2" component="h6" className={S.cartCounter}>
+                                5
+                            </Typography>
+                        </Box>
+                        <SignInButton />
+                    </Box>
                 </Box>
             </Box>
             <BurgerMenu isOpen={isMenuOpen} onClose={handleCloseMenu} />
