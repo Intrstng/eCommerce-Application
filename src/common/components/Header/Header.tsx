@@ -62,6 +62,9 @@ export const Header: React.FC = () => {
                         {CATEGORIES.BROOCHES}
                     </NavLink>
                     <icons.dox className={S.doxIcon} />
+                    <NavLink to={PATH.CART} className={S.navLink}>
+                        <icons.basket className={S.basketIcon} />
+                    </NavLink>
                     <SignInButton />
                 </Box>
             </Box>
