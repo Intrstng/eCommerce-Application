@@ -13,6 +13,7 @@ import { successNotifyMessage } from '../../../../common/utils/notify-message';
 import { StatusCode } from '../../../../common/enums';
 import { Status } from 'app/model/types';
 import { authTokenService } from '../../../../common/services/auth-token.service';
+import { getActiveCartTC, createCartTC } from '../../../cart/model/slices/cartSlice';
 
 export const initialState: AuthState = {
     isLoggedIn: !!userStorage.getUser(),
@@ -42,9 +43,11 @@ export const authSuccessTC = (): AppThunk => async dispatch => {
 
         if (user && isCustomerSignInResult(user)) {
             dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
+            dispatch(getActiveCartTC());
         } else {
             dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
             await authTokenService.getAnonymousToken();
+            dispatch(createCartTC());
         }
         dispatch(appActions.setAppInitialized({ isInitialized: true }));
         dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
