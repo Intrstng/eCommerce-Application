@@ -35,7 +35,14 @@ export const getActiveCartTC = (): AppThunk => async dispatch => {
     try {
         dispatch(setStatus(Status.LOADING));
         const cart = await cartAPI.getActiveCart();
-        dispatch(setCart(cart));
+
+        if (cart) {
+            dispatch(setCart(cart));
+        } else {
+            const newCart = await cartAPI.createCart();
+            dispatch(setCart(newCart));
+        }
+
         dispatch(setStatus(Status.SUCCEEDED));
     } catch (error) {
         dispatch(setStatus(Status.FAILED));
