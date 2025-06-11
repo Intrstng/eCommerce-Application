@@ -43,11 +43,14 @@ export const authSuccessTC = (): AppThunk => async dispatch => {
 
         if (user && isCustomerSignInResult(user)) {
             dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-            dispatch(getActiveCartTC());
+            await dispatch(getActiveCartTC());
         } else {
             dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
-            await authTokenService.getAnonymousToken();
-            dispatch(createCartTC());
+            await authTokenService.ensureAnonymousToken();
+            const cart = await dispatch(getActiveCartTC());
+            if (!cart) {
+                dispatch(createCartTC());
+            }
         }
         dispatch(appActions.setAppInitialized({ isInitialized: true }));
         dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));

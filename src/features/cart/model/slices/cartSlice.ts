@@ -31,22 +31,25 @@ export const cartSlice = createSlice({
 
 export const { setCart, setStatus } = cartSlice.actions;
 
-export const getActiveCartTC = (): AppThunk => async dispatch => {
+export const getActiveCartTC = (): AppThunk<Promise<Cart | null>> => async dispatch => {
     try {
         dispatch(setStatus(Status.LOADING));
         const cart = await cartAPI.getActiveCart();
 
         if (cart) {
             dispatch(setCart(cart));
+            dispatch(setStatus(Status.SUCCEEDED));
+            return cart;
         } else {
             const newCart = await cartAPI.createCart();
             dispatch(setCart(newCart));
+            dispatch(setStatus(Status.SUCCEEDED));
+            return newCart;
         }
-
-        dispatch(setStatus(Status.SUCCEEDED));
     } catch (error) {
         dispatch(setStatus(Status.FAILED));
         dispatch(appActions.setAppError({ error: error instanceof Error ? error.message : 'Failed to get cart' }));
+        return null;
     }
 };
 
