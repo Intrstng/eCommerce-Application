@@ -10,6 +10,8 @@ import S from './CartPage.module.scss';
 import deleteIcon from '../../../assets/icons/delete.svg';
 import plusIcon from '../../../assets/icons/plus.svg';
 import minusIcon from '../../../assets/icons/minus.svg';
+import { formatPrice, formatPriceDiscount } from '../../../features/catalog/utils/format-price';
+import { PRICE_STYLES } from '../../styles/price.styles';
 
 type CartItemProps = {
     item: LineItem;
@@ -35,6 +37,24 @@ export const CartItem = ({ item, availableQuantity }: CartItemProps) => {
 
     const handleDelete = () => {
         dispatch(removeFromCartTC(item.id));
+    };
+
+    const priceInfo = {
+        original: formatPrice([{ 
+            id: 'cart-price',
+            value: item.price.value,
+            discounted: item.price.discounted ? {
+                value: item.price.discounted.value
+            } : null
+        }], 'EUR'),
+        discounted: formatPriceDiscount([{ 
+            id: 'cart-price',
+            value: item.price.value,
+            discounted: item.price.discounted ? {
+                value: item.price.discounted.value
+            } : null
+        }], 'EUR'),
+        hasDiscount: !!item.price.discounted,
     };
 
     return (
@@ -64,9 +84,19 @@ export const CartItem = ({ item, availableQuantity }: CartItemProps) => {
                             <img src={plusIcon} alt="Increase" />
                         </IconButton>
                     </Box>
-                    <Typography variant="h6" color="primary">
-                        {(item.totalPrice.centAmount / 100).toFixed(2)} EUR
-                    </Typography>
+                    <Box sx={PRICE_STYLES.priceContent}>
+                        {priceInfo.hasDiscount ? (
+                            <>
+                                <Typography sx={PRICE_STYLES.price}>{priceInfo.discounted}</Typography>
+                                <Box sx={PRICE_STYLES.oldPriceContent}>
+                                    <Typography sx={PRICE_STYLES.oldPrice}>{priceInfo.original}</Typography>
+                                    <Box sx={PRICE_STYLES.lineThrough} />
+                                </Box>
+                            </>
+                        ) : (
+                            <Typography sx={PRICE_STYLES.price}>{priceInfo.original}</Typography>
+                        )}
+                    </Box>
                 </Box>
                 <IconButton onClick={handleDelete} className={S.deleteButton}>
                     <img src={deleteIcon} alt="Delete" />
