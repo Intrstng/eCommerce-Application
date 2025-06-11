@@ -45,6 +45,7 @@ export interface CatalogProduct {
     variants: Variant[];
     isInCart: boolean;
     isInFavourites: boolean;
+    totalCount?: number;
 }
 
 export interface CatalogCategory {

@@ -6,6 +6,13 @@ export const STYLES = genStyles({
         maxWidth: '1180px',
         margin: '0 auto',
     },
+    loadSpinner: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '22.5rem',
+        width: '100%',
+    },
     catalogTitle: {
         mb: '0.4rem',
         fontFamily: 'Cormorant, serif',

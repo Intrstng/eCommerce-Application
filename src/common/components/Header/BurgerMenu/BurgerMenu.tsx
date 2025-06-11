@@ -6,8 +6,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { CATEGORIES, PATH } from '../../../enums';
 import { useAppSelector } from '../../../hooks';
 import { motion } from 'framer-motion';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { CartLogo } from '../../CartLogo/CartLogo';
 
 interface BurgerMenuProps {
     isOpen: boolean;
@@ -47,14 +46,7 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
                     <Link to={PATH.PAGE_ROOT} onClick={onClose}>
                         <icons.logo className={S.logo} />
                     </Link>
-                    <Box className={S.cartLogoWrapper}>
-                        <Link to={PATH.CART} onClick={onClose}>
-                            <icons.basket className={S.logo} />
-                        </Link>
-                        <Typography variant="subtitle2" component="h6" className={S.cartCounter}>
-                            5
-                        </Typography>
-                    </Box>
+                    <CartLogo counter={5} size="1.875rem" counterClassName={S.cartBurgerCounter} />
                 </div>
                 <div className={S.navLinks}>
                     <NavLink

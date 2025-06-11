@@ -1,38 +1,25 @@
 import { apiRoot } from '../../../common/api/commercetools';
 import { projectKey } from '../../../common/api/commercetools-config';
 import type { CatalogCategory, CatalogProduct } from './catalogApi.interfaces';
-import type { Category, QueryParam } from '@commercetools/platform-sdk';
-import { setProductDataFromResponse } from '../utils/set-product-data-from-response';
-import { setProductDataFromProjectionResponse } from '../utils/set-product-data-from-response';
+import type { Category } from '@commercetools/platform-sdk';
+import {
+    setProductDataFromProjectionResponse,
+    setProductDataFromResponse,
+} from '../utils/set-product-data-from-response';
+import type { ProductsQueryArguments, ProductType, SearchParameters } from './interfaces';
 
-export interface ProductType {
-    id: string;
-    name: string;
-    description?: string;
-    createdAt: string;
-    lastModifiedAt: string;
-    version: number;
-}
-
-interface ProductsQueryArguments {
-    [key: string]: QueryParam | string | string[] | undefined;
-    staged?: boolean;
-    // where?: string | string[];
-}
+export const ITEMS_ON_PAGE_DEFAULT = 6;
 
 export const catalogAPI = {
     async fetchProducts(
-        searchParameters?: {
-            material?: string;
-            gender?: string;
-            search?: string;
-            productType?: string;
-        },
+        searchParameters?: SearchParameters,
         allProductTypes?: ProductType[],
         categoryType?: string
     ): Promise<CatalogProduct[]> {
         try {
             let categoryId = '';
+            const currentPage: string = searchParameters?.currentPage ?? '1';
+            const offset = (Number(currentPage) - 1) * ITEMS_ON_PAGE_DEFAULT;
 
             if (categoryType) {
                 const categories = await this.getCategories();
@@ -80,14 +67,15 @@ export const catalogAPI = {
                 .productProjections()
                 .search()
                 .get({
-                    queryArgs: queryArguments,
-                    // limit: 6,
-                    // offset: 0,
+                    queryArgs: {
+                        ...queryArguments,
+                        limit: ITEMS_ON_PAGE_DEFAULT,
+                        offset,
+                    },
                 })
                 .execute();
-            // console.log(response.body.results);
 
-            return setProductDataFromProjectionResponse(response.body.results);
+            return setProductDataFromProjectionResponse(response.body);
         } catch (error: unknown) {
             const error_ =
                 error instanceof Error

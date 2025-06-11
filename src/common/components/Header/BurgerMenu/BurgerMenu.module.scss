@@ -49,19 +49,6 @@
     }
 }
 
-.cartLogoWrapper {
-    position: relative;
-    width: 1.5rem;
-    height: 1.5rem;
-}
-
-.cartCounter {
-    position: absolute;
-    top: -0.5rem;
-    right: -0.5rem;
-    color: #d20000;
-}
-
 .logo {
     cursor: pointer;
 
@@ -75,6 +62,18 @@
 
 .logo:hover {
     transform: scale(1.03);
+}
+
+.cartBurgerCounter {
+    position: absolute;
+    top: -0.35rem;
+    right: -0.55rem;
+
+    font-family: Jost, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1rem;
+    color: #d20000;
 }
 
 .searchIcon {

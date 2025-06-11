@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import S from './Header.module.scss';
 import { motion } from 'framer-motion';
 import icons from '../../../assets/icons/icons';
@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { SignInButton } from '../SignInButton/SignInButton';
 import { Logo } from '../Logo/Logo';
-import Typography from '@mui/material/Typography';
+import { CartLogo } from '../CartLogo/CartLogo';
 
 export const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -67,14 +67,7 @@ export const Header: React.FC = () => {
                     </NavLink>
                     <icons.dox className={S.doxIcon} />
                     <Box className={S.customerControls}>
-                        <Box className={S.cartLogoWrapper}>
-                            <Link to={PATH.CART}>
-                                <icons.basket className={S.cartLogo} />
-                            </Link>
-                            <Typography variant="subtitle2" component="h6" className={S.cartCounter}>
-                                5
-                            </Typography>
-                        </Box>
+                        <CartLogo counter={5} size="1.5rem" counterClassName={S.cartMainCounter} />
                         <SignInButton />
                     </Box>
                 </Box>

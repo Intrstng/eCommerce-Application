@@ -6,11 +6,12 @@ import type { AppThunk } from 'app/store';
 import { appActions } from 'app/model/slices/appSlice';
 import { Status } from 'app/model/types';
 import { catalogAPI } from '../../api/catalogApi';
-import type { ProductType } from '../../api/catalogApi';
+import type { ProductType, SearchParameters } from '../../api/interfaces';
 
 export const initialState: CatalogState = {
     products: [],
     product: [],
+    totalCount: 0,
 };
 
 export const catalogSlice = createSlice({
@@ -23,6 +24,9 @@ export const catalogSlice = createSlice({
         setProduct(state, action: PayloadAction<{ product: CatalogProduct[] }>) {
             state.product = action.payload.product;
         },
+        setTotalCount(state, action: PayloadAction<{ totalCount: number }>) {
+            state.totalCount = action.payload.totalCount;
+        },
     },
 });
 
@@ -30,16 +34,15 @@ export const catalogReducer = catalogSlice.reducer;
 export const catalogActions = catalogSlice.actions;
 
 export const fetchAllCatalogProductsTC =
-    (
-        searchParameters?: { material?: string; gender?: string; search?: string; productType?: string },
-        productTypes?: ProductType[],
-        categoryType?: string
-    ): AppThunk =>
+    (searchParameters?: SearchParameters, productTypes?: ProductType[], categoryType?: string): AppThunk =>
     async dispatch => {
-        console.log('categoryType', categoryType);
         dispatch(appActions.setAppStatus({ status: Status.LOADING }));
         try {
             const response = await catalogAPI.fetchProducts(searchParameters, productTypes, categoryType);
+            if (response[0]?.totalCount !== undefined) {
+                dispatch(catalogActions.setTotalCount({ totalCount: response[0].totalCount }));
+            }
+
             dispatch(catalogActions.setProducts({ products: response }));
             dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
         } catch (error) {

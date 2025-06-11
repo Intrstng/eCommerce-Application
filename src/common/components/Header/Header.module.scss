@@ -77,37 +77,21 @@
     align-items: center;
 }
 
-.cartLogoWrapper {
-    position: relative;
-    width: 1.5rem;
-    height: 1.5rem;
-}
-
-.cartLogo {
-    cursor: pointer;
-
-    display: flex;
-
-    width: auto;
-    height: 1.5rem;
-
-    transition: transform 0.3s ease;
-}
-
-.cartLogo:hover {
-    transform: scale(1.03);
-}
-
-.cartCounter {
-    position: absolute;
-    top: -0.6rem;
-    right: -0.25rem;
-    color: #d20000;
-}
-
 .login svg {
     width: 1.5rem;
     height: 1.5rem;
+}
+
+.cartMainCounter {
+    position: absolute;
+    top: -0.4rem;
+    right: -0.25rem;
+
+    font-family: Jost, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 300;
+    line-height: 1rem;
+    color: #d20000;
 }
 
 .nav {

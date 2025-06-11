@@ -4,9 +4,10 @@ import { CatalogFilterSelect } from '../CatalogFilterSelect/CatalogFilterSelect'
 import { useSearchParams } from 'react-router-dom';
 import searchSvg from '../../../../assets/icons/search.svg';
 import S from './CatalogControls.module.scss';
-import type { ProductType } from '../../api/catalogApi';
 import { useState } from 'react';
 import icons from '../../../../assets/icons/icons';
+import type { ProductType } from '../../api/interfaces';
+import { Pagination } from '../../../../common/components/Pagination/Pagination';
 
 type CatalogControlsProps = {
     hasActiveFilters: boolean;
@@ -97,6 +98,7 @@ export const CatalogControls: FC<CatalogControlsProps> = ({
                     Clear
                 </button>
             </Box>
+            <Pagination />
         </Box>
     );
 };
