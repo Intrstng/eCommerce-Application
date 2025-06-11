@@ -14,6 +14,7 @@ import { StatusCode } from '../../../../common/enums';
 import { Status } from 'app/model/types';
 import { authTokenService } from '../../../../common/services/auth-token.service';
 import { getActiveCartTC, createCartTC } from '../../../cart/model/slices/cartSlice';
+import { setCart } from '../../../cart/model/slices/cartSlice';
 
 export const initialState: AuthState = {
     isLoggedIn: !!userStorage.getUser(),
@@ -100,6 +101,10 @@ export const logOutTC = (): AppThunk => async dispatch => {
         dispatch(authActions.setUser({ user: null }));
         userStorage.removeUser();
         dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
+
+        dispatch(setCart(null));
+        dispatch(createCartTC());
+
         dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
 
         successNotifyMessage("You've logged out of your account");

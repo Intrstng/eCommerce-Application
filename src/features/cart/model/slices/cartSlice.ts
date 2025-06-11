@@ -98,7 +98,9 @@ export const removeFromCartTC =
             const { cart } = getState().cart;
 
             if (!cart) {
-                throw new Error('Cart is not initialized');
+                dispatch(setCart(null));
+                dispatch(setStatus(Status.SUCCEEDED));
+                return;
             }
 
             const updatedCart = await cartAPI.removeFromCart(cart.id, cart.version, lineItemId);
@@ -122,7 +124,9 @@ export const updateCartTC =
             const { cart } = getState().cart;
 
             if (!cart) {
-                throw new Error('Cart is not initialized');
+                dispatch(setCart(null));
+                dispatch(setStatus(Status.SUCCEEDED));
+                return;
             }
 
             const updatedCart = await cartAPI.updateCart(cart.id, cart.version, lineItemId, quantity);

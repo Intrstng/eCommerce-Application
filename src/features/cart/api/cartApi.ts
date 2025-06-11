@@ -67,6 +67,10 @@ export const cartAPI = {
 
             return response.body;
         } catch (error: unknown) {
+            if (error instanceof Error && error.message.includes('404')) {
+                const newCart = await this.createCart();
+                return this.addToCart(newCart.id, newCart.version, productId, variantId);
+            }
             const error_ =
                 error instanceof Error
                     ? new Error(`Failed to add item to cart: ${error.message}`)
@@ -97,6 +101,9 @@ export const cartAPI = {
 
             return response.body;
         } catch (error: unknown) {
+            if (error instanceof Error && error.message.includes('404')) {
+                return this.createCart();
+            }
             const error_ =
                 error instanceof Error
                     ? new Error(`Failed to remove item from cart: ${error.message}`)
@@ -128,6 +135,9 @@ export const cartAPI = {
 
             return response.body;
         } catch (error: unknown) {
+            if (error instanceof Error && error.message.includes('404')) {
+                return this.createCart();
+            }
             const error_ =
                 error instanceof Error
                     ? new Error(`Failed to update cart: ${error.message}`)
