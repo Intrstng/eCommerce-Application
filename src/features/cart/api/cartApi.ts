@@ -2,6 +2,17 @@ import { apiRoot } from '../../../common/api/commercetools';
 import { projectKey } from '../../../common/api/commercetools-config';
 import type { Cart } from '@commercetools/platform-sdk';
 
+function isObject(value: unknown): value is Record<string, unknown> {
+    return typeof value === 'object' && value !== null;
+}
+
+function hasNumberProperty<T extends string>(
+    object: Record<string, unknown>,
+    property: T
+): object is Record<T, number> {
+    return property in object && typeof object[property] === 'number';
+}
+
 export const cartAPI = {
     async createCart(): Promise<Cart> {
         try {
@@ -32,7 +43,7 @@ export const cartAPI = {
 
             return response.body;
         } catch (error: unknown) {
-            if (error instanceof Error && error.message.includes('404')) {
+            if (isObject(error) && hasNumberProperty(error, 'statusCode') && error.statusCode === 404) {
                 return null;
             }
             const error_ =
