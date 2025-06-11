@@ -2,10 +2,14 @@ import { genStyles } from '../../utils/generate-styles';
 
 export const STYLES = genStyles({
     productPageContainer: {
-        maxWidth: '1180px',
-        width: '100%',
-        margin: '0 auto',
+        width: 'calc(100% - 2rem)', // padding 1rem x 2 (see next line)
         padding: '0 1rem',
+        maxWidth: '1180px',
+        margin: '0 auto',
+        '@media (max-width: 550px)': {
+            width: 'calc(100% - 1rem)',
+            padding: '0 0.5rem',
+        },
     },
     productContainer: {
         width: '100%',
@@ -21,8 +25,10 @@ export const STYLES = genStyles({
         gap: '5.8rem',
         boxShadow: 'unset',
         '@media (max-width: 1180px)': {
-            flexDirection: 'column',
             gap: '1.5rem',
+        },
+        '@media (max-width: 950px)': {
+            flexDirection: 'column',
         },
     },
     carousel: {
@@ -32,6 +38,9 @@ export const STYLES = genStyles({
     content: {
         maxWidth: '394px',
         width: '100%',
+        '@media (max-width: 550px)': {
+            width: '320px',
+        },
     },
     title: {
         mt: '0.625rem',
@@ -90,10 +99,10 @@ export const STYLES = genStyles({
         justifyContent: 'space-between',
     },
     productSkeletonContainer: {
-        maxWidth: '1180px',
-        width: '100%',
-        margin: '7rem auto 2rem',
+        width: 'calc(100% - 2rem)', // padding 1rem x 2 (see next line)
         padding: '0 1rem',
+        maxWidth: '1180px',
+        margin: '7rem auto 2rem',
     },
     skeletonBlock: {
         display: 'flex',

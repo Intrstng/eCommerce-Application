@@ -39,6 +39,12 @@ export const STYLES = genStyles({
 
         transition: 'transform 0.8s ease',
     },
+    cardImageLoading: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'background.paper',
+    },
     cardContent: {
         padding: '0 !important',
         marginTop: '0.625rem',
@@ -69,7 +75,7 @@ export const STYLES = genStyles({
         whiteSpace: 'unset',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
-        maxWidth: '40ch',
+        // maxWidth: '40ch',
     },
     cardPrice: {},
 });
