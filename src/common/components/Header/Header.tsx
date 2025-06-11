@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { SignInButton } from '../SignInButton/SignInButton';
 import { Logo } from '../Logo/Logo';
+import { CartLogo } from '../CartLogo/CartLogo';
 
 export const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -61,8 +62,14 @@ export const Header: React.FC = () => {
                     <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.BROOCHES}`} className={S.navLink}>
                         {CATEGORIES.BROOCHES}
                     </NavLink>
+                    <NavLink to={PATH.ABOUT} className={S.navLink}>
+                        About us
+                    </NavLink>
                     <icons.dox className={S.doxIcon} />
-                    <SignInButton />
+                    <Box className={S.customerControls}>
+                        <CartLogo counter={5} size="1.5rem" counterClassName={S.cartMainCounter} />
+                        <SignInButton />
+                    </Box>
                 </Box>
             </Box>
             <BurgerMenu isOpen={isMenuOpen} onClose={handleCloseMenu} />

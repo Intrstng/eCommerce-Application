@@ -19,6 +19,8 @@
         justify-content: space-between;
 
         max-width: 1180px;
+
+        //width: 100%;
         height: 75px;
         margin: 0 auto;
         padding: 0 2.5rem; // fix later
@@ -68,9 +70,28 @@
     color: black;
 }
 
+.customerControls {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.55rem;
+    align-items: center;
+}
+
 .login svg {
     width: 1.5rem;
     height: 1.5rem;
+}
+
+.cartMainCounter {
+    position: absolute;
+    top: -0.4rem;
+    right: -0.25rem;
+
+    font-family: Jost, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 300;
+    line-height: 1rem;
+    color: #d20000;
 }
 
 .nav {

@@ -10,6 +10,9 @@ import { Link } from 'react-router-dom';
 import { formatPrice, formatPriceDiscount } from '../../utils/format-price';
 import Box from '@mui/material/Box';
 import { PRICE_STYLES } from '../../../../common/styles/price.styles';
+import { useState } from 'react';
+import noImage from '../../../../assets/products/no-image.png';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const CatalogCard: FC<CatalogItemProps> = ({
     id,
@@ -19,6 +22,19 @@ export const CatalogCard: FC<CatalogItemProps> = ({
     description,
     isProductsLoading,
 }) => {
+    const [isImageLoading, setIsImageLoading] = useState(true);
+    const [imageError, setImageError] = useState(false);
+
+    const handleImageLoad = () => {
+        setIsImageLoading(false);
+        setImageError(false);
+    };
+
+    const handleImageError = () => {
+        setIsImageLoading(false);
+        setImageError(true);
+    };
+
     const priceInfo = {
         original: formatPrice(prices, 'EUR'),
         discounted: formatPriceDiscount(prices, 'EUR'),
@@ -32,13 +48,39 @@ export const CatalogCard: FC<CatalogItemProps> = ({
             ) : (
                 <Link to={`/product/${id}`} style={{ textDecoration: 'none' }}>
                     <Card sx={STYLES.card}>
-                        <CardMedia
-                            component="img"
-                            src={image}
-                            alt={title}
-                            className="cardImage"
-                            sx={STYLES.cardImage}
-                        />
+                        {isImageLoading && !imageError && (
+                            <Box
+                                sx={{
+                                    ...STYLES.cardImage,
+                                    ...STYLES.cardImageLoading,
+                                }}
+                            >
+                                <CircularProgress color="inherit" size={40} />
+                            </Box>
+                        )}
+
+                        {imageError ? (
+                            <CardMedia
+                                component="img"
+                                src={noImage}
+                                alt={title}
+                                sx={STYLES.cardImage}
+                                onLoad={handleImageLoad}
+                                onError={handleImageError}
+                            />
+                        ) : (
+                            <CardMedia
+                                component="img"
+                                src={image}
+                                alt={title}
+                                sx={{
+                                    ...STYLES.cardImage,
+                                    display: isImageLoading ? 'none' : 'block',
+                                }}
+                                onLoad={handleImageLoad}
+                                onError={handleImageError}
+                            />
+                        )}
                         <CardContent sx={STYLES.cardContent}>
                             <Typography className="cardTitle" sx={STYLES.cardTitle}>
                                 {title}

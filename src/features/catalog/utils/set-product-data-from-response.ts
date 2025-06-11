@@ -1,5 +1,6 @@
-import type { Product, ProductProjection } from '@commercetools/platform-sdk';
+import type { Product } from '@commercetools/platform-sdk';
 import type { CatalogProduct } from '../api/catalogApi.interfaces';
+import type { ProductProjectionPagedQueryResponse } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/product';
 
 // ToDo: all console.logs will be removed in Sprint 4
 
@@ -103,8 +104,10 @@ export function setProductDataFromResponse(data: Product[]): CatalogProduct[] {
     return products;
 }
 
-export function setProductDataFromProjectionResponse(data: ProductProjection[]): CatalogProduct[] {
-    return data.map(product => {
+export function setProductDataFromProjectionResponse(data: ProductProjectionPagedQueryResponse): CatalogProduct[] {
+    const totalCount: number = data.total ?? 0;
+
+    return data.results.map(product => {
         const masterVariant = product.masterVariant;
         const description = {
             ru: product.description?.ru ?? 'No description available',
@@ -154,6 +157,7 @@ export function setProductDataFromProjectionResponse(data: ProductProjection[]):
                 attributes: variant.attributes,
                 availability: variant.availability,
             })),
+            totalCount,
         };
     });
 }
