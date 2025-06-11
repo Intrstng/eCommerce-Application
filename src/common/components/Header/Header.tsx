@@ -10,10 +10,13 @@ import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { SignInButton } from '../SignInButton/SignInButton';
 import { Logo } from '../Logo/Logo';
 import { CartLogo } from '../CartLogo/CartLogo';
+import { useAppSelector } from '../../hooks';
+import { cartLineItemsSelector } from '../../../features/cart/model/selectors/cartSelectors';
 
 export const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const cartQuantity = useAppSelector(cartLineItemsSelector).reduce((total, item) => total + item.quantity, 0);
 
     const isHomepage = location.pathname === '/';
 
@@ -67,7 +70,7 @@ export const Header: React.FC = () => {
                     </NavLink>
                     <icons.dox className={S.doxIcon} />
                     <Box className={S.customerControls}>
-                        <CartLogo counter={5} size="1.5rem" counterClassName={S.cartMainCounter} />
+                        <CartLogo counter={cartQuantity} size="1.5rem" counterClassName={S.cartMainCounter} />
                         <SignInButton />
                     </Box>
                 </Box>
