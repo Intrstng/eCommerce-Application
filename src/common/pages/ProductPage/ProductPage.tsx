@@ -80,6 +80,7 @@ export const ProductPage = () => {
     let stone = '';
     let description = '';
     let sku: string | undefined = '';
+    let availableQuantity: number | undefined;
 
     if (catalogProduct.length === 1) {
         const product = catalogProduct[0];
@@ -87,6 +88,7 @@ export const ProductPage = () => {
         images = product.images;
         name = product.name.en;
         prices = product.prices;
+        availableQuantity = product.variants[0]?.availability?.availableQuantity;
 
         const genderAttribute = product.variants[0].attributes?.find(object => isValidAttribute(object, 'gender'));
         gender = genderAttribute ? genderAttribute.value.key : '';
@@ -168,22 +170,27 @@ export const ProductPage = () => {
                         )}
                         <Typography sx={STYLES.text}>{description}</Typography>
                         <Divider sx={STYLES.devider} />
-                        <Box
-                            sx={{
-                                ...PRICE_STYLES.priceContent,
-                                ...PRICE_STYLES.priceContentPosition,
-                            }}
-                        >
-                            {priceInfo.hasDiscount ? (
-                                <>
-                                    <Typography sx={PRICE_STYLES.price}>{priceInfo.discounted}</Typography>
-                                    <Box sx={PRICE_STYLES.oldPriceContent}>
-                                        <Typography sx={PRICE_STYLES.oldPrice}>{priceInfo.original}</Typography>
-                                        <Box sx={PRICE_STYLES.lineThrough} />
-                                    </Box>
-                                </>
-                            ) : (
-                                <Typography sx={PRICE_STYLES.price}>{priceInfo.original}</Typography>
+                        <Box sx={STYLES.priceAndStockContainer}>
+                            <Box
+                                sx={{
+                                    ...PRICE_STYLES.priceContent,
+                                    ...PRICE_STYLES.priceContentPosition,
+                                }}
+                            >
+                                {priceInfo.hasDiscount ? (
+                                    <>
+                                        <Typography sx={PRICE_STYLES.price}>{priceInfo.discounted}</Typography>
+                                        <Box sx={PRICE_STYLES.oldPriceContent}>
+                                            <Typography sx={PRICE_STYLES.oldPrice}>{priceInfo.original}</Typography>
+                                            <Box sx={PRICE_STYLES.lineThrough} />
+                                        </Box>
+                                    </>
+                                ) : (
+                                    <Typography sx={PRICE_STYLES.price}>{priceInfo.original}</Typography>
+                                )}
+                            </Box>
+                            {availableQuantity !== undefined && (
+                                <Typography sx={STYLES.stockText}>{availableQuantity} in stock</Typography>
                             )}
                         </Box>
                         <Box sx={STYLES.productControls}>
