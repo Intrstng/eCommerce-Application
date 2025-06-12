@@ -10,7 +10,7 @@ import S from './CartPage.module.scss';
 import deleteIcon from '../../../assets/icons/delete.svg';
 import plusIcon from '../../../assets/icons/plus.svg';
 import minusIcon from '../../../assets/icons/minus.svg';
-import { formatPrice, formatPriceDiscount } from '../../../features/catalog/utils/format-price';
+import { formatPrice } from '../../../features/catalog/utils/format-price';
 import { PRICE_STYLES } from '../../styles/price.styles';
 
 type CartItemProps = {
@@ -41,19 +41,25 @@ export const CartItem = ({ item, availableQuantity }: CartItemProps) => {
 
     const priceInfo = {
         original: formatPrice([{
-            id: 'cart-price',
-            value: item.price.value,
-            discounted: item.price.discounted ? {
-                value: item.price.discounted.value
-            } : null
+            id: 'cart-original-total-price',
+            value: {
+                type: item.price.value.type,
+                currencyCode: item.price.value.currencyCode,
+                centAmount: item.price.value.centAmount * item.quantity,
+                fractionDigits: item.price.value.fractionDigits,
+            },
+            discounted: null,
         }], 'EUR'),
-        discounted: formatPriceDiscount([{
-            id: 'cart-price',
-            value: item.price.value,
-            discounted: item.price.discounted ? {
-                value: item.price.discounted.value
-            } : null
-        }], 'EUR'),
+        discounted: item.price.discounted ? formatPrice([{
+            id: 'cart-discounted-total-price',
+            value: {
+                type: item.price.discounted.value.type,
+                currencyCode: item.price.discounted.value.currencyCode,
+                centAmount: item.price.discounted.value.centAmount * item.quantity,
+                fractionDigits: item.price.discounted.value.fractionDigits,
+            },
+            discounted: null,
+        }], 'EUR') : '',
         hasDiscount: !!item.price.discounted,
     };
 
