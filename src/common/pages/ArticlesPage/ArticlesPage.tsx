@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import S from './ArticlesPage.module.scss';
 import type { ArticleItem } from '../../components/ArticleCard/types';
 import { ArticleCard } from '../../components/ArticleCard/ArticleCard';
@@ -5,11 +6,12 @@ import { articlesContent } from '../../../assets/articles-data/articles-data';
 import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
 
 export const ArticlesPage = () => {
+    const { t } = useTranslation();
     return (
         <>
             <BreadCrumbs />
             <section>
-                <h2>Jewelry Articles</h2>
+                <h2>{t('articlesPage.sectionHeading')}</h2>
                 <div className={S.articlesContent}>
                     {articlesContent.map((article: ArticleItem) => (
                         <ArticleCard

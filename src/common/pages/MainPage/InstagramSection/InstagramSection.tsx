@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { memo, useEffect, useState } from 'react';
 import icons from '../../../../assets/icons/icons';
 import S from './InstagramSection.module.scss';
@@ -12,6 +13,7 @@ import image7 from '../../../../assets/images/instagram/7.jpg';
 import image8 from '../../../../assets/images/instagram/8.jpg';
 
 export const InstagramSection = memo(() => {
+    const { t } = useTranslation();
     useEffect(() => {
         setImages([image1, image2, image3, image4, image5, image6, image7, image8]);
     }, []);
@@ -42,9 +44,9 @@ export const InstagramSection = memo(() => {
                 ))}
             </div>
             <div className={S.instagramCta}>
-                <h2 className={S.subsection}>Join #do.jewelry</h2>
+                <h2 className={S.subsection}>{t('instagramSection.subsection')}</h2>
                 <Button
-                    text="FOLLOW ON INSTAGRAM"
+                    text={t('instagramSection.buttonInstagram')}
                     size="large"
                     variant="secondary"
                     iconRight="instagram"
