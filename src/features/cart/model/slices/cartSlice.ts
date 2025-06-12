@@ -5,6 +5,7 @@ import { cartAPI } from '../../api/cartApi';
 import type { AppThunk } from 'app/store';
 import { appActions } from 'app/model/slices/appSlice';
 import { Status } from 'app/model/types';
+import { successNotifyMessage, errorNotifyMessage, warningNotifyMessage } from 'src/common/utils/notify-message.ts';
 
 export interface CartState {
     cart: Cart | null;
@@ -82,11 +83,13 @@ export const addToCartTC =
             }
 
             dispatch(setStatus(Status.SUCCEEDED));
+            successNotifyMessage('Product was added to your cart successfully!');
         } catch (error) {
             dispatch(setStatus(Status.FAILED));
             dispatch(
                 appActions.setAppError({ error: error instanceof Error ? error.message : 'Failed to add item to cart' })
             );
+            errorNotifyMessage('Failed to add product to cart');
         }
     };
 
@@ -106,6 +109,7 @@ export const removeFromCartTC =
             const updatedCart = await cartAPI.removeFromCart(cart.id, cart.version, lineItemId);
             dispatch(setCart(updatedCart));
             dispatch(setStatus(Status.SUCCEEDED));
+            warningNotifyMessage('Product was removed from your cart successfully!');
         } catch (error) {
             dispatch(setStatus(Status.FAILED));
             dispatch(
@@ -113,6 +117,7 @@ export const removeFromCartTC =
                     error: error instanceof Error ? error.message : 'Failed to remove item from cart',
                 })
             );
+            errorNotifyMessage('Failed to remove product from cart');
         }
     };
 
@@ -156,6 +161,7 @@ export const clearCartTC = (): AppThunk => async (dispatch, getState) => {
         const updatedCart = await cartAPI.clearCart(cart.id, cart.version);
         dispatch(setCart(updatedCart));
         dispatch(setStatus(Status.SUCCEEDED));
+        successNotifyMessage('Your cart was cleared successfully!');
     } catch (error) {
         dispatch(setStatus(Status.FAILED));
         dispatch(
@@ -163,5 +169,6 @@ export const clearCartTC = (): AppThunk => async (dispatch, getState) => {
                 error: error instanceof Error ? error.message : 'Failed to clear cart',
             })
         );
+        errorNotifyMessage('Failed to clear cart');
     }
 };
