@@ -141,3 +141,27 @@ export const updateCartTC =
             );
         }
     };
+
+export const clearCartTC = (): AppThunk => async (dispatch, getState) => {
+    try {
+        dispatch(setStatus(Status.LOADING));
+        const { cart } = getState().cart;
+
+        if (!cart) {
+            dispatch(setCart(null));
+            dispatch(setStatus(Status.SUCCEEDED));
+            return;
+        }
+
+        const updatedCart = await cartAPI.clearCart(cart.id, cart.version);
+        dispatch(setCart(updatedCart));
+        dispatch(setStatus(Status.SUCCEEDED));
+    } catch (error) {
+        dispatch(setStatus(Status.FAILED));
+        dispatch(
+            appActions.setAppError({
+                error: error instanceof Error ? error.message : 'Failed to clear cart',
+            })
+        );
+    }
+};

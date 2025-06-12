@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getActiveCartTC } from '../../../features/cart/model/slices/cartSlice';
+import { getActiveCartTC, clearCartTC } from '../../../features/cart/model/slices/cartSlice';
 import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -11,6 +11,7 @@ import { CartItem } from './CartItem';
 import S from './CartPage.module.scss';
 import { getProductByIdTC } from '../../../features/catalog/model/slices/catalogSlice';
 import type { LineItem } from '@commercetools/platform-sdk';
+import { CustomButton } from '../../buttons/CustomButton';
 
 type CartItemWithAvailability = {
     item: LineItem;
@@ -79,9 +80,19 @@ export const CartPage = () => {
         <Box className={S.cartPageContent}>
             <BreadCrumbs />
             <Box className={S.cartContent}>
-                <Typography variant="h4" className={S.cartTitle}>
-                    Shopping Cart
-                </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                    <Typography variant="h4" className={S.cartTitle}>
+                        Shopping Cart
+                    </Typography>
+                    {cart.lineItems.length > 0 && (
+                        <CustomButton
+                            onClick={() => dispatch(clearCartTC())}
+                            className={S.clearCartButton}
+                        >
+                            Clear Cart
+                        </CustomButton>
+                    )}
+                </Box>
                 {lineItemsWithAvailability.map(({ item, availableQuantity }) => (
                     <CartItem key={item.id} item={item} availableQuantity={availableQuantity} />
                 ))}

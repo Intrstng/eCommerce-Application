@@ -157,6 +157,45 @@ export const cartAPI = {
         }
     },
 
+    async clearCart(cartId: string, cartVersion: number): Promise<Cart> {
+        try {
+            const cart = await apiRoot
+                .withProjectKey({ projectKey })
+                .me()
+                .carts()
+                .withId({ ID: cartId })
+                .get()
+                .execute()
+                .then(response => response.body);
+
+            const actions = cart.lineItems.map(item => ({
+                action: 'removeLineItem' as const,
+                lineItemId: item.id,
+            }));
+
+            const response = await apiRoot
+                .withProjectKey({ projectKey })
+                .me()
+                .carts()
+                .withId({ ID: cartId })
+                .post({
+                    body: {
+                        version: cartVersion,
+                        actions,
+                    },
+                })
+                .execute();
+
+            return response.body;
+        } catch (error: unknown) {
+            const error_ =
+                error instanceof Error
+                    ? new Error(`Failed to clear cart: ${error.message}`)
+                    : new Error('Failed to clear cart: Unknown error occurred');
+            throw error_;
+        }
+    },
+
     async mergeCarts(anonymousCartId: string): Promise<Cart> {
         try {
             const activeCart = await this.getActiveCart();
