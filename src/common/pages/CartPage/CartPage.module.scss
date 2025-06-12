@@ -11,18 +11,22 @@
 }
 
 .cartTitle {
-    margin-bottom: 2rem;
+    margin: 0;
 
     font-family: Cormorant, serif;
-    font-size: 2.5rem;
-    font-weight: 400;
-    line-height: 3rem;
-    color: #161412;
+    font-size: 3.25rem;
+    font-weight: 500;
+    line-height: 3.9rem;
+    color: #000;
 }
 
 .emptyCartMessage {
     margin-top: 2rem;
-    color: #65635f;
+
+    font-family: Jost, serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #161412;
     text-align: center;
 }
 
@@ -51,13 +55,15 @@
 }
 
 .cartItemTitle {
-    margin-bottom: 0.5rem;
+    margin: 0;
 
     font-family: Jost, sans-serif;
-    font-size: 1rem;
+    font-size: 0.81rem;
     font-weight: 400;
-    line-height: 1.5rem;
+    line-height: 1.56rem;
     color: #161412;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .removeButton {
@@ -83,12 +89,16 @@
 
 .quantityControl {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.8rem;
     align-items: center;
     margin-bottom: 0.5rem;
 
-    button:disabled {
-        opacity: 0.5;
+    button {
+        padding: 0;
+
+        &:disabled {
+            opacity: 0.3;
+        }
     }
 
     img {
@@ -123,4 +133,14 @@
         color: #f4f4f2;
         background-color: #161412;
     }
+}
+
+.totalPrice {
+    margin: 0;
+
+    font-family: Jost, sans-serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.5rem;
+    color: #161412;
 }

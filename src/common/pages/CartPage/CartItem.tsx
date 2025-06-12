@@ -40,14 +40,14 @@ export const CartItem = ({ item, availableQuantity }: CartItemProps) => {
     };
 
     const priceInfo = {
-        original: formatPrice([{ 
+        original: formatPrice([{
             id: 'cart-price',
             value: item.price.value,
             discounted: item.price.discounted ? {
                 value: item.price.discounted.value
             } : null
         }], 'EUR'),
-        discounted: formatPriceDiscount([{ 
+        discounted: formatPriceDiscount([{
             id: 'cart-price',
             value: item.price.value,
             discounted: item.price.discounted ? {
@@ -67,16 +67,16 @@ export const CartItem = ({ item, availableQuantity }: CartItemProps) => {
                     className={S.cartItemImage}
                 />
                 <Box className={S.cartItemDetails}>
-                    <Typography variant="h6" className={S.cartItemTitle}>
+                    <h6 className={S.cartItemTitle}>
                         {item.name.en}
-                    </Typography>
+                    </h6>
                     <Box className={S.quantityControl}>
                         <IconButton onClick={handleDecrease} disabled={item.quantity <= 1}>
                             <img src={minusIcon} alt="Decrease" />
                         </IconButton>
-                        <Typography variant="body2" className={S.quantity}>
+                        <p className={S.quantity}>
                             {item.quantity}
-                        </Typography>
+                        </p>
                         <IconButton
                             onClick={handleIncrease}
                             disabled={availableQuantity !== undefined && item.quantity >= availableQuantity}

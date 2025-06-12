@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getActiveCartTC, clearCartTC } from '../../../features/cart/model/slices/cartSlice';
 import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import type { Status } from 'app/model/types';
 import { statusSelector } from 'app/model/selectors/appSelectors';
 import Skeleton from '@mui/material/Skeleton';
@@ -68,9 +67,9 @@ export const CartPage = () => {
             <Box className={S.cartPageContent}>
                 <BreadCrumbs />
                 <Box className={S.cartContent}>
-                    <Typography variant="h5" className={S.emptyCartMessage}>
+                    <h4 className={S.emptyCartMessage}>
                         Your cart is empty
-                    </Typography>
+                    </h4>
                 </Box>
             </Box>
         );
@@ -81,9 +80,9 @@ export const CartPage = () => {
             <BreadCrumbs />
             <Box className={S.cartContent}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                    <Typography variant="h4" className={S.cartTitle}>
+                    <h2 className={S.cartTitle}>
                         Shopping Cart
-                    </Typography>
+                    </h2>
                     {cart.lineItems.length > 0 && (
                         <CustomButton
                             onClick={() => dispatch(clearCartTC())}
@@ -97,7 +96,7 @@ export const CartPage = () => {
                     <CartItem key={item.id} item={item} availableQuantity={availableQuantity} />
                 ))}
                 <Box className={S.cartSummary}>
-                    <Typography variant="h6">Total: {cart.totalPrice.centAmount / 100} EUR</Typography>
+                    <h3 className={S.totalPrice}> Total: {cart.totalPrice.centAmount / 100} EUR</h3>
                 </Box>
             </Box>
         </Box>
