@@ -12,6 +12,7 @@ import { getProductByIdTC } from '../../../features/catalog/model/slices/catalog
 import type { LineItem } from '@commercetools/platform-sdk';
 import { Link } from 'react-router-dom';
 import { CustomButton } from '../../buttons/CustomButton';
+import { ClearCartConfirmModal } from '../../components/ModalWindow/ClearCartConfirmModal/ClearCartConfirmModal';
 
 type CartItemWithAvailability = {
     item: LineItem;
@@ -23,6 +24,7 @@ export const CartPage = () => {
     const cart = useAppSelector(state => state.cart.cart);
     const status = useAppSelector<Status>(statusSelector);
     const [lineItemsWithAvailability, setLineItemsWithAvailability] = useState<CartItemWithAvailability[]>([]);
+    const [showClearCartModal, setShowClearCartModal] = useState(false);
 
     useEffect(() => {
         dispatch(getActiveCartTC());
@@ -50,6 +52,19 @@ export const CartPage = () => {
         };
         fetchProductAvailability();
     }, [cart, dispatch]);
+
+    const handleClearCartClick = () => {
+        setShowClearCartModal(true);
+    };
+
+    const handleConfirmClear = () => {
+        dispatch(clearCartTC());
+        setShowClearCartModal(false);
+    };
+
+    const handleCancelClear = () => {
+        setShowClearCartModal(false);
+    };
 
     if (status === 'loading') {
         return (
@@ -91,7 +106,7 @@ export const CartPage = () => {
                     </h2>
                     {cart.lineItems.length > 0 && (
                         <CustomButton
-                            onClick={() => dispatch(clearCartTC())}
+                            onClick={handleClearCartClick}
                             className={S.clearCartButton}
                         >
                             Clear Cart
@@ -105,6 +120,11 @@ export const CartPage = () => {
                     <h3 className={S.totalPrice}> Total: {cart.totalPrice.centAmount / 100} EUR</h3>
                 </Box>
             </Box>
+            <ClearCartConfirmModal
+                isOpen={showClearCartModal}
+                onConfirm={handleConfirmClear}
+                onCancel={handleCancelClear}
+            />
         </Box>
     );
 };
