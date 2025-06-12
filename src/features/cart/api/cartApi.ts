@@ -156,4 +156,58 @@ export const cartAPI = {
             throw error_;
         }
     },
+
+    async mergeCarts(anonymousCartId: string): Promise<Cart> {
+        try {
+            const activeCart = await this.getActiveCart();
+
+            if (!activeCart) {
+                return await apiRoot
+                    .withProjectKey({ projectKey })
+                    .me()
+                    .carts()
+                    .withId({ ID: anonymousCartId })
+                    .get()
+                    .execute()
+                    .then(response => response.body);
+            }
+
+            const lineItems = await apiRoot
+                .withProjectKey({ projectKey })
+                .me()
+                .carts()
+                .withId({ ID: anonymousCartId })
+                .get()
+                .execute()
+                .then(response => response.body.lineItems);
+
+            const actions = lineItems.map(item => ({
+                action: 'addLineItem' as const,
+                productId: item.productId,
+                variantId: item.variant.id,
+                quantity: item.quantity,
+            }));
+
+            const response = await apiRoot
+                .withProjectKey({ projectKey })
+                .me()
+                .carts()
+                .withId({ ID: activeCart.id })
+                .post({
+                    body: {
+                        version: activeCart.version,
+                        actions,
+                    },
+                })
+                .execute();
+
+            return response.body;
+        } catch (error: unknown) {
+            const error_ =
+                error instanceof Error
+                    ? new Error(`Failed to merge carts: ${error.message}`)
+                    : new Error('Failed to merge carts: Unknown error occurred');
+            throw error_;
+        }
+    },
 };

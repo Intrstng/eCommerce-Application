@@ -15,6 +15,9 @@ import { Status } from 'app/model/types';
 import { authTokenService } from '../../../../common/services/auth-token.service';
 import { getActiveCartTC, createCartTC } from '../../../cart/model/slices/cartSlice';
 import { setCart } from '../../../cart/model/slices/cartSlice';
+import { apiRoot } from '../../../../common/api/commercetools';
+import { getEnvironmentVariable } from '../../../../common/utils/get-environment-variable';
+import { EnvironmentKeys } from '../../../../common/enums';
 
 export const initialState: AuthState = {
     isLoggedIn: !!userStorage.getUser(),
@@ -68,16 +71,49 @@ export const authSuccessTC = (): AppThunk => async dispatch => {
 
 export const loginTC =
     (data: SignInFormData): AppThunk =>
-    async dispatch => {
+    async (dispatch, getState) => {
         dispatch(appActions.setAppStatus({ status: Status.LOADING }));
-        dispatch(appActions.setAppError({ error: null })); // ?? Our setAppError auto cancels after error
+        dispatch(appActions.setAppError({ error: null }));
         try {
+            const anonymousCart = getState().cart.cart;
+            const anonymousCartItems = anonymousCart?.lineItems || [];
+
             const response: ClientResponse<CustomerSignInResult> = await authAPI.login(data.email, data.password);
 
             if (response.statusCode === StatusCode.OK) {
                 dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
                 dispatch(authActions.setUser({ user: response.body }));
                 userStorage.saveUser(response.body);
+
+                const userCart = await dispatch(getActiveCartTC());
+
+                if (anonymousCartItems.length > 0 && userCart) {
+                    try {
+                        const actions = anonymousCartItems.map(item => ({
+                            action: 'addLineItem' as const,
+                            productId: item.productId,
+                            variantId: item.variant.id,
+                            quantity: item.quantity,
+                        }));
+
+                        await apiRoot
+                            .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
+                            .me()
+                            .carts()
+                            .withId({ ID: userCart.id })
+                            .post({
+                                body: {
+                                    version: userCart.version,
+                                    actions,
+                                },
+                            })
+                            .execute();
+                        await dispatch(getActiveCartTC());
+                    } catch (error) {
+                        console.error('Failed to merge cart items:', error);
+                    }
+                }
+
                 dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
 
                 successNotifyMessage('You have successfully logged in');
