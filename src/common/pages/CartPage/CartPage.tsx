@@ -10,6 +10,7 @@ import { CartItem } from './CartItem';
 import S from './CartPage.module.scss';
 import { getProductByIdTC } from '../../../features/catalog/model/slices/catalogSlice';
 import type { LineItem } from '@commercetools/platform-sdk';
+import { Link } from 'react-router-dom';
 import { CustomButton } from '../../buttons/CustomButton';
 
 type CartItemWithAvailability = {
@@ -67,9 +68,14 @@ export const CartPage = () => {
             <Box className={S.cartPageContent}>
                 <BreadCrumbs />
                 <Box className={S.cartContent}>
-                    <h4 className={S.emptyCartMessage}>
-                        Your cart is empty
-                    </h4>
+                    <Box className={S.emptyCartActionsContainer}>
+                        <h4 className={S.emptyCartMessage}>
+                            Your cart is empty. Let's find something great!
+                        </h4>
+                        <Link to="/catalog" className={S.shopNowLink}>
+                            Shop Now
+                        </Link>
+                    </Box>
                 </Box>
             </Box>
         );
