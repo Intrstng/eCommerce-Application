@@ -20,6 +20,7 @@ export const ProductsGrid = ({
                 description={product.description.en}
                 prices={product.prices}
                 isProductsLoading={isProductsLoading}
+                variantId={product.variants[0].id}
             />
         ))}
     </Box>

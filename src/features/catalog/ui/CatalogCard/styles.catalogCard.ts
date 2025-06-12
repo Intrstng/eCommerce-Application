@@ -78,4 +78,14 @@ export const STYLES = genStyles({
         // maxWidth: '40ch',
     },
     cardPrice: {},
+    addToCartButton: {
+        marginLeft: 'auto',
+    },
+    inCartButton: {
+        backgroundColor: '#f0f0f0',
+        color: '#888',
+        '&:hover': {
+            backgroundColor: '#e0e0e0',
+        },
+    },
 });

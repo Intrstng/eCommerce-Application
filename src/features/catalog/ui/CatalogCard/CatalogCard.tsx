@@ -13,6 +13,11 @@ import { PRICE_STYLES } from '../../../../common/styles/price.styles';
 import { useState } from 'react';
 import noImage from '../../../../assets/products/no-image.png';
 import CircularProgress from '@mui/material/CircularProgress';
+import IconButton from '@mui/material/IconButton';
+import { useAppDispatch, useAppSelector } from '../../../../common/hooks';
+import { addToCartTC, removeFromCartTC } from '../../../cart/model/slices/cartSlice.ts';
+import icons from '../../../../assets/icons/icons';
+import { cartLineItemsSelector } from '../../../cart/model/selectors/cartSelectors.ts';
 
 export const CatalogCard: FC<CatalogItemProps> = ({
     id,
@@ -21,9 +26,12 @@ export const CatalogCard: FC<CatalogItemProps> = ({
     prices = [],
     description,
     isProductsLoading,
+    variantId,
 }) => {
     const [isImageLoading, setIsImageLoading] = useState(true);
     const [imageError, setImageError] = useState(false);
+    const dispatch = useAppDispatch();
+    const cartLineItems = useAppSelector(cartLineItemsSelector);
 
     const handleImageLoad = () => {
         setIsImageLoading(false);
@@ -40,6 +48,9 @@ export const CatalogCard: FC<CatalogItemProps> = ({
         discounted: formatPriceDiscount(prices, 'EUR'),
         hasDiscount: !!formatPriceDiscount(prices, 'EUR'),
     };
+
+    const isInCart = cartLineItems.some(item => item.productId === id && item.variant.id === variantId);
+    const currentLineItem = cartLineItems.find(item => item.productId === id && item.variant.id === variantId);
 
     return (
         <>
@@ -101,6 +112,22 @@ export const CatalogCard: FC<CatalogItemProps> = ({
                                 ) : (
                                     <Typography sx={PRICE_STYLES.price}>{priceInfo.original}</Typography>
                                 )}
+                                <IconButton
+                                    sx={{
+                                        ...STYLES.addToCartButton,
+                                        ...(isInCart && STYLES.inCartButton),
+                                    }}
+                                    onClick={(event) => {
+                                        event.preventDefault();
+                                        if (isInCart && currentLineItem) {
+                                            dispatch(removeFromCartTC(currentLineItem.id));
+                                        } else {
+                                            dispatch(addToCartTC(id, variantId));
+                                        }
+                                    }}
+                                >
+                                    <icons.basket />
+                                </IconButton>
                             </Box>
                         </CardContent>
                     </Card>
