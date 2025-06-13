@@ -23,7 +23,7 @@ export const DeleteAddressModal: FC<DeleteAddressModalProps> = ({
             </Typography>
             <Typography sx={STYLES.deleteDialogSubtitle}>Are you sure you want to delete this address?</Typography>
             <Box sx={STYLES.deleteDialogControls}>
-                <Button variant="outlined" onClick={modalCancelDeleteCB} sx={STYLES.deleteDialogButton}>
+                <Button variant="outlined" onClick={modalCancelDeleteCB} sx={STYLES.cancelDialogButton}>
                     Cancel
                 </Button>
                 <Button variant="contained" color="error" onClick={modalConfirmDeleteCB} sx={STYLES.deleteDialogButton}>
