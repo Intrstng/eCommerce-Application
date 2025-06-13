@@ -20,6 +20,7 @@ import { SignInPage } from '../pages/SignInPage/SignInPage';
 import { ProductPage } from '../pages/ProductPage/ProductPage';
 import { PasswordPage } from '../pages/Protected/ProfilePage/PasswordPage/PasswordPage';
 import { PersonalDataPage } from '../pages/Protected/ProfilePage/PersonalDataPage/PersonalDataPage';
+import { AuthorPage } from '../pages/AuthorPage/AuthorPage';
 
 const PrivateRoutes = () => {
     const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
@@ -55,6 +56,10 @@ const publicRoutes: RouteObject[] = [
     {
         path: PATH.ABOUT,
         element: <AboutPage />,
+    },
+    {
+        path: PATH.AUTHOR,
+        element: <AuthorPage />,
     },
     {
         path: PATH.CART,

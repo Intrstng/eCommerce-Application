@@ -41,6 +41,7 @@ export enum PATH {
 
     ARTICLES = '/articles',
     // ARTICLE = `/articles/:id`,
+    AUTHOR = '/author',
 
     SIGNIN = '/signin',
     SIGNUP = '/signup',
