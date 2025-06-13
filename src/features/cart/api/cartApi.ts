@@ -1,17 +1,7 @@
 import { apiRoot } from '../../../common/api/commercetools';
 import { projectKey } from '../../../common/api/commercetools-config';
 import type { Cart } from '@commercetools/platform-sdk';
-
-function isObject(value: unknown): value is Record<string, unknown> {
-    return typeof value === 'object' && value !== null;
-}
-
-function hasNumberProperty<T extends string>(
-    object: Record<string, unknown>,
-    property: T
-): object is Record<T, number> {
-    return property in object && typeof object[property] === 'number';
-}
+import { hasNumberProperty, isObject } from '../utils/error-status-code-handler';
 
 export const cartAPI = {
     async createCart(): Promise<Cart> {
