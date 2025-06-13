@@ -27,6 +27,9 @@ export const STYLES = genStyles({
     link: {
         textDecoration: 'none',
     },
+    cardImageContainer: {
+        position: 'relative',
+    },
     cardImage: {
         overflow: 'hidden',
         display: 'inline-block',
@@ -43,7 +46,7 @@ export const STYLES = genStyles({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'background.paper',
+        // backgroundColor: 'background.paper',
     },
     cardContent: {
         padding: '0 !important',
@@ -78,14 +81,4 @@ export const STYLES = genStyles({
         // maxWidth: '40ch',
     },
     cardPrice: {},
-    addToCartButton: {
-        marginLeft: 'auto',
-    },
-    inCartButton: {
-        backgroundColor: '#f0f0f0',
-        color: '#888',
-        '&:hover': {
-            backgroundColor: '#e0e0e0',
-        },
-    },
 });

@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -10,14 +11,12 @@ import { Link } from 'react-router-dom';
 import { formatPrice, formatPriceDiscount } from '../../utils/format-price';
 import Box from '@mui/material/Box';
 import { PRICE_STYLES } from '../../../../common/styles/price.styles';
-import { useState } from 'react';
 import noImage from '../../../../assets/products/no-image.png';
 import CircularProgress from '@mui/material/CircularProgress';
-import IconButton from '@mui/material/IconButton';
-import { useAppDispatch, useAppSelector } from '../../../../common/hooks';
-import { addToCartTC, removeFromCartTC } from '../../../cart/model/slices/cartSlice.ts';
-import icons from '../../../../assets/icons/icons';
-import { cartLineItemsSelector } from '../../../cart/model/selectors/cartSelectors.ts';
+import { useAppSelector } from '../../../../common/hooks';
+import { cartSelector } from '../../../cart/model/selectors/cartSelectors.ts';
+import type { Cart, LineItem } from '@commercetools/platform-sdk';
+import { AddToCartIcon } from '../../../../common/components/AddToCartIcon/AddToCartIcon';
 
 export const CatalogCard: FC<CatalogItemProps> = ({
     id,
@@ -30,8 +29,8 @@ export const CatalogCard: FC<CatalogItemProps> = ({
 }) => {
     const [isImageLoading, setIsImageLoading] = useState(true);
     const [imageError, setImageError] = useState(false);
-    const dispatch = useAppDispatch();
-    const cartLineItems = useAppSelector(cartLineItemsSelector);
+    const cart = useAppSelector<Cart | null>(cartSelector);
+    const cartLineItems: LineItem[] = cart?.lineItems || [];
 
     const handleImageLoad = () => {
         setIsImageLoading(false);
@@ -69,28 +68,45 @@ export const CatalogCard: FC<CatalogItemProps> = ({
                                 <CircularProgress color="inherit" size={40} />
                             </Box>
                         )}
-
                         {imageError ? (
-                            <CardMedia
-                                component="img"
-                                src={noImage}
-                                alt={title}
-                                sx={STYLES.cardImage}
-                                onLoad={handleImageLoad}
-                                onError={handleImageError}
-                            />
+                            <Box sx={STYLES.cardImageContainer}>
+                                <CardMedia
+                                    component="img"
+                                    src={noImage}
+                                    alt={title}
+                                    className="cardImage" // Don`t delete
+                                    sx={STYLES.cardImage}
+                                    onLoad={handleImageLoad}
+                                    onError={handleImageError}
+                                />
+                                <AddToCartIcon
+                                    currentLineItem={currentLineItem}
+                                    id={id}
+                                    isInCart={isInCart}
+                                    variantId={variantId}
+                                />
+                            </Box>
                         ) : (
-                            <CardMedia
-                                component="img"
-                                src={image}
-                                alt={title}
-                                sx={{
-                                    ...STYLES.cardImage,
-                                    display: isImageLoading ? 'none' : 'block',
-                                }}
-                                onLoad={handleImageLoad}
-                                onError={handleImageError}
-                            />
+                            <Box sx={STYLES.cardImageContainer}>
+                                <CardMedia
+                                    component="img"
+                                    src={image}
+                                    alt={title}
+                                    className="cardImage" // Don`t delete
+                                    sx={{
+                                        ...STYLES.cardImage,
+                                        display: isImageLoading ? 'none' : 'block',
+                                    }}
+                                    onLoad={handleImageLoad}
+                                    onError={handleImageError}
+                                />
+                                <AddToCartIcon
+                                    currentLineItem={currentLineItem}
+                                    id={id}
+                                    isInCart={isInCart}
+                                    variantId={variantId}
+                                />
+                            </Box>
                         )}
                         <CardContent sx={STYLES.cardContent}>
                             <Typography className="cardTitle" sx={STYLES.cardTitle}>
@@ -112,22 +128,6 @@ export const CatalogCard: FC<CatalogItemProps> = ({
                                 ) : (
                                     <Typography sx={PRICE_STYLES.price}>{priceInfo.original}</Typography>
                                 )}
-                                <IconButton
-                                    sx={{
-                                        ...STYLES.addToCartButton,
-                                        ...(isInCart && STYLES.inCartButton),
-                                    }}
-                                    onClick={(event) => {
-                                        event.preventDefault();
-                                        if (isInCart && currentLineItem) {
-                                            dispatch(removeFromCartTC(currentLineItem.id));
-                                        } else {
-                                            dispatch(addToCartTC(id, variantId));
-                                        }
-                                    }}
-                                >
-                                    <icons.basket />
-                                </IconButton>
                             </Box>
                         </CardContent>
                     </Card>
