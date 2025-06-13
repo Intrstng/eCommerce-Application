@@ -3,11 +3,11 @@ import { genStyles } from '../utils/generate-styles';
 export const PRICE_STYLES = genStyles({
     priceContent: {
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         gap: '0.75rem',
     },
     priceContentPosition: {
-        // mb: '1.25rem',
+        mb: '1.25rem',
     },
     price: {
         fontFamily: 'Jost, sans-serif',
