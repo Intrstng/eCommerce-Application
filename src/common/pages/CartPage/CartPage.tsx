@@ -1,28 +1,28 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getActiveCartTC, clearCartTC } from '../../../features/cart/model/slices/cartSlice';
+import { clearCartTC, getActiveCartTC } from '../../../features/cart/model/slices/cartSlice';
 import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import type { Status } from 'app/model/types';
-import { statusSelector } from 'app/model/selectors/appSelectors';
-import Skeleton from '@mui/material/Skeleton';
 import { CartItem } from './CartItem';
 import S from './CartPage.module.scss';
-import { getProductByIdTC } from '../../../features/catalog/model/slices/catalogSlice';
-import type { LineItem } from '@commercetools/platform-sdk';
-import { Link } from 'react-router-dom';
+import { cartSelector, cartStatusSelector } from '../../../features/cart/model/selectors/cartSelectors';
+import type { Cart, LineItem } from '@commercetools/platform-sdk';
+import { catalogAPI } from '../../../features/catalog/api/catalogApi';
+import type { CatalogProduct } from '../../../features/catalog/api/catalogApi.interfaces';
+import type { CartItemWithAvailability } from './interfaces';
+import CircularProgress from '@mui/material/CircularProgress';
+import Divider from '@mui/material/Divider';
 import { CustomButton } from '../../buttons/CustomButton';
+import { NavLink } from 'react-router-dom';
+import { PATH } from '../../enums';
 import { ClearCartConfirmModal } from '../../components/ModalWindow/ClearCartConfirmModal/ClearCartConfirmModal';
 
-type CartItemWithAvailability = {
-    item: LineItem;
-    availableQuantity?: number;
-};
-
 export const CartPage = () => {
+    const isCartLoading: string = useAppSelector<Status>(cartStatusSelector);
+    const cart: Cart | null = useAppSelector(cartSelector);
     const dispatch = useAppDispatch();
-    const cart = useAppSelector(state => state.cart.cart);
-    const status = useAppSelector<Status>(statusSelector);
     const [lineItemsWithAvailability, setLineItemsWithAvailability] = useState<CartItemWithAvailability[]>([]);
     const [showClearCartModal, setShowClearCartModal] = useState(false);
 
@@ -31,15 +31,24 @@ export const CartPage = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        const fetchProductAvailability = async () => {
-            if (cart && cart.lineItems.length > 0) {
-                const productsPromises = cart.lineItems.map(item => dispatch(getProductByIdTC(item.productId)));
-                const productsResults = await Promise.all(productsPromises);
+        const lineItems: LineItem[] = cart?.lineItems || [];
 
-                const updatedLineItems: CartItemWithAvailability[] = cart.lineItems.map(item => {
+        const fetchProductAvailability = async () => {
+            if (lineItems.length === 0) {
+                setLineItemsWithAvailability([]);
+                return;
+            }
+
+            try {
+                const productPromises: Promise<CatalogProduct>[] = lineItems.map(item =>
+                    catalogAPI.getProductByID(item.productId)
+                );
+                const productsResults = await Promise.all(productPromises);
+
+                const updatedLineItems: CartItemWithAvailability[] = lineItems.map(item => {
                     const catalogProduct = productsResults.find(product => product.id === item.productId);
 
-                    const variant = catalogProduct?.variants.find(v => v.id === item.variant.id);
+                    const variant = catalogProduct?.variants?.find(v => v.id === item.variant.id);
                     const availableQuantity = variant?.availability?.availableQuantity;
 
                     return {
@@ -47,11 +56,18 @@ export const CartPage = () => {
                         availableQuantity,
                     };
                 });
+
                 setLineItemsWithAvailability(updatedLineItems);
+            } catch (error: unknown) {
+                const error_ =
+                    error instanceof Error
+                        ? new Error(`Failed to fetch availability: ${error.message}`)
+                        : new Error('Failed to fetch availability: Unknown error occurred');
+                throw error_;
             }
         };
-        fetchProductAvailability();
-    }, [cart, dispatch]);
+        void fetchProductAvailability();
+    }, [cart]);
 
     const handleClearCartClick = () => {
         setShowClearCartModal(true);
@@ -66,30 +82,18 @@ export const CartPage = () => {
         setShowClearCartModal(false);
     };
 
-    if (status === 'loading') {
-        return (
-            <Box className={S.cartPageContent}>
-                <BreadCrumbs />
-                <Box className={S.cartContent}>
-                    <Skeleton variant="rectangular" width="100%" height={200} />
-                    <Skeleton variant="rectangular" width="100%" height={200} sx={{ mt: 2 }} />
-                </Box>
-            </Box>
-        );
-    }
-
     if (!cart || cart.lineItems.length === 0) {
         return (
             <Box className={S.cartPageContent}>
                 <BreadCrumbs />
                 <Box className={S.cartContent}>
                     <Box className={S.emptyCartActionsContainer}>
-                        <h4 className={S.emptyCartMessage}>
+                        <Typography variant="h4" className={S.emptyCartMessage}>
                             Your cart is empty. Let's find something great!
-                        </h4>
-                        <Link to="/catalog" className={S.shopNowLink}>
+                        </Typography>
+                        <NavLink to={PATH.CATALOG} className={S.shopNowLink}>
                             Shop Now
-                        </Link>
+                        </NavLink>
                     </Box>
                 </Box>
             </Box>
@@ -100,12 +104,13 @@ export const CartPage = () => {
         <Box className={S.cartPageContent}>
             <BreadCrumbs />
             <Box className={S.cartContent}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                    <h2 className={S.cartTitle}>
+                <Box className={S.cartHeader}>
+                    <Typography variant="h4" className={S.cartTitle}>
                         Shopping Cart
-                    </h2>
+                    </Typography>
                     {cart.lineItems.length > 0 && (
                         <CustomButton
+                            // onClick={() => dispatch(clearCartTC())}
                             onClick={handleClearCartClick}
                             className={S.clearCartButton}
                         >
@@ -113,11 +118,25 @@ export const CartPage = () => {
                         </CustomButton>
                     )}
                 </Box>
+                {isCartLoading === 'loading' && (
+                    <Box className={S.cartPageLoader}>
+                        <CircularProgress color="success" className={S.cartPageSpinner} />
+                    </Box>
+                )}
+
                 {lineItemsWithAvailability.map(({ item, availableQuantity }) => (
                     <CartItem key={item.id} item={item} availableQuantity={availableQuantity} />
                 ))}
+
                 <Box className={S.cartSummary}>
-                    <h3 className={S.totalPrice}> Total: {cart.totalPrice.centAmount / 100} EUR</h3>
+                    {isCartLoading !== 'loading' && (
+                        <>
+                            <Divider component="div" style={{ width: '100%' }} />
+                            <Typography className={S.cartTotalPrice} variant="h6">
+                                Total: {cart.totalPrice.centAmount / 100} EUR
+                            </Typography>
+                        </>
+                    )}
                 </Box>
             </Box>
             <ClearCartConfirmModal

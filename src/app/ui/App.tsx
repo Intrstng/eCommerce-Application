@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import { errorNotifyMessageWithDispatch } from '../../common/utils/notify-message';
 import Box from '@mui/material/Box';
 import { useLocation } from 'react-router-dom';
-import { getActiveCartTC, setCart } from '../../features/cart/model/slices/cartSlice';
+import { cartActions, getActiveCartTC } from '../../features/cart/model/slices/cartSlice';
 
 export const App = () => {
     const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ export const App = () => {
         if (isLoggedIn) {
             dispatch(getActiveCartTC());
         } else {
-            dispatch(setCart(null));
+            dispatch(cartActions.setCart({ cart: null }));
         }
     }, [dispatch, isLoggedIn]);
 

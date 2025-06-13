@@ -5,12 +5,8 @@ import { cartAPI } from '../../api/cartApi';
 import type { AppThunk } from 'app/store';
 import { appActions } from 'app/model/slices/appSlice';
 import { Status } from 'app/model/types';
-import { successNotifyMessage, errorNotifyMessage, warningNotifyMessage } from 'src/common/utils/notify-message.ts';
-
-export interface CartState {
-    cart: Cart | null;
-    status: Status;
-}
+import type { CartState } from '../interfaces';
+import { successNotifyMessage, warningNotifyMessage } from '../../../../common/utils/notify-message';
 
 const initialState: CartState = {
     cart: null,
@@ -21,47 +17,48 @@ export const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        setCart(state, action: PayloadAction<Cart | null>) {
-            state.cart = action.payload;
+        setCart(state, action: PayloadAction<{ cart: Cart | null }>) {
+            state.cart = action.payload.cart;
         },
-        setStatus(state, action: PayloadAction<Status>) {
-            state.status = action.payload;
+        setStatus(state, action: PayloadAction<{ status: Status }>) {
+            state.status = action.payload.status;
         },
     },
 });
 
-export const { setCart, setStatus } = cartSlice.actions;
+export const cartReducer = cartSlice.reducer;
+export const cartActions = cartSlice.actions;
 
-export const getActiveCartTC = (): AppThunk<Promise<Cart | null>> => async dispatch => {
+export const getActiveCartTC = (): AppThunk => async dispatch => {
     try {
-        dispatch(setStatus(Status.LOADING));
+        dispatch(cartActions.setStatus({ status: Status.LOADING }));
+
         const cart = await cartAPI.getActiveCart();
 
         if (cart) {
-            dispatch(setCart(cart));
-            dispatch(setStatus(Status.SUCCEEDED));
-            return cart;
+            dispatch(cartActions.setCart({ cart }));
         } else {
             const newCart = await cartAPI.createCart();
-            dispatch(setCart(newCart));
-            dispatch(setStatus(Status.SUCCEEDED));
-            return newCart;
+            dispatch(cartActions.setCart({ cart: newCart }));
         }
+
+        dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
     } catch (error) {
-        dispatch(setStatus(Status.FAILED));
+        dispatch(cartActions.setStatus({ status: Status.FAILED }));
         dispatch(appActions.setAppError({ error: error instanceof Error ? error.message : 'Failed to get cart' }));
-        return null;
     }
 };
 
 export const createCartTC = (): AppThunk => async dispatch => {
     try {
-        dispatch(setStatus(Status.LOADING));
+        dispatch(cartActions.setStatus({ status: Status.LOADING }));
+
         const cart = await cartAPI.createCart();
-        dispatch(setCart(cart));
-        dispatch(setStatus(Status.SUCCEEDED));
+        dispatch(cartActions.setCart({ cart }));
+
+        dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
     } catch (error) {
-        dispatch(setStatus(Status.FAILED));
+        dispatch(cartActions.setStatus({ status: Status.FAILED }));
         dispatch(appActions.setAppError({ error: error instanceof Error ? error.message : 'Failed to create cart' }));
     }
 };
@@ -70,26 +67,25 @@ export const addToCartTC =
     (productId: string, variantId: number): AppThunk =>
     async (dispatch, getState) => {
         try {
-            dispatch(setStatus(Status.LOADING));
+            dispatch(cartActions.setStatus({ status: Status.LOADING }));
             const { cart } = getState().cart;
 
             if (cart) {
                 const updatedCart = await cartAPI.addToCart(cart.id, cart.version, productId, variantId);
-                dispatch(setCart(updatedCart));
+                dispatch(cartActions.setCart({ cart: updatedCart }));
             } else {
                 const newCart = await cartAPI.createCart();
                 const updatedCart = await cartAPI.addToCart(newCart.id, newCart.version, productId, variantId);
-                dispatch(setCart(updatedCart));
+                dispatch(cartActions.setCart({ cart: updatedCart }));
             }
 
-            dispatch(setStatus(Status.SUCCEEDED));
+            dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
             successNotifyMessage('Product was added to your cart successfully!');
         } catch (error) {
-            dispatch(setStatus(Status.FAILED));
+            dispatch(cartActions.setStatus({ status: Status.FAILED }));
             dispatch(
                 appActions.setAppError({ error: error instanceof Error ? error.message : 'Failed to add item to cart' })
             );
-            errorNotifyMessage('Failed to add product to cart');
         }
     };
 
@@ -97,27 +93,27 @@ export const removeFromCartTC =
     (lineItemId: string): AppThunk =>
     async (dispatch, getState) => {
         try {
-            dispatch(setStatus(Status.LOADING));
+            dispatch(cartActions.setStatus({ status: Status.LOADING }));
             const { cart } = getState().cart;
 
             if (!cart) {
-                dispatch(setCart(null));
-                dispatch(setStatus(Status.SUCCEEDED));
+                dispatch(cartActions.setCart({ cart: null }));
+                dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
                 return;
             }
 
             const updatedCart = await cartAPI.removeFromCart(cart.id, cart.version, lineItemId);
-            dispatch(setCart(updatedCart));
-            dispatch(setStatus(Status.SUCCEEDED));
+            dispatch(cartActions.setCart({ cart: updatedCart }));
+
+            dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
             warningNotifyMessage('Product was removed from your cart successfully!');
         } catch (error) {
-            dispatch(setStatus(Status.FAILED));
+            dispatch(cartActions.setStatus({ status: Status.FAILED }));
             dispatch(
                 appActions.setAppError({
                     error: error instanceof Error ? error.message : 'Failed to remove item from cart',
                 })
             );
-            errorNotifyMessage('Failed to remove product from cart');
         }
     };
 
@@ -125,20 +121,22 @@ export const updateCartTC =
     (lineItemId: string, quantity: number): AppThunk =>
     async (dispatch, getState) => {
         try {
-            dispatch(setStatus(Status.LOADING));
+            dispatch(cartActions.setStatus({ status: Status.LOADING }));
             const { cart } = getState().cart;
 
             if (!cart) {
-                dispatch(setCart(null));
-                dispatch(setStatus(Status.SUCCEEDED));
+                dispatch(cartActions.setCart({ cart: null }));
+                dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
                 return;
             }
 
             const updatedCart = await cartAPI.updateCart(cart.id, cart.version, lineItemId, quantity);
-            dispatch(setCart(updatedCart));
-            dispatch(setStatus(Status.SUCCEEDED));
+            dispatch(cartActions.setCart({ cart: updatedCart }));
+
+            dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
+            successNotifyMessage('The quantity in the basket has been updated');
         } catch (error) {
-            dispatch(setStatus(Status.FAILED));
+            dispatch(cartActions.setStatus({ status: Status.FAILED }));
             dispatch(
                 appActions.setAppError({
                     error: error instanceof Error ? error.message : 'Failed to update item quantity in cart',
@@ -149,26 +147,25 @@ export const updateCartTC =
 
 export const clearCartTC = (): AppThunk => async (dispatch, getState) => {
     try {
-        dispatch(setStatus(Status.LOADING));
+        dispatch(cartActions.setStatus({ status: Status.LOADING }));
         const { cart } = getState().cart;
 
         if (!cart) {
-            dispatch(setCart(null));
-            dispatch(setStatus(Status.SUCCEEDED));
+            dispatch(cartActions.setCart({ cart: null }));
+            dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
             return;
         }
 
         const updatedCart = await cartAPI.clearCart(cart.id, cart.version);
-        dispatch(setCart(updatedCart));
-        dispatch(setStatus(Status.SUCCEEDED));
+        dispatch(cartActions.setCart({ cart: updatedCart }));
+        dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
         successNotifyMessage('Your cart was cleared successfully!');
     } catch (error) {
-        dispatch(setStatus(Status.FAILED));
+        dispatch(cartActions.setStatus({ status: Status.FAILED }));
         dispatch(
             appActions.setAppError({
                 error: error instanceof Error ? error.message : 'Failed to clear cart',
             })
         );
-        errorNotifyMessage('Failed to clear cart');
     }
 };
