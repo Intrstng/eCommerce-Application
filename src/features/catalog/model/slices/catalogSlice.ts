@@ -75,7 +75,7 @@ export const getProductsByCategoryTC =
     };
 
 export const getProductByIdTC =
-    (id: string): AppThunk<Promise<CatalogProduct>> =>
+    (id: string): AppThunk =>
     async dispatch => {
         dispatch(appActions.setAppStatus({ status: Status.LOADING }));
         try {
@@ -83,7 +83,6 @@ export const getProductByIdTC =
 
             dispatch(catalogActions.setProduct({ product: response }));
             dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
-            return response;
         } catch (error) {
             if (error instanceof Error) {
                 dispatch(appActions.setAppError({ error: error.message }));
@@ -91,7 +90,6 @@ export const getProductByIdTC =
                 dispatch(appActions.setAppError({ error: 'An unexpected error occurred' }));
             }
             dispatch(appActions.setAppStatus({ status: Status.FAILED }));
-            throw error;
         }
     };
 
