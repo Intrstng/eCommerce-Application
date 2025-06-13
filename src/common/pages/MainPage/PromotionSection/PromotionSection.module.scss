@@ -1,0 +1,103 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+    justify-content: center;
+
+    //   width: 100%;
+    padding: 44px 20px;
+
+    background-image: url('../../../../assets/images/promotion/promotion-background.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.cardsContainer {
+    width: 80%;
+    max-width: 800px;
+    min-height: 200px;
+}
+
+.cardsContainer {
+    display: grid;
+    grid-template-areas:
+        'card1 card1 card1'
+        'card2 card3 card4';
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+
+    width: 80%;
+    max-width: 1000px;
+}
+
+.card {
+    padding: 40px;
+    border-radius: 12px;
+
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+
+    background: rgb(255 255 255 / 70%);
+}
+
+.card1 {
+    position: relative;
+
+    display: flex;
+    grid-area: card1;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    padding: 0;
+    border-radius: 12px;
+
+    background: rgb(255 255 255 / 70%);
+
+    img {
+        width: 150px;
+        height: auto;
+        border-radius: 8px;
+    }
+
+    .content {
+        // padding: 32px 0;
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+
+        height: 50px;
+
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+.card2 {
+    grid-area: card2;
+}
+
+.card3 {
+    grid-area: card3;
+}
+
+.card4 {
+    grid-area: card4;
+}
+
+.noticeText {
+    width: 80%;
+    max-width: 600px;
+    padding: 10px 20px;
+    border-radius: 8px;
+
+    font-family: Jost, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 136%;
+    color: #65635f;
+    text-align: center;
+}
