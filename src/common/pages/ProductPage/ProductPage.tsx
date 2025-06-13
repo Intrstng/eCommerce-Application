@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getProductByIdTC } from '../../../features/catalog/model/slices/catalogSlice';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { catalogProductSelector } from '../../../features/catalog/model/selectors/catalogSelector';
 import type { CatalogProduct, ProductPrice } from '../../../features/catalog/api/catalogApi.interfaces';
 import type { Status } from 'app/model/types';
@@ -14,7 +14,6 @@ import { BackButton } from '../../buttons/BackButton';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import { CustomButton } from '../../buttons/CustomButton';
-import { FavouriteSwitch } from '../../components/FavouriteSwitch/FavouriteSwitch';
 import { ProductPageSkeleton } from './ProductPageSkeleton';
 import { formatPrice, formatPriceDiscount } from '../../../features/catalog/utils/format-price';
 import { CopyToClipboard } from '../../components/CopyToClipboard/CopyToClipboard';
@@ -27,43 +26,20 @@ import { isValidAttribute } from '../../utils/assertion-functions';
 import { ProductCarousel } from '../../components/ProductCarousel/ProductCarousel';
 import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
 import { addToCartTC, removeFromCartTC } from '../../../features/cart/model/slices/cartSlice';
-import { cartLineItemsSelector } from '../../../features/cart/model/selectors/cartSelectors';
-import type { LineItem } from '@commercetools/platform-sdk';
+import { cartSelector, cartStatusSelector } from '../../../features/cart/model/selectors/cartSelectors';
+import type { Cart, LineItem } from '@commercetools/platform-sdk';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const ProductPage = () => {
     const dispatch = useAppDispatch();
     const { id } = useParams();
     const catalogProduct: CatalogProduct[] = useAppSelector<CatalogProduct[]>(catalogProductSelector);
     const isLoading: string = useAppSelector<Status>(statusSelector);
-    const lineItems: LineItem[] = useAppSelector(cartLineItemsSelector);
+    const cart: Cart | null = useAppSelector(cartSelector);
+    const isCartLoading: string = useAppSelector<Status>(cartStatusSelector);
 
+    const lineItems: LineItem[] = cart?.lineItems || [];
     const isInCart = lineItems.some((item: LineItem) => item.productId === id);
-
-    // ToDo: Temporary solution:
-    const [isFavourite, setIsFavourite] = useState<Record<string, boolean>>({
-        uuidFav1: false,
-        uuidFav2: false,
-    });
-
-    const handleIsFavouriteToggle = (id: string) => {
-        setIsFavourite(previous => ({
-            ...previous,
-            [id]: !previous[id],
-        }));
-    };
-
-    const handleCartAction = () => {
-        if (id) {
-            if (isInCart) {
-                const itemToRemove = lineItems.find((item: LineItem) => item.productId === id);
-                if (itemToRemove) {
-                    dispatch(removeFromCartTC(itemToRemove.id));
-                }
-            } else {
-                dispatch(addToCartTC(id, 1));
-            }
-        }
-    };
 
     useEffect(() => {
         if (id) {
@@ -80,7 +56,7 @@ export const ProductPage = () => {
     let stone = '';
     let description = '';
     let sku: string | undefined = '';
-    let availableQuantity: number | undefined;
+    let availableQuantity: number | undefined = 0;
 
     if (catalogProduct.length === 1) {
         const product = catalogProduct[0];
@@ -115,6 +91,17 @@ export const ProductPage = () => {
         original: formatPrice(prices, 'EUR'),
         discounted: formatPriceDiscount(prices, 'EUR'),
         hasDiscount: !!formatPriceDiscount(prices, 'EUR'),
+    };
+
+    const handleCartAction = () => {
+        if (!id) return;
+
+        if (isInCart) {
+            const itemToRemove = lineItems.find((item: LineItem) => item.productId === id);
+            if (itemToRemove) dispatch(removeFromCartTC(itemToRemove.id));
+        } else {
+            dispatch(addToCartTC(id, 1));
+        }
     };
 
     return (
@@ -170,6 +157,7 @@ export const ProductPage = () => {
                         )}
                         <Typography sx={STYLES.text}>{description}</Typography>
                         <Divider sx={STYLES.devider} />
+
                         <Box sx={STYLES.priceAndStockContainer}>
                             <Box
                                 sx={{
@@ -194,17 +182,23 @@ export const ProductPage = () => {
                             )}
                         </Box>
                         <Box sx={STYLES.productControls}>
-                            <CustomButton style={{ width: '21.8rem' }} onClick={handleCartAction}>
+                            <CustomButton
+                                isActive={isInCart}
+                                onClick={handleCartAction}
+                                style={{ width: '100%' }}
+                                // disabled={isCartLoading === 'loading'} // button flicker
+                            >
                                 {isInCart ? 'Remove from Cart' : 'Add to Cart'}
                             </CustomButton>
-                            <FavouriteSwitch
-                                id={'uuidFav1'}
-                                isFavourite={isFavourite.uuidFav1}
-                                onToggle={handleIsFavouriteToggle}
-                            />
                         </Box>
                     </Box>
                 </Card>
+                {/*Added in accordance with the requirements*/}
+                {isCartLoading === 'loading' && (
+                    <Box sx={STYLES.cartLoader}>
+                        <CircularProgress color="success" />
+                    </Box>
+                )}
             </Box>
         </Box>
     );
