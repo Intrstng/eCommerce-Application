@@ -7,7 +7,7 @@ export const Footer = () => {
                 <ul>
                     <li>CARE GUIDE</li>
                     <li>BLOG</li>
-                    <li>ABOUT US</li>
+                    <li>ABOUT AUTHOR</li>
                 </ul>
             </div>
 
