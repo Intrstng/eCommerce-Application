@@ -7,7 +7,7 @@ export const PRICE_STYLES = genStyles({
         gap: '0.75rem',
     },
     priceContentPosition: {
-        mb: '1.25rem',
+        // mb: '1.25rem',
     },
     price: {
         fontFamily: 'Jost, sans-serif',
