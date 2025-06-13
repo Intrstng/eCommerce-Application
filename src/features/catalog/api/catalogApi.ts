@@ -35,15 +35,15 @@ export const catalogAPI = {
             };
 
             if (searchParameters?.search?.trim()) {
-                queryArguments['text.en'] = searchParameters.search.trim();
+                queryArguments['text.en'] = searchParameters?.search?.trim();
             }
 
             const filters = [];
             if (searchParameters?.material?.trim()) {
-                filters.push(`variants.attributes.material.key:"${searchParameters.material.trim()}"`);
+                filters.push(`variants.attributes.material.key:"${searchParameters?.material?.trim()}"`);
             }
             if (searchParameters?.gender?.trim()) {
-                filters.push(`variants.attributes.gender.key:"${searchParameters.gender.trim()}"`);
+                filters.push(`variants.attributes.gender.key:"${searchParameters?.gender?.trim()}"`);
             }
 
             const productTypeName = searchParameters?.productType?.trim();
