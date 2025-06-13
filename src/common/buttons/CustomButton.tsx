@@ -5,13 +5,23 @@ import { STYLES } from './styles.CustomButton';
 interface CustomButtonProps {
     children: React.ReactNode;
     className?: string;
+    isActive?: boolean;
     onClick: () => void;
     style?: React.CSSProperties;
 }
 
-export const CustomButton = ({ children, className = '', onClick, style, ...props }: CustomButtonProps) => {
+export const CustomButton = ({ children, className = '', isActive, onClick, style, ...props }: CustomButtonProps) => {
     return (
-        <Button sx={STYLES.button} className={className ?? ''} style={style ?? {}} onClick={onClick} {...props}>
+        <Button
+            sx={{
+                ...STYLES.button,
+                ...(isActive ? STYLES.activeButton : {}),
+            }}
+            className={className ?? ''}
+            style={style ?? {}}
+            onClick={onClick}
+            {...props}
+        >
             {children}
         </Button>
     );

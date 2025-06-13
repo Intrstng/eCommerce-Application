@@ -6,13 +6,23 @@ export const STYLES = genStyles({
         border: '1px solid transparent',
         fontFamily: 'Jost, sans-serif',
         fontSize: '0.75rem',
+        paddingLeft: '1rem',
+        paddingRight: '1rem',
         fontWeight: 400,
         lineHeight: '1.5rem',
         letterSpacing: '0.1em',
-        color: 'white',
+        color: '#fff',
         backgroundColor: '#000',
         transition: 'color 0.3s ease, background-color 0.3s ease',
-
+        '&:hover': {
+            border: '1px solid #000',
+            color: '#000',
+            backgroundColor: '#fff',
+        },
+    },
+    activeButton: {
+        color: '#fff',
+        backgroundColor: '#65635F',
         '&:hover': {
             border: '1px solid #000',
             color: '#000',
