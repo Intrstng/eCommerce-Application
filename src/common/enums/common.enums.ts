@@ -91,3 +91,10 @@ export enum AddressStatus {
     ON = 'on',
     OFF = 'off',
 }
+
+export enum PromoCodes {
+    STARRY = 'STARRY3',
+    LUNAR = 'LUNAR15',
+    NEBULA = 'NEBULA20',
+    SUNNA = 'SUNNA30',
+}

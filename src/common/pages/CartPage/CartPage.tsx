@@ -1,30 +1,75 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { clearCartTC, getActiveCartTC } from '../../../features/cart/model/slices/cartSlice';
+import {
+    applyPromoCodeTC,
+    cartActions,
+    clearCartTC,
+    getActiveCartTC,
+} from '../../../features/cart/model/slices/cartSlice';
 import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import type { Status } from 'app/model/types';
 import { CartItem } from './CartItem';
 import S from './CartPage.module.scss';
-import { cartSelector, cartStatusSelector } from '../../../features/cart/model/selectors/cartSelectors';
+import {
+    cartSelector,
+    cartStatusSelector,
+    promoCodeSelector,
+} from '../../../features/cart/model/selectors/cartSelectors';
 import type { Cart, LineItem } from '@commercetools/platform-sdk';
 import { catalogAPI } from '../../../features/catalog/api/catalogApi';
 import type { CatalogProduct } from '../../../features/catalog/api/catalogApi.interfaces';
-import type { CartItemWithAvailability } from './interfaces';
+import type { CartItemWithAvailability, LineItemWithDiscountedPrice } from './interfaces';
 import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 import { CustomButton } from '../../buttons/CustomButton';
 import { NavLink } from 'react-router-dom';
 import { PATH } from '../../enums';
 import { ClearCartConfirmModal } from '../../components/ModalWindow/ClearCartConfirmModal/ClearCartConfirmModal';
+import TextField from '@mui/material/TextField';
+import type { SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import type { PromoCodeFormData } from '../../validations/promoCodeFormValidation.schema';
+import { validatePromoCodeFormSchema } from '../../validations/promoCodeFormValidation.schema';
+import FormControl from '@mui/material/FormControl';
+import FormGroup from '@mui/material/FormGroup';
+import type { PromoCodes } from '../../enums/common.enums';
+import { isValidPromoCode } from '../../utils/assertion-functions';
 
 export const CartPage = () => {
-    const isCartLoading: string = useAppSelector<Status>(cartStatusSelector);
+    const currentPromoCode = useAppSelector<PromoCodes | ''>(promoCodeSelector);
+    const cartStatus: string = useAppSelector<Status>(cartStatusSelector);
     const cart: Cart | null = useAppSelector(cartSelector);
-    const dispatch = useAppDispatch();
+    const lineItems: LineItemWithDiscountedPrice[] = cart?.lineItems ?? [];
     const [lineItemsWithAvailability, setLineItemsWithAvailability] = useState<CartItemWithAvailability[]>([]);
     const [showClearCartModal, setShowClearCartModal] = useState(false);
+    const dispatch = useAppDispatch();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isValid },
+    } = useForm({
+        // } = useForm<PromoCodeFormData>({
+        mode: 'onChange',
+        resolver: yupResolver(validatePromoCodeFormSchema()),
+        defaultValues: {
+            promoCode: currentPromoCode ?? '',
+        },
+    });
+
+    const onSubmit: SubmitHandler<PromoCodeFormData> = data => {
+        const { promoCode } = data;
+
+        if (isValidPromoCode(promoCode) || promoCode === '') {
+            dispatch(cartActions.setPromoCode({ promoCode }));
+            handleApplyPromoCode(promoCode);
+        } else {
+            throw new Error('Invalid promo code');
+        }
+    };
 
     useEffect(() => {
         dispatch(getActiveCartTC());
@@ -82,6 +127,32 @@ export const CartPage = () => {
         setShowClearCartModal(false);
     };
 
+    const handleApplyPromoCode = (code: string) => {
+        if (currentPromoCode && cart) {
+            dispatch(applyPromoCodeTC(cart.id, cart.version, code));
+        }
+    };
+
+    const calculateTotalPrice = () => {
+        if (!cart) return { original: 0, discounted: 0 };
+
+        const originalTotal = lineItems.reduce((total, item) => {
+            return total + item.price.value.centAmount * item.quantity;
+        }, 0);
+
+        const discountedTotal = lineItems.reduce((total, item) => {
+            const discountedPrice = item.discountedPrice
+                ? item.discountedPrice.value.centAmount
+                : item.price.value.centAmount;
+            return total + discountedPrice * item.quantity;
+        }, 0);
+
+        return {
+            original: originalTotal / 100,
+            discounted: discountedTotal / 100,
+        };
+    };
+
     if (!cart || cart.lineItems.length === 0) {
         return (
             <Box className={S.cartPageContent}>
@@ -109,16 +180,12 @@ export const CartPage = () => {
                         Shopping Cart
                     </Typography>
                     {cart.lineItems.length > 0 && (
-                        <CustomButton
-                            // onClick={() => dispatch(clearCartTC())}
-                            onClick={handleClearCartClick}
-                            className={S.clearCartButton}
-                        >
+                        <CustomButton onClick={handleClearCartClick} className={S.clearCartButton}>
                             Clear Cart
                         </CustomButton>
                     )}
                 </Box>
-                {isCartLoading === 'loading' && (
+                {cartStatus === 'loading' && (
                     <Box className={S.cartPageLoader}>
                         <CircularProgress color="success" className={S.cartPageSpinner} />
                     </Box>
@@ -129,12 +196,59 @@ export const CartPage = () => {
                 ))}
 
                 <Box className={S.cartSummary}>
-                    {isCartLoading !== 'loading' && (
+                    {cartStatus !== 'loading' && (
                         <>
+                            <Box
+                                component="form"
+                                onSubmit={handleSubmit(onSubmit)}
+                                noValidate
+                                className={S.promoCodeContainer}
+                            >
+                                <FormGroup>
+                                    <FormControl fullWidth>
+                                        <TextField
+                                            label="Promo Code"
+                                            type="text"
+                                            fullWidth
+                                            id="promoCode"
+                                            error={!!errors.promoCode}
+                                            variant="filled"
+                                            {...register('promoCode')}
+                                            size="small"
+                                            className={S.promoCodeInput}
+                                        />
+                                        {errors.promoCode && (
+                                            <Typography component="h2" variant="body2" className={S.errorForm}>
+                                                {errors.promoCode.message}
+                                            </Typography>
+                                        )}
+                                    </FormControl>
+                                    <CustomButton
+                                        className={S.applyPromoButton}
+                                        type="submit"
+                                        disabled={!isValid || cartStatus === 'loading'}
+                                    >
+                                        Apply
+                                    </CustomButton>
+                                </FormGroup>
+                            </Box>
                             <Divider component="div" style={{ width: '100%' }} />
-                            <Typography className={S.cartTotalPrice} variant="h6">
-                                Total: {cart.totalPrice.centAmount / 100} EUR
-                            </Typography>
+                            <Box className={S.priceContainer}>
+                                {cart.discountCodes.length > 0 ? (
+                                    <>
+                                        <Typography className={S.originalPrice} variant="body2">
+                                            Original Total: {calculateTotalPrice().original.toFixed(2)} EUR
+                                        </Typography>
+                                        <Typography className={S.discountedPrice} variant="h6">
+                                            Total with discount: {calculateTotalPrice().discounted.toFixed(2)} EUR
+                                        </Typography>
+                                    </>
+                                ) : (
+                                    <Typography className={S.cartTotalPrice} variant="h6">
+                                        Total: {calculateTotalPrice().original.toFixed(2)} EUR
+                                    </Typography>
+                                )}
+                            </Box>
                         </>
                     )}
                 </Box>

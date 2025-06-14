@@ -5,7 +5,6 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import type { LineItem } from '@commercetools/platform-sdk';
 import S from './CartPage.module.scss';
 import noImage from '../../../assets/products/no-image.png';
 import { formatPrice } from '../../../features/catalog/utils/format-price';
@@ -17,9 +16,10 @@ import { PRICE_STYLES } from '../../styles/price.styles';
 import type { Status } from 'app/model/types';
 import { cartStatusSelector } from '../../../features/cart/model/selectors/cartSelectors';
 import { CartItemSkeleton } from './CartItemSkeleton';
+import type { LineItemWithDiscountedPrice } from './interfaces';
 
 type CartItemProps = {
-    item: LineItem;
+    item: LineItemWithDiscountedPrice;
     availableQuantity?: number | undefined;
 };
 
@@ -45,41 +45,33 @@ export const CartItem: FC<CartItemProps> = ({ item, availableQuantity }) => {
         dispatch(removeFromCartTC(item.id));
     };
 
-    const priceInfo = {
-        original: formatPrice(
+    const hasCartDiscount = !!item.discountedPrice;
+    const currencyCode = item.price.value.currencyCode;
+    const fractionDigits = item.price.value.fractionDigits;
+
+    const getFormattedPrice = (centAmount: number) =>
+        formatPrice(
             [
                 {
-                    id: 'cart-original-total-price',
+                    id: 'cart-price',
                     value: {
-                        type: item.price.value.type,
-                        currencyCode: item.price.value.currencyCode,
-                        centAmount: item.price.value.centAmount * item.quantity,
-                        fractionDigits: item.price.value.fractionDigits,
+                        type: 'centPrecision',
+                        currencyCode,
+                        centAmount,
+                        fractionDigits,
                     },
                     discounted: null,
                 },
             ],
-            'EUR'
-        ),
-        discounted: item.price.discounted
-            ? formatPrice(
-                  [
-                      {
-                          id: 'cart-discounted-total-price',
-                          value: {
-                              type: item.price.discounted.value.type,
-                              currencyCode: item.price.discounted.value.currencyCode,
-                              centAmount: item.price.discounted.value.centAmount * item.quantity,
-                              fractionDigits: item.price.discounted.value.fractionDigits,
-                          },
-                          discounted: null,
-                      },
-                  ],
-                  'EUR'
-              )
-            : '',
-        hasDiscount: !!item.price.discounted,
-    };
+            currencyCode
+        );
+
+    const originalPrice = item.price.value.centAmount * item.quantity;
+    const originalPriceFormatted = getFormattedPrice(originalPrice);
+
+    const discountedPrice =
+        hasCartDiscount && item.discountedPrice ? item.discountedPrice.value.centAmount * item.quantity : originalPrice;
+    const discountedPriceFormatted = getFormattedPrice(discountedPrice);
 
     return (
         <Card className={S.cartItem}>
@@ -112,16 +104,16 @@ export const CartItem: FC<CartItemProps> = ({ item, availableQuantity }) => {
                             </IconButton>
                         </Box>
                         <Box sx={PRICE_STYLES.priceContent}>
-                            {priceInfo.hasDiscount ? (
+                            {hasCartDiscount ? (
                                 <>
-                                    <Typography sx={PRICE_STYLES.price}>{priceInfo.discounted}</Typography>
+                                    <Typography sx={PRICE_STYLES.price}>{discountedPriceFormatted}</Typography>
                                     <Box sx={PRICE_STYLES.oldPriceContent}>
-                                        <Typography sx={PRICE_STYLES.oldPrice}>{priceInfo.original}</Typography>
+                                        <Typography sx={PRICE_STYLES.oldPrice}>{originalPriceFormatted}</Typography>
                                         <Box sx={PRICE_STYLES.lineThrough} />
                                     </Box>
                                 </>
                             ) : (
-                                <Typography sx={PRICE_STYLES.price}>{priceInfo.original}</Typography>
+                                <Typography sx={PRICE_STYLES.price}>{originalPriceFormatted}</Typography>
                             )}
                         </Box>
                     </Box>

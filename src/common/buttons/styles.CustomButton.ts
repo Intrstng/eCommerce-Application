@@ -14,6 +14,12 @@ export const STYLES = genStyles({
         color: '#fff',
         backgroundColor: '#000',
         transition: 'color 0.3s ease, background-color 0.3s ease',
+        '&:disabled': {
+            pointerEvents: 'none',
+            border: '1px solid rgb(101 99 95 / 65%)',
+            opacity: '0.55',
+            backgroundColor: 'rgb(101 99 95 / 20%)',
+        },
         '&:hover': {
             border: '1px solid #000',
             color: '#000',

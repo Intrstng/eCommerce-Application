@@ -76,11 +76,72 @@
         text-align: right;
     }
 
-    .cartSkeleton {
+    .promoCodeContainer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: 1rem;
+
+        .errorForm {
+            position: absolute;
+            top: 3.15rem;
+            left: 0;
+
+            font-family: Arial, sans-serif;
+            font-size: 0.6rem;
+            color: #d20000;
+        }
+    }
+
+    .promoCodeInput {
+        width: 200px;
+        margin-bottom: 1.1rem;
+    }
+
+    .applyPromoButton {
+        height: 40px;
+        padding: 0 20px;
+        border: 1px solid #161412;
+        border-radius: 4px;
+
+        font-family: Jost, sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 24px;
+        color: #161412;
+        letter-spacing: 1px;
+
+        background-color: transparent;
+
+        transition: all 0.3s linear;
+
+        &:hover {
+            color: #f4f4f2;
+            background-color: #161412;
+        }
+    }
+
+    .priceContainer {
         display: flex;
         flex-direction: column;
+        gap: 0.5rem;
         align-items: flex-end;
-        justify-content: center;
+
+        margin-top: 1rem;
+    }
+
+    .originalPrice {
+        font-family: Jost, sans-serif;
+        font-size: 0.875rem;
+        color: #65635f;
+        text-decoration: line-through;
+    }
+
+    .discountedPrice {
+        font-family: Jost, sans-serif;
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: #161412;
     }
 
     .cartTotalPrice {
@@ -92,6 +153,13 @@
         font-weight: 400;
         line-height: 1.5rem;
         color: #161412;
+    }
+
+    .cartSkeleton {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
     }
 
     .quantityControl {
@@ -160,7 +228,7 @@
     align-items: center;
     justify-content: center;
 
-    width: auto !important;
+    width: auto;
     height: 40px;
     padding: 0 20px;
     border: 1px solid #161412;

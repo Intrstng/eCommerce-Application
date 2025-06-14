@@ -107,6 +107,13 @@
     color: #f4f4f2;
 
     background: rgb(255 255 255 / 10%);
+
+    transition: 0.25s all ease-in-out;
+
+    &:hover {
+        color: #e3d080;
+        background: #65635f;
+    }
 }
 
 .card2,
@@ -181,7 +188,7 @@
     grid-area: card4;
 
     .discount {
-        width: 120px;
+        width: 150px;
     }
 }
 
@@ -278,6 +285,10 @@
     .card4 {
         margin: 0 auto;
         padding: 12px 20px;
+    }
+
+    .card4 {
+        margin: 0 auto;
     }
 
     .noticeText {

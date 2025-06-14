@@ -239,4 +239,67 @@ export const cartAPI = {
             throw error_;
         }
     },
+
+    async applyPromoCode(cartId: string, cartVersion: number, code: string): Promise<Cart> {
+        try {
+            const response = await apiRoot
+                .withProjectKey({ projectKey })
+                .me()
+                .carts()
+                .withId({ ID: cartId })
+                .post({
+                    body: {
+                        version: cartVersion,
+                        actions: [
+                            {
+                                action: 'addDiscountCode',
+                                code,
+                            },
+                        ],
+                    },
+                })
+                .execute();
+
+            return response.body;
+        } catch (error: unknown) {
+            const error_ =
+                error instanceof Error
+                    ? new Error(`Failed to apply promo code: ${error.message}`)
+                    : new Error('Failed to apply promo code: Unknown error occurred');
+            throw error_;
+        }
+    },
+
+    async removePromoCode(cartId: string, cartVersion: number, code: string): Promise<Cart> {
+        try {
+            const response = await apiRoot
+                .withProjectKey({ projectKey })
+                .me()
+                .carts()
+                .withId({ ID: cartId })
+                .post({
+                    body: {
+                        version: cartVersion,
+                        actions: [
+                            {
+                                action: 'removeDiscountCode',
+                                discountCode: {
+                                    typeId: 'discount-code',
+                                    id: code,
+                                },
+                            },
+                        ],
+                    },
+                })
+                .execute();
+
+            return response.body;
+        } catch (error: unknown) {
+            const error_ =
+                error instanceof Error
+                    ? new Error(`Failed to remove promo code: ${error.message}`)
+                    : new Error('Failed to remove promo code: Unknown error occurred');
+            throw error_;
+        }
+    },
 };

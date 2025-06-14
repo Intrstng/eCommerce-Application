@@ -3,10 +3,17 @@ import S from './PromotionSection.module.scss';
 import imageSun from '../../../../assets/images/promotion/Sun.png';
 import imageMoon from '../../../../assets/images/promotion/Moon.png';
 import Box from '@mui/material/Box';
+import { PromoCodes } from '../../../enums';
+import { useAppDispatch } from '../../../hooks';
+import { cartActions } from '../../../../features/cart/model/slices/cartSlice';
+import { successNotifyMessage } from '../../../utils/notify-message';
 
 export const PromotionSection = memo(() => {
-    const handlePromoClick = (code: string) => {
-        console.log(code);
+    const dispatch = useAppDispatch();
+
+    const handlePromoClick = (code: PromoCodes) => {
+        dispatch(cartActions.setPromoCode({ promoCode: code }));
+        successNotifyMessage(`Promo code ${code} applied to your cart successfully!`);
     };
 
     return (
@@ -22,9 +29,11 @@ export const PromotionSection = memo(() => {
                         <Box className={S.description}>Use code STARRY3 for a dazzling 3% off on all our orders!</Box>
                         <Box
                             className={S.promocode}
-                            onClick={() => handlePromoClick('STARRY3')}
+                            onClick={() => {
+                                handlePromoClick(PromoCodes.STARRY);
+                            }}
                         >
-                            STARRY3
+                            {PromoCodes.STARRY}
                         </Box>
                     </Box>
                     <img src={imageMoon} alt="Moon" />
@@ -41,9 +50,11 @@ export const PromotionSection = memo(() => {
                         <Box className={S.description}>Get 15% off with the promo code LUNAR15!</Box>
                         <Box
                             className={S.promocode}
-                            onClick={() => handlePromoClick('LUNAR15')}
+                            onClick={() => {
+                                handlePromoClick(PromoCodes.LUNAR);
+                            }}
                         >
-                            LUNAR15
+                            {PromoCodes.LUNAR}
                         </Box>
                     </Box>
                 </Box>
@@ -59,9 +70,11 @@ export const PromotionSection = memo(() => {
                         <Box className={S.description}>Save 20% on your next purchase using code NEBULA20!</Box>
                         <Box
                             className={S.promocode}
-                            onClick={() => handlePromoClick('NEBULA20')}
+                            onClick={() => {
+                                handlePromoClick(PromoCodes.NEBULA);
+                            }}
                         >
-                            NEBULA20
+                            {PromoCodes.NEBULA}
                         </Box>
                     </Box>
                 </Box>
@@ -70,16 +83,18 @@ export const PromotionSection = memo(() => {
                         <Box className={S.row1}>
                             <Box className={S.discount}>
                                 <Box className={S.value}>30%</Box>
-                                <Box className={S.title}>on broches</Box>
+                                <Box className={S.title}>on brooches</Box>
                             </Box>
                             <Box className={S.dateEnd}>expires july 30</Box>
                         </Box>
-                        <Box className={S.description}>Get 15% off with the promo code SUNNA30!</Box>
+                        <Box className={S.description}>Get 30% off with the promo code SUNNA30!</Box>
                         <Box
                             className={S.promocode}
-                            onClick={() => handlePromoClick('SUNNA30')}
+                            onClick={() => {
+                                handlePromoClick(PromoCodes.SUNNA);
+                            }}
                         >
-                            SUNNA30
+                            {PromoCodes.SUNNA}
                         </Box>
                     </Box>
                 </Box>
