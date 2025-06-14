@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { clearCartTC, getActiveCartTC } from '../../../features/cart/model/slices/cartSlice';
+import { clearCartTC, getActiveCartTC, applyPromoCodeTC } from '../../../features/cart/model/slices/cartSlice';
 import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -18,6 +18,23 @@ import { CustomButton } from '../../buttons/CustomButton';
 import { NavLink } from 'react-router-dom';
 import { PATH } from '../../enums';
 import { ClearCartConfirmModal } from '../../components/ModalWindow/ClearCartConfirmModal/ClearCartConfirmModal';
+import TextField from '@mui/material/TextField';
+
+interface DiscountedPriceValue {
+    centAmount: number;
+    currencyCode: string;
+    fractionDigits: number;
+    type: string;
+}
+
+interface DiscountedPrice {
+    value: DiscountedPriceValue;
+    includedDiscounts: unknown[];
+}
+
+interface LineItemWithDiscountedPrice extends LineItem {
+    discountedPrice?: DiscountedPrice;
+}
 
 export const CartPage = () => {
     const isCartLoading: string = useAppSelector<Status>(cartStatusSelector);
@@ -25,6 +42,7 @@ export const CartPage = () => {
     const dispatch = useAppDispatch();
     const [lineItemsWithAvailability, setLineItemsWithAvailability] = useState<CartItemWithAvailability[]>([]);
     const [showClearCartModal, setShowClearCartModal] = useState(false);
+    const [promoCode, setPromoCode] = useState('');
 
     useEffect(() => {
         dispatch(getActiveCartTC());
@@ -82,6 +100,34 @@ export const CartPage = () => {
         setShowClearCartModal(false);
     };
 
+    const handleApplyPromoCode = () => {
+        if (promoCode && cart) {
+            dispatch(applyPromoCodeTC(cart.id, cart.version, promoCode));
+        }
+    };
+
+    const lineItems: LineItemWithDiscountedPrice[] = cart?.lineItems ?? [];
+
+    const calculateTotalPrice = () => {
+        if (!cart) return { original: 0, discounted: 0 };
+
+        const originalTotal = lineItems.reduce((total, item) => {
+            return total + item.price.value.centAmount * item.quantity;
+        }, 0);
+
+        const discountedTotal = lineItems.reduce((total, item) => {
+            const discountedPrice = item.discountedPrice
+                ? item.discountedPrice.value.centAmount
+                : item.price.value.centAmount;
+            return total + discountedPrice * item.quantity;
+        }, 0);
+
+        return {
+            original: originalTotal / 100,
+            discounted: discountedTotal / 100,
+        };
+    };
+
     if (!cart || cart.lineItems.length === 0) {
         return (
             <Box className={S.cartPageContent}>
@@ -109,11 +155,7 @@ export const CartPage = () => {
                         Shopping Cart
                     </Typography>
                     {cart.lineItems.length > 0 && (
-                        <CustomButton
-                            // onClick={() => dispatch(clearCartTC())}
-                            onClick={handleClearCartClick}
-                            className={S.clearCartButton}
-                        >
+                        <CustomButton onClick={handleClearCartClick} className={S.clearCartButton}>
                             Clear Cart
                         </CustomButton>
                     )}
@@ -131,10 +173,38 @@ export const CartPage = () => {
                 <Box className={S.cartSummary}>
                     {isCartLoading !== 'loading' && (
                         <>
+                            <Box className={S.promoCodeContainer}>
+                                <TextField
+                                    label="Promo Code"
+                                    variant="outlined"
+                                    size="small"
+                                    value={promoCode}
+                                    onChange={event => {
+                                        setPromoCode(event.target.value);
+                                    }}
+                                    className={S.promoCodeInput}
+                                />
+                                <CustomButton onClick={handleApplyPromoCode} className={S.applyPromoButton}>
+                                    Apply
+                                </CustomButton>
+                            </Box>
                             <Divider component="div" style={{ width: '100%' }} />
-                            <Typography className={S.cartTotalPrice} variant="h6">
-                                Total: {cart.totalPrice.centAmount / 100} EUR
-                            </Typography>
+                            <Box className={S.priceContainer}>
+                                {cart.discountCodes.length > 0 ? (
+                                    <>
+                                        <Typography className={S.originalPrice} variant="body2">
+                                            Original Total: {calculateTotalPrice().original.toFixed(2)} EUR
+                                        </Typography>
+                                        <Typography className={S.discountedPrice} variant="h6">
+                                            Total with discount: {calculateTotalPrice().discounted.toFixed(2)} EUR
+                                        </Typography>
+                                    </>
+                                ) : (
+                                    <Typography className={S.cartTotalPrice} variant="h6">
+                                        Total: {calculateTotalPrice().original.toFixed(2)} EUR
+                                    </Typography>
+                                )}
+                            </Box>
                         </>
                     )}
                 </Box>
