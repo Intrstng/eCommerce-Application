@@ -12,12 +12,14 @@ import { errorNotifyMessageWithDispatch } from '../../common/utils/notify-messag
 import Box from '@mui/material/Box';
 import { useLocation } from 'react-router-dom';
 import { cartActions, getActiveCartTC } from '../../features/cart/model/slices/cartSlice';
+import { authIsLoggedInSelector } from '../../features/auth/model/selectors/authSelector';
+
 
 export const App = () => {
     const dispatch = useAppDispatch();
     const appStatus: string = useAppSelector<Status>(statusSelector);
     const appError = useAppSelector<AppError>(errorSelector);
-    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
+    const isLoggedIn = useAppSelector(authIsLoggedInSelector);
     const location = useLocation();
 
     useEffect(() => {
