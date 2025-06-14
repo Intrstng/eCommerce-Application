@@ -171,6 +171,10 @@
 
 .card3 {
     grid-area: card3;
+
+    .discount {
+        width: 128px;
+    }
 }
 
 .card4 {
@@ -196,11 +200,15 @@
 }
 
 @media (width <= 1180px) {
+    .wrapper {
+        gap: 16px;
+    }
+
     .cardsContainer {
         grid-template-areas:
             'card1 card2'
             'card3 card4';
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 23.875rem));
     }
 
     .card1 {
@@ -244,6 +252,10 @@
         align-items: center;
         justify-content: center;
     }
+
+    .noticeText {
+        margin-bottom: 24px;
+    }
 }
 
 @media (width <= 850px) {
@@ -257,26 +269,77 @@
 
 @media (width <= 768px) {
     .cardsContainer {
-        grid-template-areas:
-            'card1'
-            'card2'
-            'card3'
-            'card4';
-        grid-template-columns: minmax(0, 26.75rem);
-        gap: 24px;
-        justify-content: center;
+        grid-template-columns: repeat(2, minmax(0, 18.125rem));
     }
 
     .card1,
     .card2,
     .card3,
     .card4 {
-        max-width: 300px;
-        padding: 32px 64px;
+        margin: 0 auto;
+        padding: 12px 20px;
+    }
+
+    .noticeText {
+        margin-bottom: 30px;
+        font-size: 12px;
+    }
+
+    .promocode {
+        max-width: 14rem;
+        margin: 0 auto;
+        font-size: 16px;
+    }
+
+    .content {
+        .discount {
+            width: 100px;
+
+            .value {
+                font-size: 60px;
+            }
+
+            .title {
+                font-size: 8px;
+            }
+        }
+    }
+
+    .card1 {
+        .content {
+            .discount {
+                width: 115px;
+            }
+        }
+    }
+
+    .card2 {
+        .content {
+            .discount {
+                width: 90px;
+            }
+        }
+    }
+
+    .card1,
+    .card2,
+    .card3,
+    .card4 {
+        .content {
+            gap: 18px;
+        }
+    }
+
+    .dateEnd {
+        font-size: 8px;
+    }
+
+    .description {
+        font-size: 12px;
     }
 }
 
-@media (width <= 550px) {
+@media (width <= 640px) {
     .cardsContainer {
         grid-template-areas:
             'card1'
@@ -284,12 +347,9 @@
             'card3'
             'card4';
         grid-template-columns: 1fr;
-    }
+        justify-content: center;
 
-    .card1,
-    .card2,
-    .card3,
-    .card4 {
-        padding: 24px 30px;
+        //grid-template-columns: 18.125rem;
+        margin-top: 30px;
     }
 }
