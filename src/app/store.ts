@@ -5,8 +5,9 @@ import { authSlice } from '../features/auth/model/slices/authSlice';
 import { appSlice } from 'app/model/slices/appSlice';
 import { catalogSlice } from '../features/catalog/model/slices/catalogSlice';
 import { profileSlice } from '../features/profile/model/slices/__tests__/profileSlice';
+import { cartSlice } from '../features/cart/model/slices/cartSlice';
 
-export const rootReducer = combineSlices(appSlice, authSlice, profileSlice, catalogSlice);
+export const rootReducer = combineSlices(appSlice, authSlice, profileSlice, catalogSlice, cartSlice);
 export type AppRootState = ReturnType<typeof rootReducer>;
 
 export const makeStore = (preloadedState?: Partial<AppRootState>) => {

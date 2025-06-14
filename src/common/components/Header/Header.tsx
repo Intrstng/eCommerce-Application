@@ -10,11 +10,17 @@ import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { SignInButton } from '../SignInButton/SignInButton';
 import { Logo } from '../Logo/Logo';
 import { CartLogo } from '../CartLogo/CartLogo';
+import { useAppSelector } from '../../hooks';
+import { cartSelector } from '../../../features/cart/model/selectors/cartSelectors';
+import type { Cart, LineItem } from '@commercetools/platform-sdk';
 
 export const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const cart: Cart | null = useAppSelector(cartSelector);
+    const lineItems: LineItem[] = cart?.lineItems || [];
 
+    const cartQuantity = lineItems.reduce((total, item) => total + item.quantity, 0);
     const isHomepage = location.pathname === '/';
 
     useEffect(() => {
@@ -62,13 +68,13 @@ export const Header: React.FC = () => {
                     <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.BROOCHES}`} className={S.navLink}>
                         {CATEGORIES.BROOCHES}
                     </NavLink>
-                    <NavLink to={PATH.ABOUT} className={S.navLink}>
-                        About us
+                    <NavLink to={PATH.ABOUT} className={S.navAboutLink}>
+                        <icons.about className={S.doxIcon} />
                     </NavLink>
-                    <icons.dox className={S.doxIcon} />
+                    {/*<icons.dox className={S.doxIcon} />*/}
                     <Box className={S.customerControls}>
-                        <CartLogo counter={5} size="1.5rem" counterClassName={S.cartMainCounter} />
                         <SignInButton />
+                        <CartLogo counter={cartQuantity} size="1.5rem" counterClassName={S.cartMainCounter} />
                     </Box>
                 </Box>
             </Box>

@@ -4,9 +4,12 @@ import S from './BurgerMenu.module.scss';
 import icons from '../../../../assets/icons/icons.tsx';
 import { Link, NavLink } from 'react-router-dom';
 import { CATEGORIES, PATH } from '../../../enums';
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { motion } from 'framer-motion';
 import { CartLogo } from '../../CartLogo/CartLogo';
+import type { Cart, LineItem } from '@commercetools/platform-sdk';
+import { cartSelector } from '../../../../features/cart/model/selectors/cartSelectors';
+import { logOutTC } from '../../../../features/auth/model/slices/authSlice';
 
 interface BurgerMenuProps {
     isOpen: boolean;
@@ -15,6 +18,11 @@ interface BurgerMenuProps {
 
 export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
+    const cart: Cart | null = useAppSelector(cartSelector);
+    const lineItems: LineItem[] = cart?.lineItems || [];
+    const dispatch = useAppDispatch();
+
+    const cartQuantity = lineItems.reduce((total, item) => total + item.quantity, 0);
 
     useEffect(() => {
         document.body.style.overflow = isOpen ? 'hidden' : 'unset';
@@ -22,6 +30,10 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
             document.body.style.overflow = 'unset';
         };
     }, [isOpen]);
+
+    const handleLogout = () => {
+        dispatch(logOutTC());
+    };
 
     if (!isOpen) {
         return null;
@@ -46,7 +58,7 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
                     <Link to={PATH.PAGE_ROOT} onClick={onClose}>
                         <icons.logo className={S.logo} />
                     </Link>
-                    <CartLogo counter={5} size="1.875rem" counterClassName={S.cartBurgerCounter} />
+                    <CartLogo counter={cartQuantity} size="1.875rem" counterClassName={S.cartBurgerCounter} />
                 </div>
                 <div className={S.navLinks}>
                     <NavLink
@@ -78,9 +90,14 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
                     </NavLink>
                 </div>
                 {isLoggedIn ? (
-                    <NavLink to={PATH.PROFILE_MAIN} className={S.button} onClick={onClose}>
-                        ACCOUNT
-                    </NavLink>
+                    <>
+                        <NavLink to={PATH.PROFILE_MAIN} className={S.button} onClick={onClose}>
+                            ACCOUNT
+                        </NavLink>
+                        <NavLink to={PATH.SIGNIN} onClick={handleLogout} aria-label="logout" className={S.button}>
+                            Logout
+                        </NavLink>
+                    </>
                 ) : (
                     <NavLink to={PATH.SIGNIN} className={S.button} onClick={onClose}>
                         LOG IN

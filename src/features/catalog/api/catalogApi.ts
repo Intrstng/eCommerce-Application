@@ -35,15 +35,15 @@ export const catalogAPI = {
             };
 
             if (searchParameters?.search?.trim()) {
-                queryArguments['text.en'] = searchParameters.search.trim();
+                queryArguments['text.en'] = searchParameters?.search?.trim();
             }
 
             const filters = [];
             if (searchParameters?.material?.trim()) {
-                filters.push(`variants.attributes.material.key:"${searchParameters.material.trim()}"`);
+                filters.push(`variants.attributes.material.key:"${searchParameters?.material?.trim()}"`);
             }
             if (searchParameters?.gender?.trim()) {
-                filters.push(`variants.attributes.gender.key:"${searchParameters.gender.trim()}"`);
+                filters.push(`variants.attributes.gender.key:"${searchParameters?.gender?.trim()}"`);
             }
 
             const productTypeName = searchParameters?.productType?.trim();
@@ -119,7 +119,7 @@ export const catalogAPI = {
         }
     },
 
-    async getProductByID(id: string): Promise<CatalogProduct[]> {
+    async getSingleProductByID(id: string): Promise<CatalogProduct | undefined> {
         try {
             const response = await apiRoot
                 .withProjectKey({ projectKey })
@@ -131,7 +131,24 @@ export const catalogAPI = {
                 })
                 .execute();
 
-            return setProductDataFromResponse(response.body.results);
+            const products = setProductDataFromResponse(response.body.results);
+            return products.length > 0 ? products[0] : undefined;
+        } catch (error: unknown) {
+            const error_ =
+                error instanceof Error
+                    ? new Error(`Failed to fetch single product by ID: ${error.message}`)
+                    : new Error('Failed to fetch single product by ID: Unknown error occurred');
+            throw error_;
+        }
+    },
+
+    async getProductByID(id: string): Promise<CatalogProduct> {
+        try {
+            const product = await this.getSingleProductByID(id);
+            if (!product) {
+                throw new Error(`Product with ID ${id} not found`);
+            }
+            return product;
         } catch (error: unknown) {
             const error_ =
                 error instanceof Error

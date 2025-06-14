@@ -21,8 +21,8 @@ export const catalogSlice = createSlice({
         setProducts(state, action: PayloadAction<{ products: CatalogProduct[] }>) {
             state.products = action.payload.products;
         },
-        setProduct(state, action: PayloadAction<{ product: CatalogProduct[] }>) {
-            state.product = action.payload.product;
+        setProduct(state, action: PayloadAction<{ product: CatalogProduct }>) {
+            state.product = [action.payload.product];
         },
         setTotalCount(state, action: PayloadAction<{ totalCount: number }>) {
             state.totalCount = action.payload.totalCount;

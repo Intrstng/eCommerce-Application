@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getProductByIdTC } from '../../../features/catalog/model/slices/catalogSlice';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { catalogProductSelector } from '../../../features/catalog/model/selectors/catalogSelector';
 import type { CatalogProduct, ProductPrice } from '../../../features/catalog/api/catalogApi.interfaces';
 import type { Status } from 'app/model/types';
@@ -14,7 +14,6 @@ import { BackButton } from '../../buttons/BackButton';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import { CustomButton } from '../../buttons/CustomButton';
-import { FavouriteSwitch } from '../../components/FavouriteSwitch/FavouriteSwitch';
 import { ProductPageSkeleton } from './ProductPageSkeleton';
 import { formatPrice, formatPriceDiscount } from '../../../features/catalog/utils/format-price';
 import { CopyToClipboard } from '../../components/CopyToClipboard/CopyToClipboard';
@@ -26,31 +25,21 @@ import skuSvg from '../../../assets/icons/sku.svg';
 import { isValidAttribute } from '../../utils/assertion-functions';
 import { ProductCarousel } from '../../components/ProductCarousel/ProductCarousel';
 import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
+import { addToCartTC, removeFromCartTC } from '../../../features/cart/model/slices/cartSlice';
+import { cartSelector, cartStatusSelector } from '../../../features/cart/model/selectors/cartSelectors';
+import type { Cart, LineItem } from '@commercetools/platform-sdk';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const ProductPage = () => {
     const dispatch = useAppDispatch();
     const { id } = useParams();
     const catalogProduct: CatalogProduct[] = useAppSelector<CatalogProduct[]>(catalogProductSelector);
     const isLoading: string = useAppSelector<Status>(statusSelector);
+    const cart: Cart | null = useAppSelector(cartSelector);
+    const isCartLoading: string = useAppSelector<Status>(cartStatusSelector);
 
-    // ToDo: Temporary solution:
-    const [isFavourite, setIsFavourite] = useState<Record<string, boolean>>({
-        uuidFav1: false,
-        uuidFav2: false,
-    });
-    const [isInBasket, setIsInBasket] = useState(false);
-
-    const handleIsFavouriteToggle = (id: string) => {
-        setIsFavourite(previous => ({
-            ...previous,
-            [id]: !previous[id],
-        }));
-    };
-
-    const handleCartToggle = () => {
-        setIsInBasket(previous => !previous);
-    };
-    ///////////////
+    const lineItems: LineItem[] = cart?.lineItems || [];
+    const isInCart = lineItems.some((item: LineItem) => item.productId === id);
 
     useEffect(() => {
         if (id) {
@@ -59,8 +48,6 @@ export const ProductPage = () => {
     }, [dispatch, id]);
 
     let images: string[] = [''];
-    // let isInCart: boolean = false; ToDo: Temporary solution
-    // let isInFavourites: boolean = false; ToDo: Temporary solution
     let name = '';
     let prices: ProductPrice[] = [];
     let material = '';
@@ -69,6 +56,7 @@ export const ProductPage = () => {
     let stone = '';
     let description = '';
     let sku: string | undefined = '';
+    let availableQuantity: number | undefined = 0;
 
     if (catalogProduct.length === 1) {
         const product = catalogProduct[0];
@@ -76,6 +64,7 @@ export const ProductPage = () => {
         images = product.images;
         name = product.name.en;
         prices = product.prices;
+        availableQuantity = product.variants[0]?.availability?.availableQuantity;
 
         const genderAttribute = product.variants[0].attributes?.find(object => isValidAttribute(object, 'gender'));
         gender = genderAttribute ? genderAttribute.value.key : '';
@@ -102,6 +91,17 @@ export const ProductPage = () => {
         original: formatPrice(prices, 'EUR'),
         discounted: formatPriceDiscount(prices, 'EUR'),
         hasDiscount: !!formatPriceDiscount(prices, 'EUR'),
+    };
+
+    const handleCartAction = () => {
+        if (!id) return;
+
+        if (isInCart) {
+            const itemToRemove = lineItems.find((item: LineItem) => item.productId === id);
+            if (itemToRemove) dispatch(removeFromCartTC(itemToRemove.id));
+        } else {
+            dispatch(addToCartTC(id, 1));
+        }
     };
 
     return (
@@ -157,38 +157,48 @@ export const ProductPage = () => {
                         )}
                         <Typography sx={STYLES.text}>{description}</Typography>
                         <Divider sx={STYLES.devider} />
-                        <Box
-                            sx={{
-                                ...PRICE_STYLES.priceContent,
-                                ...PRICE_STYLES.priceContentPosition,
-                            }}
-                        >
-                            {priceInfo.hasDiscount ? (
-                                <>
-                                    <Typography sx={PRICE_STYLES.price}>{priceInfo.discounted}</Typography>
-                                    <Box sx={PRICE_STYLES.oldPriceContent}>
-                                        <Typography sx={PRICE_STYLES.oldPrice}>{priceInfo.original}</Typography>
-                                        <Box sx={PRICE_STYLES.lineThrough} />
-                                    </Box>
-                                </>
-                            ) : (
-                                <Typography sx={PRICE_STYLES.price}>{priceInfo.original}</Typography>
+
+                        <Box sx={STYLES.priceAndStockContainer}>
+                            <Box
+                                sx={{
+                                    ...PRICE_STYLES.priceContent,
+                                    ...PRICE_STYLES.priceContentPosition,
+                                }}
+                            >
+                                {priceInfo.hasDiscount ? (
+                                    <>
+                                        <Typography sx={PRICE_STYLES.price}>{priceInfo.discounted}</Typography>
+                                        <Box sx={PRICE_STYLES.oldPriceContent}>
+                                            <Typography sx={PRICE_STYLES.oldPrice}>{priceInfo.original}</Typography>
+                                            <Box sx={PRICE_STYLES.lineThrough} />
+                                        </Box>
+                                    </>
+                                ) : (
+                                    <Typography sx={PRICE_STYLES.price}>{priceInfo.original}</Typography>
+                                )}
+                            </Box>
+                            {availableQuantity !== undefined && (
+                                <Typography sx={STYLES.stockText}>{availableQuantity} in stock</Typography>
                             )}
                         </Box>
                         <Box sx={STYLES.productControls}>
-                            <CustomButton style={{ width: '21.8rem' }} onClick={handleCartToggle}>
-                                {/*Temporary solution for Sprint 3*/}
-                                {isInBasket ? 'Remove from Cart' : 'Add to Cart'}
+                            <CustomButton
+                                isActive={isInCart}
+                                onClick={handleCartAction}
+                                style={{ width: '100%' }}
+                                // disabled={isCartLoading === 'loading'} // button flicker
+                            >
+                                {isInCart ? 'Remove from Cart' : 'Add to Cart'}
                             </CustomButton>
-                            {/*Temporary solution for Sprint 3*/}
-                            <FavouriteSwitch
-                                id={'uuidFav1'}
-                                isFavourite={isFavourite.uuidFav1}
-                                onToggle={handleIsFavouriteToggle}
-                            />
                         </Box>
                     </Box>
                 </Card>
+                {/*Added in accordance with the requirements*/}
+                {isCartLoading === 'loading' && (
+                    <Box sx={STYLES.cartLoader}>
+                        <CircularProgress color="success" />
+                    </Box>
+                )}
             </Box>
         </Box>
     );

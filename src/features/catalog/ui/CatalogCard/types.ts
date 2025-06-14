@@ -7,6 +7,7 @@ export type CatalogItemProps = {
     prices: ProductPrice[];
     description: string;
     isProductsLoading: boolean;
+    variantId: number;
 };
 
 export type Currency = 'BYN' | 'EUR' | 'RUB';

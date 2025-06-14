@@ -110,4 +110,26 @@ export const STYLES = genStyles({
         alignItems: 'center',
         width: '100%',
     },
+    priceAndStockContainer: {
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        gap: '1rem',
+    },
+    stockText: {
+        fontFamily: 'Jost, sans-serif',
+        fontSize: '1rem',
+        color: '#65635f',
+    },
+    cartLoader: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1000,
+    },
 });

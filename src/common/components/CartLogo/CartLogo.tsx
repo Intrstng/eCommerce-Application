@@ -12,7 +12,7 @@ export const CartLogo: FC<CartLogoProps> = ({ counter, size, counterClassName })
             <Link to={PATH.CART}>
                 <icons.basket className={S.cartLogo} style={{ height: size }} />
             </Link>
-            <span className={counterClassName}>{counter}</span>
+            <span className={counterClassName}>{counter === 0 ? '' : counter}</span>
         </Box>
     );
 };
