@@ -169,3 +169,41 @@ export const clearCartTC = (): AppThunk => async (dispatch, getState) => {
         );
     }
 };
+
+export const applyPromoCodeTC =
+    (cartId: string, cartVersion: number, code: string): AppThunk =>
+    async dispatch => {
+        try {
+            dispatch(cartActions.setStatus({ status: Status.LOADING }));
+            const updatedCart = await cartAPI.applyPromoCode(cartId, cartVersion, code);
+            dispatch(cartActions.setCart({ cart: updatedCart }));
+            dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
+            successNotifyMessage('Promo code applied successfully!');
+        } catch (error) {
+            dispatch(cartActions.setStatus({ status: Status.FAILED }));
+            dispatch(
+                appActions.setAppError({
+                    error: error instanceof Error ? error.message : 'Failed to apply promo code',
+                })
+            );
+        }
+    };
+
+export const removePromoCodeTC =
+    (cartId: string, cartVersion: number, code: string): AppThunk =>
+    async dispatch => {
+        try {
+            dispatch(cartActions.setStatus({ status: Status.LOADING }));
+            const updatedCart = await cartAPI.removePromoCode(cartId, cartVersion, code);
+            dispatch(cartActions.setCart({ cart: updatedCart }));
+            dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
+            warningNotifyMessage('Promo code removed successfully!');
+        } catch (error) {
+            dispatch(cartActions.setStatus({ status: Status.FAILED }));
+            dispatch(
+                appActions.setAppError({
+                    error: error instanceof Error ? error.message : 'Failed to remove promo code',
+                })
+            );
+        }
+    };
