@@ -6,11 +6,17 @@ import icons from '../../../assets/icons/icons';
 import Box from '@mui/material/Box';
 import type { CartLogoProps } from './types';
 
-export const CartLogo: FC<CartLogoProps> = ({ counter, size, counterClassName }) => {
-    return (
+export const CartLogo: FC<CartLogoProps> = ({ counter, size, onClickCB, counterClassName }) => {
+  const handleClick = () => {
+    if (onClickCB) {
+      onClickCB();
+    }
+  };
+
+  return (
         <Box className={S.cartLogoWrapper}>
-            <Link to={PATH.CART}>
-                <icons.basket className={S.cartLogo} style={{ height: size }} />
+            <Link to={PATH.CART} onClick={handleClick}>
+                <icons.basket className={S.cartLogo} style={{ height: size }}/>
             </Link>
             <span className={counterClassName}>{counter === 0 ? '' : counter}</span>
         </Box>
