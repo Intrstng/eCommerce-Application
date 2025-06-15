@@ -6,11 +6,28 @@ interface CustomButtonProps {
     children: React.ReactNode;
     className?: string;
     isActive?: boolean;
-    onClick: () => void;
+    onClick?: () => void;
     style?: React.CSSProperties;
+    type?: 'submit' | 'reset' | 'button';
+    disabled?: boolean;
 }
 
-export const CustomButton = ({ children, className = '', isActive, onClick, style, ...props }: CustomButtonProps) => {
+export const CustomButton = ({
+    children,
+    className = '',
+    isActive,
+    onClick,
+    style,
+    type = 'button',
+    disabled = false,
+    ...props
+}: CustomButtonProps) => {
+    const handleOnClick = () => {
+        if (onClick) {
+            onClick();
+        }
+    };
+
     return (
         <Button
             sx={{
@@ -19,7 +36,9 @@ export const CustomButton = ({ children, className = '', isActive, onClick, styl
             }}
             className={className ?? ''}
             style={style ?? {}}
-            onClick={onClick}
+            onClick={handleOnClick}
+            type={type ?? 'button'}
+            disabled={!!disabled}
             {...props}
         >
             {children}

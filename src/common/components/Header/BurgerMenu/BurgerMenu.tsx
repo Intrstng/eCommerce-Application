@@ -33,6 +33,7 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
 
     const handleLogout = () => {
         dispatch(logOutTC());
+        onClose();
     };
 
     if (!isOpen) {
@@ -58,7 +59,12 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
                     <Link to={PATH.PAGE_ROOT} onClick={onClose}>
                         <icons.logo className={S.logo} />
                     </Link>
-                    <CartLogo counter={cartQuantity} size="1.875rem" counterClassName={S.cartBurgerCounter} />
+                    <CartLogo
+                        counter={cartQuantity}
+                        size="1.875rem"
+                        counterClassName={S.cartBurgerCounter}
+                        onClickCB={onClose}
+                    />
                 </div>
                 <div className={S.navLinks}>
                     <NavLink

@@ -11,8 +11,8 @@ import { COUNTRIES } from '../../../validations/validation-data/validation-data'
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import type { AddressModalFormData } from '../../../validations/addressModalFormValidation';
-import { validateAddressModalFormSchema } from '../../../validations/addressModalFormValidation';
+import type { AddressModalFormData } from '../../../validations/addressModalFormValidation.schema';
+import { validateAddressModalFormSchema } from '../../../validations/addressModalFormValidation.schema';
 import Button from '@mui/material/Button';
 import FormGroup from '@mui/material/FormGroup';
 import { useAppSelector } from '../../../hooks';
