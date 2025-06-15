@@ -28,7 +28,7 @@ export const useFetchProducts = () => {
                     apiRoot
                         .withProjectKey({ projectKey })
                         .products()
-                        .get({ queryArgs: { staged: false } })
+                        .get({ queryArgs: { staged: false, limit: 100 } })
                         .execute(),
                     apiRoot.withProjectKey({ projectKey }).productTypes().get().execute(),
                 ]);
