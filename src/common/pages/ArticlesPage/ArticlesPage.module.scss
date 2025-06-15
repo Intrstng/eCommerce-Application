@@ -1,16 +1,27 @@
 .articlesContainer {
-    width: 100%;
+    width: calc(100% - 2rem);
     max-width: 1180px;
     margin: 0 auto;
+    padding: 0 1rem;
 }
 
-.articles {
-    margin: 2rem auto 1.5rem;
+.articlesTitle {
+    margin: 0;
+    margin-bottom: 0.4rem;
+
+    font-family: Cormorant, serif;
+    font-size: 3.25rem;
+    font-weight: 500;
+    line-height: 3.9rem;
+    color: #000;
 }
 
 .articlesContent {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+
+    @media (width <= 768px) {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }

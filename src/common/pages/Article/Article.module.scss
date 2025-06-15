@@ -2,6 +2,7 @@
     width: 100%;
     max-width: 1180px;
     margin: 0 auto;
+    padding: 0 1rem;
 
     .articleWrapper {
         width: 100%;
@@ -12,34 +13,46 @@
     .articlesContent {
         display: flex;
         flex-wrap: wrap;
+        gap: 0.5rem;
         align-items: center;
         justify-content: center;
 
         width: 100%;
+        margin-bottom: 1rem;
 
         & img {
             height: 22.5rem;
             object-fit: contain;
+
+            @media (width <= 500px) {
+                height: 17.5rem;
+            }
+        }
+
+        h3 {
+            margin: 0.5rem;
+            font-family: Cormorant, serif;
+            font-size: 35px;
+            font-weight: 500;
+        }
+
+        div {
+            font-family: Jost, sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            color: #65635f;
+            text-align: justify;
         }
     }
 
     .backToArticlesLink {
-        position: relative;
-
-        width: 2.5rem; // Must be the same on signin/signup pages
-
-        font-weight: bold;
-        color: #295f98;
-        text-decoration: none;
-
+        //position: relative;
+        font-family: Jost, sans-serif;
+        color: #547792;
         transition: color 0.3s ease;
 
         &:hover {
-            color: #009fbd;
-        }
-
-        &:active {
-            color: #10375c;
+            color: #a55b4b;
         }
     }
 }
