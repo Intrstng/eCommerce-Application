@@ -45,6 +45,8 @@ export function setProductDataFromResponse(data: Product[]): CatalogProduct[] {
 
         const images = masterVariant.images?.map(image => image.url) ?? [];
 
+        const productTypeName = product.productType?.obj?.name;
+
         return {
             id: product.id,
             isInCart: false, // Temporary
@@ -59,6 +61,7 @@ export function setProductDataFromResponse(data: Product[]): CatalogProduct[] {
                 attributes: variant.attributes,
                 availability: variant.availability,
             })),
+            productType: productTypeName,
         };
     });
 
@@ -143,6 +146,8 @@ export function setProductDataFromProjectionResponse(data: ProductProjectionPage
 
         const images = masterVariant.images?.map(image => image.url) ?? [];
 
+        const productTypeName = product.productType?.obj?.name;
+
         return {
             id: product.id,
             isInCart: false,
@@ -158,6 +163,7 @@ export function setProductDataFromProjectionResponse(data: ProductProjectionPage
                 availability: variant.availability,
             })),
             totalCount,
+            productType: productTypeName,
         };
     });
 }

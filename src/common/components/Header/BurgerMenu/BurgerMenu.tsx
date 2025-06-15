@@ -67,25 +67,13 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
                     />
                 </div>
                 <div className={S.navLinks}>
-                    <NavLink
-                        to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.EARRINGS}`}
-                        className={S.navLink}
-                        onClick={onClose}
-                    >
+                    <NavLink to={`${PATH.CATALOG}?productType=Earrings`} className={S.navLink} onClick={onClose}>
                         {CATEGORIES.EARRINGS}
                     </NavLink>
-                    <NavLink
-                        to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.RINGS}`}
-                        className={S.navLink}
-                        onClick={onClose}
-                    >
+                    <NavLink to={`${PATH.CATALOG}?productType=Rings`} className={S.navLink} onClick={onClose}>
                         {CATEGORIES.RINGS}
                     </NavLink>
-                    <NavLink
-                        to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.BROOCHES}`}
-                        className={S.navLink}
-                        onClick={onClose}
-                    >
+                    <NavLink to={`${PATH.CATALOG}?productType=Brooches`} className={S.navLink} onClick={onClose}>
                         {CATEGORIES.BROOCHES}
                     </NavLink>
                     <NavLink to={PATH.CATALOG} className={S.navLink} onClick={onClose}>

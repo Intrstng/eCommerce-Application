@@ -59,13 +59,13 @@ export const Header: React.FC = () => {
                 </div>
                 <Logo />
                 <Box className={S.nav}>
-                    <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.EARRINGS}`} className={S.navLink}>
+                    <NavLink to={`${PATH.CATALOG}?productType=Earrings`} className={S.navLink}>
                         {CATEGORIES.EARRINGS}
                     </NavLink>
-                    <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.RINGS}`} className={S.navLink}>
+                    <NavLink to={`${PATH.CATALOG}?productType=Rings`} className={S.navLink}>
                         {CATEGORIES.RINGS}
                     </NavLink>
-                    <NavLink to={`${PATH.CATALOG}?page=1&type=${CATEGORIES.BROOCHES}`} className={S.navLink}>
+                    <NavLink to={`${PATH.CATALOG}?productType=Brooches`} className={S.navLink}>
                         {CATEGORIES.BROOCHES}
                     </NavLink>
                     <NavLink to={PATH.ABOUT} className={S.navAboutLink}>
