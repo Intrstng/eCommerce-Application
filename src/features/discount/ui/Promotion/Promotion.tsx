@@ -1,20 +1,29 @@
-import { memo } from 'react';
-import S from './PromotionSection.module.scss';
+import { memo, useEffect } from 'react';
+import S from './Promotion.module.scss';
 import imageSun from '../../../../assets/images/promotion/Sun.png';
 import imageMoon from '../../../../assets/images/promotion/Moon.png';
 import Box from '@mui/material/Box';
-import { PromoCodes } from '../../../enums';
-import { useAppDispatch } from '../../../hooks';
-import { cartActions } from '../../../../features/cart/model/slices/cartSlice';
-import { successNotifyMessage } from '../../../utils/notify-message';
+import { PromoCodes } from '../../../../common/enums';
+import { useAppDispatch, useAppSelector } from '../../../../common/hooks';
+import { successNotifyMessage } from '../../../../common/utils/notify-message';
+import { discountActions, getAvailablePromoCodesTC } from '../../model/slices/discountSlice';
+import { availablePromoCodesSelector } from '../../model/selectors/discountSelectors';
+import type { DiscountCode } from '@commercetools/platform-sdk';
 
-export const PromotionSection = memo(() => {
+export const Promotion = memo(() => {
+    const availablePromoCodes = useAppSelector<DiscountCode[]>(availablePromoCodesSelector);
     const dispatch = useAppDispatch();
 
+    console.log(availablePromoCodes);
+
     const handlePromoClick = (code: PromoCodes) => {
-        dispatch(cartActions.setPromoCode({ promoCode: code }));
+        dispatch(discountActions.setPromoCode({ promoCode: code }));
         successNotifyMessage(`Promo code ${code} applied to your cart successfully!`);
     };
+
+    useEffect(() => {
+        dispatch(getAvailablePromoCodesTC());
+    }, [dispatch]);
 
     return (
         <Box className={S.wrapper}>

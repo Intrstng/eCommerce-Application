@@ -7,12 +7,10 @@ import { appActions } from 'app/model/slices/appSlice';
 import { Status } from 'app/model/types';
 import type { CartState } from '../interfaces';
 import { successNotifyMessage, warningNotifyMessage } from '../../../../common/utils/notify-message';
-import type { PromoCodes } from '../../../../common/enums';
 
 const initialState: CartState = {
     cart: null,
     status: Status.IDLE,
-    promoCode: '',
 };
 
 export const cartSlice = createSlice({
@@ -24,9 +22,6 @@ export const cartSlice = createSlice({
         },
         setStatus(state, action: PayloadAction<{ status: Status }>) {
             state.status = action.payload.status;
-        },
-        setPromoCode(state, action: PayloadAction<{ promoCode: PromoCodes | '' }>) {
-            state.promoCode = action.payload.promoCode;
         },
     },
 });

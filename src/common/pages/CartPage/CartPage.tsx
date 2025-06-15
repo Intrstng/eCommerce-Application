@@ -1,22 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import {
-    applyPromoCodeTC,
-    cartActions,
-    clearCartTC,
-    getActiveCartTC,
-} from '../../../features/cart/model/slices/cartSlice';
+import { applyPromoCodeTC, clearCartTC, getActiveCartTC } from '../../../features/cart/model/slices/cartSlice';
 import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import type { Status } from 'app/model/types';
 import { CartItem } from './CartItem';
 import S from './CartPage.module.scss';
-import {
-    cartSelector,
-    cartStatusSelector,
-    promoCodeSelector,
-} from '../../../features/cart/model/selectors/cartSelectors';
+import { cartSelector, cartStatusSelector } from '../../../features/cart/model/selectors/cartSelectors';
 import type { Cart, LineItem } from '@commercetools/platform-sdk';
 import { catalogAPI } from '../../../features/catalog/api/catalogApi';
 import type { CatalogProduct } from '../../../features/catalog/api/catalogApi.interfaces';
@@ -37,6 +28,8 @@ import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import type { PromoCodes } from '../../enums/common.enums';
 import { isValidPromoCode } from '../../utils/assertion-functions';
+import { discountActions } from '../../../features/discount/model/slices/discountSlice';
+import { promoCodeSelector } from '../../../features/discount/model/selectors/discountSelectors';
 
 export const CartPage = () => {
     const currentPromoCode = useAppSelector<PromoCodes | ''>(promoCodeSelector);
@@ -64,7 +57,7 @@ export const CartPage = () => {
         const { promoCode } = data;
 
         if (isValidPromoCode(promoCode) || promoCode === '') {
-            dispatch(cartActions.setPromoCode({ promoCode }));
+            dispatch(discountActions.setPromoCode({ promoCode }));
             handleApplyPromoCode(promoCode);
         } else {
             throw new Error('Invalid promo code');
