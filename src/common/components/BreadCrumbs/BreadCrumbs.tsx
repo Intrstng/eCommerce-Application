@@ -6,6 +6,7 @@ import { STYLES } from './styles.breadCrumbs';
 import { isValidUUID } from '../../utils/validate-uuid';
 import { useAppSelector } from '../../hooks';
 import { catalogProductSelector } from '../../../features/catalog/model/selectors/catalogSelector';
+import type { FC } from 'react';
 
 const BREAD_CRUMBS_NAMES: Record<string, PAGES> = {
     main: PAGES.MAIN,
@@ -23,7 +24,11 @@ const BREAD_CRUMBS_NAMES: Record<string, PAGES> = {
     addresses: PAGES.ADDRESSES,
 };
 
-export const BreadCrumbs = () => {
+type BreadCrumbsProps = {
+    articleTitle?: string;
+};
+
+export const BreadCrumbs: FC<BreadCrumbsProps> = ({ articleTitle }) => {
     const location = useLocation();
     const [searchParameters] = useSearchParams();
     const pathnames = location.pathname.split(PATH.PAGE_ROOT).filter(Boolean);
@@ -44,6 +49,7 @@ export const BreadCrumbs = () => {
 
     const isOnCatalogRoute = location.pathname.startsWith(PATH.CATALOG);
     const isOnProductRoute = location.pathname.startsWith(PATH.PRODUCT.split(':')[0]);
+    const isOnArticleRoute = location.pathname.startsWith(PATH.ARTICLES);
 
     if (isOnCatalogRoute || isOnProductRoute) {
         breadcrumbsContents.push({ display: PAGES.CATALOG, to: PATH.CATALOG });
@@ -62,6 +68,11 @@ export const BreadCrumbs = () => {
             }
         } else if (typeParameter) {
             breadcrumbsContents.push({ display: typeParameter });
+        }
+    } else if (isOnArticleRoute) {
+        breadcrumbsContents.push({ display: PAGES.ARTICLES, to: PATH.ARTICLES });
+        if (articleTitle) {
+            breadcrumbsContents.push({ display: articleTitle });
         }
     } else {
         const lastSegment = pathnames.at(-1);
