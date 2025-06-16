@@ -61,7 +61,7 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
                     </Link>
                     <CartLogo
                         counter={cartQuantity}
-                        size="1.875rem"
+                        size="1.5rem"
                         counterClassName={S.cartBurgerCounter}
                         onClickCB={onClose}
                     />
