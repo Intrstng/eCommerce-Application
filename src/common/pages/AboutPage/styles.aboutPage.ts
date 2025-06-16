@@ -4,7 +4,7 @@ export const STYLES = genStyles({
     aboutPageContent: {
         // width: 'calc(100% - 2rem)',
         maxWidth: '1180px',
-        margin: '0 auto',
+        margin: '2rem auto 1.5rem',
         padding: '0 1rem',
     },
     aboutContent: {
