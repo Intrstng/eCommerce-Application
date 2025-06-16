@@ -37,11 +37,11 @@ export const Promotion = memo(() => {
     useEffect(() => {
         // dispatch(getAvailablePromoCodesTC());
         // Check:
-        const fetchDiscountCodes = async () => {
+        const fetchDiscountCodes = () => {
             try {
                 const token = authTokenService.getAccessToken();
                 if (token) {
-                    console.log('test')
+                    console.log('test');
                     dispatch(getAvailablePromoCodesTC());
                 }
             } catch (error) {
@@ -49,7 +49,7 @@ export const Promotion = memo(() => {
             }
         };
 
-        void fetchDiscountCodes();
+        fetchDiscountCodes();
     }, [dispatch]);
 
     // TODO: fix and add this useEffect
