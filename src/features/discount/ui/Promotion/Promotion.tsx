@@ -13,7 +13,6 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import { STYLES } from './styles.promotion';
 import { transformToPromoCodeCartContent } from '../../../../common/utils/transform-to-promo-code-cart-content';
-import { authTokenService } from '../../../../common/services/auth-token.service';
 import { cartSelector } from '../../../cart/model/selectors/cartSelectors';
 
 export const Promotion = memo(() => {
@@ -56,15 +55,15 @@ export const Promotion = memo(() => {
 
     // CHECK IS IT CORRECT / FIX / DELETE:
     useEffect(() => {
-        const setAvailablePromoCodes = async () => {
-            try {
-                await authTokenService.ensureAnonymousToken();
-                dispatch(getAvailablePromoCodesTC());
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        void setAvailablePromoCodes();
+        // const setAvailablePromoCodes = async () => {
+        //     try {
+        //         await authTokenService.ensureAnonymousToken();
+        dispatch(getAvailablePromoCodesTC());
+        //     } catch (error) {
+        //         console.error(error);
+        //     }
+        // };
+        // void setAvailablePromoCodes();
     }, [dispatch]);
 
     // TODO: fix and add this useEffect
