@@ -36,94 +36,98 @@
     gap: 8px;
     color: #f4f4f2;
     background-color: #161412;
+    transition: all 0.3s ease-in-out;
+
+    & .icon {
+        color: #f4f4f2;
+    }
 }
 
 .primary:hover {
     border: 1px solid #161412;
     color: #161412;
     background-color: transparent;
+
+    & .icon {
+        color: #161412;
+    }
 }
 
 .secondary {
     gap: 4px;
+
     border: 1px solid #65635f;
+
     color: #161412;
+
     background-color: transparent;
+
+    transition: all 0.3s ease-in-out;
+
+    & .icon {
+        color: #161412;
+    }
 }
 
 .secondary:hover {
     border: 1px solid #161412;
     color: #f4f4f2;
     background-color: #161412;
+
+    & .icon {
+        color: #f4f4f2;
+    }
 }
 
 .text {
     gap: 4px;
     color: #65635f;
     background: none;
+    transition: all 0.3s ease-in-out;
+
+    & .icon {
+        color: #65635f;
+    }
 }
 
 .text:hover {
     color: #161412;
     background: none;
+
+    & .icon {
+        color: #161412;
+    }
 }
 
 /* Button sizes */
 .small {
     height: 20px;
     font: normal 400 12px / 24px Jost;
+
+    & .icon {
+        width: 16px;
+        height: 16px;
+    }
 }
 
 .default {
     height: 40px;
     font: normal 400 12px / 24px Jost;
+
+    & .icon {
+        width: 20px;
+        height: 20px;
+    }
 }
 
 .large {
     height: 48px;
     font: normal 400 16px/24px Jost;
-}
 
-/* Icon colors */
-.primary .icon {
-    color: #f4f4f2;
-}
-
-.secondary .icon {
-    color: #161412;
-}
-
-.text .icon {
-    color: #65635f;
-}
-
-/* Icon sizes */
-.small .icon {
-    width: 16px;
-    height: 16px;
-}
-
-.default .icon {
-    width: 20px;
-    height: 20px;
-}
-
-.large .icon {
-    width: 24px;
-    height: 24px;
-}
-
-/* Icon hover colors */
-.primary:hover .icon {
-    color: #161412;
-}
-
-.secondary:hover .icon {
-    color: #f4f4f2;
-}
-
-.text:hover .icon {
-    color: #161412;
+    .icon {
+        width: 24px;
+        height: 24px;
+    }
 }
 
 /* Disabled styles */
