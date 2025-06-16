@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { applyPromoCodeTC, clearCartTC, getActiveCartTC } from '../../../features/cart/model/slices/cartSlice';
+import { clearCartTC, getActiveCartTC } from '../../../features/cart/model/slices/cartSlice';
 import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -8,7 +8,7 @@ import type { Status } from 'app/model/types';
 import { CartItem } from './CartItem';
 import S from './CartPage.module.scss';
 import { cartSelector, cartStatusSelector } from '../../../features/cart/model/selectors/cartSelectors';
-import type { Cart, LineItem } from '@commercetools/platform-sdk';
+import type { Cart, DiscountCode, LineItem } from '@commercetools/platform-sdk';
 import { catalogAPI } from '../../../features/catalog/api/catalogApi';
 import type { CatalogProduct } from '../../../features/catalog/api/catalogApi.interfaces';
 import type { CartItemWithAvailability, LineItemWithDiscountedPrice } from './interfaces';
@@ -26,41 +26,72 @@ import type { PromoCodeFormData } from '../../validations/promoCodeFormValidatio
 import { validatePromoCodeFormSchema } from '../../validations/promoCodeFormValidation.schema';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
-import type { PromoCodes } from '../../enums/common.enums';
-import { isValidPromoCode } from '../../utils/assertion-functions';
-import { discountActions } from '../../../features/discount/model/slices/discountSlice';
-import { promoCodeSelector } from '../../../features/discount/model/selectors/discountSelectors';
+import {
+    applyPromoCodeTC,
+    discountActions,
+    getAvailablePromoCodesTC,
+    removePromoCodeTC,
+} from '../../../features/discount/model/slices/discountSlice';
+import {
+    availablePromoCodesSelector,
+    promoCodeSelector,
+} from '../../../features/discount/model/selectors/discountSelectors';
+import type { PromoCodeCartContent } from '../../types';
+import { transformToPromoCodeCartContent } from '../../utils/transform-to-promo-code-cart-content';
+import { findCurrentPromoCodeIdByCodeName } from '../../utils/find-current-promocode-id-by-code-name';
+import { checkIsPromoCodeApplied } from '../../utils/check-is-promocode-applied';
 
 export const CartPage = () => {
-    const currentPromoCode = useAppSelector<PromoCodes | ''>(promoCodeSelector);
-    const cartStatus: string = useAppSelector<Status>(cartStatusSelector);
+    const availablePromoCodes = useAppSelector<DiscountCode[]>(availablePromoCodesSelector);
+    const currentPromoCode = useAppSelector<PromoCodeCartContent | null>(promoCodeSelector);
     const cart: Cart | null = useAppSelector(cartSelector);
+    const cartStatus: string = useAppSelector<Status>(cartStatusSelector);
     const lineItems: LineItemWithDiscountedPrice[] = cart?.lineItems ?? [];
     const [lineItemsWithAvailability, setLineItemsWithAvailability] = useState<CartItemWithAvailability[]>([]);
     const [showClearCartModal, setShowClearCartModal] = useState(false);
     const dispatch = useAppDispatch();
 
+    useEffect(() => {
+        dispatch(getAvailablePromoCodesTC());
+    }, [dispatch]);
+
+    // TODO: fix and add this useEffect
+    // useEffect(() => {
+    //     if (cart) {
+    //         dispatch(setActivePromoCodeTC(cart));
+    //     }
+    // }, [dispatch]);
+    // console.log(currentPromoCode, cart);
+
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors, isValid },
+        getValues,
     } = useForm({
         // } = useForm<PromoCodeFormData>({
         mode: 'onChange',
-        resolver: yupResolver(validatePromoCodeFormSchema()),
+        resolver: yupResolver(validatePromoCodeFormSchema(availablePromoCodes)),
         defaultValues: {
-            promoCode: currentPromoCode ?? '',
+            promoCode: currentPromoCode?.key ?? currentPromoCode?.code ?? '',
         },
     });
 
     const onSubmit: SubmitHandler<PromoCodeFormData> = data => {
         const { promoCode } = data;
 
-        if (isValidPromoCode(promoCode) || promoCode === '') {
-            dispatch(discountActions.setPromoCode({ promoCode }));
+        const enteredPromoCodeData = availablePromoCodes.find(
+            availablePromoCode => availablePromoCode?.key === promoCode || availablePromoCode.code === promoCode
+        );
+
+        if (enteredPromoCodeData) {
+            const promoCodeCartContentToStore: PromoCodeCartContent =
+                transformToPromoCodeCartContent(enteredPromoCodeData);
+            dispatch(discountActions.setPromoCode({ promoCode: promoCodeCartContentToStore }));
             handleApplyPromoCode(promoCode);
         } else {
-            throw new Error('Invalid promo code');
+            throw new Error(`Entered promo code ${promoCode} is not valid`);
         }
     };
 
@@ -122,7 +153,40 @@ export const CartPage = () => {
 
     const handleApplyPromoCode = (code: string) => {
         if (currentPromoCode && cart) {
-            dispatch(applyPromoCodeTC(cart.id, cart.version, code));
+            dispatch(applyPromoCodeTC(cart, code));
+        }
+    };
+
+    const handleCancelPromoCode = () => {
+        const currentPromoCodeValueInInput = getValues('promoCode');
+        const promoCodeIdToCancel: string = findCurrentPromoCodeIdByCodeName(
+            availablePromoCodes,
+            currentPromoCodeValueInInput
+        );
+
+        if (!currentPromoCode && currentPromoCodeValueInInput) {
+            reset({ promoCode: '' });
+            console.log('Just clear input');
+        } else if (
+            cart &&
+            cart?.discountCodes[0].discountCode.id === promoCodeIdToCancel &&
+            currentPromoCodeValueInInput &&
+            (currentPromoCode?.key === currentPromoCodeValueInInput ||
+                currentPromoCode?.code === currentPromoCodeValueInInput)
+        ) {
+            dispatch(removePromoCodeTC(cart.id, cart.version, currentPromoCodeValueInInput));
+            dispatch(discountActions.setPromoCode({ promoCode: null }));
+            reset({ promoCode: '' });
+            console.log('Clear input, clear store, update server');
+        } else if (
+            cart &&
+            currentPromoCodeValueInInput &&
+            (currentPromoCode?.key === currentPromoCodeValueInInput ||
+                currentPromoCode?.code === currentPromoCodeValueInInput)
+        ) {
+            dispatch(discountActions.setPromoCode({ promoCode: null }));
+            reset({ promoCode: '' });
+            console.log('Clear input, clear store');
         }
     };
 
@@ -145,6 +209,14 @@ export const CartPage = () => {
             discounted: discountedTotal / 100,
         };
     };
+
+    const currentPromoCodeValueInInput = getValues('promoCode');
+    const isPromoCodeApplied: boolean = checkIsPromoCodeApplied(
+        currentPromoCodeValueInInput,
+        currentPromoCode,
+        availablePromoCodes,
+        cart
+    );
 
     if (!cart || cart.lineItems.length === 0) {
         return (
@@ -199,6 +271,13 @@ export const CartPage = () => {
                             >
                                 <FormGroup>
                                     <FormControl fullWidth>
+                                        <Box className={S.promoCodeMessageContainer}>
+                                            <Typography className={S.promoCodeMessage}>
+                                                {isPromoCodeApplied
+                                                    ? 'Promo code is applied.'
+                                                    : 'Promo code is not applied.'}
+                                            </Typography>
+                                        </Box>
                                         <TextField
                                             label="Promo Code"
                                             type="text"
@@ -221,7 +300,14 @@ export const CartPage = () => {
                                         type="submit"
                                         disabled={!isValid || cartStatus === 'loading'}
                                     >
-                                        Apply
+                                        Apply promo code
+                                    </CustomButton>
+                                    <CustomButton
+                                        onClick={handleCancelPromoCode}
+                                        className={S.cancelPromoButton}
+                                        disabled={!isValid || cartStatus === 'loading'}
+                                    >
+                                        Cancel promo code
                                     </CustomButton>
                                 </FormGroup>
                             </Box>

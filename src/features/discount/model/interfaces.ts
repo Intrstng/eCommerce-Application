@@ -1,7 +1,7 @@
-import type { PromoCodes } from '../../../common/enums';
 import type { DiscountCode } from '@commercetools/platform-sdk';
+import type { PromoCodeCartContent } from '../../../common/types';
 
 export interface DiscountState {
-    promoCode: PromoCodes | '';
+    promoCode: PromoCodeCartContent | null;
     availablePromoCodes: DiscountCode[];
 }

@@ -6,7 +6,6 @@
  */
 import type { Attribute } from '../types';
 import type { ChangePasswordData } from '../validations/changePasswordValidation.schema';
-import { PromoCodes } from '../enums';
 
 export function assertString(value: unknown, name: string): asserts value is string {
     if (typeof value !== 'string') {
@@ -33,7 +32,3 @@ export function isChangePasswordData(data: unknown): data is ChangePasswordData 
         'confirmPassword' in data
     );
 }
-
-export const isValidPromoCode = (code: string): code is PromoCodes => {
-    return Object.values<string>(PromoCodes).includes(code);
-};

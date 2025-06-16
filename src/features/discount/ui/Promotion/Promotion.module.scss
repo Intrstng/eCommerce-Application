@@ -1,5 +1,5 @@
-@import 'https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&display=swap';
-@import 'https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;700&display=swap';
+//@import 'https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&display=swap';
+//@import 'https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;700&display=swap';
 
 .wrapper {
     display: flex;
@@ -90,30 +90,6 @@
     font-size: 15px;
     color: #f4f4f2;
     text-align: left;
-}
-
-.promocode {
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 100%;
-    height: 40px;
-    padding: 0 12px;
-    border-radius: 4px;
-
-    color: #f4f4f2;
-
-    background: rgb(255 255 255 / 10%);
-
-    transition: 0.25s all ease-in-out;
-
-    &:hover {
-        color: #e3d080;
-        background: #65635f;
-    }
 }
 
 .card2,
@@ -279,6 +255,18 @@
         grid-template-columns: repeat(2, minmax(0, 18.125rem));
     }
 
+    .card,
+    .card1 {
+        height: 194px;
+    }
+
+    .card1 {
+        .content {
+            justify-content: space-between;
+            height: 100%;
+        }
+    }
+
     .card1,
     .card2,
     .card3,
@@ -303,6 +291,9 @@
     }
 
     .content {
+        justify-content: space-between;
+        height: 100%;
+
         .discount {
             width: 100px;
 
@@ -348,6 +339,12 @@
     .description {
         font-size: 12px;
     }
+}
+
+.tooltipContentWrapper {
+    display: inline-block;
+    width: 100%;
+    max-width: 244px;
 }
 
 @media (width <= 640px) {

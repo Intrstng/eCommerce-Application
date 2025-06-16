@@ -48,10 +48,6 @@
 //     });
 // });
 
-
-
-
-
 import { act } from 'react';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { createRoot } from 'react-dom/client';
@@ -62,31 +58,31 @@ import { store } from './app/store';
 import { ErrorBoundary } from './common/components/ErrorBoundary/ErrorBoundary';
 
 describe('Main Entry Point', () => {
-  beforeEach(() => {
-    document.body.innerHTML = '<div id="root"></div>';
-  });
-
-  afterEach(() => {
-    document.body.innerHTML = '';
-  });
-
-  it('renders the application correctly', () => {
-    const container = document.querySelector('#root');
-    const root = createRoot(container!);
-
-    act(() => {
-      root.render(
-          <Provider store={store}>
-            <MemoryRouter>
-              <ErrorBoundary>
-                <App />
-              </ErrorBoundary>
-            </MemoryRouter>
-          </Provider>
-      );
+    beforeEach(() => {
+        document.body.innerHTML = '<div id="root"></div>';
     });
 
-    expect(container).toBeInTheDocument();
-    expect(container.firstChild).toBeTruthy();
-  });
+    afterEach(() => {
+        document.body.innerHTML = '';
+    });
+
+    it('renders the application correctly', () => {
+        const container = document.querySelector('#root');
+        const root = createRoot(container!);
+
+        act(() => {
+            root.render(
+                <Provider store={store}>
+                    <MemoryRouter>
+                        <ErrorBoundary>
+                            <App />
+                        </ErrorBoundary>
+                    </MemoryRouter>
+                </Provider>
+            );
+        });
+
+        expect(container).toBeInTheDocument();
+        expect(container.firstChild).toBeTruthy();
+    });
 });

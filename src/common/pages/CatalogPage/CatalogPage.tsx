@@ -1,7 +1,7 @@
 import { Catalog } from '../../../features/catalog/ui/Catalog';
 import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
 import Box from '@mui/material/Box';
-import { STYLES } from './styles.CatalogPage';
+import { STYLES } from './styles.catalogPage';
 
 export const CatalogPage = () => {
     return (
