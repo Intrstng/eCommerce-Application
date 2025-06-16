@@ -35,7 +35,7 @@ import type { PromoCodeFormData } from '../../validations/promoCodeFormValidatio
 import { validatePromoCodeFormSchema } from '../../validations/promoCodeFormValidation.schema';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
-import type { PromoCodes } from '../../enums/common.enums';
+import type { PromoCodes } from '../../enums';
 import { isValidPromoCode } from '../../utils/assertion-functions';
 
 export const CartPage = () => {
