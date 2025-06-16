@@ -192,7 +192,6 @@ export const catalogAPI = {
                 description: category.description,
             }));
 
-            // console.log('All categories:', categories);
             return categories;
         } catch (error: unknown) {
             const error_ =
@@ -206,7 +205,7 @@ export const catalogAPI = {
     async fetchProductTypes(): Promise<ProductType[]> {
         try {
             const response = await apiRoot.withProjectKey({ projectKey }).productTypes().get().execute();
-            // console.log('All product types:', response.body.results);
+
             return response.body.results;
         } catch (error: unknown) {
             const error_ =

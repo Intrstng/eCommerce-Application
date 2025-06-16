@@ -41,7 +41,7 @@ export const Promotion = memo(() => {
         try {
             const token = authTokenService.getAccessToken();
             if (token) {
-                console.log('test');
+                // console.log('test');
                 dispatch(getAvailablePromoCodesTC());
             }
         } catch (error) {

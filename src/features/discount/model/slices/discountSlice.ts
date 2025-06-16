@@ -64,8 +64,10 @@ export const setActivePromoCodeTC =
                     const currentPromoCodeCartContent = transformToPromoCodeCartContent(currentDiscount);
 
                     dispatch(discountActions.setPromoCode({ promoCode: currentPromoCodeCartContent }));
-                    dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
+                    dispatch(appActions.setAppStatus({ status: Status.FAILED }));
+                    return;
                 }
+                dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
             }
         } catch (error) {
             dispatch(appActions.setAppStatus({ status: Status.FAILED }));

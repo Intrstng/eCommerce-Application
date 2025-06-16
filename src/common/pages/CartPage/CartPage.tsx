@@ -31,6 +31,7 @@ import {
     discountActions,
     getAvailablePromoCodesTC,
     removePromoCodeTC,
+    setActivePromoCodeTC,
 } from '../../../features/discount/model/slices/discountSlice';
 import {
     availablePromoCodesSelector,
@@ -56,11 +57,12 @@ export const CartPage = () => {
     }, [dispatch]);
 
     // TODO: fix and add this useEffect
-    // useEffect(() => {
-    //     if (cart) {
-    //         dispatch(setActivePromoCodeTC(cart));
-    //     }
-    // }, [dispatch]);
+    useEffect(() => {
+        if (cart) {
+            // console.log('tick', cart)
+            dispatch(setActivePromoCodeTC(cart));
+        }
+    }, [dispatch, cart]);
     // console.log(currentPromoCode, cart);
 
     const {
