@@ -4,8 +4,7 @@ import imageSun from '../../../../assets/images/promotion/Sun.png';
 import imageMoon from '../../../../assets/images/promotion/Moon.png';
 import Box from '@mui/material/Box';
 import { useAppDispatch, useAppSelector } from '../../../../common/hooks';
-import { successNotifyMessage } from '../../../../common/utils/notify-message';
-import { discountActions, getAvailablePromoCodesTC, setActivePromoCodeTC } from '../../model/slices/discountSlice';
+import { applyPromoCodeTC, getAvailablePromoCodesTC, setActivePromoCodeTC } from '../../model/slices/discountSlice';
 import { availablePromoCodesSelector, promoCodeSelector } from '../../model/selectors/discountSelectors';
 import type { Cart, DiscountCode } from '@commercetools/platform-sdk';
 import type { PromoCodeCartContent } from '../../../../common/types';
@@ -31,22 +30,40 @@ export const Promotion = memo(() => {
     }
 
     const handlePromoClick = (promoCode: PromoCodeCartContent) => {
-        dispatch(discountActions.setPromoCode({ promoCode }));
-        successNotifyMessage(`Promo code ${promoCode.key ?? promoCode.code} copied to your cart successfully!`);
+        if (cart) {
+            const code: string = promoCode?.key ?? promoCode?.code ?? '';
+            dispatch(applyPromoCodeTC(cart, code));
+        }
+
+        // ToDo: check next to return back and remove current content of the handlePromoClick()
+        // dispatch(discountActions.setPromoCode({ promoCode }));
+        // successNotifyMessage(`Promo code ${promoCode.key ?? promoCode.code} copied to your cart successfully!`);
     };
 
+    // useEffect(() => {
+    //     // dispatch(getAvailablePromoCodesTC());
+    //     // Check:
+    //     try {
+    //         const token = authTokenService.getAccessToken();
+    //         if (token) {
+    //             // console.log('test');
+    //             dispatch(getAvailablePromoCodesTC());
+    //         }
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }, [dispatch]);
+    // FIX / DELETE
     useEffect(() => {
-        // dispatch(getAvailablePromoCodesTC());
-        // Check:
-        try {
-            const token = authTokenService.getAccessToken();
-            if (token) {
-                // console.log('test');
+        const setAvailablePromoCodes = async () => {
+            try {
+                await authTokenService.ensureAnonymousToken();
                 dispatch(getAvailablePromoCodesTC());
+            } catch (error) {
+                console.error(error);
             }
-        } catch (error) {
-            console.error(error);
-        }
+        };
+        void setAvailablePromoCodes();
     }, [dispatch]);
 
     // TODO: fix and add this useEffect
