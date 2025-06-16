@@ -80,7 +80,8 @@
 
     @media (width <= 850px) {
         display: flex;
-        width: 100%;
+
+        //width: 100%;
     }
 }
 
@@ -98,7 +99,7 @@
         gap: 1rem;
         align-items: stretch;
 
-        width: 100%;
+        //width: 100%;
     }
 }
 

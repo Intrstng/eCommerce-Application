@@ -2,14 +2,14 @@ import { genStyles } from '../../utils/generate-styles.ts';
 
 export const STYLES = genStyles({
     authorPageContent: {
-        width: 'calc(100% - 2rem)',
+        // width: 'calc(100% - 2rem)',
         maxWidth: '1180px',
         margin: '0 auto',
         padding: '0 1rem',
     },
 
     authorContent: {
-        width: '100%',
+        // width: '100%',
         maxWidth: '40rem',
         margin: '2rem auto 1.5rem',
     },

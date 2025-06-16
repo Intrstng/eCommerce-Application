@@ -2,13 +2,13 @@ import { genStyles } from '../../utils/generate-styles.ts';
 
 export const STYLES = genStyles({
     aboutPageContent: {
-        width: 'calc(100% - 2rem)',
+        // width: 'calc(100% - 2rem)',
         maxWidth: '1180px',
         margin: '0 auto',
         padding: '0 1rem',
     },
     aboutContent: {
-        width: '100%',
+        // width: '100%',
     },
     aboutTitle: {
         marginBottom: '0.4rem',

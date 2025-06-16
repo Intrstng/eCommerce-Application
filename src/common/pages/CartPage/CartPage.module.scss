@@ -1,12 +1,12 @@
 .cartPageContent {
-    width: calc(100% - 2rem);
+    //width: calc(100% - 2rem);
     max-width: 1180px;
     margin: 0 auto;
     padding: 0 1rem;
 
-    .cartContent {
-        width: 100%;
-    }
+    //.cartContent {
+    //    width: 100%;
+    //}
 
     .cartTitle {
         margin: 0;
@@ -237,7 +237,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+
+    //width: 100%;
 }
 
 .shopNowLink {
