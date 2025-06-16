@@ -138,6 +138,12 @@ select {
     color: #161412;
     letter-spacing: 0.05em;
 
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: #65635f;
+    }
+
     @media (width <= 850px) {
         width: 100%;
     }
