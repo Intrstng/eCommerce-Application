@@ -46,6 +46,7 @@ export const Catalog = () => {
                 materials={materials}
                 genders={genders}
                 productTypes={productTypes}
+                hasProducts={hasProducts}
             />
 
             {appStatus === 'loading' ? (
