@@ -37,19 +37,15 @@ export const Promotion = memo(() => {
     useEffect(() => {
         // dispatch(getAvailablePromoCodesTC());
         // Check:
-        const fetchDiscountCodes = () => {
-            try {
-                const token = authTokenService.getAccessToken();
-                if (token) {
-                    console.log('test');
-                    dispatch(getAvailablePromoCodesTC());
-                }
-            } catch (error) {
-                console.error(error);
+        try {
+            const token = authTokenService.getAccessToken();
+            if (token) {
+                console.log('test');
+                dispatch(getAvailablePromoCodesTC());
             }
-        };
-
-        fetchDiscountCodes();
+        } catch (error) {
+            console.error(error);
+        }
     }, [dispatch]);
 
     // TODO: fix and add this useEffect
