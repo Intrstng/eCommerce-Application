@@ -47,7 +47,7 @@ export const InstagramSection = memo(() => {
                     text="FOLLOW ON INSTAGRAM"
                     size="large"
                     variant="secondary"
-                    iconRight="instagram"
+                    // iconRight="instagram"
                     onClick={() => {
                         handleNavigation(INSTAGRAM_URL);
                     }}

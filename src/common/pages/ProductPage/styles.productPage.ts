@@ -2,21 +2,21 @@ import { genStyles } from '../../utils/generate-styles';
 
 export const STYLES = genStyles({
     productPageContainer: {
-        width: 'calc(100% - 2rem)', // padding 1rem x 2 (see next line)
+        // width: 'calc(100% - 2rem)', // padding 1rem x 2 (see next line)
         padding: '0 1rem',
         maxWidth: '1180px',
         margin: '0 auto',
         '@media (max-width: 550px)': {
-            width: 'calc(100% - 1rem)',
+            // width: 'calc(100% - 1rem)',
             padding: '0 0.5rem',
         },
     },
     productContainer: {
-        width: '100%',
+        // width: '100%',
         marginBottom: '2rem',
     },
     product: {
-        width: '100%',
+        // width: '100%',
         borderRadius: '0',
         display: 'flex',
         flexDirection: 'row',
@@ -99,7 +99,7 @@ export const STYLES = genStyles({
         justifyContent: 'space-between',
     },
     productSkeletonContainer: {
-        width: 'calc(100% - 2rem)', // padding 1rem x 2 (see next line)
+        // width: 'calc(100% - 2rem)', // padding 1rem x 2 (see next line)
         padding: '0 1rem',
         maxWidth: '1180px',
         margin: '7rem auto 2rem',

@@ -11,7 +11,7 @@ export const ArticleCard: FC<ArticleCardType> = ({ id, title, summary, text, pic
         <article className={articleCardStyles}>
             <img src={picture} alt={title} className={S.articleImage} />
             <h3>{title}</h3>
-            {text ? <p>{text}</p> : <p>{summary}</p>}
+            {text ? <div className={S.articleText} dangerouslySetInnerHTML={{ __html: text }} /> : <p>{summary}</p>}
             {id && <NavLink to={`${PATH.ARTICLES}/${id}`}>Read More...</NavLink>}
         </article>
     );

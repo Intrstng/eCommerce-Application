@@ -8,7 +8,7 @@
     align-items: center;
     justify-content: center;
 
-    width: 100%;
+    // width: 100%;
 
     font-family: Jost, sans-serif;
 
@@ -90,6 +90,30 @@
     font-size: 15px;
     color: #f4f4f2;
     text-align: left;
+}
+
+.promocode {
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 4px;
+
+    color: #f4f4f2;
+
+    background: rgb(255 255 255 / 10%);
+
+    transition: 0.25s all ease-in-out;
+
+    &:hover {
+        color: #e3d080;
+        background: #65635f;
+    }
 }
 
 .card2,

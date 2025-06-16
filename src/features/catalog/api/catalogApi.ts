@@ -127,6 +127,7 @@ export const catalogAPI = {
                 .get({
                     queryArgs: {
                         where: `id="${id}"`,
+                        expand: 'productType',
                     },
                 })
                 .execute();

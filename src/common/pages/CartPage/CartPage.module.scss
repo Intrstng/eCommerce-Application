@@ -1,12 +1,11 @@
 .cartPageContent {
-    width: calc(100% - 2rem);
+    //width: calc(100% - 2rem);
     max-width: 1180px;
-    margin: 0 auto;
+    margin: 2rem auto 1.5rem;
     padding: 0 1rem;
 
     .cartContent {
-        width: 100%;
-        margin-bottom: 2rem;
+        //    width: 100%;
     }
 
     .cartTitle {
@@ -17,6 +16,11 @@
         font-weight: 500;
         line-height: 3.9rem;
         color: #000;
+
+        @media (width <= 768px) {
+            font-size: 2.5rem;
+            line-height: 2.5rem;
+        }
     }
 
     .emptyCartMessage {
@@ -39,6 +43,7 @@
     .cartItemContent {
         display: flex;
         align-items: center;
+        min-width: 315px;
         padding: 1rem;
     }
 
@@ -259,8 +264,10 @@
 
 .cartHeader {
     display: flex;
+    gap: 1rem;
     align-items: center;
     justify-content: space-between;
+
     margin-bottom: 1rem;
 
     @media (width <= 550px) {
@@ -309,28 +316,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+
+    //width: 100%;
 }
 
 .shopNowLink {
-    cursor: pointer;
-
-    display: flex;
-    place-content: center center;
-
     padding: 0.3rem 1.15rem;
     border: 1px solid #65635f;
     border-radius: 0.25rem;
 
     font-family: Jost, sans-serif;
     font-size: 0.75rem;
-    font-weight: 300;
     line-height: 1rem;
     color: #65635f;
-    letter-spacing: 0;
-
-    background-color: #fff;
-    box-shadow: unset;
 
     transition: 0.3s all ease-in-out;
 

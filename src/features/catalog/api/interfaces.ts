@@ -21,6 +21,7 @@ export interface SearchParameters {
     search?: string;
     currentPage?: string;
     productType?: string;
+    type?: string;
 }
 
 export interface SearchPaginationParameters extends SearchParameters {

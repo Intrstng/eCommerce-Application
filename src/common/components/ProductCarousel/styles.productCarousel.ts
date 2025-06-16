@@ -120,7 +120,7 @@ export const STYLES = genStyles({
         width: 'clamp(320px, 40vw, 500px)',
         maxWidth: '100%',
         aspectRatio: '1/1',
-        '@media (max-width: 850px)': {
+        '@media (max-width: 950px)': {
             height: 'clamp(320px, 60vw, 450px)',
             width: 'clamp(320px, 60vw, 450px)',
         },
@@ -135,7 +135,7 @@ export const STYLES = genStyles({
         maxWidth: '100%',
         aspectRatio: '1/1',
         cursor: 'zoom-in',
-        '@media (max-width: 850px)': {
+        '@media (max-width: 950px)': {
             height: 'clamp(320px, 60vw, 450px)',
             width: 'clamp(320px, 60vw, 450px)',
         },

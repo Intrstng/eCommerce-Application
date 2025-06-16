@@ -11,7 +11,7 @@ export const STYLES = genStyles({
         alignItems: 'center',
         justifyContent: 'center',
         maxWidth: '244px',
-        width: '100%',
+        //width: '100%',
         height: '40px',
         padding: '0 12px',
         borderRadius: '4px',
