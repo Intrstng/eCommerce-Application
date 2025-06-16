@@ -53,7 +53,8 @@ export const Promotion = memo(() => {
     //         console.error(error);
     //     }
     // }, [dispatch]);
-    // FIX / DELETE
+
+    // CHECK IS IT CORRECT / FIX / DELETE:
     useEffect(() => {
         const setAvailablePromoCodes = async () => {
             try {
