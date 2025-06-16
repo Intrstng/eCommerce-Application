@@ -14,6 +14,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import { STYLES } from './styles.promotion';
 import { transformToPromoCodeCartContent } from '../../../../common/utils/transform-to-promo-code-cart-content';
+import { authTokenService } from '../../../../common/services/auth-token.service';
 
 export const Promotion = memo(() => {
     const availablePromoCodes = useAppSelector<DiscountCode[]>(availablePromoCodesSelector);
@@ -34,7 +35,21 @@ export const Promotion = memo(() => {
     };
 
     useEffect(() => {
-        dispatch(getAvailablePromoCodesTC());
+        // dispatch(getAvailablePromoCodesTC());
+        // Check:
+        const fetchDiscountCodes = async () => {
+            try {
+                const token = authTokenService.getAccessToken();
+                if (token) {
+                    console.log('test')
+                    dispatch(getAvailablePromoCodesTC());
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        void fetchDiscountCodes();
     }, [dispatch]);
 
     // TODO: fix and add this useEffect
