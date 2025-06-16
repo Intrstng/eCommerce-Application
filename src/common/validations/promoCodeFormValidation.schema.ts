@@ -1,24 +1,27 @@
 import * as yup from 'yup';
-import { PromoCodes } from '../enums';
+import type { DiscountCode } from '@commercetools/platform-sdk';
 
 export type PromoCodeFormData = {
-    promoCode: PromoCodes | '';
+    promoCode: string;
 };
 
-export const AVAILABLE_PROMO_CODES: (PromoCodes | '')[] = [
-    '',
-    PromoCodes.STARRY,
-    PromoCodes.LUNAR,
-    PromoCodes.NEBULA,
-    PromoCodes.SUNNA,
-];
+export const validatePromoCodeFormSchema = (promoCodes: DiscountCode[]) => {
+    const validActivePromoCodes = new Set(
+        promoCodes
+            .filter(code => {
+                return code.isActive && code.key;
+            })
+            .map(code => code.key)
+    );
 
-export const validatePromoCodeFormSchema = () => {
+    const allPromoCodeKeys = new Set(promoCodes.map(code => code.key).filter(key => key !== undefined));
+
     return yup.object().shape({
         promoCode: yup
             .string()
             .trim()
             .required('Promo code is required')
-            .oneOf(AVAILABLE_PROMO_CODES, 'Invalid promo code'),
+            .test('exists', 'Invalid promo code', value => allPromoCodeKeys.has(value))
+            .test('active', 'This promo code is not active or has expired', value => validActivePromoCodes.has(value)),
     });
 };

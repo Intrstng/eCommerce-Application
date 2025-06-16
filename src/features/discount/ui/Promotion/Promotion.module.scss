@@ -1,5 +1,5 @@
-@import 'https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&display=swap';
-@import 'https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;700&display=swap';
+//@import 'https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&display=swap';
+//@import 'https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;700&display=swap';
 
 .wrapper {
     display: flex;
@@ -279,6 +279,18 @@
         grid-template-columns: repeat(2, minmax(0, 18.125rem));
     }
 
+    .card,
+    .card1 {
+        height: 194px;
+    }
+
+    .card1 {
+        .content {
+            justify-content: space-between;
+            height: 100%;
+        }
+    }
+
     .card1,
     .card2,
     .card3,
@@ -303,6 +315,9 @@
     }
 
     .content {
+        justify-content: space-between;
+        height: 100%;
+
         .discount {
             width: 100px;
 
@@ -348,6 +363,12 @@
     .description {
         font-size: 12px;
     }
+}
+
+.tooltipContentWrapper {
+    display: inline-block;
+    width: 100%;
+    max-width: 244px;
 }
 
 @media (width <= 640px) {

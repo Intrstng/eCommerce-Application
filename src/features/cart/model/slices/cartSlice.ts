@@ -7,12 +7,10 @@ import { appActions } from 'app/model/slices/appSlice';
 import { Status } from 'app/model/types';
 import type { CartState } from '../interfaces';
 import { successNotifyMessage, warningNotifyMessage } from '../../../../common/utils/notify-message';
-import type { PromoCodes } from '../../../../common/enums';
 
 const initialState: CartState = {
     cart: null,
     status: Status.IDLE,
-    promoCode: '',
 };
 
 export const cartSlice = createSlice({
@@ -24,9 +22,6 @@ export const cartSlice = createSlice({
         },
         setStatus(state, action: PayloadAction<{ status: Status }>) {
             state.status = action.payload.status;
-        },
-        setPromoCode(state, action: PayloadAction<{ promoCode: PromoCodes | '' }>) {
-            state.promoCode = action.payload.promoCode;
         },
     },
 });
@@ -174,43 +169,3 @@ export const clearCartTC = (): AppThunk => async (dispatch, getState) => {
         );
     }
 };
-
-export const applyPromoCodeTC =
-    (cartId: string, cartVersion: number, code: string): AppThunk =>
-    async dispatch => {
-        try {
-            dispatch(cartActions.setStatus({ status: Status.LOADING }));
-            const updatedCart = await cartAPI.applyPromoCode(cartId, cartVersion, code);
-
-            dispatch(cartActions.setCart({ cart: updatedCart }));
-            dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
-            successNotifyMessage(`Promo code ${code} applied successfully!`);
-        } catch (error) {
-            dispatch(cartActions.setStatus({ status: Status.FAILED }));
-            dispatch(
-                appActions.setAppError({
-                    error: error instanceof Error ? error.message : `Failed to apply promo code ${code}`,
-                })
-            );
-        }
-    };
-
-export const removePromoCodeTC =
-    (cartId: string, cartVersion: number, code: string): AppThunk =>
-    async dispatch => {
-        try {
-            dispatch(cartActions.setStatus({ status: Status.LOADING }));
-            const updatedCart = await cartAPI.removePromoCode(cartId, cartVersion, code);
-
-            dispatch(cartActions.setCart({ cart: updatedCart }));
-            dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
-            warningNotifyMessage(`Promo code ${code} removed successfully!`);
-        } catch (error) {
-            dispatch(cartActions.setStatus({ status: Status.FAILED }));
-            dispatch(
-                appActions.setAppError({
-                    error: error instanceof Error ? error.message : `Failed to remove promo code ${code}`,
-                })
-            );
-        }
-    };
