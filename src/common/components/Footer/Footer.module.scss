@@ -24,9 +24,9 @@
         list-style: none;
     }
 
-    li {
-        cursor: default;
-    }
+    //li {
+    //     cursor: default;
+    //}
 
     a {
         color: black;
@@ -70,7 +70,7 @@
     font: normal 400 13px / 25px Jost;
 
     ul {
-        @media (width <=768px) {
+        @media (width <=490px) {
             flex-direction: column;
             gap: 10px;
         }

@@ -10,7 +10,7 @@ export const ArticlesPage = () => {
         <Box className={S.articlesContainer}>
             <BreadCrumbs />
             <section className={S.articles}>
-                <h2>Jewelry Articles</h2>
+                <h2 className={S.articlesTitle}>Articles</h2>
                 <div className={S.articlesContent}>
                     {articlesContent.map((article: ArticleItem) => (
                         <ArticleCard

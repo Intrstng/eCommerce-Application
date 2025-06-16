@@ -16,6 +16,7 @@ type CatalogControlsProps = {
     materials: string[];
     genders: string[];
     productTypes: ProductType[];
+    hasProducts: boolean;
 };
 
 export const CatalogControls: FC<CatalogControlsProps> = ({
@@ -25,6 +26,7 @@ export const CatalogControls: FC<CatalogControlsProps> = ({
     materials,
     genders,
     productTypes,
+    hasProducts,
 }) => {
     const [searchParameters] = useSearchParams();
     const isCategorySelected = searchParameters.has('type');
@@ -98,7 +100,7 @@ export const CatalogControls: FC<CatalogControlsProps> = ({
                     Clear
                 </button>
             </Box>
-            <Pagination />
+            {hasProducts && <Pagination />}
         </Box>
     );
 };

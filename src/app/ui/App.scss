@@ -2,7 +2,7 @@
     display: grid;
     grid-template-rows: auto 1fr auto;
 
-    width: 100%;
+    //width: 100%;
     height: 100vh;
     margin: 0 auto;
 }
@@ -20,18 +20,18 @@
     grid-row: 2;
 }
 
-.appContent {
-    width: 100%;
-}
+//.appContent {
+//    width: 100%;
+//}
 
-.content {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-
-    //padding: 0 1rem;
-}
+//.content {
+//    position: relative;
+//    overflow: hidden;
+//    width: 100%;
+//    height: 100%;
+//
+//    padding: 0 1rem;
+//}
 
 .contentWithMargin {
     margin-top: 75px;

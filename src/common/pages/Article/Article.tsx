@@ -23,7 +23,7 @@ export const Article = () => {
 
     return (
         <Box className={S.articleContainer}>
-            <BreadCrumbs />
+            <BreadCrumbs articleTitle={article.title} />
             <section className={S.articleWrapper}>
                 <ArticleCard
                     className={S.articlesContent}
