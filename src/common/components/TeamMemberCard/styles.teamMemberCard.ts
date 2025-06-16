@@ -11,7 +11,7 @@ export const STYLES = genStyles({
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
         justifyContent: 'space-around',
         // transition: 'transform 0.3s ease-in-out',
-        '&:nth-child(2)': {
+        '&:nth-of-type(2)': {
             alignSelf: 'flex-end',
         },
         // '&:hover': {
@@ -20,7 +20,7 @@ export const STYLES = genStyles({
         '@media (max-width: 768px)': {
             width: '90%',
             flexDirection: 'column',
-            '&:nth-child(2)': {
+            '&:nth-of-type(2)': {
                 alignSelf: 'auto',
             },
         },
