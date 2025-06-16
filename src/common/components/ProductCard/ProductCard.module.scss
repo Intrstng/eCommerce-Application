@@ -1,0 +1,135 @@
+.productCard {
+    cursor: pointer;
+    user-select: none;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    width: 100%;
+    min-width: 140px;
+    max-width: 180px;
+    min-height: 140px;
+
+    transition: all var(--transition-1);
+}
+
+.productCard:active {
+    scale: 1.02;
+    filter: drop-shadow(2px 2px 4px rgb(0 0 0 / 14%));
+}
+
+/* .productCard:active .infoContainer{
+  padding: 0 8px 8px 8px;
+} */
+
+.productCard a {
+    display: inherit;
+    flex-direction: inherit;
+    gap: inherit;
+}
+
+.productCard:hover {
+    /* transform: scale(1.01); */
+}
+
+.infoContainer {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.image {
+    position: relative;
+
+    overflow: hidden;
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    text-align: center;
+
+    object-fit: cover;
+    background-color: var(--grey-3);
+
+    transition: all var(--transition-1);
+}
+
+.image::before {
+    content: '';
+
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgb(0 0 0 / 0%);
+
+    transition: background var(--transition-1);
+}
+
+.image:hover::before {
+    background: rgb(0 0 0 / 40%);
+}
+
+.image:hover {
+    /* border-radius: 200px 0 200px 200px; */
+    overflow: hidden;
+}
+
+.image:hover .favouriteIcon {
+    opacity: 1;
+}
+
+.image img,
+.favouriteIcon {
+    z-index: 0;
+}
+
+.image img {
+    display: block;
+    object-fit: cover;
+}
+
+.name,
+.info,
+.price {
+    overflow: hidden;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+.name {
+    font: var(--jost-13-regular);
+    color: var(--black-1);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.info {
+    font: var(--jost-14-regular);
+    color: var(--grey-1);
+}
+
+.price {
+    font: var(--jost-16-regular);
+    color: var(--black-1);
+    text-transform: uppercase;
+}
+
+.favouriteIcon {
+    cursor: pointer;
+
+    position: absolute;
+    z-index: 10;
+    top: 10px;
+    right: 10px;
+}
