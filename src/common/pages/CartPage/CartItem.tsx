@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import S from './CartPage.module.scss';
 import noImage from '../../../assets/products/no-image.png';
-import { formatPrice } from '../../../features/catalog/utils/format-price';
+import { formatPrice, formatPriceDiscount } from '../../../features/catalog/utils/format-price';
 import { removeFromCartTC, updateCartTC } from '../../../features/cart/model/slices/cartSlice';
 import deleteIcon from '../../../assets/icons/delete.svg';
 import plusIcon from '../../../assets/icons/plus.svg';
@@ -17,15 +17,37 @@ import type { Status } from 'app/model/types';
 import { cartStatusSelector } from '../../../features/cart/model/selectors/cartSelectors';
 import { CartItemSkeleton } from './CartItemSkeleton';
 import type { LineItemWithDiscountedPrice } from './interfaces';
+import { useMemo } from 'react';
+import type { CatalogProduct } from '../../../features/catalog/api/catalogApi.interfaces';
+import {
+    promoCodeSelector,
+    availablePromoCodesSelector,
+} from '../../../features/discount/model/selectors/discountSelectors';
+import type { DiscountCode } from '@commercetools/platform-sdk';
+import { checkIsPromoCodeApplied } from '../../utils/check-is-promocode-applied';
+import { cartSelector } from '../../../features/cart/model/selectors/cartSelectors';
 
 type CartItemProps = {
     item: LineItemWithDiscountedPrice;
     availableQuantity?: number | undefined;
+    catalogProduct?: CatalogProduct | undefined;
 };
 
-export const CartItem: FC<CartItemProps> = ({ item, availableQuantity }) => {
+export const CartItem: FC<CartItemProps> = ({ item, availableQuantity, catalogProduct }) => {
     const isCartLoading: string = useAppSelector<Status>(cartStatusSelector);
     const dispatch = useAppDispatch();
+    const availablePromoCodes = useAppSelector<DiscountCode[]>(availablePromoCodesSelector);
+    const currentPromoCode = useAppSelector(promoCodeSelector);
+    const cart = useAppSelector(cartSelector);
+
+    const isPromoAppliedToCart: boolean = useMemo(() => {
+        return checkIsPromoCodeApplied(
+            currentPromoCode?.key ?? currentPromoCode?.code ?? '',
+            currentPromoCode,
+            availablePromoCodes,
+            cart
+        );
+    }, [currentPromoCode, availablePromoCodes, cart]);
 
     const handleIncrease = () => {
         if (availableQuantity === undefined || item.quantity < availableQuantity) {
@@ -46,6 +68,9 @@ export const CartItem: FC<CartItemProps> = ({ item, availableQuantity }) => {
     };
 
     const hasCartDiscount = !!item.discountedPrice;
+
+    const hasProductDiscount = catalogProduct?.prices.some(price => price.discounted !== null) ?? false;
+
     const currencyCode = item.price.value.currencyCode;
     const fractionDigits = item.price.value.fractionDigits;
 
@@ -73,6 +98,14 @@ export const CartItem: FC<CartItemProps> = ({ item, availableQuantity }) => {
         hasCartDiscount && item.discountedPrice ? item.discountedPrice.value.centAmount * item.quantity : originalPrice;
     const discountedPriceFormatted = getFormattedPrice(discountedPrice);
 
+    const productPriceInfo = catalogProduct
+        ? {
+              original: formatPrice(catalogProduct.prices, 'EUR'),
+              discounted: formatPriceDiscount(catalogProduct.prices, 'EUR'),
+              hasDiscount: !!formatPriceDiscount(catalogProduct.prices, 'EUR'),
+          }
+        : null;
+
     return (
         <Card className={S.cartItem}>
             {isCartLoading === 'loading' ? (
@@ -85,6 +118,11 @@ export const CartItem: FC<CartItemProps> = ({ item, availableQuantity }) => {
                         alt={item.name.en}
                         className={S.cartItemImage}
                     />
+                    {hasProductDiscount && (
+                        <Box className={S.specialOfferBadge}>
+                            <Typography className={S.specialOfferText}>Special Offer</Typography>
+                        </Box>
+                    )}
                     <Box className={S.cartItemDetails}>
                         <Typography variant="h6" className={S.cartItemTitle}>
                             {item.name.en}
@@ -104,7 +142,15 @@ export const CartItem: FC<CartItemProps> = ({ item, availableQuantity }) => {
                             </IconButton>
                         </Box>
                         <Box sx={PRICE_STYLES.priceContent}>
-                            {hasCartDiscount ? (
+                            {hasProductDiscount && productPriceInfo ? (
+                                <>
+                                    <Typography sx={PRICE_STYLES.price}>{productPriceInfo.discounted}</Typography>
+                                    <Box sx={PRICE_STYLES.oldPriceContent}>
+                                        <Typography sx={PRICE_STYLES.oldPrice}>{productPriceInfo.original}</Typography>
+                                        <Box sx={PRICE_STYLES.lineThrough} />
+                                    </Box>
+                                </>
+                            ) : hasCartDiscount ? (
                                 <>
                                     <Typography sx={PRICE_STYLES.price}>{discountedPriceFormatted}</Typography>
                                     <Box sx={PRICE_STYLES.oldPriceContent}>
@@ -116,6 +162,11 @@ export const CartItem: FC<CartItemProps> = ({ item, availableQuantity }) => {
                                 <Typography sx={PRICE_STYLES.price}>{originalPriceFormatted}</Typography>
                             )}
                         </Box>
+                        {hasProductDiscount && isPromoAppliedToCart && (
+                            <Typography className={S.promoCodeRestrictionMessage}>
+                                Promo code cannot be applied to this item.
+                            </Typography>
+                        )}
                     </Box>
                     <IconButton onClick={handleDelete} className={S.deleteButton}>
                         <img src={deleteIcon} alt="Delete" />

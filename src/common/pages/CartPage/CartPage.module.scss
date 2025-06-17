@@ -34,9 +34,14 @@
     }
 
     .cartItem {
+        position: relative;
+
+        overflow: visible;
+
         margin-bottom: 1rem;
         border: 1px solid #e5e5e5;
         border-radius: 0;
+
         box-shadow: none;
     }
 
@@ -51,6 +56,23 @@
         max-width: 100px;
         height: 100px;
         object-fit: cover;
+    }
+
+    .specialOfferBadge {
+        position: absolute;
+        top: 0;
+
+        padding: 0.25rem 0.5rem;
+
+        color: white;
+
+        background-color: #000;
+    }
+
+    .specialOfferText {
+        font-family: Jost, sans-serif;
+        font-size: 0.75rem;
+        text-transform: uppercase;
     }
 
     .cartItemDetails {
@@ -68,6 +90,14 @@
         color: #161412;
         text-transform: uppercase;
         letter-spacing: 1px;
+    }
+
+    .promoCodeRestrictionMessage {
+        font-family: Jost, sans-serif;
+        font-size: 0.75rem;
+        font-weight: 400;
+        line-height: 1rem;
+        color: #a55b4b;
     }
 
     .deleteButton {
