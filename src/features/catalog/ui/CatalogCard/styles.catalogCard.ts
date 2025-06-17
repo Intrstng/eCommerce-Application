@@ -78,7 +78,6 @@ export const STYLES = genStyles({
         textOverflow: 'ellipsis',
     },
     cardPrice: {},
-
     specialOfferBadge: {
         position: 'absolute',
         top: 0,
