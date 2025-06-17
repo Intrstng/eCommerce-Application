@@ -81,6 +81,9 @@ export enum CATEGORIES {
     OTHER = 'other',
     PRODUCTS = 'all products',
     ABOUT = 'about us',
+    ACCOUNT = 'account',
+    LOGIN = 'log in',
+    LOGOUT = 'logout',
 }
 
 export enum AddressModalType {

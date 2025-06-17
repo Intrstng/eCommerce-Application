@@ -107,15 +107,15 @@ export const BurgerMenu: FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
                         {isLoggedIn ? (
                             <div className={S.authButtons}>
                                 <NavLink to={PATH.PROFILE_MAIN} className={S.button} onClick={onClose}>
-                                    ACCOUNT
+                                    {CATEGORIES.ACCOUNT}
                                 </NavLink>
-                                <NavLink to={PATH.SIGNIN} onClick={handleLogout} className={S.button}>
-                                    LOGOUT
+                                <NavLink to={PATH.MAIN} onClick={handleLogout} className={S.button}>
+                                    {CATEGORIES.LOGOUT}
                                 </NavLink>
                             </div>
                         ) : (
                             <NavLink to={PATH.SIGNIN} className={S.button} onClick={onClose}>
-                                LOG IN
+                                {CATEGORIES.LOGIN}
                             </NavLink>
                         )}
                     </motion.div>

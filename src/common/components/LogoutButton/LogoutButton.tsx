@@ -21,7 +21,7 @@ export const LogoutButton: FC<LogoutButtonProps> = ({ onClickHandler }) => {
         <Box sx={STYLES.logoutBtn}>
             <Tooltip title="Logout">
                 <span>
-                    <NavLink to={PATH.SIGNIN} style={STYLES.logoutLink}>
+                    <NavLink to={PATH.MAIN} style={STYLES.logoutLink}>
                         <Button onClick={handleLogout} aria-label="logout" sx={STYLES.logoutBtn}>
                             Logout
                         </Button>
