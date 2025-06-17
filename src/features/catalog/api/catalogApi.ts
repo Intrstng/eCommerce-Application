@@ -9,6 +9,7 @@ import {
 import type { ProductsQueryArguments, ProductType, SearchParameters } from './interfaces';
 
 export const ITEMS_ON_PAGE_DEFAULT = 6;
+const ITEMS_DATA_CHUNK_SIZE = 30;
 
 export const catalogAPI = {
     async fetchProducts(
@@ -81,6 +82,41 @@ export const catalogAPI = {
                 error instanceof Error
                     ? new Error(`Failed to fetch products: ${error.message}`)
                     : new Error('Failed to fetch products: Unknown error occurred');
+            throw error_;
+        }
+    },
+
+    async fetchAllProductsForSlider(): Promise<CatalogProduct[]> {
+        const allProducts: CatalogProduct[] = [];
+        let offset = 0;
+
+        try {
+            while (true) {
+                const response = await apiRoot
+                    .withProjectKey({ projectKey })
+                    .productProjections()
+                    .search()
+                    .get({
+                        queryArgs: {
+                            limit: ITEMS_DATA_CHUNK_SIZE,
+                            offset: offset,
+                        },
+                    })
+                    .execute();
+
+                const products = setProductDataFromProjectionResponse(response.body);
+                allProducts.push(...products);
+
+                if (products.length < ITEMS_DATA_CHUNK_SIZE) break;
+                offset += ITEMS_DATA_CHUNK_SIZE;
+            }
+
+            return allProducts;
+        } catch (error: unknown) {
+            const error_ =
+                error instanceof Error
+                    ? new Error(`Failed to fetch all products: ${error.message}`)
+                    : new Error('Failed to fetch all products: Unknown error occurred');
             throw error_;
         }
     },

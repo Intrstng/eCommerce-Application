@@ -1,0 +1,51 @@
+.title {
+    margin-bottom: 10px;
+
+    font-family: Cormorant, serif;
+    font-size: 52px;
+    font-weight: 500;
+    line-height: 121%;
+    color: #161412;
+}
+
+.subtitle {
+    font-family: Jost, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 136%;
+    color: #65635f;
+    text-align: center;
+}
+
+.productSlider {
+    max-width: calc(100vw - 40px); // Fix?
+    margin: 0 auto 40px;
+}
+
+.swiper {
+    width: 100%;
+    height: inherit;
+}
+
+.swiperSlide {
+    box-sizing: border-box;
+    font-size: 18px;
+    text-align: center;
+    background: #fff;
+}
+
+.swiperSlide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sliderHeading {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+
+    padding: 40px 0;
+}
