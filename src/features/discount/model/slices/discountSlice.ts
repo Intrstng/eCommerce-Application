@@ -37,7 +37,7 @@ export const getAvailablePromoCodesTC = (): AppThunk => async dispatch => {
     try {
         const accessToken = authTokenService.getAccessToken();
         if (!accessToken) {
-            dispatch(discountActions.setPromoCode({ promoCode: null }));
+            dispatch(discountActions.setAvailablePromoCodes({ promoCodes: [] }));
             dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
             return;
         }
