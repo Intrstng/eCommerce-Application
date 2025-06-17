@@ -1,4 +1,4 @@
-import type { ArticleItem } from '../../components/ArticleCard/types';
+import type { ArticleItem } from '../../components/ArticleCard/interfaces';
 import { ArticleCard } from '../../components/ArticleCard/ArticleCard';
 import { articlesContent } from '../../../assets/articles-data/articles-data';
 import { NavLink, useParams } from 'react-router-dom';
@@ -27,7 +27,7 @@ export const Article = () => {
             <section className={S.articleWrapper}>
                 <ArticleCard
                     className={S.articlesContent}
-                    text={article.text}
+                    text={article.text ?? ''}
                     title={article.title}
                     picture={article.picture}
                     summary={article.summary}

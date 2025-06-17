@@ -14,13 +14,6 @@
         gap: 2.3rem 1.5rem;
     }
 
-    //@media (width <= 550px) {
-    //    grid-template-columns: minmax(0, 28rem);
-    //    column-gap: 3.75rem;
-    //    padding-bottom: 2rem;
-    //    justify-content: center;
-    //}
-
     @media (width <= 550px) {
         grid-template-columns: minmax(min(0rem, 28rem), 1fr);
         column-gap: 3.75rem;

@@ -193,7 +193,6 @@ export const ProductPage = () => {
                         </Box>
                     </Box>
                 </Card>
-                {/*Added in accordance with the requirements*/}
                 {isCartLoading === 'loading' && (
                     <Box sx={STYLES.cartLoader}>
                         <CircularProgress color="success" />

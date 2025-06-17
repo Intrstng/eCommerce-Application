@@ -50,21 +50,18 @@ export const CartPage = () => {
     const lineItems: LineItemWithDiscountedPrice[] = cart?.lineItems ?? [];
     const [lineItemsWithAvailability, setLineItemsWithAvailability] = useState<CartItemWithAvailability[]>([]);
     const [showClearCartModal, setShowClearCartModal] = useState(false);
-    const [isPromoSubmitted, setIsPromoSubmitted] = useState(false);
+    const [isPromoSubmitted, setIsPromoSubmitted] = useState(true);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(getAvailablePromoCodesTC());
     }, [dispatch]);
 
-    // TODO: fix and add this useEffect
     useEffect(() => {
         if (cart) {
-            // console.log('tick')
             dispatch(setActivePromoCodeTC(cart));
         }
     }, [dispatch, cart]);
-    // console.log('currentPromoCode', currentPromoCode);
 
     const {
         register,
@@ -158,7 +155,9 @@ export const CartPage = () => {
     useEffect(() => {
         if (currentPromoCode) {
             const newValue = currentPromoCode?.key ?? currentPromoCode?.code ?? '';
-            if (getValues('promoCode') !== newValue) {
+            const currentPromo = getValues('promoCode');
+
+            if (currentPromo !== newValue) {
                 reset(
                     {
                         promoCode: newValue,
@@ -201,7 +200,6 @@ export const CartPage = () => {
 
         if (!currentPromoCode && currentPromoCodeValueInInput) {
             reset({ promoCode: '' });
-            // console.log('Just clear input');
         } else if (
             currentPromoCode &&
             cart &&
@@ -213,7 +211,6 @@ export const CartPage = () => {
             dispatch(removePromoCodeTC(cart.id, cart.version, currentPromoCodeValueInInput));
             dispatch(discountActions.setPromoCode({ promoCode: null }));
             reset({ promoCode: '' });
-            // console.log('Clear input, clear store, update server');
         } else if (
             currentPromoCode &&
             cart &&
@@ -223,7 +220,6 @@ export const CartPage = () => {
         ) {
             dispatch(discountActions.setPromoCode({ promoCode: null }));
             reset({ promoCode: '' });
-            // console.log('Clear input, clear store');
         }
     };
 

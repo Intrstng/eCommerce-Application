@@ -1,4 +1,4 @@
-import type React from 'react';
+import type { FC } from 'react';
 import { useEffect } from 'react';
 import S from './BurgerMenu.module.scss';
 import icons from '../../../../assets/icons/icons.tsx';
@@ -10,13 +10,9 @@ import { CartLogo } from '../../CartLogo/CartLogo';
 import type { Cart, LineItem } from '@commercetools/platform-sdk';
 import { cartSelector } from '../../../../features/cart/model/selectors/cartSelectors';
 import { logOutTC } from '../../../../features/auth/model/slices/authSlice';
+import type { BurgerMenuProps } from './interfaces';
 
-interface BurgerMenuProps {
-    isOpen: boolean;
-    onClose: () => void;
-}
-
-export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
+export const BurgerMenu: FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
     const cart: Cart | null = useAppSelector(cartSelector);
     const lineItems: LineItem[] = cart?.lineItems || [];

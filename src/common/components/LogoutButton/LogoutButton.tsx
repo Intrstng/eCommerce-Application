@@ -7,7 +7,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import { STYLES } from './styles.logoutButton';
 import Button from '@mui/material/Button';
-import type { LogoutButtonProps } from './types';
+import type { LogoutButtonProps } from './interfaces';
 
 export const LogoutButton: FC<LogoutButtonProps> = ({ onClickHandler }) => {
     const dispatch = useAppDispatch();

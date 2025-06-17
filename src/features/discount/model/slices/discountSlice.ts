@@ -71,7 +71,6 @@ export const setActivePromoCodeTC =
             }
 
             if (cart) {
-                // TODO: check cart - get cart inside the setActivePromoCodeTC()
                 dispatch(appActions.setAppStatus({ status: Status.LOADING }));
                 const currentDiscount = await discountAPI.getInitialDiscountCode(cart);
 

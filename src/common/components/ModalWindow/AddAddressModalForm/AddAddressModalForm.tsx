@@ -21,12 +21,7 @@ import { statusSelector } from 'app/model/selectors/appSelectors';
 import { AddressModalType } from '../../../enums';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-
-export type AddAddressModalFormProps = {
-    modalType: AddressModalType | null;
-    closeModalCB: () => void;
-    addAddressCB: (address?: AddressModalFormData, addressId?: string) => void;
-};
+import type { AddAddressModalFormProps } from './interfaces';
 
 export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, closeModalCB, addAddressCB }) => {
     const appStatus: string = useAppSelector<Status>(statusSelector);

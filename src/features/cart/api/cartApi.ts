@@ -239,40 +239,4 @@ export const cartAPI = {
             throw error_;
         }
     },
-
-    // async getDiscountCode(discountCodeId: string): Promise<string> {
-    //     try {
-    //         const discountCode = await apiRoot
-    //             .discountCodes()
-    //             .withId({ ID: discountCodeId })
-    //             .get()
-    //             .execute();
-    //
-    //         console.log('Discount Code:', discountCode.body.code);
-    //         return discountCode.body.code;
-    //     } catch (error) {
-    //         console.error('Error fetching discount code:', error);
-    //         throw error; // Rethrow to handle it later
-    //     }
-    // },
-    //
-    // async getAllDiscountCodes() {
-    //     const response = await apiRoot.withProjectKey({ projectKey }).discountCodes().get().execute();
-    //     return response.body.results;
-    // },
-
-    // async getDiscountCode = async (discountCodeId: string) => Promise<any> {
-    //     try {
-    //         const discountCode = apiRoot.withProjectKey({ projectKey }).discountCodes()
-    //             .withId({ ID: discountCodeId })
-    //             .get()
-    //             .execute();
-    //
-    //
-    //         return discountCode.body.code;
-    //     } catch (error) {
-    //         console.error('Error fetching discount code:', error);
-    //         throw error;
-    //     }
-    // };
 };

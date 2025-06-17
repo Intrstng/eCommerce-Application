@@ -39,34 +39,10 @@ export const Promotion = memo(() => {
         // successNotifyMessage(`Promo code ${promoCode.key ?? promoCode.code} copied to your cart successfully!`);
     };
 
-    // useEffect(() => {
-    //     // dispatch(getAvailablePromoCodesTC());
-    //     // Check:
-    //     try {
-    //         const token = authTokenService.getAccessToken();
-    //         if (token) {
-    //             // console.log('test');
-    //             dispatch(getAvailablePromoCodesTC());
-    //         }
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }, [dispatch]);
-
-    // CHECK IS IT CORRECT / FIX / DELETE:
     useEffect(() => {
-        // const setAvailablePromoCodes = async () => {
-        //     try {
-        //         await authTokenService.ensureAnonymousToken();
         dispatch(getAvailablePromoCodesTC());
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-        // };
-        // void setAvailablePromoCodes();
     }, [dispatch]);
 
-    // TODO: fix and add this useEffect
     useEffect(() => {
         if (cart) {
             dispatch(setActivePromoCodeTC(cart));

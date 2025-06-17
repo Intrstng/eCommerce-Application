@@ -11,7 +11,6 @@ import { ArticlesPage } from '../pages/ArticlesPage/ArticlesPage';
 import { Article } from '../pages/Article/Article';
 import { AboutPage } from '../pages/AboutPage/AboutPage';
 import { CartPage } from '../pages/CartPage/CartPage';
-import { FavoritesPage } from '../pages/FavoritesPage/FavoritesPage';
 import { CatalogPage } from '../pages/CatalogPage/CatalogPage';
 import type React from 'react';
 import { useAppSelector } from '../hooks';
@@ -64,10 +63,6 @@ const publicRoutes: RouteObject[] = [
     {
         path: PATH.CART,
         element: <CartPage />,
-    },
-    {
-        path: PATH.FAVORITES,
-        element: <FavoritesPage />,
     },
     {
         path: PATH.ERROR,

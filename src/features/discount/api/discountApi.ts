@@ -26,7 +26,6 @@ export const discountAPI = {
                 .get()
                 .execute();
 
-            // console.log('Discount Code:', discountCode.body.code);
             return discountCode.body.code;
         } catch (error: unknown) {
             const error_ =

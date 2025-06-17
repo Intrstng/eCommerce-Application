@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import { COUNTRIES, ZIP_CODE_PATTERNS } from './validation-data/validation-data';
 import type { AddressModalType } from '../enums';
 
-export type AddressModalFormData = {
+export interface AddressModalFormData {
     street: string;
     city: string;
     postal: string;
@@ -12,7 +12,7 @@ export type AddressModalFormData = {
     isDefaultBillingAddress?: boolean;
 
     addressType?: AddressModalType;
-};
+}
 
 export const validateAddressModalFormSchema = () => {
     return yup.object().shape({

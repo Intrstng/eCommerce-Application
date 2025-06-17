@@ -18,12 +18,7 @@ import FormGroup from '@mui/material/FormGroup';
 import { useAppSelector } from '../../../hooks';
 import type { Status } from 'app/model/types';
 import { statusSelector } from 'app/model/selectors/appSelectors';
-
-export type EddAddressModalFormProps = {
-    addressId?: string;
-    closeModalCB: () => void;
-    editAddressCB: (address: AddressModalFormData, addressId: string) => void;
-};
+import type { EddAddressModalFormProps } from './interfaces';
 
 export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, closeModalCB, editAddressCB }) => {
     const appStatus: string = useAppSelector<Status>(statusSelector);

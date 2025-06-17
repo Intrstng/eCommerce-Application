@@ -41,7 +41,6 @@ export const Footer = () => {
                             Threads
                         </a>
                     </li>
-                    {/*<li>About author</li>*/}
                 </ul>
             </div>
         </div>

@@ -1,11 +1,11 @@
 import * as yup from 'yup';
 import { isChangePasswordData } from '../utils/assertion-functions';
 
-export type ChangePasswordData = {
+export interface ChangePasswordData {
     currentPassword: string;
     newPassword: string;
     confirmPassword: string;
-};
+}
 
 export const validateChangePasswordSchema = () => {
     return yup.object<ChangePasswordData>().shape({

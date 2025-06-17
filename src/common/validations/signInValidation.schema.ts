@@ -1,9 +1,9 @@
 import * as yup from 'yup';
 
-export type SignInFormData = {
+export interface SignInFormData {
     email: string;
     password: string;
-};
+}
 
 export const validateSignInSchema = () => {
     return yup

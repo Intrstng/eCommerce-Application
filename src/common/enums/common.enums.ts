@@ -33,7 +33,6 @@ export enum PATH {
     MAIN = '/main',
     ABOUT = '/about',
     CART = '/cart',
-    FAVORITES = '/favorites',
 
     CATALOG = '/catalog',
 

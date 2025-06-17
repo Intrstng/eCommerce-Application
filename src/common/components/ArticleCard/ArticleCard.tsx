@@ -1,10 +1,10 @@
 import S from './ArticleCard.module.scss';
 import { PATH } from '../../enums';
 import { NavLink } from 'react-router-dom';
-import type { ArticleCardType } from './types';
 import type { FC } from 'react';
+import type { ArticleCardProps } from './interfaces';
 
-export const ArticleCard: FC<ArticleCardType> = ({ id, title, summary, text, picture, className }) => {
+export const ArticleCard: FC<ArticleCardProps> = ({ id, title, summary, text, picture, className }) => {
     const articleCardStyles = className ?? S.articleContent;
 
     return (

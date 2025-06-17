@@ -16,12 +16,7 @@ import { PRICE_STYLES } from '../../styles/price.styles';
 import type { Status } from 'app/model/types';
 import { cartStatusSelector } from '../../../features/cart/model/selectors/cartSelectors';
 import { CartItemSkeleton } from './CartItemSkeleton';
-import type { LineItemWithDiscountedPrice } from './interfaces';
-
-type CartItemProps = {
-    item: LineItemWithDiscountedPrice;
-    availableQuantity?: number | undefined;
-};
+import type { CartItemProps } from './interfaces';
 
 export const CartItem: FC<CartItemProps> = ({ item, availableQuantity }) => {
     const isCartLoading: string = useAppSelector<Status>(cartStatusSelector);

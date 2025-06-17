@@ -9,9 +9,7 @@ export const STYLES = genStyles({
         mt: 4,
         mb: 0,
     },
-    ellipsis: {
-        // px: 1
-    },
+    ellipsis: {},
     paginationControlButton: {
         width: '45px',
         minWidth: '40px',

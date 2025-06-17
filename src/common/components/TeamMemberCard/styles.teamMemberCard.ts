@@ -10,13 +10,9 @@ export const STYLES = genStyles({
         borderRadius: '4px',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
         justifyContent: 'space-around',
-        // transition: 'transform 0.3s ease-in-out',
         '&:nth-of-type(2)': {
             alignSelf: 'flex-end',
         },
-        // '&:hover': {
-        //     transform: 'translateY(-5px)',
-        // },
         '@media (max-width: 768px)': {
             width: '90%',
             flexDirection: 'column',
