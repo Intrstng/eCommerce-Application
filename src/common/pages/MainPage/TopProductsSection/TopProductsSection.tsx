@@ -16,7 +16,6 @@ const SLIDER_DELAY = 3000;
 
 export const TopProductsSection = () => {
     const { allProducts, isAllProductsLoading } = useFetchAllProducts();
-    console.log(allProducts, isAllProductsLoading);
 
     const randomProductItemsArray: CatalogProduct[] = isAllProductsLoading
         ? Array.from({ length: SLIDES_QUANTITY })
