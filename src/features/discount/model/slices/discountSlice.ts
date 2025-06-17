@@ -35,6 +35,13 @@ export const discountActions = discountSlice.actions;
 
 export const getAvailablePromoCodesTC = (): AppThunk => async dispatch => {
     try {
+        const accessToken = authTokenService.getAccessToken();
+        if (!accessToken) {
+            dispatch(discountActions.setPromoCode({ promoCode: null }));
+            dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
+            return;
+        }
+
         dispatch(appActions.setAppStatus({ status: Status.LOADING })); // app - not cart
 
         const discountCodes = await discountAPI.getAllDiscountCodes();
