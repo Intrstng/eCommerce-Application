@@ -336,7 +336,7 @@ export const CartPage = () => {
                                     <CustomButton
                                         className={S.applyPromoButton}
                                         type="submit"
-                                        disabled={!isValid || cartStatus === 'loading' || isPromoSubmitted}
+                                        disabled={!isValid || cartStatus === 'loading' || isPromoSubmitted || isPromoCodeApplied}
                                     >
                                         Apply promo code
                                     </CustomButton>

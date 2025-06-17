@@ -98,10 +98,10 @@ export const BurgerMenu: FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
                                 {CATEGORIES.BROOCHES}
                             </NavLink>
                             <NavLink to={PATH.CATALOG} className={S.navLink} onClick={onClose}>
-                                ALL PRODUCTS
+                                {CATEGORIES.PRODUCTS}
                             </NavLink>
                             <NavLink to={PATH.ABOUT} className={S.navLink} onClick={onClose}>
-                                ABOUT US
+                                {CATEGORIES.ABOUT}
                             </NavLink>
                         </div>
                         {isLoggedIn ? (

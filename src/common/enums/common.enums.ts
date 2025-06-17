@@ -79,6 +79,8 @@ export enum CATEGORIES {
     RINGS = 'rings',
     BROOCHES = 'brooches',
     OTHER = 'other',
+    PRODUCTS = 'all products',
+    ABOUT = 'about us',
 }
 
 export enum AddressModalType {
