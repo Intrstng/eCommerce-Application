@@ -58,6 +58,11 @@ export const CatalogCard: FC<CatalogItemProps> = ({
             ) : (
                 <Link to={`/product/${id}`} style={{ textDecoration: 'none' }}>
                     <Card sx={STYLES.card}>
+                        {priceInfo.hasDiscount && (
+                            <Box sx={STYLES.specialOfferBadge}>
+                                <Typography sx={STYLES.specialOfferText}>Special Offer</Typography>
+                            </Box>
+                        )}
                         {isImageLoading && !imageError && (
                             <Box
                                 sx={{
