@@ -1,23 +1,13 @@
 import type { FC } from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import { CatalogFilterSelect } from '../CatalogFilterSelect/CatalogFilterSelect';
 import { useSearchParams } from 'react-router-dom';
 import searchSvg from '../../../../assets/icons/search.svg';
 import S from './CatalogControls.module.scss';
-import { useState } from 'react';
 import icons from '../../../../assets/icons/icons';
-import type { ProductType } from '../../api/interfaces';
 import { Pagination } from '../../../../common/components/Pagination/Pagination';
-
-type CatalogControlsProps = {
-    hasActiveFilters: boolean;
-    updateParameterCB: (key: string, value: string) => void;
-    handleClearFiltersCB: () => void;
-    materials: string[];
-    genders: string[];
-    productTypes: ProductType[];
-    hasProducts: boolean;
-};
+import type { CatalogControlsProps } from './interfaces';
 
 export const CatalogControls: FC<CatalogControlsProps> = ({
     hasActiveFilters,

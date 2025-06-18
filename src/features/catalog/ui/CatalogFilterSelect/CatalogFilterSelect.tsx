@@ -1,18 +1,14 @@
+import type { FC } from 'react';
 import S from './CatalogFilterSelect.module.scss';
 import Box from '@mui/material/Box';
+import type { CatalogFilterSelectProps } from './interfaces';
 
-export const CatalogFilterSelect = ({
+export const CatalogFilterSelect: FC<CatalogFilterSelectProps> = ({
     value,
     options,
     placeholder,
     onChange,
     disabled = false,
-}: {
-    value: string;
-    options: string[];
-    placeholder: string;
-    onChange: (value: string) => void;
-    disabled?: boolean;
 }) => (
     <Box className={S.filterBlock}>
         <select

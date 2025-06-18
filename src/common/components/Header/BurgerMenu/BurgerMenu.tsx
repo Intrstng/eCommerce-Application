@@ -1,4 +1,4 @@
-import type React from 'react';
+import type { FC } from 'react';
 import { useEffect } from 'react';
 import S from './BurgerMenu.module.scss';
 import icons from '../../../../assets/icons/icons.tsx';
@@ -10,13 +10,9 @@ import { CartLogo } from '../../CartLogo/CartLogo';
 import type { Cart, LineItem } from '@commercetools/platform-sdk';
 import { cartSelector } from '../../../../features/cart/model/selectors/cartSelectors';
 import { logOutTC } from '../../../../features/auth/model/slices/authSlice';
+import type { BurgerMenuProps } from './interfaces';
 
-interface BurgerMenuProps {
-    isOpen: boolean;
-    onClose: () => void;
-}
-
-export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
+export const BurgerMenu: FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
     const cart: Cart | null = useAppSelector(cartSelector);
     const lineItems: LineItem[] = cart?.lineItems || [];
@@ -102,24 +98,24 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
                                 {CATEGORIES.BROOCHES}
                             </NavLink>
                             <NavLink to={PATH.CATALOG} className={S.navLink} onClick={onClose}>
-                                ALL PRODUCTS
+                                {CATEGORIES.PRODUCTS}
                             </NavLink>
                             <NavLink to={PATH.ABOUT} className={S.navLink} onClick={onClose}>
-                                ABOUT US
+                                {CATEGORIES.ABOUT}
                             </NavLink>
                         </div>
                         {isLoggedIn ? (
                             <div className={S.authButtons}>
                                 <NavLink to={PATH.PROFILE_MAIN} className={S.button} onClick={onClose}>
-                                    ACCOUNT
+                                    {CATEGORIES.ACCOUNT}
                                 </NavLink>
-                                <NavLink to={PATH.SIGNIN} onClick={handleLogout} className={S.button}>
-                                    LOGOUT
+                                <NavLink to={PATH.MAIN} onClick={handleLogout} className={S.button}>
+                                    {CATEGORIES.LOGOUT}
                                 </NavLink>
                             </div>
                         ) : (
                             <NavLink to={PATH.SIGNIN} className={S.button} onClick={onClose}>
-                                LOG IN
+                                {CATEGORIES.LOGIN}
                             </NavLink>
                         )}
                     </motion.div>

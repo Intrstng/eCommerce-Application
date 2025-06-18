@@ -1,23 +1,9 @@
-import type React from 'react';
 import icons from '../../../assets/icons/icons';
 import styles from './Button.module.scss';
+import type { FC } from 'react';
+import type { ButtonProps } from './interfaces';
 
-export interface ButtonProps {
-    onClick?: () => void;
-    text?: string;
-    size?: 'small' | 'default' | 'large';
-    state?: 'default' | 'loading' | 'disabled';
-    type?: 'button' | 'submit' | 'reset';
-    children?: React.ReactNode;
-    variant?: 'primary' | 'secondary' | 'text';
-    fullWidth?: boolean;
-    customColor?: string;
-    iconLeft?: keyof typeof icons;
-    iconRight?: keyof typeof icons;
-    className?: string;
-}
-
-const Button: React.FC<ButtonProps> = ({
+const Button: FC<ButtonProps> = ({
     type = 'button',
     state = 'default',
     text,

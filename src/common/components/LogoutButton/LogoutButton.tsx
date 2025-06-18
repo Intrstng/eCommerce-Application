@@ -7,7 +7,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import { STYLES } from './styles.logoutButton';
 import Button from '@mui/material/Button';
-import type { LogoutButtonProps } from './types';
+import type { LogoutButtonProps } from './interfaces';
 
 export const LogoutButton: FC<LogoutButtonProps> = ({ onClickHandler }) => {
     const dispatch = useAppDispatch();
@@ -21,7 +21,7 @@ export const LogoutButton: FC<LogoutButtonProps> = ({ onClickHandler }) => {
         <Box sx={STYLES.logoutBtn}>
             <Tooltip title="Logout">
                 <span>
-                    <NavLink to={PATH.SIGNIN} style={STYLES.logoutLink}>
+                    <NavLink to={PATH.MAIN} style={STYLES.logoutLink}>
                         <Button onClick={handleLogout} aria-label="logout" sx={STYLES.logoutBtn}>
                             Logout
                         </Button>

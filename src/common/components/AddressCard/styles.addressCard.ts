@@ -3,7 +3,6 @@ import { genStyles } from '../../utils/generate-styles';
 export const STYLES = genStyles({
     addressCardInfoContent: {
         padding: '0.5rem 0.75rem 0.75rem 1.25rem',
-        // height: '10rem',
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'nowrap',
@@ -63,7 +62,6 @@ export const STYLES = genStyles({
         alignItems: 'flex-start',
         justifyContent: 'flex-end',
         alignSelf: 'flex-start',
-        // height: '10rem',
         position: 'relative',
         '@media (max-width: 560px)': {
             flexDirection: 'row',

@@ -4,12 +4,7 @@ import Box from '@mui/material/Box';
 import type { FC } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-
-export type DeleteAddressModalProps = {
-    isOpen: boolean;
-    modalCancelDeleteCB: () => void;
-    modalConfirmDeleteCB: () => void;
-};
+import type { DeleteAddressModalProps } from './interfaces';
 
 export const DeleteAddressModal: FC<DeleteAddressModalProps> = ({
     isOpen,

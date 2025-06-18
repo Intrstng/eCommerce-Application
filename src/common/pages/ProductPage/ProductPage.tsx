@@ -80,7 +80,13 @@ export const ProductPage = () => {
 
         sku = product.variants[0].sku;
     } else if (catalogProduct.length !== 1 && isLoading !== 'loading') {
-        return <Typography sx={{ padding: '1rem' }}>Item is not found...</Typography>;
+        return (
+            <Box sx={STYLES.productPageContainer}>
+                <Box sx={STYLES.productContainer}>
+                    <Typography sx={STYLES.errorMessage}>Item is not found...</Typography>
+                </Box>
+            </Box>
+        );
     }
 
     if (isLoading === 'loading') {
@@ -193,7 +199,6 @@ export const ProductPage = () => {
                         </Box>
                     </Box>
                 </Card>
-                {/*Added in accordance with the requirements*/}
                 {isCartLoading === 'loading' && (
                     <Box sx={STYLES.cartLoader}>
                         <CircularProgress color="success" />

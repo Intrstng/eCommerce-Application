@@ -1,14 +1,16 @@
 import S from './MainPage.module.scss';
 import { HeroSection } from './HeroSection/HeroSection';
-import { InstagramSection } from './InstagramSection/InstagramSection';
+import { TopProductsSection } from './TopProductsSection/TopProductsSection';
 import { Promotion } from '../../../features/discount/ui/Promotion/Promotion';
+import { InstagramSection } from './InstagramSection/InstagramSection';
 
 export const MainPage = () => {
     return (
         <div className={S.mainContent}>
-            <HeroSection></HeroSection>
-            <Promotion></Promotion>
-            <InstagramSection></InstagramSection>
+            <HeroSection />
+            <TopProductsSection />
+            <Promotion />
+            <InstagramSection />
         </div>
     );
 };

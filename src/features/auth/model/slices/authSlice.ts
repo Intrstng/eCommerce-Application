@@ -54,7 +54,7 @@ export const authSuccessTC = (): AppThunk => async dispatch => {
             // dispatch(createCartTC());
 
             await authTokenService.ensureAnonymousToken();
-            dispatch(getActiveCartTC());
+            dispatch(getActiveCartTC()); // ???
         }
         dispatch(appActions.setAppInitialized({ isInitialized: true }));
         dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));

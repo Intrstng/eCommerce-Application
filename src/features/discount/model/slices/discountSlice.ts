@@ -10,6 +10,7 @@ import type { PromoCodeCartContent } from '../../../../common/types';
 import { cartActions } from '../../../cart/model/slices/cartSlice';
 import { successNotifyMessage, warningNotifyMessage } from '../../../../common/utils/notify-message';
 import { transformToPromoCodeCartContent } from '../../../../common/utils/transform-to-promo-code-cart-content';
+import { authTokenService } from '../../../../common/services/auth-token.service';
 
 const initialState: DiscountState = {
     promoCode: null,
@@ -34,6 +35,13 @@ export const discountActions = discountSlice.actions;
 
 export const getAvailablePromoCodesTC = (): AppThunk => async dispatch => {
     try {
+        const accessToken = authTokenService.getAccessToken();
+        if (!accessToken) {
+            dispatch(discountActions.setAvailablePromoCodes({ promoCodes: [] }));
+            dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
+            return;
+        }
+
         dispatch(appActions.setAppStatus({ status: Status.LOADING })); // app - not cart
 
         const discountCodes = await discountAPI.getAllDiscountCodes();
@@ -55,8 +63,14 @@ export const setActivePromoCodeTC =
     (cart: Cart): AppThunk =>
     async dispatch => {
         try {
+            const accessToken = authTokenService.getAccessToken();
+            if (!accessToken) {
+                dispatch(discountActions.setPromoCode({ promoCode: null }));
+                dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
+                return;
+            }
+
             if (cart) {
-                // TODO: check cart - get cart inside the setActivePromoCodeTC()
                 dispatch(appActions.setAppStatus({ status: Status.LOADING }));
                 const currentDiscount = await discountAPI.getInitialDiscountCode(cart);
 
@@ -64,8 +78,10 @@ export const setActivePromoCodeTC =
                     const currentPromoCodeCartContent = transformToPromoCodeCartContent(currentDiscount);
 
                     dispatch(discountActions.setPromoCode({ promoCode: currentPromoCodeCartContent }));
-                    dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
+                    dispatch(appActions.setAppStatus({ status: Status.FAILED }));
+                    return;
                 }
+                dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
             }
         } catch (error) {
             dispatch(appActions.setAppStatus({ status: Status.FAILED }));

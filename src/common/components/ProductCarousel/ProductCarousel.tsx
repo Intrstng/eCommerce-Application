@@ -7,7 +7,7 @@ import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Carousel from 'react-material-ui-carousel';
-import type { ProductCarouselProps } from './types';
+import type { ProductCarouselProps } from './interfaces';
 
 export const ProductCarousel: FC<ProductCarouselProps> = ({ images }) => {
     const [openImage, setOpenImage] = useState(false);

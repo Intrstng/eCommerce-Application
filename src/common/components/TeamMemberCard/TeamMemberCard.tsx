@@ -1,12 +1,8 @@
 import type { FC } from 'react';
-import type { TeamMember } from '../../../assets/data/team-members';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { STYLES } from './styles.teamMemberCard.ts';
-
-interface TeamMemberCardProps {
-    member: TeamMember;
-}
+import type { TeamMemberCardProps } from './interfaces';
 
 export const TeamMemberCard: FC<TeamMemberCardProps> = ({ member }) => {
     return (

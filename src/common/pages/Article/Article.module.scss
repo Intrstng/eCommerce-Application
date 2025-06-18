@@ -1,11 +1,9 @@
 .articleContainer {
-    //width: 100%;
     max-width: 1180px;
     margin: 0 auto;
     padding: 0 1rem;
 
     .articleWrapper {
-        //width: 100%;
         max-width: 40rem;
         margin: 2rem auto 1.5rem;
     }
@@ -17,7 +15,6 @@
         align-items: center;
         justify-content: center;
 
-        //width: 100%;
         margin-bottom: 1rem;
 
         & img {
@@ -46,7 +43,6 @@
     }
 
     .backToArticlesLink {
-        //position: relative;
         font-family: Jost, sans-serif;
         color: #547792;
         transition: color 0.3s ease;

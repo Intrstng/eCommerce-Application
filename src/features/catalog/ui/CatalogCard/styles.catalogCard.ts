@@ -7,7 +7,6 @@ export const STYLES = genStyles({
         cursor: 'pointer',
         position: 'relative',
         overflow: 'hidden',
-        //height: "30rem",
         textDecoration: 'none',
         '&:hover': {
             '& .cardImage': {
@@ -46,7 +45,6 @@ export const STYLES = genStyles({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        // backgroundColor: 'background.paper',
     },
     cardContent: {
         padding: '0 !important',
@@ -78,10 +76,8 @@ export const STYLES = genStyles({
         whiteSpace: 'unset',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
-        // maxWidth: '40ch',
     },
     cardPrice: {},
-
     specialOfferBadge: {
         position: 'absolute',
         top: 0,

@@ -22,3 +22,9 @@ export interface DiscountedPrice {
 export interface LineItemWithDiscountedPrice extends LineItem {
     discountedPrice?: DiscountedPrice;
 }
+
+export interface CartItemProps {
+    item: LineItemWithDiscountedPrice;
+    availableQuantity?: number | undefined;
+    catalogProduct?: CatalogProduct | undefined;
+}

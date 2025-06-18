@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -14,24 +15,15 @@ import plusIcon from '../../../assets/icons/plus.svg';
 import minusIcon from '../../../assets/icons/minus.svg';
 import { PRICE_STYLES } from '../../styles/price.styles';
 import type { Status } from 'app/model/types';
-import { cartStatusSelector } from '../../../features/cart/model/selectors/cartSelectors';
+import { cartSelector, cartStatusSelector } from '../../../features/cart/model/selectors/cartSelectors';
 import { CartItemSkeleton } from './CartItemSkeleton';
-import type { LineItemWithDiscountedPrice } from './interfaces';
-import { useMemo } from 'react';
-import type { CatalogProduct } from '../../../features/catalog/api/catalogApi.interfaces';
+import type { CartItemProps } from './interfaces';
 import {
-    promoCodeSelector,
     availablePromoCodesSelector,
+    promoCodeSelector,
 } from '../../../features/discount/model/selectors/discountSelectors';
 import type { DiscountCode } from '@commercetools/platform-sdk';
 import { checkIsPromoCodeApplied } from '../../utils/check-is-promocode-applied';
-import { cartSelector } from '../../../features/cart/model/selectors/cartSelectors';
-
-type CartItemProps = {
-    item: LineItemWithDiscountedPrice;
-    availableQuantity?: number | undefined;
-    catalogProduct?: CatalogProduct | undefined;
-};
 
 export const CartItem: FC<CartItemProps> = ({ item, availableQuantity, catalogProduct }) => {
     const isCartLoading: string = useAppSelector<Status>(cartStatusSelector);
@@ -68,9 +60,7 @@ export const CartItem: FC<CartItemProps> = ({ item, availableQuantity, catalogPr
     };
 
     const hasCartDiscount = !!item.discountedPrice;
-
     const hasProductDiscount = catalogProduct?.prices.some(price => price.discounted !== null) ?? false;
-
     const currencyCode = item.price.value.currencyCode;
     const fractionDigits = item.price.value.fractionDigits;
 

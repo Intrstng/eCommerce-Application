@@ -51,6 +51,7 @@ export const getActiveCartTC = (): AppThunk => async dispatch => {
 
 export const createCartTC = (): AppThunk => async dispatch => {
     try {
+        console.log('createCartTC');
         dispatch(cartActions.setStatus({ status: Status.LOADING }));
 
         const cart = await cartAPI.createCart();

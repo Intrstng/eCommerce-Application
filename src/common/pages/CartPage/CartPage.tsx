@@ -31,6 +31,7 @@ import {
     discountActions,
     getAvailablePromoCodesTC,
     removePromoCodeTC,
+    setActivePromoCodeTC,
 } from '../../../features/discount/model/slices/discountSlice';
 import {
     availablePromoCodesSelector,
@@ -43,30 +44,30 @@ import { checkIsPromoCodeApplied } from '../../utils/check-is-promocode-applied'
 
 export const CartPage = () => {
     const availablePromoCodes = useAppSelector<DiscountCode[]>(availablePromoCodesSelector);
-    const { promoCode: currentPromoCode } = useAppSelector(state => ({ promoCode: promoCodeSelector(state) }));
+    const currentPromoCode = useAppSelector(promoCodeSelector);
     const cart: Cart | null = useAppSelector(cartSelector);
     const cartStatus: string = useAppSelector<Status>(cartStatusSelector);
     // const lineItems: LineItemWithDiscountedPrice[] = cart?.lineItems ?? [];
     const [lineItemsWithAvailability, setLineItemsWithAvailability] = useState<CartItemWithAvailability[]>([]);
     const [showClearCartModal, setShowClearCartModal] = useState(false);
+    const [isPromoSubmitted, setIsPromoSubmitted] = useState(true);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(getAvailablePromoCodesTC());
     }, [dispatch]);
 
-    // TODO: fix and add this useEffect
-    // useEffect(() => {
-    //     if (cart) {
-    //         dispatch(setActivePromoCodeTC(cart));
-    //     }
-    // }, [dispatch]);
-    // console.log(currentPromoCode, cart);
+    useEffect(() => {
+        if (cart) {
+            dispatch(setActivePromoCodeTC(cart));
+        }
+    }, [dispatch, cart]);
 
     const {
         register,
         handleSubmit,
         reset,
+        watch,
         formState: { errors, isValid },
         getValues,
     } = useForm({
@@ -80,6 +81,7 @@ export const CartPage = () => {
 
     const onSubmit: SubmitHandler<PromoCodeFormData> = data => {
         const { promoCode } = data;
+        setIsPromoSubmitted(true);
 
         const enteredPromoCodeData = availablePromoCodes.find(
             availablePromoCode => availablePromoCode?.key === promoCode || availablePromoCode.code === promoCode
@@ -91,6 +93,7 @@ export const CartPage = () => {
             dispatch(discountActions.setPromoCode({ promoCode: promoCodeCartContentToStore }));
             handleApplyPromoCode(promoCode);
         } else {
+            setIsPromoSubmitted(false);
             throw new Error(`Entered promo code ${promoCode} is not valid`);
         }
     };
@@ -139,6 +142,37 @@ export const CartPage = () => {
         void fetchProductAvailability();
     }, [cart]);
 
+    useEffect(() => {
+        const subscription = watch((_, { name, type }) => {
+            if (name === 'promoCode' && type !== undefined) {
+                setIsPromoSubmitted(false);
+            }
+        });
+        return () => {
+            subscription.unsubscribe();
+        };
+    }, [watch]);
+
+    useEffect(() => {
+        if (currentPromoCode) {
+            const newValue = currentPromoCode?.key ?? currentPromoCode?.code ?? '';
+            const currentPromo = getValues('promoCode');
+
+            if (currentPromo !== newValue) {
+                reset(
+                    {
+                        promoCode: newValue,
+                    },
+                    {
+                        keepDirty: true,
+                        keepTouched: true,
+                    }
+                );
+                setIsPromoSubmitted(false);
+            }
+        }
+    }, [currentPromoCode, reset, getValues]);
+
     const handleClearCartClick = () => {
         setShowClearCartModal(true);
     };
@@ -153,7 +187,7 @@ export const CartPage = () => {
     };
 
     const handleApplyPromoCode = (code: string) => {
-        if (currentPromoCode && cart) {
+        if (cart) {
             dispatch(applyPromoCodeTC(cart, code));
         }
     };
@@ -167,10 +201,10 @@ export const CartPage = () => {
 
         if (!currentPromoCode && currentPromoCodeValueInInput) {
             reset({ promoCode: '' });
-            console.log('Just clear input');
         } else if (
+            currentPromoCode &&
             cart &&
-            cart?.discountCodes[0].discountCode.id === promoCodeIdToCancel &&
+            cart?.discountCodes[0]?.discountCode?.id === promoCodeIdToCancel &&
             currentPromoCodeValueInInput &&
             (currentPromoCode?.key === currentPromoCodeValueInInput ||
                 currentPromoCode?.code === currentPromoCodeValueInInput)
@@ -178,8 +212,8 @@ export const CartPage = () => {
             dispatch(removePromoCodeTC(cart.id, cart.version, currentPromoCodeValueInInput));
             dispatch(discountActions.setPromoCode({ promoCode: null }));
             reset({ promoCode: '' });
-            console.log('Clear input, clear store, update server');
         } else if (
+            currentPromoCode &&
             cart &&
             currentPromoCodeValueInInput &&
             (currentPromoCode?.key === currentPromoCodeValueInInput ||
@@ -187,7 +221,6 @@ export const CartPage = () => {
         ) {
             dispatch(discountActions.setPromoCode({ promoCode: null }));
             reset({ promoCode: '' });
-            console.log('Clear input, clear store');
         }
     };
 
@@ -200,6 +233,7 @@ export const CartPage = () => {
         originalTotal = lineItemsWithAvailability.reduce((total, { item }) => {
             return total + item.price.value.centAmount * item.quantity;
         }, 0);
+
         finalDiscountedTotal = lineItemsWithAvailability.reduce((total, { item, catalogProduct }) => {
             const hasProductDiscount = catalogProduct?.prices.some(price => price.discounted !== null) ?? false;
 
@@ -305,6 +339,11 @@ export const CartPage = () => {
                                             {...register('promoCode')}
                                             size="small"
                                             className={S.promoCodeInput}
+                                            slotProps={{
+                                                inputLabel: {
+                                                    shrink: !!watch('promoCode'),
+                                                },
+                                            }}
                                         />
                                         {errors.promoCode && (
                                             <Typography component="h2" variant="body2" className={S.errorForm}>
@@ -315,7 +354,12 @@ export const CartPage = () => {
                                     <CustomButton
                                         className={S.applyPromoButton}
                                         type="submit"
-                                        disabled={!isValid || cartStatus === 'loading'}
+                                        disabled={
+                                            !isValid ||
+                                            cartStatus === 'loading' ||
+                                            isPromoSubmitted ||
+                                            isPromoCodeApplied
+                                        }
                                     >
                                         Apply promo code
                                     </CustomButton>

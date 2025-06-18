@@ -1,9 +1,9 @@
 import * as yup from 'yup';
 import type { DiscountCode } from '@commercetools/platform-sdk';
 
-export type PromoCodeFormData = {
+export interface PromoCodeFormData {
     promoCode: string;
-};
+}
 
 export const validatePromoCodeFormSchema = (promoCodes: DiscountCode[]) => {
     const validActivePromoCodes = new Set(
