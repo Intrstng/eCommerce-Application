@@ -264,6 +264,13 @@ export const CartPage = () => {
         cart
     );
 
+    const allItemsHaveProductDiscount =
+        cart &&
+        cart.lineItems.length > 0 &&
+        lineItemsWithAvailability.every(
+            ({ catalogProduct }) => catalogProduct?.prices.some(price => price.discounted !== null) ?? false
+        );
+
     if (!cart || cart.lineItems.length === 0) {
         return (
             <Box className={S.cartPageContent}>
@@ -302,14 +309,20 @@ export const CartPage = () => {
                     </Box>
                 )}
 
-                {lineItemsWithAvailability.map(({ item, availableQuantity, catalogProduct }) => (
-                    <CartItem
-                        key={item.id}
-                        item={item}
-                        availableQuantity={availableQuantity}
-                        catalogProduct={catalogProduct}
-                    />
-                ))}
+                {lineItemsWithAvailability.map(({ item, availableQuantity, catalogProduct }) => {
+                    const hasProductDiscount = catalogProduct?.prices.some(price => price.discounted !== null) ?? false;
+                    return (
+                        <CartItem
+                            key={item.id}
+                            item={item}
+                            availableQuantity={availableQuantity}
+                            catalogProduct={catalogProduct}
+                            showProductDiscountMessage={
+                                hasProductDiscount && !allItemsHaveProductDiscount && isPromoCodeApplied
+                            }
+                        />
+                    );
+                })}
 
                 <Box className={S.cartSummary}>
                     {cartStatus !== 'loading' && (
@@ -382,6 +395,12 @@ export const CartPage = () => {
                                         <Typography className={S.discountedPrice} variant="h6">
                                             Total with discount: {calculateTotalPrice().discounted.toFixed(2)} EUR
                                         </Typography>
+                                        {allItemsHaveProductDiscount && isPromoCodeApplied && (
+                                            <Typography className={S.promoCodeRestrictionMessage} variant="h6">
+                                                Promo code {currentPromoCode?.key ?? currentPromoCode?.code ?? ''}{' '}
+                                                cannot be applied to items with special offer
+                                            </Typography>
+                                        )}
                                     </>
                                 ) : (
                                     <Typography className={S.cartTotalPrice} variant="h6">
