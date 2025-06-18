@@ -10,7 +10,7 @@ export const STYLES = genStyles({
         color: '#161412',
     },
     passwordsContent: {
-        width: '100%',
+        // width: '100%',
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
@@ -19,9 +19,9 @@ export const STYLES = genStyles({
     passwordsForm: {
         maxWidth: '23.5rem',
         width: '100%',
-        '@media (max-width: 690px)': {
-            maxWidth: 'unset',
-        },
+        // '@media (max-width: 690px)': {
+        //     maxWidth: 'unset',
+        // },
     },
     errorForm: {
         position: 'absolute',
@@ -47,13 +47,13 @@ export const STYLES = genStyles({
         height: '2.6rem',
         fontSize: '0.9rem',
         mt: 0,
-        mb: 3,
-        '@media (max-width: 690px)': {
-            mb: '1.7rem',
-        },
+        mb: '1.7rem',
+        // '@media (max-width: 690px)': {
+        //     mb: '1.7rem',
+        // },
     },
     passwordButton: {
-        width: '100%',
+        // width: '100%',
         fontFamily: 'Jost, sans-serif',
         fontWeight: '400',
         fontSize: '0.75rem',
