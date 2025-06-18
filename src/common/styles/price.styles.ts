@@ -5,6 +5,11 @@ export const PRICE_STYLES = genStyles({
         display: 'flex',
         alignItems: 'flex-start',
         gap: '0.75rem',
+
+        '@media(max-width: 390px)': {
+            flexDirection: 'column',
+            gap: '0',
+        },
     },
     priceContentPosition: {
         mb: '1.25rem',

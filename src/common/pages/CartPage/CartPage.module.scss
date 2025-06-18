@@ -1,4 +1,5 @@
 .cartPageContent {
+    gap: 0.5rem;
     //width: calc(100% - 2rem);
     max-width: 1180px;
     margin: 2rem auto 1.5rem;
@@ -17,7 +18,7 @@
         line-height: 3.9rem;
         color: #000;
 
-        @media (width <= 768px) {
+        @media (width <= 551px) {
             font-size: 2.5rem;
             line-height: 2.5rem;
         }
@@ -48,7 +49,7 @@
     .cartItemContent {
         display: flex;
         align-items: center;
-        min-width: 315px;
+        min-width: 300px;
         padding: 1rem;
     }
 
@@ -336,9 +337,9 @@
             background-color: #161412;
         }
 
-        @media (width <= 550px) {
-            align-self: flex-end;
-        }
+        //@media (width <= 550px) {
+        //    align-self: flex-end;
+        //}
     }
 }
 
