@@ -136,6 +136,7 @@ export const loginTC =
 
 export const logOutTC = (): AppThunk => async dispatch => {
     try {
+        dispatch(appActions.setIsLoggingOut({ isLoggingOut: true }));
         await authAPI.logout();
         dispatch(authActions.setUser({ user: null }));
         userStorage.removeUser();
@@ -144,10 +145,12 @@ export const logOutTC = (): AppThunk => async dispatch => {
         dispatch(cartActions.setCart({ cart: null }));
         dispatch(createCartTC());
 
+        dispatch(appActions.setIsLoggingOut({ isLoggingOut: false }));
         dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
 
         successNotifyMessage("You've logged out of your account");
     } catch (error) {
+        dispatch(appActions.setIsLoggingOut({ isLoggingOut: false }));
         if (error instanceof Error) {
             dispatch(appActions.setAppError({ error: error.message }));
         } else {
