@@ -78,7 +78,9 @@
 }
 
 .name {
-    min-height: 2rem;
+    overflow: hidden;
+
+    height: 2rem;
 
     font-family: Jost, sans-serif;
     font-size: 0.8rem;
