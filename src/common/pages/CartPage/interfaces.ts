@@ -1,8 +1,10 @@
 import type { LineItem } from '@commercetools/platform-sdk';
+import type { CatalogProduct } from '../../../features/catalog/api/catalogApi.interfaces';
 
 export interface CartItemWithAvailability {
-    item: LineItem;
+    item: LineItemWithDiscountedPrice;
     availableQuantity?: number;
+    catalogProduct?: CatalogProduct;
 }
 
 export interface DiscountedPriceValue {
@@ -24,4 +26,5 @@ export interface LineItemWithDiscountedPrice extends LineItem {
 export interface CartItemProps {
     item: LineItemWithDiscountedPrice;
     availableQuantity?: number | undefined;
+    catalogProduct?: CatalogProduct | undefined;
 }

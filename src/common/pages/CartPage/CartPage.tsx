@@ -11,7 +11,7 @@ import { cartSelector, cartStatusSelector } from '../../../features/cart/model/s
 import type { Cart, DiscountCode, LineItem } from '@commercetools/platform-sdk';
 import { catalogAPI } from '../../../features/catalog/api/catalogApi';
 import type { CatalogProduct } from '../../../features/catalog/api/catalogApi.interfaces';
-import type { CartItemWithAvailability, LineItemWithDiscountedPrice } from './interfaces';
+import type { CartItemWithAvailability } from './interfaces';
 import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 import { CustomButton } from '../../buttons/CustomButton';
@@ -44,10 +44,10 @@ import { checkIsPromoCodeApplied } from '../../utils/check-is-promocode-applied'
 
 export const CartPage = () => {
     const availablePromoCodes = useAppSelector<DiscountCode[]>(availablePromoCodesSelector);
-    const currentPromoCode = useAppSelector<PromoCodeCartContent | null>(promoCodeSelector);
+    const currentPromoCode = useAppSelector(promoCodeSelector);
     const cart: Cart | null = useAppSelector(cartSelector);
     const cartStatus: string = useAppSelector<Status>(cartStatusSelector);
-    const lineItems: LineItemWithDiscountedPrice[] = cart?.lineItems ?? [];
+    // const lineItems: LineItemWithDiscountedPrice[] = cart?.lineItems ?? [];
     const [lineItemsWithAvailability, setLineItemsWithAvailability] = useState<CartItemWithAvailability[]>([]);
     const [showClearCartModal, setShowClearCartModal] = useState(false);
     const [isPromoSubmitted, setIsPromoSubmitted] = useState(true);
@@ -126,6 +126,7 @@ export const CartPage = () => {
                     return {
                         item,
                         availableQuantity,
+                        catalogProduct,
                     };
                 });
 
@@ -226,20 +227,32 @@ export const CartPage = () => {
     const calculateTotalPrice = () => {
         if (!cart) return { original: 0, discounted: 0 };
 
-        const originalTotal = lineItems.reduce((total, item) => {
+        let originalTotal = 0;
+        let finalDiscountedTotal = 0;
+
+        originalTotal = lineItemsWithAvailability.reduce((total, { item }) => {
             return total + item.price.value.centAmount * item.quantity;
         }, 0);
 
-        const discountedTotal = lineItems.reduce((total, item) => {
-            const discountedPrice = item.discountedPrice
-                ? item.discountedPrice.value.centAmount
-                : item.price.value.centAmount;
-            return total + discountedPrice * item.quantity;
+        finalDiscountedTotal = lineItemsWithAvailability.reduce((total, { item, catalogProduct }) => {
+            const hasProductDiscount = catalogProduct?.prices.some(price => price.discounted !== null) ?? false;
+
+            if (hasProductDiscount && catalogProduct) {
+                const productDiscountedPriceObject = catalogProduct.prices.find(
+                    p => p.value.currencyCode === item.price.value.currencyCode
+                )?.discounted;
+                if (productDiscountedPriceObject) {
+                    return total + productDiscountedPriceObject.value.centAmount * item.quantity;
+                }
+                return total + item.price.value.centAmount * item.quantity;
+            } else {
+                return total + (item.discountedPrice?.value.centAmount ?? item.price.value.centAmount) * item.quantity;
+            }
         }, 0);
 
         return {
             original: originalTotal / 100,
-            discounted: discountedTotal / 100,
+            discounted: finalDiscountedTotal / 100,
         };
     };
 
@@ -289,8 +302,13 @@ export const CartPage = () => {
                     </Box>
                 )}
 
-                {lineItemsWithAvailability.map(({ item, availableQuantity }) => (
-                    <CartItem key={item.id} item={item} availableQuantity={availableQuantity} />
+                {lineItemsWithAvailability.map(({ item, availableQuantity, catalogProduct }) => (
+                    <CartItem
+                    key={item.id}
+                    item={item}
+                    availableQuantity={availableQuantity}
+                    catalogProduct={catalogProduct}
+                    />
                 ))}
 
                 <Box className={S.cartSummary}>
@@ -367,7 +385,7 @@ export const CartPage = () => {
                                     </>
                                 ) : (
                                     <Typography className={S.cartTotalPrice} variant="h6">
-                                        Total: {calculateTotalPrice().original.toFixed(2)} EUR
+                                        Total: {calculateTotalPrice().discounted.toFixed(2)} EUR
                                     </Typography>
                                 )}
                             </Box>

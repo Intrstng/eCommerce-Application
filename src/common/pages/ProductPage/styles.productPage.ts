@@ -61,6 +61,14 @@ export const STYLES = genStyles({
         lineHeight: '1rem',
         color: '#65635F',
     },
+    errorMessage: {
+        paddingTop: '2.5rem',
+        fontFamily: 'Jost, sans-serif',
+        fontWeight: '400',
+        fontSize: '1.31rem',
+        lineHeight: '1.5rem',
+        color: '#65635F',
+    },
     stone: {
         alignItems: 'flex-start',
         mb: '0.25rem',
