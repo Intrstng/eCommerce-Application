@@ -62,6 +62,14 @@
     border-radius: 180px 0 215px 180px;
 }
 
+@media (hover: none), (width <= 850px) {
+    .image:hover {
+        overflow: visible;
+        border-radius: 0;
+        transition: none;
+    }
+}
+
 .image img {
     display: block;
     width: 100%;

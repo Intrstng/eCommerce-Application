@@ -14,6 +14,7 @@ import { useLocation } from 'react-router-dom';
 import { cartActions, getActiveCartTC } from '../../features/cart/model/slices/cartSlice';
 import { authIsLoggedInSelector } from '../../features/auth/model/selectors/authSelector';
 import { ScrollToTop } from '../../common/components/ScrollToTop/ScrollToTop';
+import { BackToTopButton } from '../../common/components/BackToTopButton/BackToTopButton';
 
 export const App = () => {
     const dispatch = useAppDispatch();
@@ -61,6 +62,7 @@ export const App = () => {
             <Footer />
             <ToastifyNotification />
             <ScrollToTop />
+            <BackToTopButton />
         </Box>
     );
 };
