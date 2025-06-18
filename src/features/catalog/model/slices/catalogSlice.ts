@@ -27,6 +27,14 @@ export const catalogSlice = createSlice({
         setTotalCount(state, action: PayloadAction<{ totalCount: number }>) {
             state.totalCount = action.payload.totalCount;
         },
+        setIsToCartLoading(state, action: PayloadAction<{ id: string; isToCartLoading: boolean }>) {
+            const { id, isToCartLoading } = action.payload;
+            const product = state.products.find(product => product.id === id);
+
+            if (product) {
+                product.isToCartLoading = isToCartLoading;
+            }
+        },
     },
 });
 

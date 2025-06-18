@@ -49,8 +49,7 @@ export function setProductDataFromResponse(data: Product[]): CatalogProduct[] {
 
         return {
             id: product.id,
-            isInCart: false, // Temporary
-            isInFavourites: false, // Temporary
+            isToCartLoading: false,
             description,
             name,
             prices,
@@ -150,8 +149,7 @@ export function setProductDataFromProjectionResponse(data: ProductProjectionPage
 
         return {
             id: product.id,
-            isInCart: false,
-            isInFavourites: false,
+            isToCartLoading: false,
             description,
             name,
             prices,

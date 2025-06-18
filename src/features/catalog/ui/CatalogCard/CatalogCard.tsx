@@ -25,6 +25,7 @@ export const CatalogCard: FC<CatalogItemProps> = ({
     prices = [],
     description,
     isProductsLoading,
+    isToCartLoading,
     variantId,
 }) => {
     const [isImageLoading, setIsImageLoading] = useState(true);
@@ -89,6 +90,7 @@ export const CatalogCard: FC<CatalogItemProps> = ({
                                     id={id}
                                     isInCart={isInCart}
                                     variantId={variantId}
+                                    isToCartLoading={isToCartLoading}
                                 />
                             </Box>
                         ) : (
@@ -110,6 +112,7 @@ export const CatalogCard: FC<CatalogItemProps> = ({
                                     id={id}
                                     isInCart={isInCart}
                                     variantId={variantId}
+                                    isToCartLoading={isToCartLoading}
                                 />
                             </Box>
                         )}
