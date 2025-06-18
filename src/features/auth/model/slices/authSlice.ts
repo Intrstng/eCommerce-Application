@@ -54,7 +54,7 @@ export const authSuccessTC = (): AppThunk => async dispatch => {
             // dispatch(createCartTC());
 
             await authTokenService.ensureAnonymousToken();
-            dispatch(getActiveCartTC());
+            dispatch(getActiveCartTC()); // ???
         }
         dispatch(appActions.setAppInitialized({ isInitialized: true }));
         dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
@@ -126,8 +126,10 @@ export const loginTC =
                 dispatch(appActions.setAppError({ error: 'Invalid email or password' }));
             }
 
-            // dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
+            authTokenService.clearTokens();
+            await authTokenService.ensureAnonymousToken();
             dispatch(authActions.setUser({ user: null }));
+            dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
             dispatch(appActions.setAppStatus({ status: Status.FAILED }));
         }
     };

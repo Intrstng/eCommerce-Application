@@ -90,10 +90,10 @@ export const CartItem: FC<CartItemProps> = ({ item, availableQuantity, catalogPr
 
     const productPriceInfo = catalogProduct
         ? {
-            original: formatPrice(catalogProduct.prices, 'EUR'),
-            discounted: formatPriceDiscount(catalogProduct.prices, 'EUR'),
-            hasDiscount: !!formatPriceDiscount(catalogProduct.prices, 'EUR'),
-        }
+              original: formatPrice(catalogProduct.prices, 'EUR'),
+              discounted: formatPriceDiscount(catalogProduct.prices, 'EUR'),
+              hasDiscount: !!formatPriceDiscount(catalogProduct.prices, 'EUR'),
+          }
         : null;
 
     return (
@@ -110,9 +110,9 @@ export const CartItem: FC<CartItemProps> = ({ item, availableQuantity, catalogPr
                     />
                     {hasProductDiscount && (
                         <Box className={S.specialOfferBadge}>
-                        <Typography className={S.specialOfferText}>Special Offer</Typography>
+                            <Typography className={S.specialOfferText}>Special Offer</Typography>
                         </Box>
-                        )}
+                    )}
                     <Box className={S.cartItemDetails}>
                         <Typography variant="h6" className={S.cartItemTitle}>
                             {item.name.en}
@@ -134,13 +134,13 @@ export const CartItem: FC<CartItemProps> = ({ item, availableQuantity, catalogPr
                         <Box sx={PRICE_STYLES.priceContent}>
                             {hasProductDiscount && productPriceInfo ? (
                                 <>
-                                <Typography sx={PRICE_STYLES.price}>{productPriceInfo.discounted}</Typography>
-                                <Box sx={PRICE_STYLES.oldPriceContent}>
-                                <Typography sx={PRICE_STYLES.oldPrice}>{productPriceInfo.original}</Typography>
-                                <Box sx={PRICE_STYLES.lineThrough} />
-                                </Box>
+                                    <Typography sx={PRICE_STYLES.price}>{productPriceInfo.discounted}</Typography>
+                                    <Box sx={PRICE_STYLES.oldPriceContent}>
+                                        <Typography sx={PRICE_STYLES.oldPrice}>{productPriceInfo.original}</Typography>
+                                        <Box sx={PRICE_STYLES.lineThrough} />
+                                    </Box>
                                 </>
-                                ) : hasCartDiscount ? (
+                            ) : hasCartDiscount ? (
                                 <>
                                     <Typography sx={PRICE_STYLES.price}>{discountedPriceFormatted}</Typography>
                                     <Box sx={PRICE_STYLES.oldPriceContent}>
@@ -154,9 +154,9 @@ export const CartItem: FC<CartItemProps> = ({ item, availableQuantity, catalogPr
                         </Box>
                         {hasProductDiscount && isPromoAppliedToCart && (
                             <Typography className={S.promoCodeRestrictionMessage}>
-                            Promo code cannot be applied to this item.
+                                Promo code cannot be applied to this item.
                             </Typography>
-                            )}
+                        )}
                     </Box>
                     <IconButton onClick={handleDelete} className={S.deleteButton}>
                         <img src={deleteIcon} alt="Delete" />

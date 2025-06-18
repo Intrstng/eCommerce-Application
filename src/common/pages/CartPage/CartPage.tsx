@@ -304,10 +304,10 @@ export const CartPage = () => {
 
                 {lineItemsWithAvailability.map(({ item, availableQuantity, catalogProduct }) => (
                     <CartItem
-                    key={item.id}
-                    item={item}
-                    availableQuantity={availableQuantity}
-                    catalogProduct={catalogProduct}
+                        key={item.id}
+                        item={item}
+                        availableQuantity={availableQuantity}
+                        catalogProduct={catalogProduct}
                     />
                 ))}
 

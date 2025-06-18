@@ -11,10 +11,10 @@ import { customSliceString } from '../../utils/custom-slice-string';
 const SLIDER_CARD_TITLE_LENGTH: number = 35;
 
 export const ProductSliderCard: FC<ProductSliderCardProps> = ({ productItemData }) => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
     const currentFormattedPrice = formatPrice(productItemData.prices, 'EUR');
     const cardClickHandler = () => {
-      navigate(`${PATH.PRODUCT_MAIN}/${productItemData?.id ?? ''}`);
+        navigate(`${PATH.PRODUCT_MAIN}/${productItemData?.id ?? ''}`);
     };
 
     const cardTitle: string = customSliceString(productItemData.name.en, SLIDER_CARD_TITLE_LENGTH);

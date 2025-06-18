@@ -103,6 +103,7 @@ export const authAPI = {
 
     async logout(): Promise<void> {
         authTokenService.clearTokens();
+        console.log('inside logout');
         await authTokenService.getAnonymousToken();
     },
 };
