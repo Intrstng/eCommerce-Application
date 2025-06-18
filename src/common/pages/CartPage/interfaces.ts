@@ -27,4 +27,5 @@ export interface CartItemProps {
     item: LineItemWithDiscountedPrice;
     availableQuantity?: number | undefined;
     catalogProduct?: CatalogProduct | undefined;
+    showProductDiscountMessage?: boolean;
 }

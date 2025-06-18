@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import { useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -15,31 +14,18 @@ import plusIcon from '../../../assets/icons/plus.svg';
 import minusIcon from '../../../assets/icons/minus.svg';
 import { PRICE_STYLES } from '../../styles/price.styles';
 import type { Status } from 'app/model/types';
-import { cartSelector, cartStatusSelector } from '../../../features/cart/model/selectors/cartSelectors';
+import { cartStatusSelector } from '../../../features/cart/model/selectors/cartSelectors';
 import { CartItemSkeleton } from './CartItemSkeleton';
 import type { CartItemProps } from './interfaces';
-import {
-    availablePromoCodesSelector,
-    promoCodeSelector,
-} from '../../../features/discount/model/selectors/discountSelectors';
-import type { DiscountCode } from '@commercetools/platform-sdk';
-import { checkIsPromoCodeApplied } from '../../utils/check-is-promocode-applied';
 
-export const CartItem: FC<CartItemProps> = ({ item, availableQuantity, catalogProduct }) => {
+export const CartItem: FC<CartItemProps> = ({
+    item,
+    availableQuantity,
+    catalogProduct,
+    showProductDiscountMessage,
+}) => {
     const isCartLoading: string = useAppSelector<Status>(cartStatusSelector);
     const dispatch = useAppDispatch();
-    const availablePromoCodes = useAppSelector<DiscountCode[]>(availablePromoCodesSelector);
-    const currentPromoCode = useAppSelector(promoCodeSelector);
-    const cart = useAppSelector(cartSelector);
-
-    const isPromoAppliedToCart: boolean = useMemo(() => {
-        return checkIsPromoCodeApplied(
-            currentPromoCode?.key ?? currentPromoCode?.code ?? '',
-            currentPromoCode,
-            availablePromoCodes,
-            cart
-        );
-    }, [currentPromoCode, availablePromoCodes, cart]);
 
     const handleIncrease = () => {
         if (availableQuantity === undefined || item.quantity < availableQuantity) {
@@ -152,7 +138,7 @@ export const CartItem: FC<CartItemProps> = ({ item, availableQuantity, catalogPr
                                 <Typography sx={PRICE_STYLES.price}>{originalPriceFormatted}</Typography>
                             )}
                         </Box>
-                        {hasProductDiscount && isPromoAppliedToCart && (
+                        {showProductDiscountMessage && (
                             <Typography className={S.promoCodeRestrictionMessage}>
                                 Promo code cannot be applied to this item.
                             </Typography>
