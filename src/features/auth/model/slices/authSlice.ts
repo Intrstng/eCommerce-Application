@@ -126,8 +126,10 @@ export const loginTC =
                 dispatch(appActions.setAppError({ error: 'Invalid email or password' }));
             }
 
-            // dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
+            authTokenService.clearTokens();
+            await authTokenService.ensureAnonymousToken();
             dispatch(authActions.setUser({ user: null }));
+            dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
             dispatch(appActions.setAppStatus({ status: Status.FAILED }));
         }
     };
