@@ -1,0 +1,26 @@
+.backToTop {
+    cursor: pointer;
+
+    position: fixed;
+    z-index: 1000;
+    right: 32px;
+    bottom: 32px;
+
+    width: 48px;
+    height: 48px;
+    border: none;
+
+    opacity: 0.8;
+    background: none;
+
+    transition: opacity 0.3s;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}

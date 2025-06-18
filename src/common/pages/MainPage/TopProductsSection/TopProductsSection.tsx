@@ -39,7 +39,10 @@ export const TopProductsSection = () => {
                 autoplay={isAllProductsLoading ? false : { delay: SLIDER_DELAY, disableOnInteraction: false }}
                 breakpoints={{
                     320: { slidesPerView: 2, spaceBetween: SLIDES_GAP / 2 },
-                    640: { slidesPerView: 4, spaceBetween: SLIDES_GAP },
+                    480: { slidesPerView: 2, spaceBetween: SLIDES_GAP / 2 },
+                    // 600: { slidesPerView: 2, spaceBetween: SLIDES_GAP },
+                    700: { slidesPerView: 3, spaceBetween: SLIDES_GAP, centeredSlides: false},
+                    // 640: { slidesPerView: 4, spaceBetween: SLIDES_GAP },
                     768: { slidesPerView: 4, spaceBetween: SLIDES_GAP },
                     1024: { slidesPerView: 6, spaceBetween: SLIDES_GAP },
                     1440: { slidesPerView: 8, spaceBetween: SLIDES_GAP },

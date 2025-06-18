@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import { useLocation } from 'react-router-dom';
 import { cartActions, getActiveCartTC } from '../../features/cart/model/slices/cartSlice';
 import { authIsLoggedInSelector } from '../../features/auth/model/selectors/authSelector';
+import { BackToTopButton } from '../../common/components/BackToTopButton/BackToTopButton';
 
 export const App = () => {
     const dispatch = useAppDispatch();
@@ -58,6 +59,7 @@ export const App = () => {
                 </Box>
             </Box>
             <Footer />
+            <BackToTopButton />
             <ToastifyNotification />
         </Box>
     );

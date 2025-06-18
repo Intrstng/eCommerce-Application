@@ -1,4 +1,5 @@
 .title {
+    margin-top: 20px;
     margin-bottom: 10px;
 
     font-family: Cormorant, serif;
@@ -18,8 +19,29 @@
 }
 
 .productSlider {
-    max-width: calc(100vw - 40px); // Fix?
+    max-width: calc(100vw - 40px);
     margin: 0 auto 40px;
+}
+
+@media (width <= 1024px) {
+    .productSlider {
+        max-width: calc(100vw - 80px);
+        margin: 0 auto 40px;
+    }
+}
+
+@media (width >= 600px) and (width <= 768px) {
+    .productSlider {
+        max-width: 450px;
+        margin: 0 auto 40px;
+    }
+}
+
+@media (width <= 600px) {
+    .productSlider {
+        max-width: 350px;
+        margin: 0 auto 40px;
+    }
 }
 
 .swiper {
@@ -44,8 +66,6 @@
 .sliderHeading {
     display: flex;
     flex-direction: column;
-    gap: 4px;
     align-items: center;
-
     padding: 40px 0;
 }
