@@ -74,7 +74,7 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
 
             <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
                 <FormGroup sx={STYLES.modalForm}>
-                    <FormControl >
+                    <FormControl>
                         <TextField
                             label="Street"
                             type="text"
@@ -151,11 +151,10 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
                         )}
                     </FormControl>
 
-                    <FormControl >
+                    <FormControl>
                         <TextField
                             label={selectedCountry ? 'Postal code' : 'Select a country first'}
                             type="text"
-
                             id="postal"
                             sx={{
                                 ...STYLES.addressInput,

@@ -11,7 +11,7 @@ export const HeroSection = memo(() => {
     return (
         <div className={S.heroSection}>
             <div className={S.heroContent}>
-                <h1 className={S.heroHeading}>Custom jewerly for yourself, friends, family, and special occasions.</h1>
+                <h1 className={S.heroHeading}>Custom jewelry for yourself, friends, family, and special occasions.</h1>
                 <div className={S.heroButtons}>
                     <Button
                         text="Search catalog"
