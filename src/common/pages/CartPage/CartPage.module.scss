@@ -51,6 +51,12 @@
         padding: 1rem;
     }
 
+    .cartItemImageWrapper {
+        position: relative;
+        width: 100px;
+        height: 100px;
+    }
+
     .cartItemImage {
         max-width: 100px;
         height: 100px;
@@ -59,9 +65,9 @@
 
     .specialOfferBadge {
         position: absolute;
-        top: 8px;
+        top: -5px;
 
-        padding: 0.25rem 0.5rem;
+        padding: 0.25rem 0.498rem;
 
         color: white;
 
