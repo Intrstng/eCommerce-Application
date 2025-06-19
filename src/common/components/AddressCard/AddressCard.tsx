@@ -50,7 +50,6 @@ export const AddressCard: FC<AddressCardProps> = ({
     const dispatch = useAppDispatch();
     const isSmallScreen = useMediaQuery(`(max-width:${TABLET_MEDIA_WIDTH})`);
 
-
     const defaultShippingAddressId: string | undefined =
         currentCustomer && 'defaultShippingAddressId' in currentCustomer
             ? currentCustomer.defaultShippingAddressId
@@ -149,7 +148,7 @@ export const AddressCard: FC<AddressCardProps> = ({
 
     return (
         <Box sx={STYLES.addressCardInfoContent}>
-            <Box sx={{ mt: 2 }} >
+            <Box sx={{ mt: 2 }}>
                 <Box sx={STYLES.addressCardInfo}>
                     <Typography variant="h5" component="h5" sx={STYLES.addressCardInfoTitle}>
                         Country:

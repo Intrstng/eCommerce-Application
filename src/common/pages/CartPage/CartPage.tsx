@@ -275,8 +275,8 @@ export const CartPage = () => {
         return false;
     });
 
-    const hasApplicableNonProductDiscountItem = applicableItems.some(({ catalogProduct }) =>
-        !(catalogProduct?.prices.some(price => price.discounted !== null))
+    const hasApplicableNonProductDiscountItem = applicableItems.some(
+        ({ catalogProduct }) => !catalogProduct?.prices.some(price => price.discounted !== null)
     );
     const isPromoCodeApplicable = applicableItems.length > 0 && hasApplicableNonProductDiscountItem;
 
