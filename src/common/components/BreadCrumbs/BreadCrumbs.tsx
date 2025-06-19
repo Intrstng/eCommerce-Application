@@ -24,9 +24,9 @@ const BREAD_CRUMBS_NAMES: Record<string, PAGES> = {
     addresses: PAGES.ADDRESSES,
 };
 
-type BreadCrumbsProps = {
+interface BreadCrumbsProps {
     articleTitle?: string;
-};
+}
 
 export const BreadCrumbs: FC<BreadCrumbsProps> = ({ articleTitle }) => {
     const location = useLocation();

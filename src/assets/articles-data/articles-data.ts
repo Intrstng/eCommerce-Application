@@ -1,4 +1,4 @@
-import type { ArticleItem } from '../../common/components/ArticleCard/types';
+import type { ArticleItem } from '../../common/components/ArticleCard/interfaces';
 import ringImage from '../articles/ring.png';
 import broochImage from '../articles/brooch.png';
 import earringImage from '../articles/earring.png';

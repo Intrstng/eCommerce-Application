@@ -39,7 +39,7 @@ export const STYLES = genStyles({
         width: '100%',
     },
     personalItemTitle: {
-        width: '6.5rem',
+        minWidth: '6.5rem',
         fontFamily: 'Jost, sans-serif',
         fontWeight: '400',
         fontSize: '1rem',
@@ -49,7 +49,7 @@ export const STYLES = genStyles({
     },
     personalItemInfo: {
         marginLeft: '0',
-        width: '16rem',
+        maxWidth: '16rem',
         height: '2.5rem',
         display: 'flex',
         alignItems: 'center',

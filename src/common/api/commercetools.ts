@@ -24,16 +24,18 @@ const authMiddlewareOptions: AuthMiddlewareOptions = {
     httpClient: fetch,
     tokenCache: {
         get: (): TokenStore => {
-            const token = authTokenService.getAccessToken();
+            const tokenData = authTokenService.getTokenData();
+            const token = tokenData?.access_token;
+            const expirationTime = tokenData ? Date.now() + tokenData.expires_in * 1000 : Date.now();
 
             if (!token) {
                 authTokenService
                     .ensureAnonymousToken()
                     .then(() => {
-                        const newToken = authTokenService.getAccessToken();
+                        const newTokenData = authTokenService.getTokenData();
                         return {
-                            token: newToken ?? '',
-                            expirationTime: Date.now() + 3600000,
+                            token: newTokenData?.access_token ?? '',
+                            expirationTime: newTokenData ? Date.now() + newTokenData.expires_in * 1000 : Date.now(),
                         };
                     })
                     .catch((error: unknown) => {
@@ -50,7 +52,7 @@ const authMiddlewareOptions: AuthMiddlewareOptions = {
 
             return {
                 token: token ?? '',
-                expirationTime: Date.now() + 3600000,
+                expirationTime: expirationTime,
             };
         },
         set: () => {

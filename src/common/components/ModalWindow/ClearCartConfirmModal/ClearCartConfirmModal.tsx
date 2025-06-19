@@ -5,12 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { STYLES } from './styles.clearCartConfirmModal';
-
-export type ClearCartConfirmModalProps = {
-    isOpen: boolean;
-    onCancel: () => void;
-    onConfirm: () => void;
-};
+import type { ClearCartConfirmModalProps } from './interfaces';
 
 export const ClearCartConfirmModal: FC<ClearCartConfirmModalProps> = ({ isOpen, onCancel, onConfirm }) => {
     return (

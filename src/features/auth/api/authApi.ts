@@ -101,28 +101,9 @@ export const authAPI = {
         }
     },
 
-    // async getCurrentUser(): Promise<Customer | null> { ToDo: check if will be needed in Sprint 4
-    //     try {
-    //         const token = authTokenService.getAccessToken();
-    //         if (!token) {
-    //             return null;
-    //         }
-    //         const response = await apiRoot
-    //             .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
-    //             .me()
-    //             .get()
-    //             .execute();
-    //
-    //         return response.body;
-    //     } catch (error) {
-    //         console.error('Get current user error:', error);
-    //         authTokenService.clearTokens();
-    //         return null;
-    //     }
-    // },
-
     async logout(): Promise<void> {
         authTokenService.clearTokens();
+        console.log('inside logout');
         await authTokenService.getAnonymousToken();
     },
 };

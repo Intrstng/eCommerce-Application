@@ -9,10 +9,22 @@ export const STYLES = genStyles({
     },
     logo: {
         m: 1,
-        backgroundColor: 'rgba(8,83,231,0.9)',
+        mb: 2,
+        backgroundColor: '#000000',
     },
     pageTitle: {
         mb: 2,
+        fontFamily: 'Cormorant, serif',
+        fontWeight: '500',
+        fontSize: '2.5rem',
+        margin: 0,
+        color: '#000',
+    },
+    formLabel: {
+        margin: '0',
+        fontFamily: 'Jost, sans-serif',
+        fontSize: '1.1rem',
+        fontWeight: '400',
     },
     formPass: {
         display: 'flex',
@@ -127,6 +139,22 @@ export const STYLES = genStyles({
     button: {
         mt: 0,
         mb: 1,
+        fontSize: '0.875rem',
+        fontWeight: '400',
+        fontFamily: 'Jost, sans-serif',
+        letterSpacing: '1px',
+        color: '#fff',
+        border: '1px solid #65635f',
+        borderRadius: '4px',
+        backgroundColor: '#65635f',
+        transition: '0.3s all ease-in-out',
+        boxShadow: 'none',
+        '&:hover': {
+            backgroundColor: '#161412',
+            border: '1px solid #161412',
+            color: '#fff',
+            boxShadow: 'none',
+        },
     },
     link: {
         textAlign: 'center',
@@ -166,10 +194,13 @@ export const STYLES = genStyles({
         color: '#295F98',
     },
     shippingAsBillingMessage: {
-        color: '#4DAF50',
-        fontWeight: 'bold',
-        mt: -0.5,
+        color: '#36a639',
+        mt: -0.25,
         mb: 2,
+        fontSize: '0.875rem',
+        fontWeight: '900',
+        letterSpacing: '0.05em',
+        fontFamily: 'Jost, sans-serif',
     },
     linkSignUp: {
         m: '0 auto 2rem',

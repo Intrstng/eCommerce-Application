@@ -1,4 +1,3 @@
-import type React from 'react';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import S from './Header.module.scss';
@@ -14,7 +13,7 @@ import { useAppSelector } from '../../hooks';
 import { cartSelector } from '../../../features/cart/model/selectors/cartSelectors';
 import type { Cart, LineItem } from '@commercetools/platform-sdk';
 
-export const Header: React.FC = () => {
+export const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const cart: Cart | null = useAppSelector(cartSelector);
@@ -71,7 +70,6 @@ export const Header: React.FC = () => {
                     <NavLink to={PATH.ABOUT} className={S.navAboutLink}>
                         <icons.about className={S.doxIcon} />
                     </NavLink>
-                    {/*<icons.dox className={S.doxIcon} />*/}
                     <Box className={S.customerControls}>
                         <SignInButton />
                         <CartLogo counter={cartQuantity} size="1.5rem" counterClassName={S.cartMainCounter} />

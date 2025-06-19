@@ -3,7 +3,7 @@ import { genStyles } from '../../../utils/generate-styles';
 export const STYLES = genStyles({
     profilePageContent: {
         maxWidth: '1180px',
-        width: '100%',
+        // width: '100%',
         margin: '0 auto 1.5rem',
         padding: '0 1rem',
     },

@@ -11,4 +11,5 @@ export type AppInitialState = {
     status: Status;
     error: AppError;
     isInitialized: boolean;
+    isLoggingOut: boolean;
 };

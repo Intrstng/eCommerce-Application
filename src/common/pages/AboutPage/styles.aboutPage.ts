@@ -2,14 +2,11 @@ import { genStyles } from '../../utils/generate-styles.ts';
 
 export const STYLES = genStyles({
     aboutPageContent: {
-        // width: 'calc(100% - 2rem)',
         maxWidth: '1180px',
         margin: '2rem auto 1.5rem',
         padding: '0 1rem',
     },
-    aboutContent: {
-        // width: '100%',
-    },
+    aboutContent: {},
     aboutTitle: {
         marginBottom: '0.4rem',
         fontFamily: '"Cormorant", serif',

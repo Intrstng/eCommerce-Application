@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import { STYLES } from './styles.authFormLink';
 import S from './AuthFormLink.module.scss';
 import type { FC } from 'react';
+import type { AuthFormLinkProps } from './interfaces';
 
 export const AuthFormLink: FC<AuthFormLinkProps> = ({ message, path, title }) => {
     return (
@@ -13,10 +14,4 @@ export const AuthFormLink: FC<AuthFormLinkProps> = ({ message, path, title }) =>
             </NavLink>
         </Typography>
     );
-};
-
-export type AuthFormLinkProps = {
-    message: string;
-    path: string;
-    title: string;
 };

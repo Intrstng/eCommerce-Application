@@ -54,7 +54,7 @@ export const authSuccessTC = (): AppThunk => async dispatch => {
             // dispatch(createCartTC());
 
             await authTokenService.ensureAnonymousToken();
-            dispatch(getActiveCartTC());
+            dispatch(getActiveCartTC()); // ??? createCartTC()
         }
         dispatch(appActions.setAppInitialized({ isInitialized: true }));
         dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
@@ -126,14 +126,17 @@ export const loginTC =
                 dispatch(appActions.setAppError({ error: 'Invalid email or password' }));
             }
 
-            // dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
+            authTokenService.clearTokens();
+            await authTokenService.ensureAnonymousToken();
             dispatch(authActions.setUser({ user: null }));
+            dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
             dispatch(appActions.setAppStatus({ status: Status.FAILED }));
         }
     };
 
 export const logOutTC = (): AppThunk => async dispatch => {
     try {
+        dispatch(appActions.setIsLoggingOut({ isLoggingOut: true }));
         await authAPI.logout();
         dispatch(authActions.setUser({ user: null }));
         userStorage.removeUser();
@@ -142,10 +145,12 @@ export const logOutTC = (): AppThunk => async dispatch => {
         dispatch(cartActions.setCart({ cart: null }));
         dispatch(createCartTC());
 
+        dispatch(appActions.setIsLoggingOut({ isLoggingOut: false }));
         dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
 
         successNotifyMessage("You've logged out of your account");
     } catch (error) {
+        dispatch(appActions.setIsLoggingOut({ isLoggingOut: false }));
         if (error instanceof Error) {
             dispatch(appActions.setAppError({ error: error.message }));
         } else {

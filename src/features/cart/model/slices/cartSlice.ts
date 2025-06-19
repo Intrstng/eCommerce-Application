@@ -7,6 +7,7 @@ import { appActions } from 'app/model/slices/appSlice';
 import { Status } from 'app/model/types';
 import type { CartState } from '../interfaces';
 import { successNotifyMessage, warningNotifyMessage } from '../../../../common/utils/notify-message';
+import { catalogActions } from '../../../catalog/model/slices/catalogSlice';
 
 const initialState: CartState = {
     cart: null,
@@ -51,6 +52,7 @@ export const getActiveCartTC = (): AppThunk => async dispatch => {
 
 export const createCartTC = (): AppThunk => async dispatch => {
     try {
+        console.log('createCartTC');
         dispatch(cartActions.setStatus({ status: Status.LOADING }));
 
         const cart = await cartAPI.createCart();
@@ -68,6 +70,7 @@ export const addToCartTC =
     async (dispatch, getState) => {
         try {
             dispatch(cartActions.setStatus({ status: Status.LOADING }));
+            dispatch(catalogActions.setIsToCartLoading({ id: productId, isToCartLoading: true }));
             const { cart } = getState().cart;
 
             if (cart) {
@@ -80,9 +83,11 @@ export const addToCartTC =
             }
 
             dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
+            dispatch(catalogActions.setIsToCartLoading({ id: productId, isToCartLoading: false }));
             successNotifyMessage('Product was added to your cart successfully!');
         } catch (error) {
             dispatch(cartActions.setStatus({ status: Status.FAILED }));
+            dispatch(catalogActions.setIsToCartLoading({ id: productId, isToCartLoading: false }));
             dispatch(
                 appActions.setAppError({ error: error instanceof Error ? error.message : 'Failed to add item to cart' })
             );
@@ -90,15 +95,21 @@ export const addToCartTC =
     };
 
 export const removeFromCartTC =
-    (lineItemId: string): AppThunk =>
+    (lineItemId: string, productId?: string): AppThunk =>
     async (dispatch, getState) => {
         try {
             dispatch(cartActions.setStatus({ status: Status.LOADING }));
+            if (productId) {
+                dispatch(catalogActions.setIsToCartLoading({ id: productId, isToCartLoading: true }));
+            }
             const { cart } = getState().cart;
 
             if (!cart) {
                 dispatch(cartActions.setCart({ cart: null }));
                 dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
+                if (productId) {
+                    dispatch(catalogActions.setIsToCartLoading({ id: productId, isToCartLoading: false }));
+                }
                 return;
             }
 
@@ -106,9 +117,15 @@ export const removeFromCartTC =
             dispatch(cartActions.setCart({ cart: updatedCart }));
 
             dispatch(cartActions.setStatus({ status: Status.SUCCEEDED }));
+            if (productId) {
+                dispatch(catalogActions.setIsToCartLoading({ id: productId, isToCartLoading: false }));
+            }
             warningNotifyMessage('Product was removed from your cart successfully!');
         } catch (error) {
             dispatch(cartActions.setStatus({ status: Status.FAILED }));
+            if (productId) {
+                dispatch(catalogActions.setIsToCartLoading({ id: productId, isToCartLoading: false }));
+            }
             dispatch(
                 appActions.setAppError({
                     error: error instanceof Error ? error.message : 'Failed to remove item from cart',

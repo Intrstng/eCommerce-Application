@@ -49,8 +49,7 @@ export function setProductDataFromResponse(data: Product[]): CatalogProduct[] {
 
         return {
             id: product.id,
-            isInCart: false, // Temporary
-            isInFavourites: false, // Temporary
+            isToCartLoading: false,
             description,
             name,
             prices,
@@ -80,7 +79,7 @@ export function setProductDataFromResponse(data: Product[]): CatalogProduct[] {
             // const discount = (((originalAmount - discountedAmount) / originalAmount) * 100).toFixed(1);
             // console.log(`RUB: ${originalAmount.toFixed(2)} -> ${discountedAmount.toFixed(2)} (${discount}%)`);
         } else {
-            console.log('RUB: not found');
+            // console.log('RUB: not found');
         }
 
         if (eur?.discounted) {
@@ -90,7 +89,7 @@ export function setProductDataFromResponse(data: Product[]): CatalogProduct[] {
             // const discount = (((originalAmount - discountedAmount) / originalAmount) * 100).toFixed(1);
             // console.log(`EUR: ${originalAmount.toFixed(2)} -> ${discountedAmount.toFixed(2)} (${discount}%)`);
         } else {
-            console.log('EUR: not found');
+            // console.log('EUR: not found');
         }
 
         if (byn?.discounted) {
@@ -100,7 +99,7 @@ export function setProductDataFromResponse(data: Product[]): CatalogProduct[] {
             // const discount = (((originalAmount - discountedAmount) / originalAmount) * 100).toFixed(1);
             // console.log(`BYN: ${originalAmount.toFixed(2)} -> ${discountedAmount.toFixed(2)} (${discount}%)`);
         } else {
-            console.log('BYN: not found');
+            // console.log('BYN: not found');
         }
     });
 
@@ -150,8 +149,7 @@ export function setProductDataFromProjectionResponse(data: ProductProjectionPage
 
         return {
             id: product.id,
-            isInCart: false,
-            isInFavourites: false,
+            isToCartLoading: false,
             description,
             name,
             prices,

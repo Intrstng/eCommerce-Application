@@ -11,7 +11,7 @@ import { cartSelector, cartStatusSelector } from '../../../features/cart/model/s
 import type { Cart, DiscountCode, LineItem } from '@commercetools/platform-sdk';
 import { catalogAPI } from '../../../features/catalog/api/catalogApi';
 import type { CatalogProduct } from '../../../features/catalog/api/catalogApi.interfaces';
-import type { CartItemWithAvailability, LineItemWithDiscountedPrice } from './interfaces';
+import type { CartItemWithAvailability } from './interfaces';
 import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 import { CustomButton } from '../../buttons/CustomButton';
@@ -31,6 +31,7 @@ import {
     discountActions,
     getAvailablePromoCodesTC,
     removePromoCodeTC,
+    setActivePromoCodeTC,
 } from '../../../features/discount/model/slices/discountSlice';
 import {
     availablePromoCodesSelector,
@@ -43,30 +44,30 @@ import { checkIsPromoCodeApplied } from '../../utils/check-is-promocode-applied'
 
 export const CartPage = () => {
     const availablePromoCodes = useAppSelector<DiscountCode[]>(availablePromoCodesSelector);
-    const currentPromoCode = useAppSelector<PromoCodeCartContent | null>(promoCodeSelector);
+    const currentPromoCode = useAppSelector(promoCodeSelector);
     const cart: Cart | null = useAppSelector(cartSelector);
     const cartStatus: string = useAppSelector<Status>(cartStatusSelector);
-    const lineItems: LineItemWithDiscountedPrice[] = cart?.lineItems ?? [];
+    // const lineItems: LineItemWithDiscountedPrice[] = cart?.lineItems ?? [];
     const [lineItemsWithAvailability, setLineItemsWithAvailability] = useState<CartItemWithAvailability[]>([]);
     const [showClearCartModal, setShowClearCartModal] = useState(false);
+    const [isPromoSubmitted, setIsPromoSubmitted] = useState(true);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(getAvailablePromoCodesTC());
     }, [dispatch]);
 
-    // TODO: fix and add this useEffect
-    // useEffect(() => {
-    //     if (cart) {
-    //         dispatch(setActivePromoCodeTC(cart));
-    //     }
-    // }, [dispatch]);
-    // console.log(currentPromoCode, cart);
+    useEffect(() => {
+        if (cart) {
+            dispatch(setActivePromoCodeTC(cart));
+        }
+    }, [dispatch, cart]);
 
     const {
         register,
         handleSubmit,
         reset,
+        watch,
         formState: { errors, isValid },
         getValues,
     } = useForm({
@@ -80,6 +81,7 @@ export const CartPage = () => {
 
     const onSubmit: SubmitHandler<PromoCodeFormData> = data => {
         const { promoCode } = data;
+        setIsPromoSubmitted(true);
 
         const enteredPromoCodeData = availablePromoCodes.find(
             availablePromoCode => availablePromoCode?.key === promoCode || availablePromoCode.code === promoCode
@@ -91,6 +93,7 @@ export const CartPage = () => {
             dispatch(discountActions.setPromoCode({ promoCode: promoCodeCartContentToStore }));
             handleApplyPromoCode(promoCode);
         } else {
+            setIsPromoSubmitted(false);
             throw new Error(`Entered promo code ${promoCode} is not valid`);
         }
     };
@@ -123,6 +126,7 @@ export const CartPage = () => {
                     return {
                         item,
                         availableQuantity,
+                        catalogProduct,
                     };
                 });
 
@@ -138,6 +142,37 @@ export const CartPage = () => {
         void fetchProductAvailability();
     }, [cart]);
 
+    useEffect(() => {
+        const subscription = watch((_, { name, type }) => {
+            if (name === 'promoCode' && type !== undefined) {
+                setIsPromoSubmitted(false);
+            }
+        });
+        return () => {
+            subscription.unsubscribe();
+        };
+    }, [watch]);
+
+    useEffect(() => {
+        if (currentPromoCode) {
+            const newValue = currentPromoCode?.key ?? currentPromoCode?.code ?? '';
+            const currentPromo = getValues('promoCode');
+
+            if (currentPromo !== newValue) {
+                reset(
+                    {
+                        promoCode: newValue,
+                    },
+                    {
+                        keepDirty: true,
+                        keepTouched: true,
+                    }
+                );
+                setIsPromoSubmitted(false);
+            }
+        }
+    }, [currentPromoCode, reset, getValues]);
+
     const handleClearCartClick = () => {
         setShowClearCartModal(true);
     };
@@ -152,7 +187,7 @@ export const CartPage = () => {
     };
 
     const handleApplyPromoCode = (code: string) => {
-        if (currentPromoCode && cart) {
+        if (cart) {
             dispatch(applyPromoCodeTC(cart, code));
         }
     };
@@ -166,10 +201,10 @@ export const CartPage = () => {
 
         if (!currentPromoCode && currentPromoCodeValueInInput) {
             reset({ promoCode: '' });
-            console.log('Just clear input');
         } else if (
+            currentPromoCode &&
             cart &&
-            cart?.discountCodes[0].discountCode.id === promoCodeIdToCancel &&
+            cart?.discountCodes[0]?.discountCode?.id === promoCodeIdToCancel &&
             currentPromoCodeValueInInput &&
             (currentPromoCode?.key === currentPromoCodeValueInInput ||
                 currentPromoCode?.code === currentPromoCodeValueInInput)
@@ -177,8 +212,8 @@ export const CartPage = () => {
             dispatch(removePromoCodeTC(cart.id, cart.version, currentPromoCodeValueInInput));
             dispatch(discountActions.setPromoCode({ promoCode: null }));
             reset({ promoCode: '' });
-            console.log('Clear input, clear store, update server');
         } else if (
+            currentPromoCode &&
             cart &&
             currentPromoCodeValueInInput &&
             (currentPromoCode?.key === currentPromoCodeValueInInput ||
@@ -186,27 +221,38 @@ export const CartPage = () => {
         ) {
             dispatch(discountActions.setPromoCode({ promoCode: null }));
             reset({ promoCode: '' });
-            console.log('Clear input, clear store');
         }
     };
 
     const calculateTotalPrice = () => {
         if (!cart) return { original: 0, discounted: 0 };
 
-        const originalTotal = lineItems.reduce((total, item) => {
+        let originalTotal = 0;
+        let finalDiscountedTotal = 0;
+
+        originalTotal = lineItemsWithAvailability.reduce((total, { item }) => {
             return total + item.price.value.centAmount * item.quantity;
         }, 0);
 
-        const discountedTotal = lineItems.reduce((total, item) => {
-            const discountedPrice = item.discountedPrice
-                ? item.discountedPrice.value.centAmount
-                : item.price.value.centAmount;
-            return total + discountedPrice * item.quantity;
+        finalDiscountedTotal = lineItemsWithAvailability.reduce((total, { item, catalogProduct }) => {
+            const hasProductDiscount = catalogProduct?.prices.some(price => price.discounted !== null) ?? false;
+
+            if (hasProductDiscount && catalogProduct) {
+                const productDiscountedPriceObject = catalogProduct.prices.find(
+                    p => p.value.currencyCode === item.price.value.currencyCode
+                )?.discounted;
+                if (productDiscountedPriceObject) {
+                    return total + productDiscountedPriceObject.value.centAmount * item.quantity;
+                }
+                return total + item.price.value.centAmount * item.quantity;
+            } else {
+                return total + (item.discountedPrice?.value.centAmount ?? item.price.value.centAmount) * item.quantity;
+            }
         }, 0);
 
         return {
             original: originalTotal / 100,
-            discounted: discountedTotal / 100,
+            discounted: finalDiscountedTotal / 100,
         };
     };
 
@@ -217,6 +263,13 @@ export const CartPage = () => {
         availablePromoCodes,
         cart
     );
+
+    const allItemsHaveProductDiscount =
+        cart &&
+        cart.lineItems.length > 0 &&
+        lineItemsWithAvailability.every(
+            ({ catalogProduct }) => catalogProduct?.prices.some(price => price.discounted !== null) ?? false
+        );
 
     if (!cart || cart.lineItems.length === 0) {
         return (
@@ -256,9 +309,20 @@ export const CartPage = () => {
                     </Box>
                 )}
 
-                {lineItemsWithAvailability.map(({ item, availableQuantity }) => (
-                    <CartItem key={item.id} item={item} availableQuantity={availableQuantity} />
-                ))}
+                {lineItemsWithAvailability.map(({ item, availableQuantity, catalogProduct }) => {
+                    const hasProductDiscount = catalogProduct?.prices.some(price => price.discounted !== null) ?? false;
+                    return (
+                        <CartItem
+                            key={item.id}
+                            item={item}
+                            availableQuantity={availableQuantity}
+                            catalogProduct={catalogProduct}
+                            showProductDiscountMessage={
+                                hasProductDiscount && !allItemsHaveProductDiscount && isPromoCodeApplied
+                            }
+                        />
+                    );
+                })}
 
                 <Box className={S.cartSummary}>
                     {cartStatus !== 'loading' && (
@@ -288,6 +352,11 @@ export const CartPage = () => {
                                             {...register('promoCode')}
                                             size="small"
                                             className={S.promoCodeInput}
+                                            slotProps={{
+                                                inputLabel: {
+                                                    shrink: !!watch('promoCode'),
+                                                },
+                                            }}
                                         />
                                         {errors.promoCode && (
                                             <Typography component="h2" variant="body2" className={S.errorForm}>
@@ -298,7 +367,12 @@ export const CartPage = () => {
                                     <CustomButton
                                         className={S.applyPromoButton}
                                         type="submit"
-                                        disabled={!isValid || cartStatus === 'loading'}
+                                        disabled={
+                                            !isValid ||
+                                            cartStatus === 'loading' ||
+                                            isPromoSubmitted ||
+                                            isPromoCodeApplied
+                                        }
                                     >
                                         Apply promo code
                                     </CustomButton>
@@ -321,10 +395,16 @@ export const CartPage = () => {
                                         <Typography className={S.discountedPrice} variant="h6">
                                             Total with discount: {calculateTotalPrice().discounted.toFixed(2)} EUR
                                         </Typography>
+                                        {allItemsHaveProductDiscount && isPromoCodeApplied && (
+                                            <Typography className={S.promoCodeRestrictionMessage} variant="h6">
+                                                Promo code {currentPromoCode?.key ?? currentPromoCode?.code ?? ''}{' '}
+                                                cannot be applied to items with special offer
+                                            </Typography>
+                                        )}
                                     </>
                                 ) : (
                                     <Typography className={S.cartTotalPrice} variant="h6">
-                                        Total: {calculateTotalPrice().original.toFixed(2)} EUR
+                                        Total: {calculateTotalPrice().discounted.toFixed(2)} EUR
                                     </Typography>
                                 )}
                             </Box>

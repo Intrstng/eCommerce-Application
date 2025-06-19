@@ -21,12 +21,7 @@ import { statusSelector } from 'app/model/selectors/appSelectors';
 import { AddressModalType } from '../../../enums';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-
-export type AddAddressModalFormProps = {
-    modalType: AddressModalType | null;
-    closeModalCB: () => void;
-    addAddressCB: (address?: AddressModalFormData, addressId?: string) => void;
-};
+import type { AddAddressModalFormProps } from './interfaces';
 
 export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, closeModalCB, addAddressCB }) => {
     const appStatus: string = useAppSelector<Status>(statusSelector);
@@ -79,11 +74,10 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
 
             <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
                 <FormGroup sx={STYLES.modalForm}>
-                    <FormControl fullWidth>
+                    <FormControl>
                         <TextField
                             label="Street"
                             type="text"
-                            fullWidth
                             id="street"
                             sx={{
                                 ...STYLES.addressInput,
@@ -103,11 +97,10 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
                         )}
                     </FormControl>
 
-                    <FormControl fullWidth>
+                    <FormControl>
                         <TextField
                             label="City"
                             type="text"
-                            fullWidth
                             id="city"
                             sx={{
                                 ...STYLES.addressInput,
@@ -127,7 +120,7 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
                         )}
                     </FormControl>
 
-                    <FormControl fullWidth variant="filled">
+                    <FormControl variant="filled">
                         <InputLabel id="country-label" sx={STYLES.countryLabel}>
                             Country
                         </InputLabel>
@@ -138,7 +131,6 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
                             sx={{
                                 ...STYLES.addressInput,
                                 ...STYLES.countryInput,
-                                ...STYLES.addressInputMedia,
                             }}
                             error={!!errors.country}
                             {...register('country')}
@@ -158,11 +150,10 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
                         )}
                     </FormControl>
 
-                    <FormControl fullWidth>
+                    <FormControl>
                         <TextField
                             label={selectedCountry ? 'Postal code' : 'Select a country first'}
                             type="text"
-                            fullWidth
                             id="postal"
                             sx={{
                                 ...STYLES.addressInput,

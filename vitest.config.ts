@@ -22,10 +22,14 @@ export default defineConfig({
             exclude: [
                 'node_modules',
                 'src/**/*.test.{ts,tsx}',
-                'src/types',
+                'src/**/*types.ts',
+                'src/**/*interfaces.ts',
+                '**/*.d.ts',
                 '**/styles*',
                 'src/vite-env.d.ts',
                 'src/setupTests.ts',
+                'src/common/utils/test-utilities.tsx',
+                'src/plugins/vite-root-plugin.ts',
             ],
         },
         poolOptions: {

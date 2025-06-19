@@ -1,13 +1,12 @@
 import type { ProductPrice } from '../../api/catalogApi.interfaces';
 
-export type CatalogItemProps = {
+export interface CatalogItemProps {
     id: string;
     image: string;
     title: string;
     prices: ProductPrice[];
     description: string;
     isProductsLoading: boolean;
+    isToCartLoading: boolean;
     variantId: number;
-};
-
-export type Currency = 'BYN' | 'EUR' | 'RUB';
+}

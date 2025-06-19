@@ -18,12 +18,7 @@ import FormGroup from '@mui/material/FormGroup';
 import { useAppSelector } from '../../../hooks';
 import type { Status } from 'app/model/types';
 import { statusSelector } from 'app/model/selectors/appSelectors';
-
-export type EddAddressModalFormProps = {
-    addressId?: string;
-    closeModalCB: () => void;
-    editAddressCB: (address: AddressModalFormData, addressId: string) => void;
-};
+import type { EddAddressModalFormProps } from './interfaces';
 
 export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, closeModalCB, editAddressCB }) => {
     const appStatus: string = useAppSelector<Status>(statusSelector);
@@ -72,11 +67,10 @@ export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, 
 
             <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
                 <FormGroup sx={STYLES.modalForm}>
-                    <FormControl fullWidth>
+                    <FormControl>
                         <TextField
                             label="Street"
                             type="text"
-                            fullWidth
                             id="street"
                             sx={{
                                 ...STYLES.addressInput,
@@ -96,11 +90,10 @@ export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, 
                         )}
                     </FormControl>
 
-                    <FormControl fullWidth>
+                    <FormControl>
                         <TextField
                             label="City"
                             type="text"
-                            fullWidth
                             id="city"
                             sx={{
                                 ...STYLES.addressInput,
@@ -120,7 +113,7 @@ export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, 
                         )}
                     </FormControl>
 
-                    <FormControl fullWidth variant="filled">
+                    <FormControl variant="filled">
                         <InputLabel id="country-label" sx={STYLES.countryLabel}>
                             Country
                         </InputLabel>
@@ -131,7 +124,6 @@ export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, 
                             sx={{
                                 ...STYLES.addressInput,
                                 ...STYLES.countryInput,
-                                ...STYLES.addressInputMedia,
                             }}
                             error={!!errors.country}
                             {...register('country')}
@@ -151,11 +143,10 @@ export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, 
                         )}
                     </FormControl>
 
-                    <FormControl fullWidth>
+                    <FormControl>
                         <TextField
                             label={selectedCountry ? 'Postal code' : 'Select a country first'}
                             type="text"
-                            fullWidth
                             id="postal"
                             sx={{
                                 ...STYLES.addressInput,

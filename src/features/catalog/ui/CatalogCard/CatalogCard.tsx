@@ -4,7 +4,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import type { CatalogItemProps } from './types';
+import type { CatalogItemProps } from './interfaces';
 import { CatalogCardSkeleton } from './CatalogCardSkeleton';
 import { STYLES } from './styles.catalogCard';
 import { Link } from 'react-router-dom';
@@ -25,6 +25,7 @@ export const CatalogCard: FC<CatalogItemProps> = ({
     prices = [],
     description,
     isProductsLoading,
+    isToCartLoading,
     variantId,
 }) => {
     const [isImageLoading, setIsImageLoading] = useState(true);
@@ -58,6 +59,11 @@ export const CatalogCard: FC<CatalogItemProps> = ({
             ) : (
                 <Link to={`/product/${id}`} style={{ textDecoration: 'none' }}>
                     <Card sx={STYLES.card}>
+                        {priceInfo.hasDiscount && (
+                            <Box sx={STYLES.specialOfferBadge}>
+                                <Typography sx={STYLES.specialOfferText}>Special Offer</Typography>
+                            </Box>
+                        )}
                         {isImageLoading && !imageError && (
                             <Box
                                 sx={{
@@ -84,6 +90,7 @@ export const CatalogCard: FC<CatalogItemProps> = ({
                                     id={id}
                                     isInCart={isInCart}
                                     variantId={variantId}
+                                    isToCartLoading={isToCartLoading}
                                 />
                             </Box>
                         ) : (
@@ -105,6 +112,7 @@ export const CatalogCard: FC<CatalogItemProps> = ({
                                     id={id}
                                     isInCart={isInCart}
                                     variantId={variantId}
+                                    isToCartLoading={isToCartLoading}
                                 />
                             </Box>
                         )}

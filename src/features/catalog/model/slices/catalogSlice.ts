@@ -27,6 +27,14 @@ export const catalogSlice = createSlice({
         setTotalCount(state, action: PayloadAction<{ totalCount: number }>) {
             state.totalCount = action.payload.totalCount;
         },
+        setIsToCartLoading(state, action: PayloadAction<{ id: string; isToCartLoading: boolean }>) {
+            const { id, isToCartLoading } = action.payload;
+            const product = state.products.find(product => product.id === id);
+
+            if (product) {
+                product.isToCartLoading = isToCartLoading;
+            }
+        },
     },
 });
 
@@ -92,23 +100,3 @@ export const getProductByIdTC =
             dispatch(appActions.setAppStatus({ status: Status.FAILED }));
         }
     };
-
-// ToDo: Check will we use getCatalogCategoriesTC function in the future (add logic to catalogSlice, add categories to store, add useSelector):
-// export const getCatalogCategoriesTC =
-//     (): AppThunk =>
-//         async dispatch => {
-//             dispatch(appActions.setAppStatus({ status: Status.LOADING }));
-//             try {
-//                 const response = await catalogAPI.fetchCategories();
-//
-//                 dispatch(catalogActions.setCategories({ categories: response }));
-//                 dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
-//             } catch (error) {
-//                 if (error instanceof Error) {
-//                     dispatch(appActions.setAppError({ error: error.message }));
-//                 } else {
-//                     dispatch(appActions.setAppError({ error: 'An unexpected error occurred' }));
-//                 }
-//                 dispatch(appActions.setAppStatus({ status: Status.FAILED }));
-//             }
-//         };

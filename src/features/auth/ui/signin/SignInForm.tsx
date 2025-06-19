@@ -59,7 +59,7 @@ export const SignInForm = () => {
                 <Avatar sx={STYLES.logo}>
                     <LockOpenIcon />
                 </Avatar>
-                <Typography component="h2" variant="h5">
+                <Typography component="h2" sx={STYLES.title}>
                     Login to account
                 </Typography>
                 <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -124,7 +124,6 @@ export const SignInForm = () => {
                             variant="contained"
                             fullWidth
                             disabled={!isValid || appStatus === 'loading'}
-                            color="info"
                         >
                             Sign in
                         </Button>

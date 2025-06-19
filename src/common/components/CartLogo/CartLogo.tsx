@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { PATH } from '../../enums';
 import icons from '../../../assets/icons/icons';
 import Box from '@mui/material/Box';
-import type { CartLogoProps } from './types';
+import type { CartLogoProps } from './interfaces';
 
 export const CartLogo: FC<CartLogoProps> = ({ counter, size, onClickCB, counterClassName }) => {
     const handleClick = () => {
