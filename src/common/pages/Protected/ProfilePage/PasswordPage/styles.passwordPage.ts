@@ -38,10 +38,10 @@ export const STYLES = genStyles({
         flexDirection: 'column',
         gap: '0.5rem',
         mb: 1,
-        '@media (max-width: 690px)': {
-            flexDirection: 'column',
-            mb: 2,
-        },
+        // '@media (max-width: 690px)': {
+        //     flexDirection: 'column',
+        //     // mb: 2,
+        // },
     },
     passInput: {
         height: '2.6rem',
