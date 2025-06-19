@@ -29,6 +29,8 @@ import { AddressModalType, AddressStatus } from '../../enums';
 import Tooltip from '@mui/material/Tooltip';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+const TABLET_MEDIA_WIDTH = '768px';
+
 export const AddressCard: FC<AddressCardProps> = ({
     address,
     deleteAddressCB,
@@ -46,7 +48,7 @@ export const AddressCard: FC<AddressCardProps> = ({
     const currentDefaultBillingAddressId = useAppSelector<string>(profileDefaultBillingAddressIdSelector);
     const appStatus: string = useAppSelector<Status>(statusSelector);
     const dispatch = useAppDispatch();
-    const isSmallScreen = useMediaQuery('(max-width:768px)');
+    const isSmallScreen = useMediaQuery(`(max-width:${TABLET_MEDIA_WIDTH})`);
 
 
     const defaultShippingAddressId: string | undefined =
@@ -267,7 +269,7 @@ export const AddressCard: FC<AddressCardProps> = ({
                                     ? 'At first set this address as the shipping address'
                                     : ''
                             }
-                            placement={isSmallScreen ? 'left' : 'right'}
+                            placement={isSmallScreen ? 'top-start' : 'right'}
                             arrow
                             slotProps={{
                                 tooltip: {
@@ -310,7 +312,7 @@ export const AddressCard: FC<AddressCardProps> = ({
                                     ? 'At first set this address as the billing address'
                                     : ''
                             }
-                            placement={isSmallScreen ? 'left' : 'right'}
+                            placement={isSmallScreen ? 'top-start' : 'right'}
                             arrow
                             slotProps={{
                                 tooltip: {
