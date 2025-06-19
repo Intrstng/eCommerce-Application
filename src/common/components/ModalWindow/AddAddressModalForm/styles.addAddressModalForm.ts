@@ -55,6 +55,7 @@ export const STYLES = genStyles({
         maxWidth: '100%',
         '@media (max-width: 440px)': {
             minWidth: 'unset',
+            maxWidth: 'unset',
             width: '250px',
         },
     },
