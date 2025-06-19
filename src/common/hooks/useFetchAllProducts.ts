@@ -2,14 +2,16 @@ import type { CatalogProduct } from '../../features/catalog/api/catalogApi.inter
 import { useLayoutEffect, useState } from 'react';
 import { catalogAPI } from '../../features/catalog/api/catalogApi';
 import { useAppSelector } from './useAppSelector';
+import { isLoggingOutSelector } from 'app/model/selectors/appSelectors';
 
 export const useFetchAllProducts = () => {
     const [isAllProductsLoading, setIsAllProductsLoading] = useState(false);
     const [allProducts, setAllProducts] = useState<CatalogProduct[]>([]);
-    const isLoggingOut = useAppSelector(state => state.app.isLoggingOut);
+    const isLoggingOut = useAppSelector<boolean>(isLoggingOutSelector);
 
     useLayoutEffect(() => {
         if (isLoggingOut) return;
+
         const fetchAllData = async () => {
             setIsAllProductsLoading(true);
             try {
