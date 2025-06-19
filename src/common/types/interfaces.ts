@@ -83,4 +83,5 @@ export interface PromoCodeCartContent {
     discountText: string;
     validFrom: string;
     validUntil: string;
+    productTypeIds?: string[];
 }

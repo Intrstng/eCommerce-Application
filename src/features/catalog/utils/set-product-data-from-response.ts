@@ -62,6 +62,7 @@ export function setProductDataFromResponse(data: Product[]): CatalogProduct[] {
                 availability: variant.availability,
             })),
             productType: productTypeName,
+            productTypeId: product.productType?.id ?? '',
         };
     });
 
@@ -164,6 +165,7 @@ export function setProductDataFromProjectionResponse(data: ProductProjectionPage
             })),
             totalCount,
             productType: productTypeName,
+            productTypeId: product.productType?.id ?? '',
         };
     });
 }

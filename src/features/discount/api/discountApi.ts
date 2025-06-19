@@ -174,4 +174,22 @@ export const discountAPI = {
             throw error_;
         }
     },
+
+    async getCartDiscountById(cartDiscountId: string) {
+        try {
+            const response = await apiRoot
+                .withProjectKey({ projectKey })
+                .cartDiscounts()
+                .withId({ ID: cartDiscountId })
+                .get()
+                .execute();
+            return response.body;
+        } catch (error: unknown) {
+            const error_ =
+                error instanceof Error
+                    ? new Error(`Failed to fetch cart discount: ${error.message}`)
+                    : new Error('Failed to fetch cart discount: Unknown error occurred');
+            throw error_;
+        }
+    },
 };

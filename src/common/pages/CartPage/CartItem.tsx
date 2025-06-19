@@ -140,7 +140,7 @@ export const CartItem: FC<CartItemProps> = ({
                         </Box>
                         {showProductDiscountMessage && (
                             <Typography className={S.promoCodeRestrictionMessage}>
-                                Promo code cannot be applied to this item.
+                                Promo code cannot be applied to items with special offer
                             </Typography>
                         )}
                     </Box>

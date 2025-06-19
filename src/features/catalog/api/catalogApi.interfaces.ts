@@ -47,6 +47,7 @@ export interface CatalogProduct {
     isInFavourites: boolean;
     totalCount?: number;
     productType?: string;
+    productTypeId?: string;
 }
 
 export interface CatalogCategory {
