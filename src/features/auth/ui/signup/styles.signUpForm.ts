@@ -9,10 +9,21 @@ export const STYLES = genStyles({
     },
     logo: {
         m: 1,
-        backgroundColor: 'rgba(8,83,231,0.9)',
+        backgroundColor: '#000000',
     },
     pageTitle: {
         mb: 2,
+        fontFamily: 'Cormorant, serif',
+        fontWeight: '500',
+        fontSize: '2.5rem',
+        margin: 0,
+        color: '#65635f',
+    },
+    formLabel: {
+        margin: '0',
+        fontFamily: 'Jost, sans-serif',
+        fontSize: '1.1rem',
+        fontWeight: '400',
     },
     formPass: {
         display: 'flex',
@@ -127,6 +138,21 @@ export const STYLES = genStyles({
     button: {
         mt: 0,
         mb: 1,
+        fontSize: '0.875rem',
+        fontWeight: '400',
+        fontFamily: 'Jost, sans-serif',
+        letterSpacing: '1px',
+        color: '#65635f',
+        border: '1px solid #161412',
+        borderRadius: '4px',
+        backgroundColor: 'transparent',
+        transition: '0.3s all ease-in-out',
+        boxShadow: 'none',
+        '&:hover': {
+            backgroundColor: '#161412',
+            color: '#fff',
+            boxShadow: 'none',
+        },
     },
     link: {
         textAlign: 'center',
