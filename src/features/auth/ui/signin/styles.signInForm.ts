@@ -17,7 +17,6 @@ export const STYLES = genStyles({
     logo: {
         m: 1,
         mb: 2,
-        // backgroundColor: '#000000',
         backgroundColor: '#65635f',
     },
     emailInput: {
