@@ -124,7 +124,6 @@ export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, 
                             sx={{
                                 ...STYLES.addressInput,
                                 ...STYLES.countryInput,
-                                ...STYLES.addressInputMedia,
                             }}
                             error={!!errors.country}
                             {...register('country')}

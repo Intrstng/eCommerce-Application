@@ -6,7 +6,7 @@ import { discountAPI } from '../../features/discount/api/discountApi';
 import { replaceAllQuotes } from './replace-all-quotes';
 
 export async function transformToPromoCodeCartContent(discountCode: DiscountCode): Promise<PromoCodeCartContent> {
-    const { discountPercent, discountText } = parseDiscount(discountCode.name?.en);
+    const { discountPercent = '0%', discountText = '' } = parseDiscount(discountCode.name?.en) || {};
     let productTypeIds: string[] = [];
 
     if (discountCode.cartDiscounts?.[0]?.id) {
@@ -31,7 +31,7 @@ export async function transformToPromoCodeCartContent(discountCode: DiscountCode
         code: discountCode.code,
         description: discountCode.description?.en ?? '',
         discountPercent,
-        discountText: discountText ?? '',
+        discountText,
         validFrom: formatDateString(discountCode.validFrom),
         validUntil: formatDateString(discountCode.validUntil),
         productTypeIds,

@@ -7,5 +7,6 @@ export interface CatalogItemProps {
     prices: ProductPrice[];
     description: string;
     isProductsLoading: boolean;
+    isToCartLoading: boolean;
     variantId: number;
 }

@@ -397,15 +397,15 @@ export const CartPage = () => {
                                 {cart.discountCodes.length > 0 && isPromoCodeApplied && isPromoCodeApplicable ? (
                                     <>
                                         <Typography className={S.originalPrice} variant="body2">
-                                            Original Total: {(calculateTotalPrice().original ?? 0).toFixed(2)} EUR
+                                            Original Total: {calculateTotalPrice().original.toFixed(2)} EUR
                                         </Typography>
                                         <Typography className={S.discountedPrice} variant="h6">
-                                            Total with discount: {(calculateTotalPrice().discounted ?? 0).toFixed(2)} EUR
+                                            Total with discount: {calculateTotalPrice().discounted.toFixed(2)} EUR
                                         </Typography>
                                     </>
                                 ) : (
                                     <Typography className={S.cartTotalPrice} variant="h6">
-                                        Total: {(calculateTotalPrice().discounted ?? 0).toFixed(2)} EUR
+                                        Total: {calculateTotalPrice().discounted.toFixed(2)} EUR
                                     </Typography>
                                 )}
                             </Box>

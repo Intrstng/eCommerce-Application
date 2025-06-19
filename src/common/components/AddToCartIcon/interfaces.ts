@@ -4,5 +4,6 @@ export type AddToCartIconProps = {
     id: string;
     variantId: number;
     isInCart: boolean;
+    isToCartLoading: boolean;
     currentLineItem?: LineItem;
 };

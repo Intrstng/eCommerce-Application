@@ -13,7 +13,7 @@
 
     width: 4.5rem; // Must be the same on signin/signup pages
 
-    color: #2973b2;
+    color: #65635f;
     text-align: center;
     text-decoration: none;
 
@@ -31,7 +31,7 @@
         width: 0;
         height: 2px;
 
-        background-color: #205d91;
+        background-color: #2e5077;
 
         transition:
             width 0.3s ease,
@@ -39,19 +39,19 @@
     }
 
     &:hover {
-        color: #205d91;
+        color: #2e5077;
 
         &::after {
-            left: 11px;
-            width: 70%;
+            left: 15px;
+            width: 58%;
         }
     }
 
     &:active {
-        color: #2e5077;
+        color: #000;
 
         &::after {
-            background-color: #2e5077;
+            background-color: #000;
         }
     }
 }

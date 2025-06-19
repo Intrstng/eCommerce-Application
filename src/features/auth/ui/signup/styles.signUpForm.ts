@@ -9,6 +9,7 @@ export const STYLES = genStyles({
     },
     logo: {
         m: 1,
+        mb: 2,
         backgroundColor: '#000000',
     },
     pageTitle: {
@@ -17,7 +18,7 @@ export const STYLES = genStyles({
         fontWeight: '500',
         fontSize: '2.5rem',
         margin: 0,
-        color: '#65635f',
+        color: '#000',
     },
     formLabel: {
         margin: '0',
@@ -142,14 +143,15 @@ export const STYLES = genStyles({
         fontWeight: '400',
         fontFamily: 'Jost, sans-serif',
         letterSpacing: '1px',
-        color: '#65635f',
-        border: '1px solid #161412',
+        color: '#fff',
+        border: '1px solid #65635f',
         borderRadius: '4px',
-        backgroundColor: 'transparent',
+        backgroundColor: '#65635f',
         transition: '0.3s all ease-in-out',
         boxShadow: 'none',
         '&:hover': {
             backgroundColor: '#161412',
+            border: '1px solid #161412',
             color: '#fff',
             boxShadow: 'none',
         },
@@ -192,10 +194,13 @@ export const STYLES = genStyles({
         color: '#295F98',
     },
     shippingAsBillingMessage: {
-        color: '#4DAF50',
-        fontWeight: 'bold',
-        mt: -0.5,
+        color: '#36a639',
+        mt: -0.25,
         mb: 2,
+        fontSize: '0.875rem',
+        fontWeight: '900',
+        letterSpacing: '0.05em',
+        fontFamily: 'Jost, sans-serif',
     },
     linkSignUp: {
         m: '0 auto 2rem',

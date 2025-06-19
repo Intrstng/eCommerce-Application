@@ -131,7 +131,6 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
                             sx={{
                                 ...STYLES.addressInput,
                                 ...STYLES.countryInput,
-                                ...STYLES.addressInputMedia,
                             }}
                             error={!!errors.country}
                             {...register('country')}

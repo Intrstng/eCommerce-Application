@@ -42,10 +42,6 @@ export const Promotion = memo(() => {
             const code: string = promoCode?.key ?? promoCode?.code ?? '';
             dispatch(applyPromoCodeTC(cart, code));
         }
-
-        // ToDo: check next to return back and remove current content of the handlePromoClick()
-        // dispatch(discountActions.setPromoCode({ promoCode }));
-        // successNotifyMessage(`Promo code ${promoCode.key ?? promoCode.code} copied to your cart successfully!`);
     };
 
     useEffect(() => {

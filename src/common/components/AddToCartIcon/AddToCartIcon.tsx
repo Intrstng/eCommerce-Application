@@ -5,8 +5,15 @@ import IconButton from '@mui/material/IconButton';
 import { useAppDispatch } from '../../hooks';
 import type { FC } from 'react';
 import type { AddToCartIconProps } from './interfaces';
+import CircularProgress from '@mui/material/CircularProgress';
 
-export const AddToCartIcon: FC<AddToCartIconProps> = ({ id, variantId, isInCart, currentLineItem }) => {
+export const AddToCartIcon: FC<AddToCartIconProps> = ({
+    id,
+    variantId,
+    isInCart,
+    isToCartLoading,
+    currentLineItem,
+}) => {
     const dispatch = useAppDispatch();
 
     return (
@@ -18,13 +25,19 @@ export const AddToCartIcon: FC<AddToCartIconProps> = ({ id, variantId, isInCart,
             onClick={event => {
                 event.preventDefault();
                 if (isInCart && currentLineItem) {
-                    dispatch(removeFromCartTC(currentLineItem.id));
+                    dispatch(removeFromCartTC(currentLineItem.id, id));
                 } else {
                     dispatch(addToCartTC(id, variantId));
                 }
             }}
         >
-            {isInCart ? <icons.basketFull /> : <icons.basketEmpty />}
+            {isToCartLoading ? (
+                <CircularProgress size={24} color="inherit" />
+            ) : isInCart ? (
+                <icons.basketFull />
+            ) : (
+                <icons.basketEmpty />
+            )}
         </IconButton>
     );
 };

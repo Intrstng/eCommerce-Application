@@ -25,6 +25,10 @@ export const STYLES = genStyles({
         gap: '1rem',
         minWidth: '296px',
         width: '100%',
+        '@media (max-width: 440px)': {
+            minWidth: 'unset',
+            width: '250px',
+        },
     },
     addressInput: {
         mt: 0,
@@ -34,6 +38,9 @@ export const STYLES = genStyles({
     addressInputMedia: {
         '@media (max-width: 950px)': {
             mb: 1,
+        },
+        '@media (max-width: 440px)': {
+            width: '250px',
         },
     },
     autofillInput: {
@@ -46,6 +53,11 @@ export const STYLES = genStyles({
         width: 'auto',
         minWidth: '296px',
         maxWidth: '100%',
+        '@media (max-width: 440px)': {
+            minWidth: 'unset',
+            maxWidth: 'unset',
+            width: '250px',
+        },
     },
     countryLabel: {
         mt: '-0.15rem',
@@ -80,6 +92,10 @@ export const STYLES = genStyles({
         },
         mt: 0,
         mb: 0,
+        '@media (max-width: 440px)': {
+            fontSize: '0.7rem',
+            letterSpacing: 'unset',
+        },
     },
     defaultBillingAddressCheckbox: {
         '& .MuiFormControlLabel-label': {
@@ -90,6 +106,10 @@ export const STYLES = genStyles({
             color: '#000',
         },
         mb: 0,
+        '@media (max-width: 440px)': {
+            fontSize: '0.7rem',
+            letterSpacing: 'unset',
+        },
     },
     modalButton: {
         width: '100%',
@@ -115,6 +135,10 @@ export const STYLES = genStyles({
         justifyContent: 'flex-start',
         minWidth: '296px',
         gap: '0.6rem',
+        '@media (max-width: 440px)': {
+            minWidth: 'unset',
+            width: '250px',
+        },
     },
     modalCancelButton: {
         mt: 0,

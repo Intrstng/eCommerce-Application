@@ -15,6 +15,7 @@ export const ProductsGrid: FC<ProductsGridProps> = ({ products, isProductsLoadin
                 description={product.description.en}
                 prices={product.prices}
                 isProductsLoading={isProductsLoading}
+                isToCartLoading={product.isToCartLoading}
                 variantId={product.variants[0].id}
             />
         ))}
