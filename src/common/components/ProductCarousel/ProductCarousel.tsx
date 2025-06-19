@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { STYLES } from './styles.productCarousel';
 import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
@@ -12,6 +12,19 @@ import type { ProductCarouselProps } from './interfaces';
 export const ProductCarousel: FC<ProductCarouselProps> = ({ images }) => {
     const [openImage, setOpenImage] = useState(false);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (openImage) {
+                setOpenImage(false);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [openImage]);
 
     const handleImageClick = (index: number) => {
         setSelectedImageIndex(index);
