@@ -27,6 +27,7 @@ import Dialog from '@mui/material/Dialog';
 import { EditAddressModalForm } from '../ModalWindow/EditAddressModalForm/EditAddressModalForm';
 import { AddressModalType, AddressStatus } from '../../enums';
 import Tooltip from '@mui/material/Tooltip';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export const AddressCard: FC<AddressCardProps> = ({
     address,
@@ -45,6 +46,8 @@ export const AddressCard: FC<AddressCardProps> = ({
     const currentDefaultBillingAddressId = useAppSelector<string>(profileDefaultBillingAddressIdSelector);
     const appStatus: string = useAppSelector<Status>(statusSelector);
     const dispatch = useAppDispatch();
+    const isSmallScreen = useMediaQuery('(max-width:768px)');
+
 
     const defaultShippingAddressId: string | undefined =
         currentCustomer && 'defaultShippingAddressId' in currentCustomer
@@ -264,7 +267,7 @@ export const AddressCard: FC<AddressCardProps> = ({
                                     ? 'At first set this address as the shipping address'
                                     : ''
                             }
-                            placement="right"
+                            placement={isSmallScreen ? 'left' : 'right'}
                             arrow
                             slotProps={{
                                 tooltip: {
@@ -307,7 +310,7 @@ export const AddressCard: FC<AddressCardProps> = ({
                                     ? 'At first set this address as the billing address'
                                     : ''
                             }
-                            placement="right"
+                            placement={isSmallScreen ? 'left' : 'right'}
                             arrow
                             slotProps={{
                                 tooltip: {
