@@ -8,6 +8,10 @@ export const STYLES = genStyles({
         gap: '0.4rem',
         mt: 4,
         mb: 0,
+
+        '@media (max-width: 850px)': {
+            mt: 1,
+        },
     },
     ellipsis: {},
     paginationControlButton: {
