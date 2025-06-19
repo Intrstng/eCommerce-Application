@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import { memo, useEffect, useState } from 'react';
 import S from './Promotion.module.scss';
 import imageSun from '../../../../assets/images/promotion/Sun.png';
 import imageMoon from '../../../../assets/images/promotion/Moon.png';
@@ -21,12 +21,21 @@ export const Promotion = memo(() => {
     const cart: Cart | null = useAppSelector(cartSelector);
     const dispatch = useAppDispatch();
 
-    let promoCodeCartContentCollection: PromoCodeCartContent[] = [];
-    if (availablePromoCodes.length > 0) {
-        promoCodeCartContentCollection = availablePromoCodes
-            .map(promoCode => transformToPromoCodeCartContent(promoCode))
-            .sort((a, b) => compareDiscountsAsc(a, b));
-    }
+    const [promoCodeCartContentCollection, setPromoCodeCartContentCollection] = useState<PromoCodeCartContent[]>([]);
+
+    useEffect(() => {
+        async function fetchPromoCodes() {
+            if (availablePromoCodes.length > 0) {
+                const collection = await Promise.all(
+                    availablePromoCodes.map(promoCode => transformToPromoCodeCartContent(promoCode))
+                );
+                setPromoCodeCartContentCollection(collection.sort((a, b) => compareDiscountsAsc(a, b)));
+            } else {
+                setPromoCodeCartContentCollection([]);
+            }
+        }
+        void fetchPromoCodes();
+    }, [availablePromoCodes]);
 
     const handlePromoClick = (promoCode: PromoCodeCartContent) => {
         if (cart) {

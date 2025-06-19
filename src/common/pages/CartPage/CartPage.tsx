@@ -79,7 +79,7 @@ export const CartPage = () => {
         },
     });
 
-    const onSubmit: SubmitHandler<PromoCodeFormData> = data => {
+    const onSubmit: SubmitHandler<PromoCodeFormData> = async data => {
         const { promoCode } = data;
         setIsPromoSubmitted(true);
 
@@ -89,7 +89,7 @@ export const CartPage = () => {
 
         if (enteredPromoCodeData) {
             const promoCodeCartContentToStore: PromoCodeCartContent =
-                transformToPromoCodeCartContent(enteredPromoCodeData);
+                await transformToPromoCodeCartContent(enteredPromoCodeData);
             dispatch(discountActions.setPromoCode({ promoCode: promoCodeCartContentToStore }));
             handleApplyPromoCode(promoCode);
         } else {
@@ -264,12 +264,21 @@ export const CartPage = () => {
         cart
     );
 
-    const allItemsHaveProductDiscount =
-        cart &&
-        cart.lineItems.length > 0 &&
-        lineItemsWithAvailability.every(
-            ({ catalogProduct }) => catalogProduct?.prices.some(price => price.discounted !== null) ?? false
-        );
+    const promoProductTypeIds: string[] = currentPromoCode?.productTypeIds ?? [];
+    const applicableItems = lineItemsWithAvailability.filter(({ catalogProduct }) => {
+        if (!catalogProduct) return false;
+        const productTypeId = catalogProduct.productTypeId ?? '';
+        if (promoProductTypeIds.length > 0 && promoProductTypeIds.includes(productTypeId)) {
+            return true;
+        }
+        if (promoProductTypeIds.length === 0) return true;
+        return false;
+    });
+
+    const hasApplicableNonProductDiscountItem = applicableItems.some(({ catalogProduct }) =>
+        !(catalogProduct?.prices.some(price => price.discounted !== null))
+    );
+    const isPromoCodeApplicable = applicableItems.length > 0 && hasApplicableNonProductDiscountItem;
 
     if (!cart || cart.lineItems.length === 0) {
         return (
@@ -317,9 +326,7 @@ export const CartPage = () => {
                             item={item}
                             availableQuantity={availableQuantity}
                             catalogProduct={catalogProduct}
-                            showProductDiscountMessage={
-                                hasProductDiscount && !allItemsHaveProductDiscount && isPromoCodeApplied
-                            }
+                            showProductDiscountMessage={hasProductDiscount}
                         />
                     );
                 })}
@@ -337,7 +344,7 @@ export const CartPage = () => {
                                     <FormControl fullWidth>
                                         <Box className={S.promoCodeMessageContainer}>
                                             <Typography className={S.promoCodeMessage}>
-                                                {isPromoCodeApplied
+                                                {isPromoCodeApplied && isPromoCodeApplicable
                                                     ? 'Promo code is applied.'
                                                     : 'Promo code is not applied.'}
                                             </Typography>
@@ -387,24 +394,18 @@ export const CartPage = () => {
                             </Box>
                             <Divider component="div" style={{ width: '100%' }} />
                             <Box className={S.priceContainer}>
-                                {cart.discountCodes.length > 0 ? (
+                                {cart.discountCodes.length > 0 && isPromoCodeApplied && isPromoCodeApplicable ? (
                                     <>
                                         <Typography className={S.originalPrice} variant="body2">
-                                            Original Total: {calculateTotalPrice().original.toFixed(2)} EUR
+                                            Original Total: {(calculateTotalPrice().original ?? 0).toFixed(2)} EUR
                                         </Typography>
                                         <Typography className={S.discountedPrice} variant="h6">
-                                            Total with discount: {calculateTotalPrice().discounted.toFixed(2)} EUR
+                                            Total with discount: {(calculateTotalPrice().discounted ?? 0).toFixed(2)} EUR
                                         </Typography>
-                                        {allItemsHaveProductDiscount && isPromoCodeApplied && (
-                                            <Typography className={S.promoCodeRestrictionMessage} variant="h6">
-                                                Promo code {currentPromoCode?.key ?? currentPromoCode?.code ?? ''}{' '}
-                                                cannot be applied to items with special offer
-                                            </Typography>
-                                        )}
                                     </>
                                 ) : (
                                     <Typography className={S.cartTotalPrice} variant="h6">
-                                        Total: {calculateTotalPrice().discounted.toFixed(2)} EUR
+                                        Total: {(calculateTotalPrice().discounted ?? 0).toFixed(2)} EUR
                                     </Typography>
                                 )}
                             </Box>
