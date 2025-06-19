@@ -5,7 +5,15 @@ export function parseDiscount(discountString?: string): DiscountCartInfo {
         return { discountPercent: '0', discountText: '' };
     }
 
-    const match = /(\d+)%\s*(.*)/.exec(discountString);
+    if (!discountString.trim()) {
+        return { discountPercent: '0', discountText: '' };
+    }
+
+    if (!discountString.includes('%')) {
+        return { discountPercent: '0%', discountText: '' };
+    }
+
+    const match = /^\s*(\d+)%\s*(.*)/.exec(discountString);
 
     if (match) {
         return {

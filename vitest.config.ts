@@ -28,6 +28,7 @@ export default defineConfig({
                 '**/styles*',
                 'src/vite-env.d.ts',
                 'src/setupTests.ts',
+                'src/common/utils/test-utilities.tsx',
                 'src/plugins/vite-root-plugin.ts',
             ],
         },

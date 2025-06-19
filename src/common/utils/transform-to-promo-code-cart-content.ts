@@ -4,7 +4,7 @@ import { parseDiscount } from './parse-discount';
 import { formatDateString } from './format-date';
 
 export function transformToPromoCodeCartContent(discountCode: DiscountCode): PromoCodeCartContent {
-    const { discountPercent, discountText } = parseDiscount(discountCode.name?.en);
+    const { discountPercent = '0%', discountText = '' } = parseDiscount(discountCode.name?.en) || {};
 
     return {
         id: discountCode.id,
@@ -13,7 +13,7 @@ export function transformToPromoCodeCartContent(discountCode: DiscountCode): Pro
         code: discountCode.code,
         description: discountCode.description?.en ?? '',
         discountPercent,
-        discountText: discountText ?? '',
+        discountText,
         validFrom: formatDateString(discountCode.validFrom),
         validUntil: formatDateString(discountCode.validUntil),
     };
