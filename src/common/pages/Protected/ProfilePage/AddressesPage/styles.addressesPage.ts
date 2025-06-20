@@ -2,7 +2,6 @@ import { genStyles } from '../../../../utils/generate-styles';
 
 export const STYLES = genStyles({
     addressCardsContent: {
-        // maxWidth: '35rem',
         mb: '2rem',
     },
 
@@ -86,8 +85,6 @@ export const STYLES = genStyles({
         alignItems: 'center',
         justifyContent: 'center',
         padding: '2.25rem 0',
-        // maxWidth: '31.8rem',
-        // width: '100%',
         textAlign: 'center',
         border: '1px dashed',
         borderColor: 'divider',

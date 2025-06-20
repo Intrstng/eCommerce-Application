@@ -4,14 +4,14 @@
     align-items: center;
     justify-content: space-between;
 
-    width: 9rem; // Must be the same on signin/signup pages
+    width: 9rem;
     margin: 6rem auto 0;
 }
 
 .signInLoginLink {
     display: block;
 
-    width: 4.5rem; // Must be the same on signin/signup pages
+    width: 4.5rem;
 
     font-weight: bold;
     color: #024caa;
@@ -21,7 +21,7 @@
 .signUpLoginLink {
     position: relative;
 
-    width: 4.5rem; // Must be the same on signin/signup pages
+    width: 4.5rem;
 
     color: #65635f;
     text-align: end;
