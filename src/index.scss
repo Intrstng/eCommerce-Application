@@ -9,16 +9,26 @@
 }
 
 ::-webkit-scrollbar {
-    width: 0.5rem;
+    width: 0;
+    height: 0;
+    background: transparent;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: transparent;
 }
 
 html,
 body {
-    scrollbar-width: thin;
-
-    // scrollbar-gutter: stable;
+    scrollbar-width: none;
     height: 100%;
     margin: 0;
+
+    -ms-overflow-style: none;
 }
 
 body {
