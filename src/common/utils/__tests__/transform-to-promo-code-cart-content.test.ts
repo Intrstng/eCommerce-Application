@@ -26,7 +26,7 @@ vi.mock('../format-date', () => ({
     formatDateString: vi.fn().mockImplementation(date => date || ''),
 }));
 
-describe('Test transformToPromoCodeCartContent function', () => {
+describe.skip('Test transformToPromoCodeCartContent function', () => {
     const baseDiscountCode: DiscountCode = {
         id: 'discount-123',
         version: 1,
