@@ -10,7 +10,7 @@ export const AboutPage = () => {
     return (
         <Box sx={STYLES.aboutPageContent}>
             <BreadCrumbs />
-            <Box component="section" sx={STYLES.aboutContent}>
+            <Box component="section">
                 <Typography variant="h3" sx={STYLES.aboutTitle}>
                     Our Team
                 </Typography>

@@ -51,8 +51,6 @@ export const STYLES = genStyles({
         },
     },
 
-    addressEditButton: {},
-    addressDeleteButton: {},
     addressControls: {
         display: 'flex',
         flexDirection: 'column',

@@ -77,7 +77,6 @@ export const STYLES = genStyles({
         overflow: 'hidden',
         textOverflow: 'ellipsis',
     },
-    cardPrice: {},
     specialOfferBadge: {
         position: 'absolute',
         top: 0,
