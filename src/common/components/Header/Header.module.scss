@@ -77,6 +77,8 @@
 }
 
 .cartMainCounter {
+    pointer-events: none;
+
     position: absolute;
     top: -0.5rem;
     right: -0.5rem;

@@ -14,7 +14,7 @@
 .burgerMenuContent {
     display: flex;
     flex-direction: column;
-    gap: 7rem;
+    gap: 6rem;
 
     width: 100%;
     max-width: 1180px;
@@ -57,6 +57,8 @@
 }
 
 .cartBurgerCounter {
+    pointer-events: none;
+
     position: absolute;
     top: -0.5rem;
     right: -0.5rem;
@@ -78,6 +80,8 @@
 .navLink {
     cursor: pointer;
 
+    position: relative;
+
     width: fit-content;
     padding: 10px 0;
 
@@ -90,11 +94,39 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
 
-    transition: color 0.3s ease;
-}
+    transition: all 0.3s ease;
 
-.navLink:hover {
-    color: #73716d;
+    &::after {
+        content: '';
+
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+
+        width: 0;
+        height: 1px;
+
+        background-color: #65635f;
+
+        transition: all 0.3s ease;
+    }
+
+    &:hover {
+        color: #65635f;
+
+        &::after {
+            left: 0;
+            width: 100%;
+        }
+    }
+
+    &:active {
+        color: #65635f;
+
+        &::after {
+            background-color: #65635f;
+        }
+    }
 }
 
 .button {
