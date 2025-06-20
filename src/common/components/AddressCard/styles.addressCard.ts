@@ -20,7 +20,6 @@ export const STYLES = genStyles({
         gap: '1rem',
         alignItems: 'baseline',
         justifyContent: 'flex-start',
-        // width: '100%',
     },
     addressCardInfoTitle: {
         width: '6.5rem',
@@ -37,8 +36,6 @@ export const STYLES = genStyles({
         width: '11.92rem',
         height: '2.5rem',
         display: 'block',
-        // alignItems: 'center',
-        // justifyContent: 'flex-start',
         fontFamily: 'Jost, sans-serif',
         fontWeight: '400',
         fontSize: '1rem',
@@ -77,7 +74,6 @@ export const STYLES = genStyles({
 
     addressDetailsControls: {
         mt: '2rem',
-        // width: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
@@ -86,7 +82,6 @@ export const STYLES = genStyles({
 
     addressDefaultControls: {
         mt: '0',
-        // width: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
@@ -186,7 +181,6 @@ export const STYLES = genStyles({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end',
-        // width: '100%',
         justifyContent: 'flex-start',
         gap: '0.5rem',
         mt: '0.75rem',

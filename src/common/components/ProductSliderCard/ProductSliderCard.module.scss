@@ -25,10 +25,6 @@
     gap: inherit;
 }
 
-//.productCard:hover { // select this
-//  transform: scale(1.01);
-//}
-
 .imageContainer {
     overflow: hidden;
     aspect-ratio: 215 / 180;
@@ -57,7 +53,6 @@
 }
 
 .image:hover {
-    // or select this
     overflow: hidden;
     border-radius: 180px 0 215px 180px;
 }

@@ -47,7 +47,6 @@ export const CartPage = () => {
     const currentPromoCode = useAppSelector(promoCodeSelector);
     const cart: Cart | null = useAppSelector(cartSelector);
     const cartStatus: string = useAppSelector<Status>(cartStatusSelector);
-    // const lineItems: LineItemWithDiscountedPrice[] = cart?.lineItems ?? [];
     const [lineItemsWithAvailability, setLineItemsWithAvailability] = useState<CartItemWithAvailability[]>([]);
     const [showClearCartModal, setShowClearCartModal] = useState(false);
     const [isPromoSubmitted, setIsPromoSubmitted] = useState(true);
@@ -71,7 +70,6 @@ export const CartPage = () => {
         formState: { errors, isValid },
         getValues,
     } = useForm({
-        // } = useForm<PromoCodeFormData>({
         mode: 'onChange',
         resolver: yupResolver(validatePromoCodeFormSchema(availablePromoCodes)),
         defaultValues: {

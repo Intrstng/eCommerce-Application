@@ -31,7 +31,6 @@
     filter: brightness(0.8);
 }
 
-/* Button types */
 .primary {
     gap: 8px;
     color: #f4f4f2;
@@ -99,7 +98,6 @@
     }
 }
 
-/* Button sizes */
 .small {
     height: 20px;
     font: normal 400 12px / 24px Jost;
@@ -130,7 +128,6 @@
     }
 }
 
-/* Disabled styles */
 .button:disabled {
     pointer-events: none;
     cursor: not-allowed;
@@ -143,7 +140,6 @@
     background-color: #f4f4f2;
 }
 
-/* Responsive */
 @media (width <= 955px) {
     .small,
     .default {
