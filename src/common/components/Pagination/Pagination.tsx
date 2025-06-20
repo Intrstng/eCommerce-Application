@@ -93,11 +93,7 @@ const renderPageButtons = (
             </Button>
         );
         if (startPage > 2) {
-            buttons.push(
-                <Box key="start-ellipsis" sx={STYLES.ellipsis}>
-                    ...
-                </Box>
-            );
+            buttons.push(<Box key="start-ellipsis">...</Box>);
         }
     }
 
@@ -117,11 +113,7 @@ const renderPageButtons = (
 
     if (endPage < pagesCount) {
         if (endPage < pagesCount - 1) {
-            buttons.push(
-                <Box key="end-ellipsis" sx={STYLES.ellipsis}>
-                    ...
-                </Box>
-            );
+            buttons.push(<Box key="end-ellipsis">...</Box>);
         }
         buttons.push(
             <Button

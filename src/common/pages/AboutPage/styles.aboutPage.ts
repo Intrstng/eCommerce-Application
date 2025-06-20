@@ -6,7 +6,6 @@ export const STYLES = genStyles({
         margin: '2rem auto 1.5rem',
         padding: '0 1rem',
     },
-    aboutContent: {},
     aboutTitle: {
         marginBottom: '0.4rem',
         fontFamily: '"Cormorant", serif',
