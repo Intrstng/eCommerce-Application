@@ -9,8 +9,13 @@
     text-align: center;
 }
 
-.ctaButton {
-    width: 100%;
+.ctaIcon {
+    width: 1.5rem;
+    height: 1.5rem;
+
+    &:hover {
+        fill: #fff;
+    }
 }
 
 .instagramWrapper .instagramCta {
@@ -70,13 +75,13 @@
     transition: 0.3s;
 }
 
-@media screen and (width <= 1280px) {
+@media screen and (width <= 1285px) {
     .instagramWrapper .instagramGallery {
         max-width: 300px;
     }
 }
 
-@media screen and (width <= 830px) {
+@media screen and (width <= 885px) {
     .instagramWrapper .instagramGallery {
         max-width: 200px;
     }

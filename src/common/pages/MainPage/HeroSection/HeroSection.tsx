@@ -1,9 +1,10 @@
 import { memo } from 'react';
-import Button from '../../../components/Button/Button';
 import S from './HeroSection.module.scss';
 import heroVideoSource from '../../../../assets/video/hero.mp4';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../../enums';
+import Button from '@mui/material/Button';
+import { STYLES } from './styles.heroSection';
 
 export const HeroSection = memo(() => {
     const navigate = useNavigate();
@@ -13,16 +14,16 @@ export const HeroSection = memo(() => {
             <div className={S.heroContent}>
                 <h1 className={S.heroHeading}>Custom jewelry for yourself, friends, family, and special occasions.</h1>
                 <div className={S.heroButtons}>
-                    <Button
-                        text="Search catalog"
-                        size="large"
-                        variant="primary"
-                        fullWidth
-                        className={S.heroSearchCatalog}
-                        onClick={() => {
-                            navigate(PATH.CATALOG);
-                        }}
-                    />
+                  <Button
+                      size="large"
+                      variant="primary"
+                      sx={ STYLES.heroSearchCatalog }
+                      onClick={() => {
+                        navigate(PATH.CATALOG);
+                      }}
+                  >
+                    Search catalog
+                  </Button>
                 </div>
             </div>
             <div className={S.videoWrapper}>
