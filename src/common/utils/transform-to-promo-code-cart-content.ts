@@ -34,5 +34,6 @@ export async function transformToPromoCodeCartContent(discountCode: DiscountCode
         discountText,
         validFrom: formatDateString(discountCode.validFrom),
         validUntil: formatDateString(discountCode.validUntil),
+        productTypeIds,
     };
 }

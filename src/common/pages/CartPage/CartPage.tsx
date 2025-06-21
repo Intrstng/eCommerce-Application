@@ -273,8 +273,8 @@ export const CartPage = () => {
         return false;
     });
 
-    const hasApplicableNonProductDiscountItem = applicableItems.some(({ catalogProduct }) =>
-        !catalogProduct?.prices.some(price => price.discounted !== null)
+    const hasApplicableNonProductDiscountItem = applicableItems.some(
+        ({ catalogProduct }) => !catalogProduct?.prices.some(price => price.discounted !== null)
     );
     const isPromoCodeApplicable = applicableItems.length > 0 && hasApplicableNonProductDiscountItem;
 
@@ -398,7 +398,8 @@ export const CartPage = () => {
                                             Original Total: {(calculateTotalPrice().original ?? 0).toFixed(2)} EUR
                                         </Typography>
                                         <Typography className={S.discountedPrice} variant="h6">
-                                            Total with discount: {(calculateTotalPrice().discounted ?? 0).toFixed(2)} EUR
+                                            Total with discount: {(calculateTotalPrice().discounted ?? 0).toFixed(2)}{' '}
+                                            EUR
                                         </Typography>
                                     </>
                                 ) : (

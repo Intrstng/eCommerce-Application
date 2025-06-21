@@ -14,16 +14,15 @@ export const HeroSection = memo(() => {
             <div className={S.heroContent}>
                 <h1 className={S.heroHeading}>Custom jewelry for yourself, friends, family, and special occasions.</h1>
                 <div className={S.heroButtons}>
-                  <Button
-                      size="large"
-                      variant="primary"
-                      sx={ STYLES.heroSearchCatalog }
-                      onClick={() => {
-                        navigate(PATH.CATALOG);
-                      }}
-                  >
-                    Search catalog
-                  </Button>
+                    <Button
+                        size="large"
+                        sx={STYLES.heroSearchCatalog}
+                        onClick={() => {
+                            navigate(PATH.CATALOG);
+                        }}
+                    >
+                        Search catalog
+                    </Button>
                 </div>
             </div>
             <div className={S.videoWrapper}>

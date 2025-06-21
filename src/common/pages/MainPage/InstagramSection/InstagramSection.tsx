@@ -39,16 +39,15 @@ export const InstagramSection = () => {
             </Box>
             <Box className={S.instagramCta}>
                 <h2 className={S.subsection}>Join #do.jewelry</h2>
-              <Button
-                  size="large"
-                  variant="secondary"
-                  sx={ STYLES.ctaButton }
-                  onClick={() => {
-                    handleNavigation(INSTAGRAM_URL);
-                  }}
-              >
-                FOLLOW ON INSTAGRAM
-              </Button>
+                <Button
+                    size="large"
+                    sx={STYLES.ctaButton}
+                    onClick={() => {
+                        handleNavigation(INSTAGRAM_URL);
+                    }}
+                >
+                    FOLLOW ON INSTAGRAM
+                </Button>
             </Box>
             <Box className={S.instagramGallery}>
                 {IMAGE_COLLECTION.slice(4).map(source => (
@@ -66,4 +65,4 @@ export const InstagramSection = () => {
             </Box>
         </Box>
     );
-}
+};
