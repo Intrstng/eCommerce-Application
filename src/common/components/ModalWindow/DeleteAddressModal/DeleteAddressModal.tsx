@@ -12,7 +12,7 @@ export const DeleteAddressModal: FC<DeleteAddressModalProps> = ({
     modalConfirmDeleteCB,
 }) => {
     return (
-        <Dialog open={isOpen} onClose={modalCancelDeleteCB} disableScrollLock sx={STYLES.deleteDialog}>
+        <Dialog open={isOpen} onClose={modalCancelDeleteCB} sx={STYLES.deleteDialog}>
             <Typography variant="h6" sx={STYLES.deleteDialogTitle}>
                 Confirm Delete
             </Typography>

@@ -9,7 +9,7 @@ import type { ClearCartConfirmModalProps } from './interfaces';
 
 export const ClearCartConfirmModal: FC<ClearCartConfirmModalProps> = ({ isOpen, onCancel, onConfirm }) => {
     return (
-        <Dialog open={isOpen} onClose={onCancel} disableScrollLock>
+        <Dialog open={isOpen} onClose={onCancel}>
             <DialogContent sx={STYLES.clearCartDialog}>
                 <Typography variant="h6" sx={STYLES.clearCartDialogTitle}>
                     Confirm Cart Clear

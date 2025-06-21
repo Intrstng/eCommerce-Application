@@ -49,7 +49,7 @@ export const ProductCarousel: FC<ProductCarouselProps> = ({ images }) => {
                         }}
                     />
 
-                    <Dialog open={openImage} onClose={handleClose} fullWidth maxWidth="md" disableScrollLock>
+                    <Dialog open={openImage} onClose={handleClose} fullWidth maxWidth="md">
                         <Box sx={STYLES.dialogContent}>
                             <IconButton sx={STYLES.closeButton} onClick={handleClose}>
                                 <CloseIcon />
@@ -101,7 +101,7 @@ export const ProductCarousel: FC<ProductCarouselProps> = ({ images }) => {
                         ))}
                     </Carousel>
 
-                    <Dialog open={openImage} onClose={handleClose} fullWidth maxWidth="sm" disableScrollLock>
+                    <Dialog open={openImage} onClose={handleClose} fullWidth maxWidth="sm">
                         <Box sx={STYLES.dialogContent}>
                             <IconButton sx={STYLES.closeButton} onClick={handleClose}>
                                 <CloseIcon />

@@ -379,7 +379,7 @@ export const AddressesPage = () => {
                 </Button>
             </Box>
 
-            <Dialog open={openModal} onClose={handleCloseModal} disableScrollLock sx={STYLES.dialog}>
+            <Dialog open={openModal} onClose={handleCloseModal} sx={STYLES.dialog}>
                 <AddAddressModalForm
                     modalType={modalType}
                     closeModalCB={handleCloseModal}

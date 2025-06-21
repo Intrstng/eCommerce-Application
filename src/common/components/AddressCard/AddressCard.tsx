@@ -363,7 +363,6 @@ export const AddressCard: FC<AddressCardProps> = ({
                 onClose={() => {
                     setOpenEditModal(false);
                 }}
-                disableScrollLock
                 sx={STYLES.dialog}
             >
                 <EditAddressModalForm
