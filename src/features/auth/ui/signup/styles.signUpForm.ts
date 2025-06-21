@@ -182,7 +182,7 @@ export const STYLES = genStyles({
     defaultShippingAddressCheckbox: {
         mt: 0,
         mb: 0,
-        color: '#295F98',
+        color: 'rgb(2, 76, 170)',
     },
     shippingAsBillingCheckbox: {
         mt: -1,
@@ -191,7 +191,7 @@ export const STYLES = genStyles({
     },
     defaultBillingAddressCheckbox: {
         mb: 2,
-        color: '#295F98',
+        color: 'rgb(2, 76, 170)',
     },
     shippingAsBillingMessage: {
         color: '#36a639',

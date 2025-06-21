@@ -24,7 +24,7 @@ export const STYLES = genStyles({
 
     addressControls: {
         mt: '1rem',
-        width: '91%',
+        width: '92.2%',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
@@ -80,6 +80,7 @@ export const STYLES = genStyles({
     },
     emptyAddressMessage: {
         m: 0,
+        width: '91.75%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -89,8 +90,8 @@ export const STYLES = genStyles({
         border: '1px dashed',
         borderColor: 'divider',
         borderRadius: 0,
-        '@media (max-width: 600px)': {
-            border: 'none',
+        '@media (max-width: 560px)': {
+            width: '69.75%',
             padding: '1.25rem 0',
         },
     },
@@ -102,5 +103,9 @@ export const STYLES = genStyles({
         lineHeight: '1.5rem',
         letterSpacing: '1px',
         color: '#65635F',
+        '@media (max-width: 500px)': {
+            fontSize: '0.8rem',
+            padding: '0 0.5rem',
+        },
     },
 });

@@ -79,6 +79,7 @@ export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, 
                             }}
                             error={!!errors.street}
                             variant="filled"
+                            color="success"
                             {...register('street')}
                             autoComplete="street-address"
                             size="small"
@@ -102,6 +103,7 @@ export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, 
                             }}
                             error={!!errors.city}
                             variant="filled"
+                            color="success"
                             {...register('city')}
                             autoComplete="address-level2"
                             size="small"
@@ -114,7 +116,9 @@ export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, 
                     </FormControl>
 
                     <FormControl variant="filled">
-                        <InputLabel id="country-label" sx={STYLES.countryLabel}>
+                        <InputLabel id="country-label"
+                                    color="success"
+                                    sx={STYLES.countryLabel}>
                             Country
                         </InputLabel>
                         <Select
@@ -126,6 +130,7 @@ export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, 
                                 ...STYLES.countryInput,
                             }}
                             error={!!errors.country}
+                            color="success"
                             {...register('country')}
                             size="small"
                             value={selectedCountry ?? ''}
@@ -154,6 +159,7 @@ export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, 
                             }}
                             error={!!errors.postal}
                             variant="filled"
+                            color="success"
                             {...register('postal')}
                             autoComplete="postal-code"
                             size="small"

@@ -178,6 +178,7 @@ export const SignUpForm = () => {
                                             ...STYLES.emailInput,
                                             ...STYLES.autofillInput,
                                         }}
+                                        color="success"
                                         {...register('email')}
                                         autoComplete="email"
                                         size="small"
@@ -190,11 +191,13 @@ export const SignUpForm = () => {
                                 </FormControl>
 
                                 <FormControl variant="filled" size="small" error={!!errors.password} fullWidth>
-                                    <InputLabel htmlFor="passwordSignUp">Password</InputLabel>
+                                    <InputLabel htmlFor="passwordSignUp"
+                                                color="success">Password</InputLabel>
                                     <FilledInput
                                         id="passwordSignUp"
                                         type={showPassword ? 'text' : 'password'}
                                         sx={STYLES.passInput}
+                                        color="success"
                                         {...register('password')}
                                         autoComplete="new-password"
                                         inputRef={passwordInputReference}
@@ -219,10 +222,12 @@ export const SignUpForm = () => {
                                 </FormControl>
 
                                 <FormControl variant="filled" size="small" error={!!errors.confirmPassword} fullWidth>
-                                    <InputLabel htmlFor="confirmPassword">Confirm password</InputLabel>
+                                    <InputLabel htmlFor="confirmPassword"
+                                                color="success">Confirm password</InputLabel>
                                     <FilledInput
                                         id="confirmPassword"
                                         type={showConfirmPassword ? 'text' : 'password'}
+                                        color="success"
                                         {...register('confirmPassword')}
                                         autoComplete="new-password"
                                         endAdornment={
@@ -265,6 +270,7 @@ export const SignUpForm = () => {
                                             ...STYLES.nameInput,
                                             ...STYLES.autofillInput,
                                         }}
+                                        color="success"
                                         {...register('firstName')}
                                         autoComplete="given-name"
                                         size="small"
@@ -292,6 +298,7 @@ export const SignUpForm = () => {
                                             ...STYLES.nameInput,
                                             ...STYLES.autofillInput,
                                         }}
+                                        color="success"
                                         {...register('lastName')}
                                         autoComplete="family-name"
                                         size="small"
@@ -318,6 +325,7 @@ export const SignUpForm = () => {
                                                 padding: '0.75rem',
                                             },
                                         }}
+                                        color="success"
                                         {...register('birthDate')}
                                         size="small"
                                     />
@@ -349,6 +357,7 @@ export const SignUpForm = () => {
                                         }}
                                         error={!!errors.streetShipping}
                                         variant="filled"
+                                        color="success"
                                         {...register('streetShipping')}
                                         autoComplete="street-address"
                                         size="small"
@@ -374,6 +383,7 @@ export const SignUpForm = () => {
                                         }}
                                         error={!!errors.cityShipping}
                                         variant="filled"
+                                        color="success"
                                         {...register('cityShipping')}
                                         autoComplete="address-level2"
                                         size="small"
@@ -386,7 +396,9 @@ export const SignUpForm = () => {
                                 </FormControl>
 
                                 <FormControl fullWidth variant="filled">
-                                    <InputLabel id="country-label" sx={STYLES.countryLabel}>
+                                    <InputLabel id="country-label"
+                                                color="success"
+                                                sx={STYLES.countryLabel}>
                                         Country
                                     </InputLabel>
                                     <Select
@@ -400,6 +412,7 @@ export const SignUpForm = () => {
                                             ...STYLES.addressInputMedia,
                                         }}
                                         error={!!errors.countryShipping}
+                                        color="success"
                                         {...register('countryShipping')}
                                         size="small"
                                         value={selectedCountryShipping ?? ''}
@@ -430,6 +443,7 @@ export const SignUpForm = () => {
                                         }}
                                         error={!!errors.postalShipping}
                                         variant="filled"
+                                        color="success"
                                         {...register('postalShipping')}
                                         autoComplete="postal-code"
                                         size="small"
@@ -447,6 +461,7 @@ export const SignUpForm = () => {
                                     control={
                                         <Checkbox
                                             size="small"
+                                            color="success"
                                             id="defaultShippingAddress"
                                             {...register('isDefaultShippingAddress')}
                                         />
@@ -458,6 +473,7 @@ export const SignUpForm = () => {
                                     control={
                                         <Checkbox
                                             size="small"
+                                            color="success"
                                             id="billingSameAsShipping"
                                             {...register('isBillingSameAsShipping')}
                                         />
@@ -491,6 +507,7 @@ export const SignUpForm = () => {
                                                     ...STYLES.addressInputMedia,
                                                     ...STYLES.autofillInput,
                                                 }}
+                                                color="success"
                                                 error={!!errors.streetBilling}
                                                 variant="filled"
                                                 {...register('streetBilling')}
@@ -516,6 +533,7 @@ export const SignUpForm = () => {
                                                     ...STYLES.addressInputMedia,
                                                     ...STYLES.autofillInput,
                                                 }}
+                                                color="success"
                                                 error={!!errors.cityBilling}
                                                 variant="filled"
                                                 {...register('cityBilling')}
@@ -530,7 +548,8 @@ export const SignUpForm = () => {
                                         </FormControl>
 
                                         <FormControl fullWidth variant="filled">
-                                            <InputLabel id="country-label" sx={STYLES.countryLabel}>
+                                            <InputLabel id="country-label" sx={STYLES.countryLabel}
+                                                        color="success">
                                                 Country
                                             </InputLabel>
                                             <Select
@@ -543,6 +562,7 @@ export const SignUpForm = () => {
                                                     ...STYLES.countryInput,
                                                     ...STYLES.addressInputMedia,
                                                 }}
+                                                color="success"
                                                 error={!!errors.countryBilling}
                                                 {...register('countryBilling')}
                                                 size="small"
@@ -573,6 +593,7 @@ export const SignUpForm = () => {
                                                 sx={{ ...STYLES.addressInput, ...STYLES.addressInputMedia }}
                                                 error={!!errors.postalBilling}
                                                 variant="filled"
+                                                color="success"
                                                 {...register('postalBilling')}
                                                 autoComplete="postal-code"
                                                 size="small"
@@ -590,6 +611,7 @@ export const SignUpForm = () => {
                                             control={
                                                 <Checkbox
                                                     size="small"
+                                                    color="success"
                                                     id="defaultBillingAddress"
                                                     {...register('isDefaultBillingAddress')}
                                                 />

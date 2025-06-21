@@ -354,6 +354,7 @@ export const CartPage = () => {
                                             id="promoCode"
                                             error={!!errors.promoCode}
                                             variant="filled"
+                                            color="success"
                                             {...register('promoCode')}
                                             size="small"
                                             className={S.promoCodeInput}

@@ -86,6 +86,7 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
                             }}
                             error={!!errors.street}
                             variant="filled"
+                            color="success"
                             {...register('street')}
                             autoComplete="street-address"
                             size="small"
@@ -109,6 +110,7 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
                             }}
                             error={!!errors.city}
                             variant="filled"
+                            color="success"
                             {...register('city')}
                             autoComplete="address-level2"
                             size="small"
@@ -121,7 +123,9 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
                     </FormControl>
 
                     <FormControl variant="filled">
-                        <InputLabel id="country-label" sx={STYLES.countryLabel}>
+                        <InputLabel id="country-label"
+                                    color="success"
+                                    sx={STYLES.countryLabel}>
                             Country
                         </InputLabel>
                         <Select
@@ -133,6 +137,7 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
                                 ...STYLES.countryInput,
                             }}
                             error={!!errors.country}
+                            color="success"
                             {...register('country')}
                             size="small"
                             value={selectedCountry ?? ''}
@@ -161,6 +166,7 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
                             }}
                             error={!!errors.postal}
                             variant="filled"
+                            color="success"
                             {...register('postal')}
                             autoComplete="postal-code"
                             size="small"
@@ -179,6 +185,7 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
                                 control={
                                     <Checkbox
                                         size="small"
+                                        color="success"
                                         id="defaultBillingAddress"
                                         {...register('isDefaultBillingAddress')}
                                     />

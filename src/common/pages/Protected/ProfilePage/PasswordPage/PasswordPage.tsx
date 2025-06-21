@@ -104,11 +104,12 @@ export const PasswordPage = () => {
                             <input type="text" style={{ display: 'none' }} autoComplete="username" />
 
                             <FormControl variant="filled" size="small" error={!!errors.currentPassword} fullWidth>
-                                <InputLabel htmlFor="currentPassword">Current password</InputLabel>
+                                <InputLabel htmlFor="currentPassword" color="success">Current password</InputLabel>
                                 <FilledInput
                                     id="currentPassword"
                                     type={showCurrentPassword ? 'text' : 'password'}
                                     sx={STYLES.passInput}
+                                    color="success"
                                     {...register('currentPassword')}
                                     autoComplete="new-password"
                                     endAdornment={
@@ -132,11 +133,12 @@ export const PasswordPage = () => {
                             </FormControl>
 
                             <FormControl variant="filled" size="small" error={!!errors.newPassword} fullWidth>
-                                <InputLabel htmlFor="newPassword">Password</InputLabel>
+                                <InputLabel htmlFor="newPassword" color="success">Password</InputLabel>
                                 <FilledInput
                                     id="newPassword"
                                     type={showPassword ? 'text' : 'password'}
                                     sx={STYLES.passInput}
+                                    color="success"
                                     {...register('newPassword')}
                                     autoComplete="new-password"
                                     inputRef={passwordInputReference}
@@ -161,10 +163,11 @@ export const PasswordPage = () => {
                             </FormControl>
 
                             <FormControl variant="filled" size="small" error={!!errors.confirmPassword} fullWidth>
-                                <InputLabel htmlFor="confirmPassword">Confirm password</InputLabel>
+                                <InputLabel htmlFor="confirmPassword" color="success">Confirm password</InputLabel>
                                 <FilledInput
                                     id="confirmPassword"
                                     type={showConfirmPassword ? 'text' : 'password'}
+                                    color="success"
                                     {...register('confirmPassword')}
                                     autoComplete="new-password"
                                     sx={STYLES.passInput}
