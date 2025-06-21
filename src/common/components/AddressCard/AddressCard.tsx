@@ -149,7 +149,7 @@ export const AddressCard: FC<AddressCardProps> = ({
 
     return (
         <Box sx={STYLES.addressCardInfoContent}>
-            <Box sx={{ mt: 2 }} >
+            <Box sx={STYLES.addressCard} >
                 <Box sx={STYLES.addressCardInfo}>
                     <Typography variant="h5" component="h5" sx={STYLES.addressCardInfoTitle}>
                         Country:

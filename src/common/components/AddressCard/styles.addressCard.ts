@@ -12,6 +12,9 @@ export const STYLES = genStyles({
             width: '91%',
         },
     },
+    addressCard: {
+        mt: 2,
+    },
     addressCardInfo: {
         mb: '0',
         display: 'flex',
