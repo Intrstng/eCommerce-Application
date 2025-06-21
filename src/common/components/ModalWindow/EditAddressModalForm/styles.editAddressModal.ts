@@ -23,22 +23,24 @@ export const STYLES = genStyles({
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
         gap: '1rem',
-        minWidth: '22.8rem',
+        minWidth: '296px',
         width: '100%',
-        '@media (max-width: 690px)': {
-            minWidth: '20rem',
+        '@media (max-width: 440px)': {
+            minWidth: 'unset',
+            width: '250px',
         },
     },
     addressInput: {
         mt: 0,
         mb: '0.25rem',
+        width: '296px',
     },
     addressInputMedia: {
         '@media (max-width: 950px)': {
             mb: 1,
         },
-        '@media (max-width: 690px)': {
-            mb: '1rem',
+        '@media (max-width: 440px)': {
+            width: '250px',
         },
     },
     autofillInput: {
@@ -49,8 +51,13 @@ export const STYLES = genStyles({
     },
     countryInput: {
         width: 'auto',
-        minWidth: '200px',
+        minWidth: '296px',
         maxWidth: '100%',
+        '@media (max-width: 440px)': {
+            minWidth: 'unset',
+            maxWidth: 'unset',
+            width: '250px',
+        },
     },
     countryLabel: {
         mt: '-0.15rem',
@@ -97,8 +104,12 @@ export const STYLES = genStyles({
         flexDirection: 'column',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
-        width: '100%',
+        minWidth: '296px',
         gap: '0.6rem',
+        '@media (max-width: 440px)': {
+            minWidth: 'unset',
+            width: '250px',
+        },
     },
     modalCancelButton: {
         mt: 0,

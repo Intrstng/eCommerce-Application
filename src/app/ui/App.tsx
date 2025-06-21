@@ -11,12 +11,25 @@ import { useEffect } from 'react';
 import { errorNotifyMessageWithDispatch } from '../../common/utils/notify-message';
 import Box from '@mui/material/Box';
 import { useLocation } from 'react-router-dom';
+import { cartActions, getActiveCartTC } from '../../features/cart/model/slices/cartSlice';
+import { authIsLoggedInSelector } from '../../features/auth/model/selectors/authSelector';
+import { ScrollToTop } from '../../common/components/ScrollToTop/ScrollToTop';
+import { BackToTopButton } from '../../common/components/BackToTopButton/BackToTopButton';
 
 export const App = () => {
     const dispatch = useAppDispatch();
     const appStatus: string = useAppSelector<Status>(statusSelector);
     const appError = useAppSelector<AppError>(errorSelector);
+    const isLoggedIn = useAppSelector(authIsLoggedInSelector);
     const location = useLocation();
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            dispatch(getActiveCartTC());
+        } else {
+            dispatch(cartActions.setCart({ cart: null }));
+        }
+    }, [dispatch, isLoggedIn]);
 
     useEffect(() => {
         if (typeof appError === 'string') {
@@ -41,13 +54,15 @@ export const App = () => {
 
             {appStatus === 'loading' && <LinearProgress color={'success'} sx={linearProgressStyles} />}
 
-            <Box className="main mainContainer">
+            <Box className="appContent">
                 <Box className={contentClassName}>
                     <Outlet />
                 </Box>
             </Box>
             <Footer />
             <ToastifyNotification />
+            <ScrollToTop />
+            <BackToTopButton />
         </Box>
     );
 };

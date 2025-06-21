@@ -3,13 +3,17 @@ import { genStyles } from '../../utils/generate-styles';
 export const STYLES = genStyles({
     addressCardInfoContent: {
         padding: '0.5rem 0.75rem 0.75rem 1.25rem',
-        // height: '10rem',
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'nowrap',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
         border: '1px solid #000',
+        '@media (max-width: 560px)': {
+            flexDirection: 'column',
+            width: '91%',
+        },
+    },
+    addressCard: {
+        mt: 2,
     },
     addressCardInfo: {
         mb: '0',
@@ -17,9 +21,8 @@ export const STYLES = genStyles({
         flexWrap: 'nowrap',
         flexDirection: 'row',
         gap: '1rem',
-        alignItems: 'center',
+        alignItems: 'baseline',
         justifyContent: 'flex-start',
-        width: '100%',
     },
     addressCardInfoTitle: {
         width: '6.5rem',
@@ -32,12 +35,10 @@ export const STYLES = genStyles({
     },
     addressCardItemInfo: {
         marginLeft: '0',
-        marginRight: '0.5rem',
+        marginRight: '1rem',
         width: '11.92rem',
         height: '2.5rem',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
+        display: 'block',
         fontFamily: 'Jost, sans-serif',
         fontWeight: '400',
         fontSize: '1rem',
@@ -45,21 +46,27 @@ export const STYLES = genStyles({
         color: '#000000',
         letterSpacing: '0.1em',
         overflow: 'hidden',
-        '@media (max-width: 600px)': {
-            width: '7rem',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
+        textAlign: 'start',
+        '@media (max-width: 560px)': {
+            marginRight: '0',
         },
     },
 
-    addressEditButton: {},
-    addressDeleteButton: {},
     addressControls: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
         justifyContent: 'flex-end',
         alignSelf: 'flex-start',
-        // height: '10rem',
         position: 'relative',
+        '@media (max-width: 560px)': {
+            flexDirection: 'row',
+            gap: '0.5rem',
+            width: '100%',
+            marginTop: '-2rem',
+        },
     },
 
     addressEditControls: {
@@ -68,7 +75,6 @@ export const STYLES = genStyles({
 
     addressDetailsControls: {
         mt: '2rem',
-        width: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
@@ -77,11 +83,14 @@ export const STYLES = genStyles({
 
     addressDefaultControls: {
         mt: '0',
-        width: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
         gap: '1rem',
+
+        '@media (max-width: 560px)': {
+            marginTop: '2rem',
+        },
     },
 
     editAddressButton: {
@@ -173,7 +182,6 @@ export const STYLES = genStyles({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end',
-        width: '100%',
         justifyContent: 'flex-start',
         gap: '0.5rem',
         mt: '0.75rem',

@@ -4,6 +4,9 @@ import Typography from '@mui/material/Typography';
 import { PAGES, PATH } from '../../enums';
 import { STYLES } from './styles.breadCrumbs';
 import { isValidUUID } from '../../utils/validate-uuid';
+import { useAppSelector } from '../../hooks';
+import { catalogProductSelector } from '../../../features/catalog/model/selectors/catalogSelector';
+import type { FC } from 'react';
 
 const BREAD_CRUMBS_NAMES: Record<string, PAGES> = {
     main: PAGES.MAIN,
@@ -21,71 +24,86 @@ const BREAD_CRUMBS_NAMES: Record<string, PAGES> = {
     addresses: PAGES.ADDRESSES,
 };
 
-export const BreadCrumbs = () => {
+interface BreadCrumbsProps {
+    articleTitle?: string;
+}
+
+export const BreadCrumbs: FC<BreadCrumbsProps> = ({ articleTitle }) => {
     const location = useLocation();
     const [searchParameters] = useSearchParams();
     const pathnames = location.pathname.split(PATH.PAGE_ROOT).filter(Boolean);
+    const catalogProduct = useAppSelector(catalogProductSelector);
 
-    const typeParameter = searchParameters.get('type');
+    const typeParameter = searchParameters.get('productType') || searchParameters.get('type');
+    const isProductDetailPage =
+        pathnames[0] === PAGES.PRODUCT.toLowerCase() && pathnames.length === 2 && isValidUUID(pathnames[1]);
+    const productName = isProductDetailPage && catalogProduct.length === 1 ? catalogProduct[0].name.en : null;
 
     if (location.pathname === '/main' || location.pathname === '/') {
         return null;
     }
-    const isParameterUUIDInURL = pathnames.some(pathname => isValidUUID(pathname));
+
+    const breadcrumbsContents: { display: string; to?: string }[] = [];
+
+    breadcrumbsContents.push({ display: PAGES.MAIN, to: PATH.MAIN });
+
+    const isOnCatalogRoute = location.pathname.startsWith(PATH.CATALOG);
+    const isOnProductRoute = location.pathname.startsWith(PATH.PRODUCT.split(':')[0]);
+    const isOnArticleRoute = location.pathname.startsWith(PATH.ARTICLES);
+
+    if (isOnCatalogRoute || isOnProductRoute) {
+        breadcrumbsContents.push({ display: PAGES.CATALOG, to: PATH.CATALOG });
+
+        if (isProductDetailPage && catalogProduct.length === 1) {
+            const productTypeFromProduct = catalogProduct[0].productType;
+            if (productTypeFromProduct) {
+                breadcrumbsContents.push({
+                    display: productTypeFromProduct,
+                    to: `${PATH.CATALOG}?productType=${productTypeFromProduct}`,
+                });
+            }
+            const finalProductName = productName;
+            if (finalProductName) {
+                breadcrumbsContents.push({ display: finalProductName });
+            }
+        } else if (typeParameter) {
+            breadcrumbsContents.push({ display: typeParameter });
+        }
+    } else if (isOnArticleRoute) {
+        breadcrumbsContents.push({ display: PAGES.ARTICLES, to: PATH.ARTICLES });
+        if (articleTitle) {
+            breadcrumbsContents.push({ display: articleTitle });
+        }
+    } else {
+        const lastSegment = pathnames.at(-1);
+        if (lastSegment) {
+            const displayName = BREAD_CRUMBS_NAMES[lastSegment] ?? lastSegment;
+            breadcrumbsContents.push({ display: displayName });
+        }
+    }
 
     return (
         <Breadcrumbs aria-label="breadcrumb" sx={STYLES.breadcrumbs}>
-            <Link to={PATH.MAIN}>
-                <Typography sx={STYLES.links}>{PAGES.MAIN}</Typography>
-            </Link>
-            {pathnames.map((pathname, index) => {
-                const routeTo = `${PATH.PAGE_ROOT}${pathnames.slice(0, index + 1).join(PATH.PAGE_ROOT)}`;
-                const displayName = BREAD_CRUMBS_NAMES[pathname] ?? pathname;
-                const isLastPage = index === pathnames.length - 1;
-                const isPathnameUUID = isValidUUID(pathname);
-
-                if (!isParameterUUIDInURL) {
-                    return (
-                        <Link to={routeTo} key={routeTo}>
-                            <Typography
-                                color="textPrimary"
-                                sx={{
-                                    ...STYLES.links,
-                                    ...(!typeParameter && isLastPage ? STYLES.lastPage : {}),
-                                }}
-                            >
-                                {displayName}
-                            </Typography>
-                        </Link>
-                    );
-                } else if (isParameterUUIDInURL && !isPathnameUUID) {
-                    return (
-                        <Typography
-                            color="textPrimary"
-                            sx={{
-                                ...STYLES.links,
-                                ...(!typeParameter && isLastPage ? STYLES.lastPage : {}),
-                            }}
-                        >
-                            {displayName}
-                        </Typography>
-                    );
-                } else if (isParameterUUIDInURL && isPathnameUUID) {
-                    return null;
-                }
+            {breadcrumbsContents.map((item, index) => {
+                const isLast = index === breadcrumbsContents.length - 1;
+                return item.to && !isLast ? (
+                    <Link to={item.to} key={item.display}>
+                        <Typography sx={STYLES.links}>{item.display}</Typography>
+                    </Link>
+                ) : (
+                    <Typography
+                        color="textPrimary"
+                        sx={{
+                            ...STYLES.links,
+                            ...STYLES.lastPage,
+                            ...(isLast ? { pointerEvents: 'none' } : {}),
+                        }}
+                        key={item.display}
+                    >
+                        {item.display}
+                    </Typography>
+                );
             })}
-            {typeParameter && (
-                <Typography
-                    color="textPrimary"
-                    sx={{
-                        ...STYLES.links,
-                        ...STYLES.parameterPath,
-                        ...STYLES.lastPage,
-                    }}
-                >
-                    {typeParameter}
-                </Typography>
-            )}
         </Breadcrumbs>
     );
 };

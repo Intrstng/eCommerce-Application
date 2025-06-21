@@ -1,6 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import type { ClientResponse, CustomerSignInResult } from '@commercetools/platform-sdk';
+import type { Cart, ClientResponse, CustomerSignInResult } from '@commercetools/platform-sdk';
 import type { AuthState } from '../types';
 import { userStorage } from '../../../../common/services/local-storage.service';
 import type { AppThunk } from 'app/store';
@@ -10,9 +10,13 @@ import type { SignInFormData } from '../../../../common/validations/signInValida
 import { authAPI } from '../../api/authApi';
 import type { User, UserDataLS } from '../../../../common/types';
 import { successNotifyMessage } from '../../../../common/utils/notify-message';
-import { StatusCode } from '../../../../common/enums';
+import { EnvironmentKeys, StatusCode } from '../../../../common/enums';
 import { Status } from 'app/model/types';
 import { authTokenService } from '../../../../common/services/auth-token.service';
+import { cartActions, createCartTC, getActiveCartTC } from '../../../cart/model/slices/cartSlice';
+import { getEnvironmentVariable } from '../../../../common/utils/get-environment-variable';
+import { apiRoot } from '../../../../common/api/commercetools';
+import { cartAPI } from '../../../cart/api/cartApi';
 
 export const initialState: AuthState = {
     isLoggedIn: !!userStorage.getUser(),
@@ -42,9 +46,15 @@ export const authSuccessTC = (): AppThunk => async dispatch => {
 
         if (user && isCustomerSignInResult(user)) {
             dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
+            dispatch(getActiveCartTC());
         } else {
             dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
-            await authTokenService.getAnonymousToken();
+
+            // await authTokenService.getAnonymousToken();
+            // dispatch(createCartTC());
+
+            await authTokenService.ensureAnonymousToken();
+            dispatch(getActiveCartTC()); // ??? createCartTC()
         }
         dispatch(appActions.setAppInitialized({ isInitialized: true }));
         dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
@@ -61,16 +71,50 @@ export const authSuccessTC = (): AppThunk => async dispatch => {
 
 export const loginTC =
     (data: SignInFormData): AppThunk =>
-    async dispatch => {
+    async (dispatch, getState) => {
         dispatch(appActions.setAppStatus({ status: Status.LOADING }));
         dispatch(appActions.setAppError({ error: null })); // ?? Our setAppError auto cancels after error
         try {
+            const anonymousCart = getState().cart.cart;
+            const anonymousCartItems = anonymousCart?.lineItems || [];
+
             const response: ClientResponse<CustomerSignInResult> = await authAPI.login(data.email, data.password);
 
             if (response.statusCode === StatusCode.OK) {
                 dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
                 dispatch(authActions.setUser({ user: response.body }));
                 userStorage.saveUser(response.body);
+
+                const cart = await cartAPI.getActiveCart();
+                const userCart: Cart | null = cart || (await cartAPI.createCart());
+
+                if (anonymousCartItems.length > 0 && userCart) {
+                    try {
+                        const actions = anonymousCartItems.map(item => ({
+                            action: 'addLineItem' as const,
+                            productId: item.productId,
+                            variantId: item.variant.id,
+                            quantity: item.quantity,
+                        }));
+
+                        await apiRoot
+                            .withProjectKey({ projectKey: getEnvironmentVariable(EnvironmentKeys.CTP_PROJECT_KEY) })
+                            .me()
+                            .carts()
+                            .withId({ ID: userCart.id })
+                            .post({
+                                body: {
+                                    version: userCart.version,
+                                    actions,
+                                },
+                            })
+                            .execute();
+                        dispatch(getActiveCartTC());
+                    } catch (error) {
+                        console.error('Failed to merge cart items:', error);
+                    }
+                }
+
                 dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
 
                 successNotifyMessage('You have successfully logged in');
@@ -82,22 +126,31 @@ export const loginTC =
                 dispatch(appActions.setAppError({ error: 'Invalid email or password' }));
             }
 
-            // dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
+            authTokenService.clearTokens();
+            await authTokenService.ensureAnonymousToken();
             dispatch(authActions.setUser({ user: null }));
+            dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
             dispatch(appActions.setAppStatus({ status: Status.FAILED }));
         }
     };
 
 export const logOutTC = (): AppThunk => async dispatch => {
     try {
+        dispatch(appActions.setIsLoggingOut({ isLoggingOut: true }));
         await authAPI.logout();
         dispatch(authActions.setUser({ user: null }));
         userStorage.removeUser();
         dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
+
+        dispatch(cartActions.setCart({ cart: null }));
+        dispatch(createCartTC());
+
+        dispatch(appActions.setIsLoggingOut({ isLoggingOut: false }));
         dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
 
         successNotifyMessage("You've logged out of your account");
     } catch (error) {
+        dispatch(appActions.setIsLoggingOut({ isLoggingOut: false }));
         if (error instanceof Error) {
             dispatch(appActions.setAppError({ error: error.message }));
         } else {

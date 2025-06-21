@@ -67,3 +67,21 @@ export interface FilterParameters {
     sort: string | null;
     type: string | null;
 }
+
+export interface DiscountCartInfo {
+    discountPercent: string;
+    discountText: string;
+}
+
+export interface PromoCodeCartContent {
+    id: string;
+    isActive: boolean;
+    key: string;
+    code: string;
+    description: string;
+    discountPercent: string;
+    discountText: string;
+    validFrom: string;
+    validUntil: string;
+    productTypeIds?: string[];
+}

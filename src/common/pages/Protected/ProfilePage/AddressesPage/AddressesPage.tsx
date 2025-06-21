@@ -21,7 +21,7 @@ import { AddressCard } from '../../../../components/AddressCard/AddressCard';
 import Dialog from '@mui/material/Dialog';
 import { AddAddressModalForm } from '../../../../components/ModalWindow/AddAddressModalForm/AddAddressModalForm';
 import { AddressModalType, AddressStatus } from '../../../../enums';
-import type { AddressModalFormData } from '../../../../validations/addressModalFormValidation';
+import type { AddressModalFormData } from '../../../../validations/addressModalFormValidation.schema';
 import type { AddAddressAction } from './interfaces';
 import { profileApi } from '../../../../../features/profile/api/profileApi';
 import { appActions } from 'app/model/slices/appSlice';

@@ -111,6 +111,11 @@ export const authTokenService = {
         return currentTokenData?.access_token ?? null;
     },
 
+    getTokenData(): TokenResponse | null {
+        currentTokenData ??= loadTokenFromCookies();
+        return currentTokenData;
+    },
+
     async refreshTokenIfNeeded(): Promise<string | null> {
         if (!currentTokenData) {
             currentTokenData = loadTokenFromCookies();

@@ -1,38 +1,26 @@
 import { apiRoot } from '../../../common/api/commercetools';
 import { projectKey } from '../../../common/api/commercetools-config';
 import type { CatalogCategory, CatalogProduct } from './catalogApi.interfaces';
-import type { Category, QueryParam } from '@commercetools/platform-sdk';
-import { setProductDataFromResponse } from '../utils/set-product-data-from-response';
-import { setProductDataFromProjectionResponse } from '../utils/set-product-data-from-response';
+import type { Category } from '@commercetools/platform-sdk';
+import {
+    setProductDataFromProjectionResponse,
+    setProductDataFromResponse,
+} from '../utils/set-product-data-from-response';
+import type { ProductsQueryArguments, ProductType, SearchParameters } from './interfaces';
 
-export interface ProductType {
-    id: string;
-    name: string;
-    description?: string;
-    createdAt: string;
-    lastModifiedAt: string;
-    version: number;
-}
-
-interface ProductsQueryArguments {
-    [key: string]: QueryParam | string | string[] | undefined;
-    staged?: boolean;
-    // where?: string | string[];
-}
+export const ITEMS_ON_PAGE_DEFAULT = 6;
+const ITEMS_DATA_CHUNK_SIZE = 30;
 
 export const catalogAPI = {
     async fetchProducts(
-        searchParameters?: {
-            material?: string;
-            gender?: string;
-            search?: string;
-            productType?: string;
-        },
+        searchParameters?: SearchParameters,
         allProductTypes?: ProductType[],
         categoryType?: string
     ): Promise<CatalogProduct[]> {
         try {
             let categoryId = '';
+            const currentPage: string = searchParameters?.currentPage ?? '1';
+            const offset = (Number(currentPage) - 1) * ITEMS_ON_PAGE_DEFAULT;
 
             if (categoryType) {
                 const categories = await this.getCategories();
@@ -48,15 +36,15 @@ export const catalogAPI = {
             };
 
             if (searchParameters?.search?.trim()) {
-                queryArguments['text.en'] = searchParameters.search.trim();
+                queryArguments['text.en'] = searchParameters?.search?.trim();
             }
 
             const filters = [];
             if (searchParameters?.material?.trim()) {
-                filters.push(`variants.attributes.material.key:"${searchParameters.material.trim()}"`);
+                filters.push(`variants.attributes.material.key:"${searchParameters?.material?.trim()}"`);
             }
             if (searchParameters?.gender?.trim()) {
-                filters.push(`variants.attributes.gender.key:"${searchParameters.gender.trim()}"`);
+                filters.push(`variants.attributes.gender.key:"${searchParameters?.gender?.trim()}"`);
             }
 
             const productTypeName = searchParameters?.productType?.trim();
@@ -80,19 +68,55 @@ export const catalogAPI = {
                 .productProjections()
                 .search()
                 .get({
-                    queryArgs: queryArguments,
-                    // limit: 7,
-                    // offset: 0,
+                    queryArgs: {
+                        ...queryArguments,
+                        limit: ITEMS_ON_PAGE_DEFAULT,
+                        offset,
+                    },
                 })
                 .execute();
-            // console.log(response.body.results);
 
-            return setProductDataFromProjectionResponse(response.body.results);
+            return setProductDataFromProjectionResponse(response.body);
         } catch (error: unknown) {
             const error_ =
                 error instanceof Error
                     ? new Error(`Failed to fetch products: ${error.message}`)
                     : new Error('Failed to fetch products: Unknown error occurred');
+            throw error_;
+        }
+    },
+
+    async fetchAllProductsForSlider(): Promise<CatalogProduct[]> {
+        const allProducts: CatalogProduct[] = [];
+        let offset = 0;
+
+        try {
+            while (true) {
+                const response = await apiRoot
+                    .withProjectKey({ projectKey })
+                    .productProjections()
+                    .search()
+                    .get({
+                        queryArgs: {
+                            limit: ITEMS_DATA_CHUNK_SIZE,
+                            offset: offset,
+                        },
+                    })
+                    .execute();
+
+                const products = setProductDataFromProjectionResponse(response.body);
+                allProducts.push(...products);
+
+                if (products.length < ITEMS_DATA_CHUNK_SIZE) break;
+                offset += ITEMS_DATA_CHUNK_SIZE;
+            }
+
+            return allProducts;
+        } catch (error: unknown) {
+            const error_ =
+                error instanceof Error
+                    ? new Error(`Failed to fetch all products: ${error.message}`)
+                    : new Error('Failed to fetch all products: Unknown error occurred');
             throw error_;
         }
     },
@@ -131,7 +155,7 @@ export const catalogAPI = {
         }
     },
 
-    async getProductByID(id: string): Promise<CatalogProduct[]> {
+    async getSingleProductByID(id: string): Promise<CatalogProduct | undefined> {
         try {
             const response = await apiRoot
                 .withProjectKey({ projectKey })
@@ -139,11 +163,29 @@ export const catalogAPI = {
                 .get({
                     queryArgs: {
                         where: `id="${id}"`,
+                        expand: 'productType',
                     },
                 })
                 .execute();
 
-            return setProductDataFromResponse(response.body.results);
+            const products = setProductDataFromResponse(response.body.results);
+            return products.length > 0 ? products[0] : undefined;
+        } catch (error: unknown) {
+            const error_ =
+                error instanceof Error
+                    ? new Error(`Failed to fetch single product by ID: ${error.message}`)
+                    : new Error('Failed to fetch single product by ID: Unknown error occurred');
+            throw error_;
+        }
+    },
+
+    async getProductByID(id: string): Promise<CatalogProduct> {
+        try {
+            const product = await this.getSingleProductByID(id);
+            if (!product) {
+                throw new Error(`Product with ID ${id} not found`);
+            }
+            return product;
         } catch (error: unknown) {
             const error_ =
                 error instanceof Error
@@ -186,7 +228,6 @@ export const catalogAPI = {
                 description: category.description,
             }));
 
-            // console.log('All categories:', categories);
             return categories;
         } catch (error: unknown) {
             const error_ =
@@ -200,7 +241,7 @@ export const catalogAPI = {
     async fetchProductTypes(): Promise<ProductType[]> {
         try {
             const response = await apiRoot.withProjectKey({ projectKey }).productTypes().get().execute();
-            // console.log('All product types:', response.body.results);
+
             return response.body.results;
         } catch (error: unknown) {
             const error_ =

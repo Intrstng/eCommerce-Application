@@ -27,6 +27,9 @@ import Dialog from '@mui/material/Dialog';
 import { EditAddressModalForm } from '../ModalWindow/EditAddressModalForm/EditAddressModalForm';
 import { AddressModalType, AddressStatus } from '../../enums';
 import Tooltip from '@mui/material/Tooltip';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+const TABLET_MEDIA_WIDTH = '768px';
 
 export const AddressCard: FC<AddressCardProps> = ({
     address,
@@ -45,6 +48,7 @@ export const AddressCard: FC<AddressCardProps> = ({
     const currentDefaultBillingAddressId = useAppSelector<string>(profileDefaultBillingAddressIdSelector);
     const appStatus: string = useAppSelector<Status>(statusSelector);
     const dispatch = useAppDispatch();
+    const isSmallScreen = useMediaQuery(`(max-width:${TABLET_MEDIA_WIDTH})`);
 
     const defaultShippingAddressId: string | undefined =
         currentCustomer && 'defaultShippingAddressId' in currentCustomer
@@ -70,8 +74,6 @@ export const AddressCard: FC<AddressCardProps> = ({
 
     const [isShipping, setIsShipping] = useState(isShippingAddress);
     const [isBilling, setIsBilling] = useState(isBillingAddress);
-    // const [isDefaultShipping, setIsDefaultShipping] = useState(isDefaultShippingAddress); // Todo: check is needed in code in Sprint 4
-    // const [isDefaultBilling, setIsDefaultBilling] = useState(isDefaultBillingAddress); // Todo: check is needed in code in Sprint 4
 
     const currentAddressData: EditAddressData = {
         streetName: address?.streetName ?? '',
@@ -121,7 +123,6 @@ export const AddressCard: FC<AddressCardProps> = ({
     const handleToggleDefaultShipping = () => {
         const newDefaultShippingStatus =
             isDefaultShippingAddress === AddressStatus.ON ? AddressStatus.OFF : AddressStatus.ON;
-        // setIsDefaultShipping(newDefaultShippingStatus); // Todo: check is needed in code in Sprint 4
         if (address.id) {
             toggleIsDefaultAddressesCB(
                 newDefaultShippingStatus,
@@ -135,7 +136,6 @@ export const AddressCard: FC<AddressCardProps> = ({
     const handleToggleDefaultBilling = () => {
         const newDefaultBillingStatus =
             isDefaultBillingAddress === AddressStatus.ON ? AddressStatus.OFF : AddressStatus.ON;
-        // setIsDefaultBilling(newDefaultBillingStatus); // Todo: check is needed in code in Sprint 4
         if (address.id) {
             toggleIsDefaultAddressesCB(
                 isDefaultShippingAddress,
@@ -148,7 +148,7 @@ export const AddressCard: FC<AddressCardProps> = ({
 
     return (
         <Box sx={STYLES.addressCardInfoContent}>
-            <Box>
+            <Box sx={STYLES.addressCard}>
                 <Box sx={STYLES.addressCardInfo}>
                     <Typography variant="h5" component="h5" sx={STYLES.addressCardInfoTitle}>
                         Country:
@@ -268,7 +268,7 @@ export const AddressCard: FC<AddressCardProps> = ({
                                     ? 'At first set this address as the shipping address'
                                     : ''
                             }
-                            placement="right"
+                            placement={isSmallScreen ? 'top-start' : 'right'}
                             arrow
                             slotProps={{
                                 tooltip: {
@@ -311,7 +311,7 @@ export const AddressCard: FC<AddressCardProps> = ({
                                     ? 'At first set this address as the billing address'
                                     : ''
                             }
-                            placement="right"
+                            placement={isSmallScreen ? 'top-start' : 'right'}
                             arrow
                             slotProps={{
                                 tooltip: {

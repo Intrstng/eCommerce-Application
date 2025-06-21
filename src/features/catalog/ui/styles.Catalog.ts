@@ -2,8 +2,16 @@ import { genStyles } from '../../../common/utils/generate-styles';
 
 export const STYLES = genStyles({
     catalogContainer: {
-        width: '93vw',
+        width: '100%',
         maxWidth: '1180px',
+        margin: '0 auto',
+    },
+    loadSpinner: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '22.5rem',
+        width: '100%',
     },
     catalogTitle: {
         mb: '0.4rem',
@@ -25,7 +33,7 @@ export const STYLES = genStyles({
         justifyContent: 'center',
 
         '@media (max-width: 1280px)': {
-            gridTemplateColumns: 'repeat(3, 21.875rem)',
+            gridTemplateColumns: 'repeat(3, 20rem)',
             gap: '1.5rem 0.8rem',
         },
 

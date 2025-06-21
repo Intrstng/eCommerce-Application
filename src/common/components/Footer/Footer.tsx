@@ -1,13 +1,21 @@
 import S from './Footer.module.scss';
+import { NavLink } from 'react-router-dom';
+import { PATH } from '../../enums';
 
 export const Footer = () => {
     return (
         <div className={S.footer}>
             <div className={S.topRow}>
                 <ul>
-                    <li>CARE GUIDE</li>
-                    <li>BLOG</li>
-                    <li>ABOUT US</li>
+                    <NavLink to={PATH.AUTHOR} className={S.navFooterLink}>
+                        <li>ABOUT AUTHOR</li>
+                    </NavLink>
+                    <NavLink to={PATH.ARTICLES} className={S.navFooterLink}>
+                        <li>BLOG</li>
+                    </NavLink>
+                    <NavLink to={`${PATH.ARTICLES}/care-guide`} className={S.navFooterLink}>
+                        <li>CARE GUIDE</li>
+                    </NavLink>
                 </ul>
             </div>
 
@@ -33,7 +41,6 @@ export const Footer = () => {
                             Threads
                         </a>
                     </li>
-                    {/*<li>About author</li>*/}
                 </ul>
             </div>
         </div>

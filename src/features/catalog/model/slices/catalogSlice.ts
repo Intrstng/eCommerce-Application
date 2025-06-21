@@ -6,11 +6,12 @@ import type { AppThunk } from 'app/store';
 import { appActions } from 'app/model/slices/appSlice';
 import { Status } from 'app/model/types';
 import { catalogAPI } from '../../api/catalogApi';
-import type { ProductType } from '../../api/catalogApi';
+import type { ProductType, SearchParameters } from '../../api/interfaces';
 
 export const initialState: CatalogState = {
     products: [],
     product: [],
+    totalCount: 0,
 };
 
 export const catalogSlice = createSlice({
@@ -20,8 +21,19 @@ export const catalogSlice = createSlice({
         setProducts(state, action: PayloadAction<{ products: CatalogProduct[] }>) {
             state.products = action.payload.products;
         },
-        setProduct(state, action: PayloadAction<{ product: CatalogProduct[] }>) {
-            state.product = action.payload.product;
+        setProduct(state, action: PayloadAction<{ product: CatalogProduct }>) {
+            state.product = [action.payload.product];
+        },
+        setTotalCount(state, action: PayloadAction<{ totalCount: number }>) {
+            state.totalCount = action.payload.totalCount;
+        },
+        setIsToCartLoading(state, action: PayloadAction<{ id: string; isToCartLoading: boolean }>) {
+            const { id, isToCartLoading } = action.payload;
+            const product = state.products.find(product => product.id === id);
+
+            if (product) {
+                product.isToCartLoading = isToCartLoading;
+            }
         },
     },
 });
@@ -30,16 +42,15 @@ export const catalogReducer = catalogSlice.reducer;
 export const catalogActions = catalogSlice.actions;
 
 export const fetchAllCatalogProductsTC =
-    (
-        searchParameters?: { material?: string; gender?: string; search?: string; productType?: string },
-        productTypes?: ProductType[],
-        categoryType?: string
-    ): AppThunk =>
+    (searchParameters?: SearchParameters, productTypes?: ProductType[], categoryType?: string): AppThunk =>
     async dispatch => {
-        console.log('categoryType', categoryType);
         dispatch(appActions.setAppStatus({ status: Status.LOADING }));
         try {
             const response = await catalogAPI.fetchProducts(searchParameters, productTypes, categoryType);
+            if (response[0]?.totalCount !== undefined) {
+                dispatch(catalogActions.setTotalCount({ totalCount: response[0].totalCount }));
+            }
+
             dispatch(catalogActions.setProducts({ products: response }));
             dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
         } catch (error) {
@@ -89,23 +100,3 @@ export const getProductByIdTC =
             dispatch(appActions.setAppStatus({ status: Status.FAILED }));
         }
     };
-
-// ToDo: Check will we use getCatalogCategoriesTC function in the future (add logic to catalogSlice, add categories to store, add useSelector):
-// export const getCatalogCategoriesTC =
-//     (): AppThunk =>
-//         async dispatch => {
-//             dispatch(appActions.setAppStatus({ status: Status.LOADING }));
-//             try {
-//                 const response = await catalogAPI.fetchCategories();
-//
-//                 dispatch(catalogActions.setCategories({ categories: response }));
-//                 dispatch(appActions.setAppStatus({ status: Status.SUCCEEDED }));
-//             } catch (error) {
-//                 if (error instanceof Error) {
-//                     dispatch(appActions.setAppError({ error: error.message }));
-//                 } else {
-//                     dispatch(appActions.setAppError({ error: 'An unexpected error occurred' }));
-//                 }
-//                 dispatch(appActions.setAppStatus({ status: Status.FAILED }));
-//             }
-//         };

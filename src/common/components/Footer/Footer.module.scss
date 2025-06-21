@@ -24,10 +24,6 @@
         list-style: none;
     }
 
-    li {
-        cursor: default;
-    }
-
     a {
         color: black;
         text-decoration: none;
@@ -45,11 +41,28 @@
     }
 }
 
+.navFooterLink {
+    font-family: Jost, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.55rem;
+    color: rgb(22 20 18);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: #65635f;
+    }
+}
+
 .topRow {
     font: normal 400 13px / 25px Jost;
 
     ul {
-        @media (width <=768px) {
+        @media (width <=490px) {
             flex-direction: column;
             gap: 10px;
         }
@@ -59,15 +72,4 @@
 .bottomRow {
     font: normal 400 10px / 25px Jost;
     text-transform: uppercase;
-}
-
-.languageSelect {
-    pointer-events: none;
-
-    padding: 0.5rem;
-    border: none;
-
-    font-size: 0.8rem;
-
-    background-color: transparent;
 }

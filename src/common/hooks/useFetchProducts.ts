@@ -8,8 +8,8 @@ import { fetchAllCatalogProductsTC } from '../../features/catalog/model/slices/c
 import { apiRoot } from 'src/common/api/commercetools.ts';
 import { projectKey } from 'src/common/api/commercetools-config.ts';
 import { setProductDataFromResponse } from '../../features/catalog/utils/set-product-data-from-response';
-import type { ProductType } from '../../features/catalog/api/catalogApi';
 import { getAttributeValue } from '../../features/catalog/utils/getAttributeValue';
+import type { ProductType, SearchParameters } from '../../features/catalog/api/interfaces';
 
 export const useFetchProducts = () => {
     const dispatch = useAppDispatch();
@@ -18,9 +18,6 @@ export const useFetchProducts = () => {
     const [searchParameters] = useSearchParams();
     const [allProductsForFilters, setAllProductsForFilters] = useState<CatalogProduct[]>([]);
     const [productTypes, setProductTypes] = useState<ProductType[]>([]);
-
-    // const currentType = searchParameters.get('type'); ToDo: check for using in Sprint 4 (pagination)
-    // const currentPage = searchParameters.get('page'); ToDo: check for using in Sprint 4 (pagination)
 
     const allCatalogProducts = useMemo(() => catalogProducts ?? [], [catalogProducts]);
 
@@ -31,7 +28,7 @@ export const useFetchProducts = () => {
                     apiRoot
                         .withProjectKey({ projectKey })
                         .products()
-                        .get({ queryArgs: { staged: false } })
+                        .get({ queryArgs: { staged: false, limit: 100 } })
                         .execute(),
                     apiRoot.withProjectKey({ projectKey }).productTypes().get().execute(),
                 ]);
@@ -129,10 +126,11 @@ export const useFetchProducts = () => {
                 const currentProductType: string | null = searchParameters.get('type');
                 const productTypeParameter: string | null = searchParameters.get('productType');
 
-                const searchParameters_ = {
+                const searchParameters_: SearchParameters = {
                     material: searchParameters.get('material') ?? undefined,
                     gender: searchParameters.get('gender') ?? undefined,
                     search: searchParameters.get('search') ?? undefined,
+                    currentPage: searchParameters.get('page') ?? '1',
                     productType: productTypeParameter === null ? undefined : productTypeParameter,
                 };
 

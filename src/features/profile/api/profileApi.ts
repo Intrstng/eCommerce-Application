@@ -1,13 +1,9 @@
-import type { ClientResponse, Customer, MyCustomerUpdateAction } from '@commercetools/platform-sdk';
+import type { ClientResponse, Customer } from '@commercetools/platform-sdk';
 import { apiRoot } from '../../../common/api/commercetools';
 import { getEnvironmentVariable } from '../../../common/utils/get-environment-variable';
 import { EnvironmentKeys } from '../../../common/enums';
 import { authTokenService } from '../../../common/services/auth-token.service';
-
-export interface UpdateCustomerActions {
-    version: number;
-    actions: MyCustomerUpdateAction[];
-}
+import type { UpdateCustomerActions } from './profileApi.interfaces';
 
 export const profileApi = {
     async getCurrentCustomer(): Promise<ClientResponse<Customer>> {

@@ -4,6 +4,7 @@ export const STYLES = genStyles({
     breadcrumbs: {
         mt: 3,
         mb: 2,
+        pt: 1,
     },
     links: {
         textDecoration: 'none',
