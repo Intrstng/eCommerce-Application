@@ -88,17 +88,19 @@ export const CartItem: FC<CartItemProps> = ({
                 <CartItemSkeleton />
             ) : (
                 <Box className={S.cartItemContent}>
-                    <CardMedia
-                        component="img"
-                        image={item.variant.images?.[0]?.url || noImage}
-                        alt={item.name.en}
-                        className={S.cartItemImage}
-                    />
-                    {hasProductDiscount && (
-                        <Box className={S.specialOfferBadge}>
-                            <Typography className={S.specialOfferText}>Special Offer</Typography>
-                        </Box>
-                    )}
+                    <Box className={S.cartItemImageWrapper}>
+                        <CardMedia
+                            component="img"
+                            image={item.variant.images?.[0]?.url || noImage}
+                            alt={item.name.en}
+                            className={S.cartItemImage}
+                        />
+                        {hasProductDiscount && (
+                            <Box className={S.specialOfferBadge}>
+                                <Typography className={S.specialOfferText}>Special Offer</Typography>
+                            </Box>
+                        )}
+                    </Box>
                     <Box className={S.cartItemDetails}>
                         <Typography variant="h6" className={S.cartItemTitle}>
                             {item.name.en}
@@ -140,7 +142,7 @@ export const CartItem: FC<CartItemProps> = ({
                         </Box>
                         {showProductDiscountMessage && (
                             <Typography className={S.promoCodeRestrictionMessage}>
-                                Promo code cannot be applied to this item.
+                                Promo code cannot be applied to items with special offer
                             </Typography>
                         )}
                     </Box>

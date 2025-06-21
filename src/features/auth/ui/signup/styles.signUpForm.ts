@@ -146,11 +146,11 @@ export const STYLES = genStyles({
         color: '#fff',
         border: '1px solid #65635f',
         borderRadius: '4px',
-        backgroundColor: '#65635f',
+        backgroundColor: '#161412',
         transition: '0.3s all ease-in-out',
         boxShadow: 'none',
         '&:hover': {
-            backgroundColor: '#161412',
+            backgroundColor: '#65635f',
             border: '1px solid #161412',
             color: '#fff',
             boxShadow: 'none',

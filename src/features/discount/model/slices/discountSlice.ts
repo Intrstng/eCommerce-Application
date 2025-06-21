@@ -75,7 +75,7 @@ export const setActivePromoCodeTC =
                 const currentDiscount = await discountAPI.getInitialDiscountCode(cart);
 
                 if (currentDiscount) {
-                    const currentPromoCodeCartContent = transformToPromoCodeCartContent(currentDiscount);
+                    const currentPromoCodeCartContent = await transformToPromoCodeCartContent(currentDiscount);
 
                     dispatch(discountActions.setPromoCode({ promoCode: currentPromoCodeCartContent }));
                     dispatch(appActions.setAppStatus({ status: Status.FAILED }));

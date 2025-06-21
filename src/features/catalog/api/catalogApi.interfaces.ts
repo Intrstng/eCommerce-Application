@@ -46,6 +46,7 @@ export interface CatalogProduct {
     isToCartLoading: boolean;
     totalCount?: number;
     productType?: string;
+    productTypeId?: string;
 }
 
 export interface CatalogCategory {

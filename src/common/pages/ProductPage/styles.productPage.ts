@@ -5,9 +5,6 @@ export const STYLES = genStyles({
         padding: '0 1rem',
         maxWidth: '1180px',
         margin: '0 auto',
-        '@media (max-width: 550px)': {
-            padding: '0 0.5rem',
-        },
     },
     productContainer: {
         marginBottom: '2rem',

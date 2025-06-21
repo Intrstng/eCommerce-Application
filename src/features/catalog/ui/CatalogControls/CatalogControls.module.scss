@@ -201,14 +201,11 @@ select {
     }
 
     @media (width <= 850px) {
-        width: 100%; // ToDo: Maybe to change width to 40% and add align-self: 'flex-start'
+        width: 100%;
         max-width: unset;
         height: auto;
         padding: 5px 0;
     }
-}
-
-.searchIcon {
 }
 
 .searchInputField {
