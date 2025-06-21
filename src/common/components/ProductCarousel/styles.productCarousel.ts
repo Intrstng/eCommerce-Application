@@ -33,8 +33,8 @@ export const STYLES = genStyles({
             '&[aria-label*="Previous"], &[aria-label*="Next"]': {
                 margin: 0,
                 position: 'absolute',
-                top: '50%',
-                transform: 'translateY(-50%)',
+                top: '50% !important',
+                transform: 'translateY(-50%) !important',
                 backgroundColor: 'rgba(0, 0, 0, 0.5)',
                 color: 'white',
                 borderRadius: '50%',
@@ -58,8 +58,8 @@ export const STYLES = genStyles({
             '&[aria-label*="Previous"], &[aria-label*="Next"]': {
                 margin: 0,
                 position: 'absolute',
-                top: '50%',
-                transform: 'translateY(-50%)',
+                top: '50% !important',
+                transform: 'translateY(-50%) !important',
                 backgroundColor: 'rgba(0, 0, 0, 0.4)',
                 color: 'white',
                 borderRadius: '50%',
