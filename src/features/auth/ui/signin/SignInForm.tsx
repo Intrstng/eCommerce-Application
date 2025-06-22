@@ -90,8 +90,9 @@ export const SignInForm = () => {
                             )}
                         </FormControl>
                         <FormControl variant="filled" size="small" error={!!errors.password}>
-                            <InputLabel htmlFor="password"
-                                        color="success">Password</InputLabel>
+                            <InputLabel htmlFor="password" color="success">
+                                Password
+                            </InputLabel>
                             <FilledInput
                                 id="password"
                                 color="success"

@@ -191,8 +191,9 @@ export const SignUpForm = () => {
                                 </FormControl>
 
                                 <FormControl variant="filled" size="small" error={!!errors.password} fullWidth>
-                                    <InputLabel htmlFor="passwordSignUp"
-                                                color="success">Password</InputLabel>
+                                    <InputLabel htmlFor="passwordSignUp" color="success">
+                                        Password
+                                    </InputLabel>
                                     <FilledInput
                                         id="passwordSignUp"
                                         type={showPassword ? 'text' : 'password'}
@@ -222,8 +223,9 @@ export const SignUpForm = () => {
                                 </FormControl>
 
                                 <FormControl variant="filled" size="small" error={!!errors.confirmPassword} fullWidth>
-                                    <InputLabel htmlFor="confirmPassword"
-                                                color="success">Confirm password</InputLabel>
+                                    <InputLabel htmlFor="confirmPassword" color="success">
+                                        Confirm password
+                                    </InputLabel>
                                     <FilledInput
                                         id="confirmPassword"
                                         type={showConfirmPassword ? 'text' : 'password'}
@@ -396,9 +398,7 @@ export const SignUpForm = () => {
                                 </FormControl>
 
                                 <FormControl fullWidth variant="filled">
-                                    <InputLabel id="country-label"
-                                                color="success"
-                                                sx={STYLES.countryLabel}>
+                                    <InputLabel id="country-label" color="success" sx={STYLES.countryLabel}>
                                         Country
                                     </InputLabel>
                                     <Select
@@ -548,8 +548,7 @@ export const SignUpForm = () => {
                                         </FormControl>
 
                                         <FormControl fullWidth variant="filled">
-                                            <InputLabel id="country-label" sx={STYLES.countryLabel}
-                                                        color="success">
+                                            <InputLabel id="country-label" sx={STYLES.countryLabel} color="success">
                                                 Country
                                             </InputLabel>
                                             <Select

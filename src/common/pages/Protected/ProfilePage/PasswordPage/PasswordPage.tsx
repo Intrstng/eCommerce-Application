@@ -104,7 +104,9 @@ export const PasswordPage = () => {
                             <input type="text" style={{ display: 'none' }} autoComplete="username" />
 
                             <FormControl variant="filled" size="small" error={!!errors.currentPassword} fullWidth>
-                                <InputLabel htmlFor="currentPassword" color="success">Current password</InputLabel>
+                                <InputLabel htmlFor="currentPassword" color="success">
+                                    Current password
+                                </InputLabel>
                                 <FilledInput
                                     id="currentPassword"
                                     type={showCurrentPassword ? 'text' : 'password'}
@@ -133,7 +135,9 @@ export const PasswordPage = () => {
                             </FormControl>
 
                             <FormControl variant="filled" size="small" error={!!errors.newPassword} fullWidth>
-                                <InputLabel htmlFor="newPassword" color="success">Password</InputLabel>
+                                <InputLabel htmlFor="newPassword" color="success">
+                                    Password
+                                </InputLabel>
                                 <FilledInput
                                     id="newPassword"
                                     type={showPassword ? 'text' : 'password'}
@@ -163,7 +167,9 @@ export const PasswordPage = () => {
                             </FormControl>
 
                             <FormControl variant="filled" size="small" error={!!errors.confirmPassword} fullWidth>
-                                <InputLabel htmlFor="confirmPassword" color="success">Confirm password</InputLabel>
+                                <InputLabel htmlFor="confirmPassword" color="success">
+                                    Confirm password
+                                </InputLabel>
                                 <FilledInput
                                     id="confirmPassword"
                                     type={showConfirmPassword ? 'text' : 'password'}

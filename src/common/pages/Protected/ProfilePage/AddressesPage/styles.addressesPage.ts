@@ -24,7 +24,7 @@ export const STYLES = genStyles({
 
     addressControls: {
         mt: '1rem',
-        width: '92.2%',
+        width: '100%',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
@@ -80,7 +80,7 @@ export const STYLES = genStyles({
     },
     emptyAddressMessage: {
         m: 0,
-        width: '91.75%',
+        width: '99.75%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

@@ -74,6 +74,37 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
 
             <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
                 <FormGroup sx={STYLES.modalForm}>
+                    <FormControl variant="filled">
+                      <InputLabel id="country-label" color="success" sx={STYLES.countryLabel}>
+                        Country
+                      </InputLabel>
+                      <Select
+                          labelId="country-label"
+                          id="country"
+                          label="Country"
+                          sx={{
+                            ...STYLES.addressInput,
+                            ...STYLES.countryInput,
+                          }}
+                          error={!!errors.country}
+                          color="success"
+                          {...register('country')}
+                          size="small"
+                          value={selectedCountry ?? ''}
+                      >
+                        {COUNTRIES.map(country => (
+                            <MenuItem key={country.code} value={country.code}>
+                              {country.name}
+                            </MenuItem>
+                        ))}
+                      </Select>
+                      {errors.country && (
+                          <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
+                            {errors.country.message}
+                          </Typography>
+                      )}
+                    </FormControl>
+
                     <FormControl>
                         <TextField
                             label="Street"
@@ -105,6 +136,7 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
                             id="city"
                             sx={{
                                 ...STYLES.addressInput,
+                                ...STYLES.addressCityInput,
                                 ...STYLES.addressInputMedia,
                                 ...STYLES.autofillInput,
                             }}
@@ -118,39 +150,6 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
                         {errors.city && (
                             <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
                                 {errors.city.message}
-                            </Typography>
-                        )}
-                    </FormControl>
-
-                    <FormControl variant="filled">
-                        <InputLabel id="country-label"
-                                    color="success"
-                                    sx={STYLES.countryLabel}>
-                            Country
-                        </InputLabel>
-                        <Select
-                            labelId="country-label"
-                            id="country"
-                            label="Country"
-                            sx={{
-                                ...STYLES.addressInput,
-                                ...STYLES.countryInput,
-                            }}
-                            error={!!errors.country}
-                            color="success"
-                            {...register('country')}
-                            size="small"
-                            value={selectedCountry ?? ''}
-                        >
-                            {COUNTRIES.map(country => (
-                                <MenuItem key={country.code} value={country.code}>
-                                    {country.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                        {errors.country && (
-                            <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
-                                {errors.country.message}
                             </Typography>
                         )}
                     </FormControl>
@@ -200,6 +199,7 @@ export const AddAddressModalForm: FC<AddAddressModalFormProps> = ({ modalType, c
                                 control={
                                     <Checkbox
                                         size="small"
+                                        color="success"
                                         id="defaultShippingAddress"
                                         {...register('isDefaultShippingAddress')}
                                     />

@@ -54,7 +54,7 @@ export const STYLES = genStyles({
     autofillInput: {
         '& input:-webkit-autofill': {
             WebkitBoxShadow: '0 0 0px 1000px rgba(250, 237, 202, 0.4) inset',
-            WebkitTextFillColor: '#205781',
+            WebkitTextFillColor: '#000',
         },
     },
     formShipping: {

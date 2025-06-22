@@ -12,7 +12,7 @@ export const ToastifyNotification = () => {
             pauseOnFocusLoss
             draggable
             pauseOnHover
-            theme="colored"
+            theme="dark"
             transition={Bounce}
         />
     );

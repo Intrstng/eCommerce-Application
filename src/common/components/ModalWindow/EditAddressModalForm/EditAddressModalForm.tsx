@@ -67,6 +67,37 @@ export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, 
 
             <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
                 <FormGroup sx={STYLES.modalForm}>
+                    <FormControl variant="filled">
+                      <InputLabel id="country-label" color="success" sx={STYLES.countryLabel}>
+                        Country
+                      </InputLabel>
+                      <Select
+                          labelId="country-label"
+                          id="country"
+                          label="Country"
+                          sx={{
+                            ...STYLES.addressInput,
+                            ...STYLES.countryInput,
+                          }}
+                          error={!!errors.country}
+                          color="success"
+                          {...register('country')}
+                          size="small"
+                          value={selectedCountry ?? ''}
+                      >
+                        {COUNTRIES.map(country => (
+                            <MenuItem key={country.code} value={country.code}>
+                              {country.name}
+                            </MenuItem>
+                        ))}
+                      </Select>
+                      {errors.country && (
+                          <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
+                            {errors.country.message}
+                          </Typography>
+                      )}
+                    </FormControl>
+
                     <FormControl>
                         <TextField
                             label="Street"
@@ -98,6 +129,7 @@ export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, 
                             id="city"
                             sx={{
                                 ...STYLES.addressInput,
+                                ...STYLES.cityInput,
                                 ...STYLES.addressInputMedia,
                                 ...STYLES.autofillInput,
                             }}
@@ -111,39 +143,6 @@ export const EditAddressModalForm: FC<EddAddressModalFormProps> = ({ addressId, 
                         {errors.city && (
                             <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
                                 {errors.city.message}
-                            </Typography>
-                        )}
-                    </FormControl>
-
-                    <FormControl variant="filled">
-                        <InputLabel id="country-label"
-                                    color="success"
-                                    sx={STYLES.countryLabel}>
-                            Country
-                        </InputLabel>
-                        <Select
-                            labelId="country-label"
-                            id="country"
-                            label="Country"
-                            sx={{
-                                ...STYLES.addressInput,
-                                ...STYLES.countryInput,
-                            }}
-                            error={!!errors.country}
-                            color="success"
-                            {...register('country')}
-                            size="small"
-                            value={selectedCountry ?? ''}
-                        >
-                            {COUNTRIES.map(country => (
-                                <MenuItem key={country.code} value={country.code}>
-                                    {country.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                        {errors.country && (
-                            <Typography component="h2" variant="body2" sx={STYLES.errorForm}>
-                                {errors.country.message}
                             </Typography>
                         )}
                     </FormControl>

@@ -6,10 +6,18 @@ export const STYLES = genStyles({
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'nowrap',
+        justifyContent: 'space-between',
+        width: '93.3%',
         border: '1px solid #000',
         '@media (max-width: 560px)': {
             flexDirection: 'column',
-            width: '91%',
+            width: '93%',
+        },
+        '@media (max-width: 460px)': {
+            width: '91.5%',
+        },
+        '@media (max-width: 370px)': {
+            width: '90%',
         },
     },
     addressCard: {
@@ -25,7 +33,8 @@ export const STYLES = genStyles({
         justifyContent: 'flex-start',
     },
     addressCardInfoTitle: {
-        width: '6.5rem',
+        maxWidth: '6.5rem',
+        width: '100%',
         fontFamily: 'Jost, sans-serif',
         fontWeight: '400',
         fontSize: '1rem',
@@ -35,8 +44,9 @@ export const STYLES = genStyles({
     },
     addressCardItemInfo: {
         marginLeft: '0',
-        marginRight: '1rem',
-        width: '11.92rem',
+        marginRight: '0.5rem',
+        maxWidth: '11.92rem',
+        width: '100%',
         height: '2.5rem',
         display: 'block',
         fontFamily: 'Jost, sans-serif',
