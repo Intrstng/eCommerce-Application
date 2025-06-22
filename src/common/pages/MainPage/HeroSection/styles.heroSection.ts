@@ -15,7 +15,7 @@ export const STYLES = genStyles({
         border: '1px solid rgba(0, 0, 0, 0)',
         borderRadius: '4px',
         backgroundColor: 'rgb(22, 20, 18)',
-        transition: 'all 0.1s linear',
+        transition: 'all 0.3s ease-in-out',
         gap: '0.25rem',
         fontFamily: 'Jost, sans-serif',
         fontSize: '1rem',
