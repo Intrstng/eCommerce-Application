@@ -1,9 +1,9 @@
 name: eCommerce app deployment
 on:
   push:
-    branches: [ main, develop, release/login-registration-main, release/catalog-product-profile, release/basket-about_us ]
+    branches: [ main, develop, release/login-registration-main, release/catalog-product-profile ]
   pull_request:
-    branches: [ main, develop, release/login-registration-main, release/catalog-product-profile, release/basket-about_us ]
+    branches: [ main, develop, release/login-registration-main, release/catalog-product-profile ]
 env:
   VITE_CTP_PROJECT_KEY: ${{ secrets.ECOMMERCE_CTP_PROJECT_KEY }}
   VITE_CTP_CLIENT_ID: ${{ secrets.ECOMMERCE_CTP_CLIENT_ID }}

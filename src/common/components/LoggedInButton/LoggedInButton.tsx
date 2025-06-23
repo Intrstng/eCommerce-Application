@@ -33,14 +33,13 @@ export const LoggedInButton = () => {
                 open={open}
                 anchorEl={anchorElement}
                 onClose={handleClose}
-                disableScrollLock
                 anchorOrigin={{
                     vertical: 'bottom',
-                    horizontal: 'left',
+                    horizontal: 'right',
                 }}
                 transformOrigin={{
                     vertical: 'top',
-                    horizontal: 'left',
+                    horizontal: 'right',
                 }}
                 sx={STYLES.popover}
             >

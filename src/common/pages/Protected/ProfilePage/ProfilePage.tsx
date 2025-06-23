@@ -12,9 +12,9 @@ export const ProfilePage = () => {
     const firstName = currentUser?.firstName;
 
     return (
-        <Box sx={STYLES.profilePageContent}>
+        <>
             <BreadCrumbs />
-            <Box sx={STYLES.profileContent}>
+            <Box sx={STYLES.profilePageContent}>
                 <Typography variant="h2" component="h2" sx={STYLES.profileTitle}>
                     Welcome back{firstName ? `, ${firstName}` : ''}!
                 </Typography>
@@ -23,6 +23,6 @@ export const ProfilePage = () => {
                 </Typography>
             </Box>
             <Profile />
-        </Box>
+        </>
     );
 };

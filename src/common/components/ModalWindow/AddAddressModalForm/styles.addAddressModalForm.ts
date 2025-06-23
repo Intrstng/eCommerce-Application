@@ -23,24 +23,22 @@ export const STYLES = genStyles({
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
         gap: '1rem',
-        minWidth: '296px',
+        minWidth: '22.8rem',
         width: '100%',
-        '@media (max-width: 440px)': {
-            minWidth: 'unset',
-            width: '250px',
+        '@media (max-width: 690px)': {
+            minWidth: '20rem',
         },
     },
     addressInput: {
         mt: 0,
         mb: '0.25rem',
-        width: '296px',
     },
     addressInputMedia: {
         '@media (max-width: 950px)': {
             mb: 1,
         },
-        '@media (max-width: 440px)': {
-            width: '250px',
+        '@media (max-width: 690px)': {
+            mb: '1rem',
         },
     },
     autofillInput: {
@@ -51,13 +49,8 @@ export const STYLES = genStyles({
     },
     countryInput: {
         width: 'auto',
-        minWidth: '296px',
+        minWidth: '200px',
         maxWidth: '100%',
-        '@media (max-width: 440px)': {
-            minWidth: 'unset',
-            maxWidth: 'unset',
-            width: '250px',
-        },
     },
     countryLabel: {
         mt: '-0.15rem',
@@ -92,10 +85,6 @@ export const STYLES = genStyles({
         },
         mt: 0,
         mb: 0,
-        '@media (max-width: 440px)': {
-            fontSize: '0.7rem',
-            letterSpacing: 'unset',
-        },
     },
     defaultBillingAddressCheckbox: {
         '& .MuiFormControlLabel-label': {
@@ -106,10 +95,6 @@ export const STYLES = genStyles({
             color: '#000',
         },
         mb: 0,
-        '@media (max-width: 440px)': {
-            fontSize: '0.7rem',
-            letterSpacing: 'unset',
-        },
     },
     modalButton: {
         width: '100%',
@@ -133,12 +118,8 @@ export const STYLES = genStyles({
         flexDirection: 'column',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
-        minWidth: '296px',
+        width: '100%',
         gap: '0.6rem',
-        '@media (max-width: 440px)': {
-            minWidth: 'unset',
-            width: '250px',
-        },
     },
     modalCancelButton: {
         mt: 0,

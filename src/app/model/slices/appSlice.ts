@@ -7,7 +7,6 @@ const initialState: AppInitialState = {
     status: Status.IDLE,
     error: null,
     isInitialized: false,
-    isLoggingOut: false,
 };
 
 export const appSlice = createSlice({
@@ -22,9 +21,6 @@ export const appSlice = createSlice({
         },
         setAppInitialized(state, action: PayloadAction<{ isInitialized: boolean }>) {
             state.isInitialized = action.payload.isInitialized;
-        },
-        setIsLoggingOut(state, action: PayloadAction<{ isLoggingOut: boolean }>) {
-            state.isLoggingOut = action.payload.isLoggingOut;
         },
     },
 });

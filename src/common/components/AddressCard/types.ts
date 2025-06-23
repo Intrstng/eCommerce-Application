@@ -1,5 +1,5 @@
 import type { Address } from '@commercetools/platform-sdk';
-import type { AddressModalFormData } from '../../validations/addressModalFormValidation.schema';
+import type { AddressModalFormData } from '../../validations/addressModalFormValidation';
 import type { AddressModalType, AddressStatus } from '../../enums';
 
 export type AddressCardProps = {

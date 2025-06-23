@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { COUNTRIES, ZIP_CODE_PATTERNS } from './validation-data/validation-data';
 
-export interface SignUpFormData {
+export type SignUpFormData = {
     email: string;
     password: string;
 
@@ -25,7 +25,7 @@ export interface SignUpFormData {
     isDefaultBillingAddress?: boolean;
 
     isBillingSameAsShipping: boolean;
-}
+};
 
 export const validateSignUpSchema = () => {
     return yup.object().shape({

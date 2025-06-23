@@ -1,5 +1,7 @@
 export const COUNTRIES: Country[] = [
+    // { code: 'AL', name: 'Albania' },
     { code: 'AT', name: 'Austria' },
+    // { code: 'BA', name: 'Bosnia and Herzegovina' },
     { code: 'BE', name: 'Belgium' },
     { code: 'BG', name: 'Bulgaria' },
     { code: 'BY', name: 'Belarus' },
@@ -19,15 +21,20 @@ export const COUNTRIES: Country[] = [
     { code: 'LT', name: 'Lithuania' },
     { code: 'LU', name: 'Luxembourg' },
     { code: 'LV', name: 'Latvia' },
+    // { code: 'MD', name: 'Moldova' },
+    // { code: 'ME', name: 'Montenegro' },
+    // { code: 'MK', name: 'North Macedonia' },
     { code: 'MT', name: 'Malta' },
     { code: 'NL', name: 'Netherlands' },
     { code: 'PL', name: 'Poland' },
     { code: 'PT', name: 'Portugal' },
     { code: 'RO', name: 'Romania' },
+    // { code: 'RS', name: 'Serbia' },
     { code: 'RU', name: 'Russia' },
     { code: 'SE', name: 'Sweden' },
     { code: 'SI', name: 'Slovenia' },
     { code: 'SK', name: 'Slovakia' },
+    // { code: 'UA', name: 'Ukraine' },
 ];
 
 export const ZIP_CODE_PATTERNS: Record<string, { pattern: RegExp; example: string }> = {
@@ -58,6 +65,13 @@ export const ZIP_CODE_PATTERNS: Record<string, { pattern: RegExp; example: strin
     SI: { pattern: /^\d{4}$/, example: '1000' },
     ES: { pattern: /^\d{5}$/, example: '28001' },
     SE: { pattern: /^\d{3} ?\d{2}$/, example: '111 21' },
+    // BA: { pattern: /^\d{5}$/, example: '71000' },
+    // AL: { pattern: /^\d{4}$/, example: '1001' },
+    // MD: { pattern: /^\d{4}$/, example: '2001' },
+    // ME: { pattern: /^\d{5}$/, example: '81000' },
+    // MK: { pattern: /^\d{4}$/, example: '1000' },
+    // RS: { pattern: /^\d{6}$/, example: '11000' },
+    // UA: { pattern: /^\d{5}$/, example: '01001' },
     BY: { pattern: /^\d{6}$/, example: '220000' },
     RU: { pattern: /^\d{6}$/, example: '101000' },
 };

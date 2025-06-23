@@ -6,9 +6,9 @@ import type { AppThunk } from 'app/store';
 import { appActions } from 'app/model/slices/appSlice';
 import { Status } from 'app/model/types';
 import { StatusCode } from '../../../../../common/enums';
+import type { UpdateCustomerActions } from '../../../api/profileApi';
 import { profileApi } from '../../../api/profileApi';
 import { successNotifyMessage } from '../../../../../common/utils/notify-message';
-import type { UpdateCustomerActions } from '../../../api/profileApi.interfaces';
 
 export const initialState: ProfileState = {
     customer: null,

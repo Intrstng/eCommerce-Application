@@ -7,6 +7,7 @@ export const STYLES = genStyles({
         cursor: 'pointer',
         position: 'relative',
         overflow: 'hidden',
+        //height: "30rem",
         textDecoration: 'none',
         '&:hover': {
             '& .cardImage': {
@@ -26,9 +27,6 @@ export const STYLES = genStyles({
     link: {
         textDecoration: 'none',
     },
-    cardImageContainer: {
-        position: 'relative',
-    },
     cardImage: {
         overflow: 'hidden',
         display: 'inline-block',
@@ -41,13 +39,8 @@ export const STYLES = genStyles({
 
         transition: 'transform 0.8s ease',
     },
-    cardImageLoading: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     cardContent: {
-        padding: '0 !important',
+        padding: '0',
         marginTop: '0.625rem',
     },
     cardFont: {
@@ -76,20 +69,7 @@ export const STYLES = genStyles({
         whiteSpace: 'unset',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
+        maxWidth: '40ch',
     },
-    specialOfferBadge: {
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        backgroundColor: '#000000',
-        color: 'white',
-        padding: '0.25rem 0.5rem',
-        borderRadius: '0 0 0 4px',
-        zIndex: 1,
-    },
-    specialOfferText: {
-        fontSize: '0.75rem',
-        textTransform: 'uppercase',
-        fontFamily: 'Jost, sans-serif',
-    },
+    cardPrice: {},
 });

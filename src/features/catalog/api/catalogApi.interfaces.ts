@@ -43,10 +43,8 @@ export interface CatalogProduct {
     prices: ProductPrice[];
     images: string[];
     variants: Variant[];
-    isToCartLoading: boolean;
-    totalCount?: number;
-    productType?: string;
-    productTypeId?: string;
+    isInCart: boolean;
+    isInFavourites: boolean;
 }
 
 export interface CatalogCategory {

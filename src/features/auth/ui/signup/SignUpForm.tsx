@@ -162,7 +162,7 @@ export const SignUpForm = () => {
                 <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
                     <FormGroup>
                         <Box>
-                            <Typography variant="subtitle1" component="h6" sx={STYLES.formLabel}>
+                            <Typography variant="subtitle1" component="h6">
                                 Email and Password
                             </Typography>
                             <Box sx={STYLES.formPass}>
@@ -248,7 +248,7 @@ export const SignUpForm = () => {
                         </Box>
 
                         <Box>
-                            <Typography variant="subtitle1" component="h6" sx={STYLES.formLabel}>
+                            <Typography variant="subtitle1" component="h6">
                                 Personal information
                             </Typography>
 
@@ -331,7 +331,7 @@ export const SignUpForm = () => {
                         </Box>
 
                         <Box>
-                            <Typography variant="subtitle1" component="h6" sx={STYLES.formLabel}>
+                            <Typography variant="subtitle1" component="h6">
                                 Shipping address
                             </Typography>
                             <Box sx={STYLES.formShipping}>
@@ -475,7 +475,7 @@ export const SignUpForm = () => {
                                 </Typography>
                             ) : (
                                 <Box sx={STYLES.containerBilling}>
-                                    <Typography variant="subtitle1" component="h6" sx={STYLES.formLabel}>
+                                    <Typography variant="subtitle1" component="h6">
                                         Billing address
                                     </Typography>
                                     <Box sx={STYLES.formBilling}>

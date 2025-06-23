@@ -1,9 +1,13 @@
-import type { FC } from 'react';
 import S from './NoResults.module.scss';
 import Box from '@mui/material/Box';
-import type { NoResultsProps } from './interfaces';
 
-export const NoResults: FC<NoResultsProps> = ({ hasActiveFilters, onClearFilters }) => (
+export const NoResults = ({
+    hasActiveFilters,
+    onClearFilters,
+}: {
+    hasActiveFilters: boolean;
+    onClearFilters: () => void;
+}) => (
     <Box className={S.noResults}>
         {hasActiveFilters
             ? 'No products found matching your criteria. Try adjusting your filters.'

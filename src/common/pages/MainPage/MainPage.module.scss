@@ -1,3 +1,6 @@
+.mainContent {
+}
+
 .mainNav {
     display: flex;
     flex-direction: row;
@@ -5,6 +8,7 @@
     align-items: flex-start;
     justify-content: center;
 
+    width: 100%;
     max-width: 45rem;
     border: 1px solid #000;
 
@@ -16,9 +20,6 @@
     @media (width <= 950px) {
         flex-direction: column;
     }
-}
-
-.mainContent {
 }
 
 .mainArticles {

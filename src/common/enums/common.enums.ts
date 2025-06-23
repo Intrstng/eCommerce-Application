@@ -33,15 +33,14 @@ export enum PATH {
     MAIN = '/main',
     ABOUT = '/about',
     CART = '/cart',
+    FAVORITES = '/favorites',
 
     CATALOG = '/catalog',
 
-    PRODUCT_MAIN = '/product',
     PRODUCT = '/product/:id',
 
     ARTICLES = '/articles',
     // ARTICLE = `/articles/:id`,
-    AUTHOR = '/author',
 
     SIGNIN = '/signin',
     SIGNUP = '/signup',
@@ -80,11 +79,6 @@ export enum CATEGORIES {
     RINGS = 'rings',
     BROOCHES = 'brooches',
     OTHER = 'other',
-    PRODUCTS = 'all products',
-    ABOUT = 'about us',
-    ACCOUNT = 'account',
-    LOGIN = 'log in',
-    LOGOUT = 'logout',
 }
 
 export enum AddressModalType {

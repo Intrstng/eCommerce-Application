@@ -14,15 +14,13 @@ Developed by team **LEAN_CODE** 👩‍💻 👨‍💻 👨‍💻:
 
 ### Key Pages:
 
-*   Login and Registration 🖥️
+*   Registration and Registration 🖥️
 *   Main Page 🏠
 *   Catalog Product Page 📋
 *   Detailed Product Page 🔎
 *   User Profile Page 👤
 *   Basket Page 🛒
-*   Articles Page 📝
 *   About Us Page 🙋‍♂️🙋‍♀️
-*   About Author Page 🎨👩‍🎨
 
 ## Technology Stack 💻📚
 
@@ -43,11 +41,12 @@ Developed by team **LEAN_CODE** 👩‍💻 👨‍💻 👨‍💻:
 *   Material UI
 *   SCSS
 *   Toastify
-*   Swiper
+*   i18next
+*   ... (Add other technologies here)
 
 ## Deploy 🌐
 
-*   [Deploy link](https://ecommerce-lean-code.netlify.app/)
+*   [Deploy link](https://www.netlify.com/)
 
 ## Getting Started 🚀
 
@@ -76,8 +75,8 @@ Follow these steps to run the application locally:
     ```bash
     npm install
     ```
-
-    If you have problems with running the script, use the following command in the CLI:
+    
+    or use command in CLI:
 
     ```bash
     npm install --legacy-peer-deps

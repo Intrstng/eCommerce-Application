@@ -86,7 +86,7 @@
     object-fit: cover;
 }
 
-@media screen and (width <= 1120px) {
+@media screen and (width <= 1024px) {
     .heroSection {
         height: 500px;
     }
@@ -126,5 +126,8 @@
 
     .heroButtons {
         gap: initial;
+    }
+
+    .heroSearchCatalog {
     }
 }

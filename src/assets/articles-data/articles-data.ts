@@ -1,53 +1,39 @@
-import type { ArticleItem } from '../../common/components/ArticleCard/interfaces';
+import type { ArticleItem } from '../../common/components/ArticleCard/types';
+import { v4 } from 'uuid';
+import barreteImage from '../articles/barrete.png';
 import ringImage from '../articles/ring.png';
 import broochImage from '../articles/brooch.png';
 import earringImage from '../articles/earring.png';
-import careImage from '../articles/care.png';
 
 export const articlesContent: ArticleItem[] = [
     {
-        id: 'earring',
-        title: 'Elegant Adornments – Earrings',
-        summary: 'Earrings are more than accessories — they are a refined expression of style and individuality.',
-        text: 'From minimalist studs to statement dangles, earrings highlight facial features, complete your look, and boost confidence. Crafted from precious metals and adorned with gemstones, pearls, or crystals, they reflect your unique taste. Whether for everyday elegance or a special occasion, earrings tell your story without words.',
-        picture: earringImage,
+        id: v4(),
+        title: 'AboutPage #1 - Barrete',
+        summary: 'Barrette jewelry combines the functionality of a hair clip with the elegance of jewelry...',
+        text: 'Barrette jewelry combines the functionality of a hair clip with the elegance of jewelry. These decorative hair accessories come in various styles, from simple and understated to ornate and embellished with gems, beads, and intricate designs. They offer a stylish way to secure hair while adding a touch of sparkle and personality to any hairstyle.',
+        picture: barreteImage,
     },
     {
-        id: 'ring',
-        title: 'Timeless Elegance – Rings',
-        summary: 'A ring is more than jewelry — it’s a symbol, a story, and a reflection of who you are.',
-        text: 'Worn to mark life’s most meaningful moments — from declarations of love to personal milestones — rings carry deep significance. Whether minimal or ornate, with diamonds or detailed engravings, each ring tells a unique story. Crafted from gold, platinum, silver, and more, rings elevate style and express individuality. Slip on a ring, and wear your story with grace.',
+        id: v4(),
+        title: 'AboutPage #2 - Ring',
+        summary: 'Ring jewelry is a circular band worn on a finger, serving as both adornment and symbol...',
+        text: 'Ring jewelry is a circular band worn on a finger, serving as both adornment and symbol. Rings come in a vast array of materials, from precious metals like gold and platinum to more affordable options like silver and stainless steel. They can be simple bands or elaborately decorated with gemstones, engravings, and intricate designs. Rings often hold significant meaning, representing commitments like marriage or serving as symbols of status, membership, or personal expression.',
         picture: ringImage,
     },
     {
-        id: 'brooch',
-        title: 'Charming Accents – Brooches',
-        summary: 'A brooch is a refined accessory that can turn any outfit into a statement of elegance.',
-        text: 'More than just a clasp, the brooch is a piece of wearable art. Whether vintage or modern, minimalist or ornate, each brooch tells its own story. Pinned to a dress, jacket, or scarf, it brings a touch of charm, sophistication, and individuality to your look. Crafted from fine metals and adorned with pearls, gemstones, or intricate details — brooches allow you to express yourself through timeless design.',
+        id: v4(),
+        title: 'AboutPage #3 - Brooch',
+        summary:
+            'Brooch jewelry is a decorative pin or clasp, typically featuring a design or embellishment, that is fastened to clothing...',
+        text: 'Brooch jewelry is a decorative pin or clasp, typically featuring a design or embellishment, that is fastened to clothing. Unlike other jewelry worn on the body, brooches are attached to garments, serving as both a functional fastener and a statement piece. They come in a wide variety of styles, materials, and sizes, ranging from simple and elegant to ornate and whimsical, and can be used to add personality, flair, or a touch of vintage charm to any outfit.',
         picture: broochImage,
     },
     {
-        id: 'care-guide',
-        title: 'Care Guide for Handmade Jewelry',
-        summary: 'Learn how to keep your handmade metal jewelry shining and beautiful for years to come.',
-        text: `Handmade jewelry is more than just an accessory — it's a piece of art crafted with love and passion. Metal jewelry is especially cherished for its shine, strength, and durability, but it requires proper care to maintain its beauty over time.
-
-<br/><br/><strong>Avoid Contact with Water</strong><br/><br/> 
-Frequent exposure to water can cause corrosion or tarnishing, especially with certain metals. Remove your jewelry before showering, swimming, or doing dishes.
-
-<br/><br/><strong>Beware of Chemicals</strong><br/><br/> 
-Cleaning agents, perfumes, cosmetics, and even sweat can react with metal and cause damage. Always apply perfumes and lotions before putting on jewelry, and take it off before using household cleaners.
-
-<br/><br/><strong>Store in a Dry Place</strong><br/><br/>
-Humidity is harmful to metal. Keep your pieces in a dry jewelry box or pouch. You can also add silica gel packets to absorb moisture.
-
-<br/><br/><strong>Regular Cleaning</strong><br/><br/>
-Gently wipe your jewelry with a soft cloth to remove dust and oils. For deeper cleaning or polishing, consider professional care — especially for delicate or precious items.
-
-<br/><br/><strong>Handle with Care</strong><br/><br/> 
-Handmade pieces can be more delicate than mass-produced items. Avoid strong impacts or pulling on chains and treat each piece with care.
-
-<br/><br/>With proper care, your handmade jewelry will retain its beauty and continue to tell its story for years to come.`,
-        picture: careImage,
+        id: v4(),
+        title: 'AboutPage #4 - Earring',
+        summary:
+            'Earring jewelry is designed to adorn the ear, typically attaching through a piercing in the earlobe or cartilage...',
+        text: "They come in diverse styles, including studs, hoops, dangles, and cuffs, and are crafted from various materials like precious metals, gemstones, beads, and more. Earrings serve as a versatile form of self-expression, adding sparkle, color, or personality to one's appearance and complementing various outfits and occasions.",
+        picture: earringImage,
     },
 ];

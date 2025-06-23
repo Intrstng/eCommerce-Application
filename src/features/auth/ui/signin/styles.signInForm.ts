@@ -7,17 +7,9 @@ export const STYLES = genStyles({
         alignItems: 'center',
         flexDirection: 'column',
     },
-    title: {
-        fontFamily: 'Cormorant, serif',
-        color: '#000',
-        fontWeight: '500',
-        fontSize: '2.5rem',
-        margin: 0,
-    },
     logo: {
         m: 1,
-        mb: 2,
-        backgroundColor: '#65635f',
+        backgroundColor: '#d20000',
     },
     emailInput: {
         mb: 4,
@@ -29,22 +21,6 @@ export const STYLES = genStyles({
     button: {
         mt: 4.5,
         mb: 1,
-        fontSize: '0.875rem',
-        fontWeight: '400',
-        fontFamily: 'Jost, sans-serif',
-        letterSpacing: '1px',
-        color: '#fff',
-        border: '1px solid #65635f',
-        borderRadius: '4px',
-        backgroundColor: '#161412',
-        transition: '0.3s all ease-in-out',
-        boxShadow: 'none',
-        '&:hover': {
-            backgroundColor: '#65635f',
-            border: '1px solid #161412',
-            color: '#fff',
-            boxShadow: 'none',
-        },
     },
     link: {
         textAlign: 'center',

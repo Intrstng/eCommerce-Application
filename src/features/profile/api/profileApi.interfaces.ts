@@ -1,6 +1,3 @@
-import type { MyCustomerUpdateAction } from '@commercetools/platform-sdk';
-
-export interface UpdateCustomerActions {
-    version: number;
-    actions: MyCustomerUpdateAction[];
+export interface SomeInterface {
+    someKey: unknown;
 }

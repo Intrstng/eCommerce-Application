@@ -4,17 +4,16 @@
     align-items: center;
     justify-content: space-between;
 
-    width: 9rem;
-    margin: 6rem auto 0;
+    width: 9rem; // Must be the same on signin/signup pages
+    margin: 4rem auto 0;
 }
 
 .signInRegisterLink {
     position: relative;
 
-    width: 4.5rem;
+    width: 2.5rem; // Must be the same on signin/signup pages
 
-    color: #65635f;
-    text-align: center;
+    color: #5488c0;
     text-decoration: none;
 
     transition:
@@ -31,7 +30,7 @@
         width: 0;
         height: 2px;
 
-        background-color: #2e5077;
+        background-color: #2973b2;
 
         transition:
             width 0.3s ease,
@@ -39,28 +38,27 @@
     }
 
     &:hover {
-        color: #2e5077;
+        color: #2973b2;
 
         &::after {
-            left: 15px;
-            width: 58%;
+            left: 0;
+            width: 100%;
         }
     }
 
     &:active {
-        color: #000;
+        color: #2e5077;
 
         &::after {
-            background-color: #000;
+            background-color: #2e5077;
         }
     }
 }
 
 .signUpRegisterLink {
-    width: 4.5rem;
+    width: 4.5rem; // Must be the same on signin/signup pages
     font-weight: bold;
     color: #024caa;
-    text-align: end;
 }
 
 .linksBorder {

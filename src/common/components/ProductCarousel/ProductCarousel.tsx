@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { STYLES } from './styles.productCarousel';
 import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
@@ -7,24 +7,11 @@ import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Carousel from 'react-material-ui-carousel';
-import type { ProductCarouselProps } from './interfaces';
+import type { ProductCarouselProps } from './types';
 
 export const ProductCarousel: FC<ProductCarouselProps> = ({ images }) => {
     const [openImage, setOpenImage] = useState(false);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-
-    useEffect(() => {
-        const handleResize = () => {
-            if (openImage) {
-                setOpenImage(false);
-            }
-        };
-
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [openImage]);
 
     const handleImageClick = (index: number) => {
         setSelectedImageIndex(index);

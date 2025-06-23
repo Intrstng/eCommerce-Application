@@ -31,6 +31,7 @@ export const CatalogCardSkeleton = () => {
                     className="cardPrice"
                     sx={{
                         ...STYLES.cardFont,
+                        ...STYLES.cardPrice,
                     }}
                 >
                     <Skeleton width="40%" height={25} />

@@ -13,7 +13,7 @@ export const STYLES = genStyles({
         my: '0.3rem',
     },
     popover: {
-        mt: '0.45rem',
+        mt: '0.25rem',
     },
     popoverLinks: {
         padding: '0.75rem',

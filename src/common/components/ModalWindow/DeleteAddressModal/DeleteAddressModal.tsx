@@ -4,7 +4,12 @@ import Box from '@mui/material/Box';
 import type { FC } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import type { DeleteAddressModalProps } from './interfaces';
+
+export type DeleteAddressModalProps = {
+    isOpen: boolean;
+    modalCancelDeleteCB: () => void;
+    modalConfirmDeleteCB: () => void;
+};
 
 export const DeleteAddressModal: FC<DeleteAddressModalProps> = ({
     isOpen,
@@ -18,7 +23,7 @@ export const DeleteAddressModal: FC<DeleteAddressModalProps> = ({
             </Typography>
             <Typography sx={STYLES.deleteDialogSubtitle}>Are you sure you want to delete this address?</Typography>
             <Box sx={STYLES.deleteDialogControls}>
-                <Button variant="outlined" onClick={modalCancelDeleteCB} sx={STYLES.cancelDialogButton}>
+                <Button variant="outlined" onClick={modalCancelDeleteCB} sx={STYLES.deleteDialogButton}>
                     Cancel
                 </Button>
                 <Button variant="contained" color="error" onClick={modalConfirmDeleteCB} sx={STYLES.deleteDialogButton}>

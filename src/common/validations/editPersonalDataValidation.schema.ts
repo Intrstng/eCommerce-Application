@@ -1,11 +1,11 @@
 import * as yup from 'yup';
 
-export interface EditPersonalData {
+export type EditPersonalData = {
     email: string;
     firstName: string;
     lastName: string;
     birthDate: string;
-}
+};
 
 export const validateEditPersonalDataSchema = () => {
     return yup.object().shape({

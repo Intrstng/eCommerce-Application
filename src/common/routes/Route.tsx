@@ -11,6 +11,7 @@ import { ArticlesPage } from '../pages/ArticlesPage/ArticlesPage';
 import { Article } from '../pages/Article/Article';
 import { AboutPage } from '../pages/AboutPage/AboutPage';
 import { CartPage } from '../pages/CartPage/CartPage';
+import { FavoritesPage } from '../pages/FavoritesPage/FavoritesPage';
 import { CatalogPage } from '../pages/CatalogPage/CatalogPage';
 import type React from 'react';
 import { useAppSelector } from '../hooks';
@@ -19,7 +20,6 @@ import { SignInPage } from '../pages/SignInPage/SignInPage';
 import { ProductPage } from '../pages/ProductPage/ProductPage';
 import { PasswordPage } from '../pages/Protected/ProfilePage/PasswordPage/PasswordPage';
 import { PersonalDataPage } from '../pages/Protected/ProfilePage/PersonalDataPage/PersonalDataPage';
-import { AuthorPage } from '../pages/AuthorPage/AuthorPage';
 
 const PrivateRoutes = () => {
     const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
@@ -57,12 +57,12 @@ const publicRoutes: RouteObject[] = [
         element: <AboutPage />,
     },
     {
-        path: PATH.AUTHOR,
-        element: <AuthorPage />,
-    },
-    {
         path: PATH.CART,
         element: <CartPage />,
+    },
+    {
+        path: PATH.FAVORITES,
+        element: <FavoritesPage />,
     },
     {
         path: PATH.ERROR,
