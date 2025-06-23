@@ -44,9 +44,6 @@ export const STYLES = genStyles({
     },
     addressCardItemInfo: {
         marginLeft: '0',
-        // marginRight: '0.5rem',
-        // maxWidth: '11.92rem',
-        // width: '100%',
         width: '190px',
         height: '2.5rem',
         display: 'block',
