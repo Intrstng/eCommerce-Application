@@ -30,7 +30,7 @@ export const Profile = () => {
             >
                 Address
             </NavLink>
-            <Divider sx={STYLES.devider} />
+            <Divider sx={STYLES.divider} />
             {isProfilePage ? (
                 <Typography variant="h3" component="h3" sx={STYLES.profileSubtitle}>
                     Please select a profile section...

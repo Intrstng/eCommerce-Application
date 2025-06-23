@@ -21,39 +21,36 @@
 .signUpLoginLink {
     position: relative;
 
-    width: 4.5rem;
+    width: 5rem;
 
     color: #65635f;
     text-align: end;
     text-decoration: none;
+    letter-spacing: 0.7px;
 
-    transition:
-        color 0.3s ease,
-        text-decoration-color 0.3s ease;
+    transition: color 0.3s ease;
 
     &::after {
         content: '';
 
         position: absolute;
         bottom: -2px;
-        left: 50%;
+        left: 56%;
+        transform: translateX(-50%);
 
         width: 0;
         height: 2px;
 
         background-color: #2e5077;
 
-        transition:
-            width 0.3s ease,
-            left 0.3s ease;
+        transition: width 0.3s ease;
     }
 
     &:hover {
         color: #2e5077;
 
         &::after {
-            left: 14px;
-            width: 82%;
+            width: 77%;
         }
     }
 
@@ -61,6 +58,7 @@
         color: #000;
 
         &::after {
+            width: 89%;
             background-color: #000;
         }
     }

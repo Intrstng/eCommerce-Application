@@ -116,6 +116,7 @@ export const PersonalEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }
                         size="small"
                         id="emailProfile"
                         error={!!errors.email}
+                        color="success"
                         {...register('email')}
                         autoComplete="email"
                         sx={STYLES.personalItemInfo}
@@ -140,6 +141,7 @@ export const PersonalEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }
                         size="small"
                         id="firstNameProfile"
                         error={!!errors.firstName}
+                        color="success"
                         {...register('firstName')}
                         autoComplete="given-name"
                         sx={STYLES.personalItemInfo}
@@ -170,6 +172,7 @@ export const PersonalEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }
                         size="small"
                         id="lastNameProfile"
                         error={!!errors.lastName}
+                        color="success"
                         {...register('lastName')}
                         autoComplete="given-name"
                         sx={STYLES.personalItemInfo}
@@ -200,6 +203,7 @@ export const PersonalEditableData: FC<PersonalDataProps> = ({ toggleIsEditable }
                         size="small"
                         id="birthDateProfile"
                         error={!!errors.birthDate}
+                        color="success"
                         {...register('birthDate')}
                         sx={{
                             ...STYLES.personalItemInfo,
