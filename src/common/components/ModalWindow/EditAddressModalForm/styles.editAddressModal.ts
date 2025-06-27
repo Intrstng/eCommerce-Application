@@ -2,7 +2,7 @@ import { genStyles } from '../../../utils/generate-styles';
 
 export const STYLES = genStyles({
     addressModal: {
-        padding: '1.25rem',
+        padding: '1.5rem',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -35,10 +35,10 @@ export const STYLES = genStyles({
         mb: '0.25rem',
         width: '296px',
     },
+    cityInput: {
+        mb: 2,
+    },
     addressInputMedia: {
-        '@media (max-width: 950px)': {
-            mb: 1,
-        },
         '@media (max-width: 440px)': {
             width: '250px',
         },
@@ -46,7 +46,7 @@ export const STYLES = genStyles({
     autofillInput: {
         '& input:-webkit-autofill': {
             WebkitBoxShadow: '0 0 0px 1000px rgba(250, 237, 202, 0.4) inset',
-            WebkitTextFillColor: '#205781',
+            WebkitTextFillColor: '#000',
         },
     },
     countryInput: {

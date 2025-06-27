@@ -71,6 +71,7 @@ export const SignInForm = () => {
                                 margin="normal"
                                 fullWidth
                                 id="email"
+                                color="success"
                                 error={!!errors.email}
                                 variant="filled"
                                 sx={STYLES.emailInput}
@@ -89,9 +90,12 @@ export const SignInForm = () => {
                             )}
                         </FormControl>
                         <FormControl variant="filled" size="small" error={!!errors.password}>
-                            <InputLabel htmlFor="password">Password</InputLabel>
+                            <InputLabel htmlFor="password" color="success">
+                                Password
+                            </InputLabel>
                             <FilledInput
                                 id="password"
+                                color="success"
                                 type={showPassword ? 'text' : 'password'}
                                 {...register('password')}
                                 autoComplete="current-password"

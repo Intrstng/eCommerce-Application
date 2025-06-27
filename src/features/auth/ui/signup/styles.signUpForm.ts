@@ -54,7 +54,7 @@ export const STYLES = genStyles({
     autofillInput: {
         '& input:-webkit-autofill': {
             WebkitBoxShadow: '0 0 0px 1000px rgba(250, 237, 202, 0.4) inset',
-            WebkitTextFillColor: '#205781',
+            WebkitTextFillColor: '#000',
         },
     },
     formShipping: {
@@ -182,7 +182,7 @@ export const STYLES = genStyles({
     defaultShippingAddressCheckbox: {
         mt: 0,
         mb: 0,
-        color: '#295F98',
+        color: 'rgb(2, 76, 170)',
     },
     shippingAsBillingCheckbox: {
         mt: -1,
@@ -191,7 +191,7 @@ export const STYLES = genStyles({
     },
     defaultBillingAddressCheckbox: {
         mb: 2,
-        color: '#295F98',
+        color: 'rgb(2, 76, 170)',
     },
     shippingAsBillingMessage: {
         color: '#36a639',

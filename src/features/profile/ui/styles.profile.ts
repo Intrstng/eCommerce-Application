@@ -2,10 +2,10 @@ import { genStyles } from '../../../common/utils/generate-styles';
 
 export const STYLES = genStyles({
     profileContent: {
-        maxWidth: '35rem',
-        minWidth: '18rem',
+        maxWidth: '32.125rem',
+        minWidth: '19rem',
     },
-    devider: {
+    divider: {
         mb: '1.875rem',
     },
     profileSubtitle: {
