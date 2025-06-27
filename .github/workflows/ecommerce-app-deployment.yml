@@ -1,0 +1,116 @@
+name: eCommerce app deployment
+on:
+  push:
+    branches: [ main, develop, release/login-registration-main, release/catalog-product-profile, release/basket-about_us ]
+  pull_request:
+    branches: [ main, develop, release/login-registration-main, release/catalog-product-profile, release/basket-about_us ]
+env:
+  VITE_CTP_PROJECT_KEY: ${{ secrets.ECOMMERCE_CTP_PROJECT_KEY }}
+  VITE_CTP_CLIENT_ID: ${{ secrets.ECOMMERCE_CTP_CLIENT_ID }}
+  VITE_CTP_CLIENT_SECRET: ${{ secrets.ECOMMERCE_CTP_CLIENT_SECRET }}
+  VITE_CTP_API_URL: ${{ secrets.ECOMMERCE_CTP_API_URL }}
+  VITE_CTP_AUTH_URL: ${{ secrets.ECOMMERCE_CTP_AUTH_URL }}
+  VITE_CTP_SCOPES: ${{ secrets.ECOMMERCE_CTP_SCOPES }}
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 20.x ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Starting Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node-version }}-
+      - name: install modules
+        run: npm install --legacy-peer-deps
+      - name: unit test
+        run: npm run coverage
+        continue-on-error: false
+
+      - name: Upload coverage reports to artifact storage
+        uses: actions/upload-artifact@v4
+        with:
+          name: vitest-coverage-artifact
+          path: coverage
+          if-no-files-found: warn
+          retention-days: 15
+          include-hidden-files: true
+
+  lint-format:
+    runs-on: ubuntu-latest
+    needs: test
+    strategy:
+      matrix:
+        node-version: [ 20.x ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Starting Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node-version }}-
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: lint code
+        run: npm run lint:fix
+
+      - name: format code
+        run: npm run format:fix
+
+      - name: format stylelint code
+        run: npm run stylelint:fix
+  deploy:
+    runs-on: ubuntu-latest
+    needs: lint-format
+    strategy:
+      matrix:
+        node-version: [ 20.x ]
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+
+      - name: Starting Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node-version }}-
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build project
+        run: npm run build
+
+      - name: Verify build output
+        run: ls -la dist
+
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
+      - name: Deploy to Netlify
+        run: netlify deploy --dir=dist --prod --site=${{ secrets.NETLIFY_SITE_ID }}
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TEAM_API_KEY }}

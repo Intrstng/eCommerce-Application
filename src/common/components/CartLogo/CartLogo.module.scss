@@ -1,0 +1,14 @@
+.cartLogoWrapper {
+    position: relative;
+
+    .cartLogo {
+        cursor: pointer;
+        display: flex;
+        width: auto;
+        transition: transform 0.3s ease;
+
+        &:hover {
+            transform: scale(1.03);
+        }
+    }
+}

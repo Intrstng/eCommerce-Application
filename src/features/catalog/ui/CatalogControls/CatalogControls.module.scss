@@ -1,0 +1,223 @@
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    margin: 0.75rem auto 2rem;
+
+    @media (width <= 850px) {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+    }
+}
+
+.filterButton {
+    cursor: pointer;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    height: 40px;
+    border: 1px solid #000;
+    border-radius: 4px;
+
+    font-size: 4rem;
+    color: #161412;
+
+    background: inherit;
+    box-shadow: unset;
+
+    transition: 0.3s all ease-in-out;
+
+    @media (width <= 850px) {
+        display: flex;
+        width: 100%;
+    }
+}
+
+.collapsibleFilters {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+
+    max-width: 100%;
+
+    @media (width <= 850px) {
+        display: none;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+
+        width: 100%;
+    }
+}
+
+.filterButton {
+    cursor: pointer;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    height: 40px;
+    border: 1px solid #000;
+    border-radius: 4px;
+
+    font-size: 4rem;
+    color: #161412;
+
+    background: inherit;
+    box-shadow: unset;
+
+    transition: 0.3s all ease-in-out;
+
+    @media (width <= 850px) {
+        display: flex;
+    }
+}
+
+.collapsibleFilters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+
+    width: 100%;
+
+    @media (width <= 850px) {
+        display: none;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+}
+
+.filterControls {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.8rem;
+    align-items: center;
+    justify-content: space-between;
+
+    @media (width <= 850px) {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+    }
+}
+
+.selectControls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+
+    @media (width <= 850px) {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+        width: 100%;
+    }
+}
+
+select {
+    font-family: Jost, sans-serif;
+    font-size: 0.8rem;
+    font-weight: normal;
+    color: #161412;
+    letter-spacing: 0.05em;
+
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: #65635f;
+    }
+
+    @media (width <= 850px) {
+        width: 100%;
+    }
+}
+
+.clearButton {
+    cursor: pointer;
+
+    padding: 0.125rem 1.09rem;
+    border: 1px solid #65635f;
+    border-radius: 0.25rem;
+
+    font-family: Jost, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 300;
+    line-height: 1rem;
+    color: #65635f;
+    letter-spacing: 0;
+
+    background-color: #fff;
+    box-shadow: unset;
+
+    transition: 0.3s all ease-in-out;
+
+    &:hover {
+        color: #fff;
+        background-color: #000;
+    }
+
+    &:disabled {
+        pointer-events: none;
+        border: 1px solid rgb(101 99 95 / 65%);
+        opacity: 0.55;
+        background-color: rgb(101 99 95 / 20%);
+    }
+
+    @media (width <= 850px) {
+        align-self: center;
+        margin: 0;
+    }
+}
+
+.searchContainer {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    max-width: 200px;
+    padding: 0 4px 0 12px;
+    border-bottom: 1px solid #c4c4c4;
+
+    transition: border-bottom-color 0.3s ease-in-out;
+
+    img {
+        opacity: 0.5;
+    }
+
+    &:hover {
+        border-bottom-color: #161412;
+    }
+
+    @media (width <= 850px) {
+        width: 100%;
+        max-width: unset;
+        height: auto;
+        padding: 5px 0;
+    }
+}
+
+.searchInputField {
+    flex: 1 1;
+    border: none;
+    background: transparent;
+    outline: none;
+}
+
+.visibleOnMobile {
+    @media (width <= 850px) {
+        display: flex !important;
+        padding: 10px 0;
+    }
+}

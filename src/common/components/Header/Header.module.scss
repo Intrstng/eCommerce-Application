@@ -1,0 +1,180 @@
+.header {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    left: 0;
+
+    background-color: transparent;
+
+    transition: background-color 0.3s ease;
+
+    &__content {
+        display: flex;
+        grid-row: 1;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: space-between;
+
+        max-width: 1180px;
+        height: 75px;
+        margin: 0 auto;
+        padding: 0 2.5rem;
+
+        color: #161412;
+
+        transition: all 0.3s ease;
+    }
+}
+
+.fixedHeader {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+
+.solidHeader {
+    background-color: #fff;
+}
+
+.header.scrolled {
+    background-color: #fff;
+}
+
+.headerWrapper.scrolled {
+    height: 75px;
+}
+
+.burgerIcon {
+    cursor: pointer;
+    display: none;
+
+    svg {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+
+.doxIcon {
+    z-index: 4;
+    width: 60px;
+    height: 95px;
+    color: black;
+}
+
+.customerControls {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    align-items: center;
+}
+
+.login svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.cartMainCounter {
+    pointer-events: none;
+
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+
+    font-family: Jost, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 300;
+    line-height: 1rem;
+    color: #65635f;
+}
+
+.nav {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+
+    & .navLink {
+        position: relative;
+
+        font-family: Jost, sans-serif;
+        font-size: 0.8rem;
+        font-weight: 400;
+        line-height: 1.55rem;
+        color: rgb(22 20 18);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+
+        transition:
+            color 0.3s ease,
+            text-decoration-color 0.3s ease;
+
+        &::after {
+            content: '';
+
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+
+            width: 0;
+            height: 1px;
+
+            background-color: #65635f;
+
+            transition:
+                width 0.3s ease,
+                left 0.3s ease;
+        }
+
+        &:hover {
+            color: #65635f;
+
+            &::after {
+                left: 0;
+                width: 100%;
+            }
+        }
+
+        &:active {
+            color: #2e5077;
+
+            &::after {
+                background-color: #2e5077;
+            }
+        }
+    }
+
+    & .navAboutLink {
+        transition: transform 0.25s ease-in-out;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+}
+
+@media (width <= 768px) {
+    .header__content {
+        padding: 0 1.5rem;
+    }
+
+    .burgerIcon {
+        display: flex;
+    }
+
+    .nav {
+        display: flex;
+        align-items: center;
+
+        & > *:not(:last-child) {
+            display: none;
+        }
+
+        & > *:last-child {
+            display: flex;
+            align-items: center;
+        }
+    }
+}

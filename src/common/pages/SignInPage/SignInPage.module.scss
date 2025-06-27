@@ -1,0 +1,71 @@
+.linksHeader {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 9rem;
+    margin: 6rem auto 0;
+}
+
+.signInLoginLink {
+    display: block;
+
+    width: 4.5rem;
+
+    font-weight: bold;
+    color: #024caa;
+    text-align: center;
+}
+
+.signUpLoginLink {
+    position: relative;
+
+    width: 5rem;
+
+    color: #65635f;
+    text-align: end;
+    text-decoration: none;
+    letter-spacing: 0.7px;
+
+    transition: color 0.3s ease;
+
+    &::after {
+        content: '';
+
+        position: absolute;
+        bottom: -2px;
+        left: 56%;
+        transform: translateX(-50%);
+
+        width: 0;
+        height: 2px;
+
+        background-color: #2e5077;
+
+        transition: width 0.3s ease;
+    }
+
+    &:hover {
+        color: #2e5077;
+
+        &::after {
+            width: 77%;
+        }
+    }
+
+    &:active {
+        color: #000;
+
+        &::after {
+            width: 89%;
+            background-color: #000;
+        }
+    }
+}
+
+.linksBorder {
+    width: 0.15rem;
+    height: 1rem;
+    background-color: #333;
+}

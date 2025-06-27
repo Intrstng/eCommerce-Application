@@ -1,0 +1,54 @@
+.articleContainer {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 1rem;
+
+    .articleWrapper {
+        max-width: 40rem;
+        margin: 2rem auto 1.5rem;
+    }
+
+    .articlesContent {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        justify-content: center;
+
+        margin-bottom: 1rem;
+
+        & img {
+            height: 22.5rem;
+            object-fit: contain;
+
+            @media (width <= 500px) {
+                height: 16.5rem;
+            }
+        }
+
+        h3 {
+            margin: 0.5rem 0;
+            font-family: Cormorant, serif;
+            font-size: 35px;
+            font-weight: 500;
+        }
+
+        div {
+            font-family: Jost, sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            color: #65635f;
+            text-align: justify;
+        }
+    }
+
+    .backToArticlesLink {
+        font-family: Jost, sans-serif;
+        color: #547792;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: #a55b4b;
+        }
+    }
+}

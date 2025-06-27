@@ -1,0 +1,31 @@
+import { toast } from 'react-toastify';
+import type { AppDispatch } from 'app/store';
+import { appActions } from 'app/model/slices/appSlice';
+
+const successNotifyMessage = (message: string) => {
+    toast.success(message, {
+        position: 'bottom-center',
+    });
+};
+
+const warningNotifyMessage = (message: string) => {
+    toast.warn(message, {
+        position: 'bottom-center',
+    });
+};
+
+const errorNotifyMessage = (message: string) => {
+    toast.error(message, {
+        position: 'bottom-left',
+    });
+};
+
+const errorNotifyMessageWithDispatch = (dispatch: AppDispatch, message: string) => {
+    toast.error(message, {
+        position: 'bottom-left',
+    });
+
+    dispatch(appActions.setAppError({ error: null }));
+};
+
+export { successNotifyMessage, warningNotifyMessage, errorNotifyMessage, errorNotifyMessageWithDispatch };

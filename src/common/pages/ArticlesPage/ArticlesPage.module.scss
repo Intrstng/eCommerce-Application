@@ -1,0 +1,30 @@
+.articlesContainer {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 1rem;
+
+    .articles {
+    }
+}
+
+.articlesTitle {
+    margin: 0;
+    margin-bottom: 0.4rem;
+
+    font-family: Cormorant, serif;
+    font-size: 3.25rem;
+    font-weight: 500;
+    line-height: 3.9rem;
+    color: #000;
+}
+
+.articlesContent {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 2rem;
+
+    @media (width <= 768px) {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

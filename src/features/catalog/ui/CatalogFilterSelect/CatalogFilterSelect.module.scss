@@ -1,0 +1,37 @@
+.filterBlock {
+    margin-right: 0.75rem;
+}
+
+.filterSelect {
+    cursor: pointer;
+
+    padding: 0.25rem;
+    border: none;
+
+    font: normal 400 13px Jost;
+    color: #161412;
+
+    &:focus {
+        border-color: #666;
+        outline: none;
+    }
+
+    &:disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
+    &:active {
+        border-color: #f4f4f2;
+    }
+
+    option {
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+}
+
+.filterSelect option:checked {
+    font-weight: bold;
+    color: #333;
+}

@@ -1,0 +1,49 @@
+.app {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+    margin: 0 auto;
+}
+
+.container {
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.mainContainer {
+    margin: 0 auto;
+}
+
+.main {
+    grid-row: 2;
+}
+
+.contentWithMargin {
+    margin-top: 75px;
+}
+
+.app .mainContainer {
+    display: flex;
+    flex-grow: 1;
+}
+
+a {
+    color: #5488c0;
+    text-decoration: none;
+    transition: color;
+}
+
+a:hover {
+    color: #024caa;
+}
+
+.horizontalNavigation {
+    display: flex;
+    gap: 10px;
+}
+
+@media (width <= 950px) {
+    .body {
+        padding: 0;
+    }
+}

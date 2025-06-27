@@ -1,0 +1,43 @@
+.navLink {
+    position: relative;
+    color: #2973b2;
+    text-decoration: none;
+    transition:
+        color 0.3s ease,
+        text-decoration 0.3s ease;
+
+    &::after {
+        content: '';
+
+        position: absolute;
+        bottom: -1px;
+        left: 50%;
+
+        width: 0;
+        height: 1px;
+
+        background-color: #024caa;
+
+        transition:
+            width 0.3s ease,
+            left 0.3s ease;
+    }
+
+    &:hover {
+        color: #024caa;
+
+        &::after {
+            left: 0;
+            width: 100%;
+        }
+    }
+
+    &:active {
+        color: #2e5077;
+
+        &::after {
+            left: 0;
+            width: 80%;
+        }
+    }
+}

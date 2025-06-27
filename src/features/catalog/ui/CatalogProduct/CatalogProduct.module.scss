@@ -1,0 +1,23 @@
+.cards {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(23rem, 100%), 1fr));
+    gap: 3.75rem 2.15rem;
+    justify-content: center;
+
+    width: 100%;
+    margin-bottom: 2rem;
+
+    @media (width <= 850px) {
+        grid-template-columns: repeat(auto-fill, minmax(min(20rem, 100%), 1fr));
+        gap: 2.3rem 1.5rem;
+    }
+
+    @media (width <= 550px) {
+        grid-template-columns: minmax(min(0rem, 28rem), 1fr);
+        column-gap: 3.75rem;
+        justify-content: center;
+        padding-bottom: 2rem;
+    }
+}
